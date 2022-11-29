@@ -33,6 +33,7 @@
 - add tests to WishSim
 
 - gui
+- when changing pity need to wipe the database of analytical entries relevant
 
 ## structure
 

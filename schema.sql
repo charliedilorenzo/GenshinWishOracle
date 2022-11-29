@@ -1,14 +1,3 @@
--- CREATE TABLE devices (
---    name TEXT NOT NULL,
---    model TEXT NOT NULL,
---    Serial INTEGER NOT NULL UNIQUE
--- );
-
--- CREATE TABLE other_things (
---    name TEXT NOT NULL,
---    model TEXT NOT NULL,
---    Serial INTEGER NOT NULL UNIQUE
--- );
 CREATE TABLE IF NOT EXISTS analytical_solutions_character(
     lookup INT8 PRIMARY KEY,
     X REAL,
@@ -47,3 +36,8 @@ CREATE TABLE IF NOT EXISTS weapon_banners(
     rateup_four_star4 TEXT,
     rateup_four_star5 TEXT
 );
+
+-- CREATE TABLE IF NOT EXISTS user_settings(
+--     setting_name TEXT PRIMARY KEY,
+--     setting_value
+-- );
