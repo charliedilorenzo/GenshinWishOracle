@@ -27,8 +27,9 @@ class AnalyticalCharacter:
     def load_hashtable(self) -> None:
         # stored in db is prioritized over files
         if database.check_db(self.db_file):
+            conn = database.get_db_connection(self.db_file)
             data = database.table_data_to_hashtable(
-                self.tablename, self.db_file)
+                self.tablename, conn)
             self.hashtable.update(data)
 
     def lookup_num_generator(self, num_wishes: int, pity: int, guaranteed: bool) -> int:
@@ -204,8 +205,9 @@ class AnalyticalWeapon:
     def load_hashtable(self) -> None:
         # stored in db is prioritized over files
         if database.check_db(self.db_file):
+            conn = database.get_db_connection(self.db_file)
             data = database.table_data_to_hashtable(
-                self.tablename, self.db_file)
+                self.tablename, conn)
             self.hashtable.update(data)
 
     def lookup_num_generator(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int) -> int:
