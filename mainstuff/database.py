@@ -17,17 +17,20 @@ def check_db(filename: str) -> bool:
     return os.path.exists(filename)
 
 
-def get_tables(db_file: str) -> list[str]:
-    with sqlite3.connect(db_file) as conn:
-        cur = conn.cursor()
-        tables = []
-        for row in cur.execute("SELECT name FROM sqlite_master WHERE type='table';"):
-            tables.append(row)
+def get_tables(conn: sqlite3.Connection) -> list[str]:
+    cur = conn.cursor()
+    tables = []
+    for row in cur.execute("SELECT name FROM sqlite_master WHERE type='table';"):
+        tables.append(row)
     return tables
 
 
 def check_table(conn:  sqlite3.Connection, table: str) -> bool:
-    get_tables()
+    tables = get_tables(conn)
+    if table in tables:
+        return True
+    else:
+        return False
 
 
 def create_data_tables(conn: sqlite3.Connection) -> int:
@@ -59,38 +62,34 @@ def update_data_in_table(data: list[tuple], table: str, conn: sqlite3.Connection
     return 0
 
 
-def print_table(table: str, db_file: str) -> int:
+def print_table(table: str, conn: sqlite3.Connection) -> None:
     i = 0
-    with sqlite3.connect(db_file) as conn:
-        cur = conn.cursor()
-        for row in cur.execute("SELECT * FROM {};".format(table)):
-            print(row)
-            i += 1
-            if i > 1000:
-                return 0
+    cur = conn.cursor()
+    for row in cur.execute("SELECT * FROM {};".format(table)):
+        print(row)
+        i += 1
+        if i > 1000:
+            break
+
+
+def clear_table(table: str, conn: sqlite3.Connection) -> int:
+    cur = conn.cursor()
+    cur.execute("DELETE FROM {}".format(
+        table),)
+    # cur.execute("VACUUM")
+    conn.commit()
     return 0
 
 
-def clear_table(table: str, db_file: str) -> int:
-    with sqlite3.connect(db_file) as conn:
-        cur = conn.cursor()
-        cur.execute("DELETE FROM {}".format(
-            table),)
-        # cur.execute("VACUUM")
-        conn.commit()
-    return 0
-
-
-def table_data_to_hashtable(table: str, db_file: str) -> dict:
+def table_data_to_hashtable(table: str, conn: sqlite3.Connection) -> dict:
     # the first data column (in this case all should be primary keys) becomes the keys for the rest of the data which is stored in a list
     # with the primary key as the key
-    with sqlite3.connect(db_file) as conn:
-        cur = conn.cursor()
-        hashtable = {}
-        for row in cur.execute("SELECT * FROM {}".format(table)):
-            temp = list(row)
-            key = temp.pop(0)
-            hashtable[key] = temp
+    cur = conn.cursor()
+    hashtable = {}
+    for row in cur.execute("SELECT * FROM {}".format(table)):
+        temp = list(row)
+        key = temp.pop(0)
+        hashtable[key] = temp
     return hashtable
 
 
@@ -99,7 +98,7 @@ def get_db_connection(db_file: str) -> sqlite3.Connection:
     return conn
 
 
-def reset_database(db_file: str):
+def reset_database(db_file: str) -> int:
     os.remove(db_file)
     with sqlite3.connect(db_file) as conn:
         create_data_tables(conn)
