@@ -33,13 +33,13 @@ venv.bak/
 # *.egg
 # MANIFEST
 
-# htmlcov/
-# .tox/
-# .coverage
-# .coverage.*
-# .cache
-# nosetests.xml
-# coverage.xml
-# *.cover
-# .hypothesis/
-# .pytest_cache/
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/

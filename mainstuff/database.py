@@ -10,7 +10,7 @@ import sqlite3
 
 
 global schema_file
-schema_file = 'schema.sql'
+schema_file = 'mainstuff/schema.sql'
 
 
 def check_db(filename: str) -> bool:
