@@ -1,5 +1,7 @@
 test.py
 database_safe_copy.db
+tests/tablesexisttest.db
+tests/testing.db
 
 __pycache__/
 *.py[cod]

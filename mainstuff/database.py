@@ -20,12 +20,15 @@ def check_db(filename: str) -> bool:
 def get_tables(conn: sqlite3.Connection) -> list[str]:
     cur = conn.cursor()
     tables = []
-    for row in cur.execute("SELECT name FROM sqlite_master WHERE type='table';"):
+    cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    rows = cur.fetchall()
+    for row in rows:
         tables.append(row)
+    tables = [tab[0] for tab in tables]
     return tables
 
 
-def check_table(conn:  sqlite3.Connection, table: str) -> bool:
+def check_table(table: str, conn:  sqlite3.Connection) -> bool:
     tables = get_tables(conn)
     if table in tables:
         return True
@@ -33,9 +36,12 @@ def check_table(conn:  sqlite3.Connection, table: str) -> bool:
         return False
 
 
-def create_data_tables(conn: sqlite3.Connection) -> int:
+def create_data_tables(schema_filepath, conn: sqlite3.Connection) -> int:
+    # TODO FIX THIS AND HAVE A BETTER GLOBAL VARIABLE FOR IT OR SOMETHING
+    if schema_filepath == "":
+        schema_filepath = "C:\\Users\\carol\\Code\\Personal\\GenshinWishOracle\\mainstuff\\schema.sql"
     # will only create each table if it doesn't exist
-    with open(schema_file, 'r') as rf:
+    with open(schema_filepath, 'r') as rf:
         # Read the schema from the file
         schema = rf.read()
         conn.executescript(schema)
@@ -43,7 +49,7 @@ def create_data_tables(conn: sqlite3.Connection) -> int:
 
 
 def init_db(conn: sqlite3.Connection) -> int:
-    create_data_tables(conn)
+    create_data_tables("", conn)
     # TODO Make init generate analytical data for characters and weapons
     return 0
 
@@ -65,11 +71,11 @@ def update_data_in_table(data: list[tuple], table: str, conn: sqlite3.Connection
 def print_table(table: str, conn: sqlite3.Connection) -> None:
     i = 0
     cur = conn.cursor()
-    for row in cur.execute("SELECT * FROM {};".format(table)):
+    cur.execute("SELECT * FROM {};".format(table))
+    rows = cur.fetchall()
+    for row in rows:
         print(row)
         i += 1
-        if i > 1000:
-            break
 
 
 def clear_table(table: str, conn: sqlite3.Connection) -> int:
@@ -86,11 +92,34 @@ def table_data_to_hashtable(table: str, conn: sqlite3.Connection) -> dict:
     # with the primary key as the key
     cur = conn.cursor()
     hashtable = {}
-    for row in cur.execute("SELECT * FROM {}".format(table)):
+    cur.execute("SELECT * FROM {}".format(table))
+    rows = cur.fetchall()
+    for row in rows:
         temp = list(row)
         key = temp.pop(0)
         hashtable[key] = temp
     return hashtable
+
+
+def get_primary_keys(table: str, conn: sqlite3.Connection) -> list:
+    primary_key_column_name = get_primary_key_column_name(table, conn)
+    cur = conn.cursor()
+    keys = []
+    cur.execute("SELECT {} FROM {}".format(primary_key_column_name, table))
+    rows = cur.fetchall()
+    for prim_key in rows:
+        prim_key = prim_key[0]
+        keys.append(prim_key)
+    return keys
+
+
+def get_primary_key_column_name(table: str, conn: sqlite3.Connection) -> list:
+    cur = conn.cursor()
+    cur.execute("PRAGMA table_info({})".format(table))
+    rows = cur.fetchall()
+    for row in rows:
+        if row[5] == 1:
+            return row[1]
 
 
 def get_db_connection(db_file: str) -> sqlite3.Connection:
@@ -99,9 +128,15 @@ def get_db_connection(db_file: str) -> sqlite3.Connection:
 
 
 def reset_database(db_file: str) -> int:
-    os.remove(db_file)
+
+    if check_db(db_file):
+        with sqlite3.connect(db_file) as conn:
+            tables = get_tables(conn)
+            for table in tables:
+                clear_table(table, conn)
+
     with sqlite3.connect(db_file) as conn:
-        create_data_tables(conn)
+        create_data_tables("", conn)
     return 0
 
 

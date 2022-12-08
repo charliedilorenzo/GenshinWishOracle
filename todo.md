@@ -1,38 +1,23 @@
-### TODO
+#### TODO
 
 ### CURRENT
 
- Databases
-
-- need to create tables for:
-        - analytical
-        - user settings
-        - banners
+- django
+  - gui
 
 ## Refactoring
 
-- add weapon banner to analytical
-- streamline proj_future_wishes
-- function to regenerate analytical data especially if you change soft pity or something
+- proj_future_wishes
 
 ## New Stuff
 
-- setup sql lite
-- db for consts
-  - create
-  - load
-- db for user_data
-  - create
-  - load
-- db for banners
-  - create
-  - load
-
-- add tests to analytical
+- django
+  - gui
+- figure out why there are two databases: one in mainstuff and one in the main dir
+- add constants for main dir or something?
+- readd proj future wishes
 - add tests to proj future wishes
-- add tests to WishSim
-
-- gui
+- add user settings to db
 - when changing pity need to wipe the database of analytical entries relevant
 
 ## structure
