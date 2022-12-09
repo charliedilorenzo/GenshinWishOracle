@@ -2,6 +2,7 @@ test.py
 database_safe_copy.db
 tests/tablesexisttest.db
 tests/testing.db
+superuser.txt
 
 __pycache__/
 *.py[cod]

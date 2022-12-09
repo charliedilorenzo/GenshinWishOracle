@@ -4,6 +4,7 @@
 
 - django
   - gui
+  - checkout installed apps <https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-INSTALLED_APPS>
 
 ## Refactoring
 
@@ -11,8 +12,6 @@
 
 ## New Stuff
 
-- django
-  - gui
 - figure out why there are two databases: one in mainstuff and one in the main dir
 - add constants for main dir or something?
 - readd proj future wishes
