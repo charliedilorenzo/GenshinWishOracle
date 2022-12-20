@@ -3,6 +3,7 @@ database_safe_copy.db
 tests/tablesexisttest.db
 tests/testing.db
 superuser.txt
+genshinwishoracle/genshinwishoracle/secret_key_from_settings.py
 
 __pycache__/
 *.py[cod]
