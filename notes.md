@@ -1,7 +1,25 @@
+python manage.py makemigrations
+python manage.py sqlmigrate
+python manage.py migrate
+python manage.py runserver
+
+python manage.py shell
+
+python manage.py test analyze
+
 # PYTEST NOTES
 
 coverage run -m pytest
 coverage report -m
+
+# REQUIREMENTS.TXT NOTES
+
+<<<< pip freeze > requirements.txt >>>>
+
+pip install pipreqs
+pipreqs
+
+python -m  pipreqs.pipreqs
 
 # GIT NOTES
 
@@ -10,8 +28,8 @@ git rm --cached .gitignore
 # VirtualEnv NOTES
 
 C:\Users\carol\AppData\Local\Programs\Python\Python39\python.exe
-
-virtualenv --python  venv
+virtualenv --python C:\Users\carol\AppData\Local\Programs\Python\Python39\python.exe venv
+<!-- virtualenv --python  venv -->
 
 .\venv\Scripts\activate
 
@@ -22,6 +40,14 @@ pip freeze > requirements.txt
 pip install -r requirements.txt
 
 # DJANGO
+
+DJANGO GENERIC VIEWS
+
+DJANGO GENERIC VIEWS
+DJANGO GENERIC VIEWS
+DJANGO GENERIC VIEWS
+DJANGO GENERIC VIEWS
+<https://docs.djangoproject.com/en/4.1/topics/class-based-views/>
 
 <https://docs.djangoproject.com/en/4.1/intro/tutorial02/>
 \ to run it in browser
@@ -61,3 +87,18 @@ and then this is even better:
 <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
 
 but you have to add the app name (in this case 'polls')
+
+"We set the form’s action to {% url 'polls:vote' question.id %}, and we set method="post". Using method="post" (as opposed to method="get") is very important, because the act of submitting this form will alter data server-side. Whenever you create a form that alters data server-side, use method="post". This tip isn’t specific to Django; it’s good web development practice in general."
+
+"After incrementing the choice count, the code returns an HttpResponseRedirect rather than a normal HttpResponse. HttpResponseRedirect takes a single argument: the URL to which the user will be redirected (see the following point for how we construct the URL in this case).
+
+As the Python comment above points out, you should always return an HttpResponseRedirect after successfully dealing with POST data. This tip isn’t specific to Django; it’s good web development practice in general."
+
+Convert the URLconf.
+Delete some of the old, unneeded views.
+Introduce new views based on Django’s generic views.
+
+<https://www.selenium.dev/>
+?
+
+style css
