@@ -1,0 +1,11 @@
+<!-- {% load static %} -->
+
+<!-- <link rel="stylesheet" href="{% static 'analyze/style.css' %}"> -->
+<h1>{{ "Analyze Index" }}</h1>
+
+{% for currurl in suburls %}
+<li><a href="{% url currurl %}">{{ currurl }}</a></li>
+{% endfor %}
+<!-- <a href="{% url 'analyze:characterbanner' %}"> Character Banner Manager</a>
+<a href="{% url 'analyze:weaponbanner' %}"> Weapon Banner Manager </a>
+<a href="{% url 'analyze:analyzestatistics' %}"> Investigate Wishing Probabilities </a> -->
