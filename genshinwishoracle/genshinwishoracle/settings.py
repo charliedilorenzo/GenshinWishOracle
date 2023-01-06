@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'genshinwishoracle.apps.OracleConfig',
     'analyze.apps.AnalyzeConfig',
     'django.contrib.admin',
     'django.contrib.auth',

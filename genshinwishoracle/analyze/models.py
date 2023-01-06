@@ -5,6 +5,7 @@ class Character(models.Model):
     def __str__(self):
         return self.name
     # TODO make field 3/4/5 only
+    # TODO PositiveIntegerField
     rarity = models.IntegerField()
     name = models.CharField(max_length= 32)
     limited = models.BooleanField()
@@ -13,6 +14,7 @@ class Weapon(models.Model):
     def __str__(self):
         return self.name
     # TODO make field 3/4/5 only
+    # TODO PositiveIntegerField
     rarity = models.IntegerField()
     name = models.CharField(max_length= 32)
     limited = models.BooleanField()
@@ -21,7 +23,11 @@ class CharacterBanner(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length = 64)
-    rateup_five_star = models.ForeignKey(Character, on_delete=models.PROTECT)
+    rateups = models.ManyToManyField(Character)
+    # Need 1 Five Star and 3 Four Star
+
+    # currently we have only the default pity dist
+    # TODO add alternative pity dist
     pity_dist = []
     context_object_name = 'character_banner_identifier'
 
@@ -29,7 +35,11 @@ class WeaponBanner(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length = 64)
-    rateup_five_stars = models.ManyToManyField(Weapon)
+    rateups = models.ManyToManyField(Weapon)
+    # Need 2 Five Star and 5 Four Star
+
+    # currently we have only the default pity dist
+    # TODO add alternative pity dist
     pity_dist = []
     context_object_name = 'weapon_banner_identifier'
 
