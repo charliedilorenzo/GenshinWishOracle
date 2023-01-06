@@ -1,0 +1,12 @@
+<!-- {% load static %} -->
+
+<!-- <link rel="stylesheet" href="{% static 'analyze/style.css' %}"> -->
+<h1>{{ "Character Banners" }}</h1>
+<a href="{% url 'analyze:characterbannercreate' %}"> Create new banner </a>
+
+{% for banner in character_banners %}
+<li> {{banner.name}} : {{banner.rateups}}</li>
+{% endfor %}
+<!-- <a href="{% url 'analyze:characterbanner' %}"> Character Banner Manager</a>
+<a href="{% url 'analyze:weaponbanner' %}"> Weapon Banner Manager </a>
+<a href="{% url 'analyze:analyzestatistics' %}"> Investigate Wishing Probabilities </a> -->

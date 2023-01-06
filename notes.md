@@ -98,6 +98,17 @@ Convert the URLconf.
 Delete some of the old, unneeded views.
 Introduce new views based on Django’s generic views.
 
+Python has been installed as
+  /usr/local/bin/python3
+
+You can install Python packages with
+  pip3 install <package>
+They will install into the site-package directory
+  /usr/local/lib/python3.10/site-packages
+
+If you need to have curl first in your PATH, run:
+  echo 'export PATH="/usr/local/opt/curl/bin:$PATH"' >> ~/.zshrc
+
 <https://www.selenium.dev/>
 ?
 
