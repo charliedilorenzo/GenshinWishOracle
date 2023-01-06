@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib import admin
+# import datetime
+# from django.utils import timezone
 
 class Character(models.Model):
     def __str__(self):
@@ -24,36 +25,24 @@ class CharacterBanner(models.Model):
         return self.name
     name = models.CharField(max_length = 64)
     rateups = models.ManyToManyField(Character)
+    enddate = models.DateField()
     # Need 1 Five Star and 3 Four Star
 
     # currently we have only the default pity dist
     # TODO add alternative pity dist
-    pity_dist = []
-    context_object_name = 'character_banner_identifier'
+    # pity_dist = []
+
+# from analyze.models import CharacterBanner, WeaponBanner
+# CharacterBanner.objects.all().delete()
 
 class WeaponBanner(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length = 64)
     rateups = models.ManyToManyField(Weapon)
+    enddate = models.DateField()
     # Need 2 Five Star and 5 Four Star
 
     # currently we have only the default pity dist
     # TODO add alternative pity dist
-    pity_dist = []
-    context_object_name = 'weapon_banner_identifier'
-
-# class Question(models.Model):
-#     def __str__(self):
-#         return self.question_text
-
-#     @admin.display(
-#         boolean=True,
-#         ordering='pub_date',
-#         description='Published recently?',
-#     )
-#     def was_published_recently(self):
-#         now = timezone.now()
-#         return now - datetime.timedelta(days=1) <= self.pub_date <= now
-#     question_text = models.CharField(max_length=200)
-#     pub_date = models.DateTimeField('date published')
+    # pity_dist = []

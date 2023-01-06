@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Character, Weapon
-# , CharacterBanner, WeaponBanner
-
+from . import models
 
 class WeaponAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -30,18 +28,45 @@ class CharacterAdmin(admin.ModelAdmin):
 
 
 class WeaponInline(admin.TabularInline):
-    model = Weapon
+    model = models.Weapon
     extra = 3
 
 class WeaponBannerAdmin(admin.ModelAdmin):
-    pass
+    fieldsets = [
+        ('Name', {'fields': ['name']}),
+        ('Rateups', {'fields': [
+         'rateups']}),
+        ('End Date', {'fields': [
+         'enddate']}),
+    ]
+    list_display = ('name',)
+    list_filter = ['name']
+    search_fields = ['name']
+
 
 class CharacterInline(admin.TabularInline):
-    model = Character
+    model = models.Character
     extra = 3
 
 class CharacterBannerAdmin(admin.ModelAdmin):
-    pass
+    fieldsets = [
+        ('Name', {'fields': ['name']}),
+        ('Rateups', {'fields': [
+         'rateups']}),
+        ('End Date', {'fields': [
+         'enddate']}),
+    ]
+    list_display = ('name',)
+    list_filter = ['name']
+    search_fields = ['name']
 
-admin.site.register(Weapon, WeaponAdmin)
-admin.site.register(Character, CharacterAdmin)
+class WeaponBanner(admin.TabularInline):
+    model = models.WeaponBanner
+
+class CharacterBanner(admin.TabularInline):
+    model = models.CharacterBanner
+
+admin.site.register(models.Weapon, WeaponAdmin)
+admin.site.register(models.Character, CharacterAdmin)
+admin.site.register(models.CharacterBanner, CharacterBannerAdmin)
+admin.site.register(models.WeaponBanner, WeaponBannerAdmin)

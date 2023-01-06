@@ -6,6 +6,7 @@ from django.views import generic
 from django.utils import timezone
 from django.views import View
 from django.urls import reverse_lazy
+from . import forms
 
 from .models import Character, Weapon, CharacterBanner, WeaponBanner
 
@@ -29,26 +30,28 @@ class CharacterBannerView(generic.ListView):
 
     def get_queryset(self):
         banners = CharacterBanner.objects.order_by()
-        print("HERE", banners[0].rateups)
-        # question = get_object_or_404(Question, pk=question_id)
         return banners
-    # characters = Character.objects.
-    # template_name = 'analyze/index.html'
-    # context_object_name = 
-    pass
+
+class WeaponBannerView(generic.ListView):
+    # TODO
+    template_name = 'analyze/weaponbanner.html'
+    context_object_name = 'weapon_banners'
+
+    def get_queryset(self):
+        banners = WeaponBanner.objects.order_by()
+        return banners
 
 class CharacterBannerCreateView(generic.CreateView):
     model = CharacterBanner
-    fields = ('name', 'rateups')
-    success_url = reverse_lazy('analyze:characterbanner')
+    form_class = forms.CreateCharacterBannerForm
     template_name = 'analyze/characterbannercreate.html'
+    success_url = reverse_lazy('analyze:characterbanner')
 
-
-class WeaponBannerView(generic.TemplateView):
-    # TODO
-    # template_name = 'analyze/index.html'
-    # context_object_name = 
-    pass
+class WeaponBannerCreateView(generic.CreateView):
+    model = WeaponBanner
+    form_class = forms.CreateWeaponBannerForm
+    template_name = 'analyze/weaponbannercreate.html'
+    success_url = reverse_lazy('analyze:weaponbanner')
 
 class StatisticsAnalyzeView(generic.TemplateView):
     # TODO

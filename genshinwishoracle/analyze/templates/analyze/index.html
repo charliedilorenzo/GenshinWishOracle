@@ -1,6 +1,6 @@
-<!-- {% load static %} -->
-
-<!-- <link rel="stylesheet" href="{% static 'analyze/style.css' %}"> -->
+{% load static %}
+<link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+<a href="{% url 'home' %}"> BACK </a>
 <h1>{{ "Analyze Index" }}</h1>
 
 {% for currurl in suburls %}

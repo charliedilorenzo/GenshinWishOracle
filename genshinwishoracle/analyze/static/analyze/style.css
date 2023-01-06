@@ -1,7 +1,28 @@
-li a {
-    color: green;
+/* body {
+    background: white url("images/background.png") no-repeat;
+} */
+
+* {
+    box-sizing: border-box;
 }
 
-body {
-    background: white url("images/background.png") no-repeat;
+banner-name {
+    font-weight: 700;
 }
+
+/* ul {
+    list-style-type: none;
+    width: 100%;
+}
+
+li {
+    flex: 0 0 50%;
+    padding: 1em;
+
+}
+
+td {
+    border-style: solid;
+    border-color: black;
+    border-width: 0.1em;
+} */
