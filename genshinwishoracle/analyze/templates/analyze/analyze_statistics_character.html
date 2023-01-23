@@ -1,0 +1,22 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+{% block content %}
+<h1>Statistics</h1>
+<form action="{% url 'analyze:switch_banner_type_character' %}" method="post">
+    {% csrf_token %}
+    <div>
+        <button class="static-button" role="button">Character Banner</button>
+        <button class="hover-button" name="select_weapon_banner" value="weapon_banner">Weapon
+            Banner</button>
+    </div>
+</form>
+<form action="{% url 'analyze:analysis_in_progress' %}" method="post" novalidate>
+    {% csrf_token %}
+    <table>
+        <input type="hidden" name="banner_type" value="character">
+        {{ form.as_table }}
+    </table>
+    <button name='character_banner_submit' type="submit">Save</button>
+    <a href="{% url 'analyze:index' %}">Nevermind</a>
+</form>
+{% endblock %}

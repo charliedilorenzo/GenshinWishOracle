@@ -1,3 +1,5 @@
+IF STATIC CSS ISNT IMPLEMENTED FIRST TRY SHIFT-RELOADING PAGE
+
 python manage.py makemigrations
 python manage.py sqlmigrate
 python manage.py migrate

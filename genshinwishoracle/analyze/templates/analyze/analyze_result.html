@@ -1,0 +1,27 @@
+{% load static %}
+{% block content %}
+
+<body>
+    {% csrf_token %}
+    <div>
+        {% if banner_type == "character" %}
+        <h1> Character Banner Analysis Results </h1>
+        <table>
+            X , C0 , C1 , C2 , C3 , C4 , C5 , C6 <br>
+            {{X}} , {{C0}} , {{C1}} , {{C2}} , {{C3}} , {{C4}} , {{C5}} , {{C6}}
+        </table>
+        {% elif banner_type == "weapon" %}
+        <h1> Weapon Banner Analysis Results </h1>
+        <table>
+            X , R1 , R2 , R3 , R4 , R5 <br>
+            {{X}} , {{R1}} , {{R2}} , {{R3}} , {{R4}} , {{R5}}
+        </table>
+        {% endif %}
+    </div>
+    <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+    <a href="{% url 'analyze:index' %}"> BACK </a>
+</body>
+
+
+
+{% endblock %}

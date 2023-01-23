@@ -4,6 +4,7 @@ tests/tablesexisttest.db
 tests/testing.db
 superuser.txt
 genshinwishoracle/genshinwishoracle/secret_key_from_settings.py
+genshinwishoracle/static
 
 __pycache__/
 *.py[cod]
