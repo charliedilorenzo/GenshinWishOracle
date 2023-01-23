@@ -1,19 +1,17 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 <a href="{% url 'analyze:index' %}"> BACK </a>
-<h1>{{ "Character Banners" }}</h1>
-<a href="{% url 'analyze:characterbannercreate' %}"> Create new banner </a>
+<h1>Weapon Banner</h1>
+<a href="{% url 'analyze:weapon_banner_create' %}"> Create new banner </a>
 <!-- TODO style this and the other banner -->
 <ul>
-    {% for banner in character_banners %}
-    <li> <strong>{{banner.name}}</strong> :
-        <table>
+    {% for banner in weapon_banners %}
+    <li> <strong> {{banner.name}}</strong> :
+        <ul>
             {% for rateup in banner.rateups.all %}
-            <tr>
-                <td>{{rateup}} </td>
-            </tr>
+            <li>{{rateup}}, </li>
             {% endfor %}
-        </table>
+        </ul>
         {{banner.enddate}}
     </li>
     {% endfor %}

@@ -1,13 +1,13 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 {% block content %}
-<h2>Weapon Banner Form</h2>
+<h2>Character Banner Form</h2>
 <form method="post" novalidate>
     {% csrf_token %}
     <table>
         {{ form.as_table }}
     </table>
     <button type="submit">Save</button>
-    <a href="{% url 'analyze:weaponbanner' %}">Nevermind</a>
+    <a href="{% url 'analyze:character_banner' %}">Nevermind</a>
 </form>
 {% endblock %}

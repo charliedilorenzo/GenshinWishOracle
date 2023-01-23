@@ -1,0 +1,12 @@
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+<h1>Wish Simulator</h1>
+
+<body>
+    {% csrf_token %}
+    <h1 class="work-in-progress"> WORK IN PROGESS </h1>
+    <a href="{% url 'analyze:index' %}"> BACK </a>
+</body>
+
+{% endblock %}

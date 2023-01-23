@@ -51,3 +51,7 @@
 .hover-button:focus-visible {
     box-shadow: none;
 }
+
+.work-in-progress {
+    font-size: 5rem;
+}

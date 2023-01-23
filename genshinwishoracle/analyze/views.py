@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render
+
 # from django.urls import reverse
 from django.views import generic
 from django.urls import reverse_lazy
 from . import forms
 from django.urls import reverse
+from django.http import HttpResponse
 
 from .models import Character, Weapon, CharacterBanner, WeaponBanner
 
@@ -20,7 +22,7 @@ class IndexView(generic.ListView):
         return list
 
 class CharacterBannerView(generic.ListView):
-    template_name = 'analyze/characterbanner.html'
+    template_name = 'analyze/character_banner.html'
     context_object_name = 'character_banners'
 
     def get_queryset(self):
@@ -28,7 +30,7 @@ class CharacterBannerView(generic.ListView):
         return banners
 
 class WeaponBannerView(generic.ListView):
-    template_name = 'analyze/weaponbanner.html'
+    template_name = 'analyze/weapon_banner.html'
     context_object_name = 'weapon_banners'
 
     def get_queryset(self):
@@ -38,31 +40,54 @@ class WeaponBannerView(generic.ListView):
 class CharacterBannerCreateView(generic.CreateView):
     model = CharacterBanner
     form_class = forms.CreateCharacterBannerForm
-    template_name = 'analyze/characterbannercreate.html'
-    success_url = reverse_lazy('analyze:characterbanner')
+    template_name = 'analyze/character_banner_create.html'
+    success_url = reverse_lazy('analyze:character_banner')
 
 class WeaponBannerCreateView(generic.CreateView):
     model = WeaponBanner
     form_class = forms.CreateWeaponBannerForm
-    template_name = 'analyze/weaponbannercreate.html'
-    success_url = reverse_lazy('analyze:weaponbanner')
+    template_name = 'analyze/weapon_banner_create.html'
+    success_url = reverse_lazy('analyze:weapon_banner')
 
 class StatisticsAnalyzeCharacterView(generic.FormView):
     form_class = forms.AnalyzeStatisticsCharacterForm
     template_name = 'analyze/analyze_statistics_character.html'
-    success_url = reverse_lazy('analyze:analyzestatisticsresults')
+    success_url = reverse_lazy('analyze:analyze_results')
 class StatisticsAnalyzeWeaponView(generic.FormView):
     form_class = forms.AnalyzeStatisticsWeaponForm
     template_name = 'analyze/analyze_statistics_weapon.html'
-    success_url = reverse_lazy('analyze:analyzestatisticsresults')
+    success_url = reverse_lazy('analyze:analyze_results')
 
 class StatisticsResultView(generic.View):
-    template_name = 'analyze/analyze_result.html'
+    template_name = 'analyze/analyze_results.html'
     success_url = reverse_lazy('analyze:index')
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         return data
+
+class ProjectPrimosView(generic.View):
+    template_name = 'analyze/project_primos.html'
+    success_url = reverse_lazy('analyze:index')
+    def get(self, request):
+        return render(request, 'analyze/project_primos.html')
+class ProbabilityToWishesView(generic.View):
+    template_name = 'analyze/probability_to_wishes.html'
+    success_url = reverse_lazy('analyze:index')
+    def get(self, request):
+        return render(request, 'analyze/probability_to_wishes.html')
+
+class UserDataView(generic.View):
+    template_name = 'analyze/user_data_index.html'
+    success_url = reverse_lazy('analyze:index')
+    def get(self, request):
+       return render(request, 'analyze/user_data_index.html')
+
+class WishSimulatorView(generic.View):
+    template_name = 'analyze/wish_simulator.html'
+    success_url = reverse_lazy('analyze:index')
+    def get(self, request):
+       return render(request, 'analyze/wish_simulator.html')
 
 def switch_banner_type_character(request):
     # if this is a POST request we need to process the form data
@@ -97,7 +122,7 @@ def analysis_in_progress(request):
             elif 'weapon_banner_submit' in request.POST:
                 banner_type = "weapon"
             else:
-                return render(request, 'analyze/analyze_result.html')
+                return render(request, 'analyze/analyze_results.html')
             if banner_type == "character":
                 form  = forms.AnalyzeStatisticsCharacterForm(request.POST)
                 if form.is_valid():
@@ -153,6 +178,6 @@ def analysis_in_progress(request):
                         'R4' : solution[4],
                         'R5' : solution[5]
                     }
-            return render(request, 'analyze/analyze_result.html', context)
+            return render(request, 'analyze/analyze_results.html', context)
         else:
-            return render(request, 'analyze/analyze_result.html')
+            return render(request, 'analyze/analyze_results.html')

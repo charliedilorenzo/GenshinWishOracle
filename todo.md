@@ -12,16 +12,20 @@
 
 ## New Stuff
 
-- figure out why there are two databases: one in mainstuff and one in the main dir
-- add constants for main dir or something?
-- readd proj future wishes
-- add tests to proj future wishes
-- add user settings to db
-- when changing pity need to wipe the database of analytical entries relevant
+make names more sane
 
-## structure
+- add proj future wishes
+  - starglitter back setting for calculating additional wishes
+- allow proj future wishes to have proper data and direct into weapon banner / character banner
+- add the ability for banners to have end dates and for users to proj for the end of a specific banner
 
-- input user data
+- add side bar for navigation
+
+- get amount of wishes required for at least n probability p amount of times
+  - call it probability to wishes
+
+- add users and user personal data:
+  - users banners
   - number of wishes
     - num primogems
     - num fates
@@ -36,29 +40,26 @@
   - welkin user
   - bp user
 
-- banner creator
-  - store and make your own banners
-  - ru four stars
-  - ru five stars
-  - add when the banner starts and ends
-    - when it ends is important
+- add boring wish simulator
 
-- starglitter back setting
+- banner creator: - make sure to check proper amount of 5 stars and 4 stars
 
-- wishing probabilities calculator
-  - allow to select created banner
-  - character banner
-  - weapon banner
+- improve looks:
+  - character banner / weapon banner (can probably reuse)
+  - character banner creators / weapon banner creators (can probably reuse)
+  - analysis input character / weapon
+  - analysis results
 
-- get amount of wishes required for at least n probability p amount of times
+- figure out why there are two databases: one in mainstuff and one in the main dir
+- add constants for main dir or something?
+- readd proj future wishes
+- add tests to proj future wishes
+- add user settings to db
+- when changing pity need to wipe the database of analytical entries relevant
 
-- primogem projector
-  - allow to select created banner
-  - possibly add weird welkin / bp settings
+## structure
 
-- wishing simulator
-  - allow to select created banner
-  - this will be shit and low priority
+For testing:
 
 extra pity important properties:
 
