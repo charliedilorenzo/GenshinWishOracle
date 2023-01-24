@@ -20,6 +20,8 @@ urlpatterns = [
     path('statistics/results', views.analysis_in_progress, name='analysis_in_progress'),
     path('statistics/results',views.StatisticsResultView.as_view(), name='analyze_results'),
     path('projectprimos',views.ProjectPrimosView.as_view(), name='project_primos'),
+    path('projectprimos/results', views.project_primos_in_progress, name='project_primos_in_progress'),
+    path('projectprimos/results',views.ProjectPrimosResultsView.as_view(), name='project_primos_results'),
     path('probability-to-wishes-required',views.ProbabilityToWishesView.as_view(), name='probability_to_wishes'),
     # TODO add data, edit data, delete
     path('user-data',views.UserDataView.as_view(), name='user_data'),

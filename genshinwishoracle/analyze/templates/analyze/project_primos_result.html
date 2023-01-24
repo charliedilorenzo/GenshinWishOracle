@@ -1,0 +1,23 @@
+{% load static %}
+{% block content %}
+
+<body>
+    {% csrf_token %}
+    <div>
+        <h1> Primogem Projection: </h1>
+        <ul>
+            <li> Before </li>
+            <li>Primogems: {{current_primos}}, Wishes: {{current_wishes}} </li>
+            <br>
+            <br>
+            <li> After </li>
+            <li>Primogems: {{future_primos}}, Wishes: {{future_wishes}} </li>
+        </ul>
+    </div>
+    <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+    <a href="{% url 'analyze:index' %}"> BACK </a>
+</body>
+
+
+
+{% endblock %}

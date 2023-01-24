@@ -2,11 +2,12 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 <h1> Project Primogems </h1>
-
-<body>
+<form method="post" action="{% url 'analyze:project_primos_in_progress' %}">
     {% csrf_token %}
-    <h1 class="work-in-progress"> WORK IN PROGESS </h1>
-    <a href="{% url 'analyze:index' %}"> BACK </a>
-</body>
-
+    <table>
+        {{ form.as_table }}
+    </table>
+    <button type="submit">Save</button>
+    <a href="{% url 'analyze:index' %}">Nevermind</a>
+</form>
 {% endblock %}

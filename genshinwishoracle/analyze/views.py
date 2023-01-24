@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render
+import datetime
 
 # from django.urls import reverse
 from django.views import generic
@@ -7,10 +8,13 @@ from django.urls import reverse_lazy
 from . import forms
 from django.urls import reverse
 from django.http import HttpResponse
+from django.utils import timezone
+import math
 
 from .models import Character, Weapon, CharacterBanner, WeaponBanner
 
 from .analytical import AnalyticalCharacter, AnalyticalWeapon
+from .project_primos import project_future_primos
 
 class IndexView(generic.ListView):
     template_name = 'analyze/index.html'
@@ -66,11 +70,16 @@ class StatisticsResultView(generic.View):
         data = super().get_context_data(**kwargs)
         return data
 
-class ProjectPrimosView(generic.View):
+class ProjectPrimosView(generic.FormView):
     template_name = 'analyze/project_primos.html'
-    success_url = reverse_lazy('analyze:index')
+    success_url = reverse_lazy('analyze:project_primos_results')
+    form_class = forms.ProjectPrimosForm
+
+class ProjectPrimosResultsView(generic.View):
+    template_name = 'analyze/project_primos_results.html'
+    success_url = reverse_lazy('analyze:project_primos')
     def get(self, request):
-        return render(request, 'analyze/project_primos.html')
+        return render(request, 'analyze/project_primos_results.html')
 class ProbabilityToWishesView(generic.View):
     template_name = 'analyze/probability_to_wishes.html'
     success_url = reverse_lazy('analyze:index')
@@ -126,7 +135,6 @@ def analysis_in_progress(request):
             if banner_type == "character":
                 form  = forms.AnalyzeStatisticsCharacterForm(request.POST)
                 if form.is_valid():
-                    print("Valid character banner")
                     cleaned = form.cleaned_data
                     numwishes = cleaned['numwishes']
                     pity = cleaned['pity']
@@ -136,11 +144,7 @@ def analysis_in_progress(request):
                     solution = analyze_obj.specific_solution(numwishes,pity,guaranteed,0)
                     place_values = 3 
                     for key in solution:
-                        print(float(solution[key]))
-                        print("%.3f" % float(solution[key]))
-                        print(("%.{}f".format(place_values) % float(solution[key])))
                         solution[key] = ("%.{}f".format(place_values) % float(solution[key]))
-                    print(solution)
 
                     context = {
                         'banner_type' : banner_type,
@@ -156,7 +160,6 @@ def analysis_in_progress(request):
             elif banner_type == "weapon":
                 form  = forms.AnalyzeStatisticsWeaponForm(request.POST)
                 if form.is_valid():
-                    print("Valid weapon banner")
                     cleaned = form.cleaned_data
                     numwishes = cleaned['numwishes']
                     pity = cleaned['pity']
@@ -181,3 +184,42 @@ def analysis_in_progress(request):
             return render(request, 'analyze/analyze_results.html', context)
         else:
             return render(request, 'analyze/analyze_results.html')
+
+def project_primos_in_progress(request):
+        if request.method == 'POST':
+            form  = forms.ProjectPrimosForm(request.POST)
+            if form.is_valid():
+                print("valid")
+                cleaned = form.cleaned_data
+                if form.date_is_decidable() == False:
+                    print("not decideable")
+                    return render(request, 'analyze/project_primos.html')
+
+                future_date = form.decide_date()
+                now = datetime.date.today()
+                days_until_enddate = (future_date-now).days
+                if days_until_enddate < 0:
+                    # non-sensical end date
+                    return render(request, 'analyze/project_primos.html')
+                current_date = timezone.now
+                pure_primo_estimate = cleaned['numprimos']+cleaned['numgenesis']+160*math.floor(cleaned['numstarglitter']/5)+ 160*cleaned['numfates']
+                current_primos = pure_primo_estimate
+
+                future_primos = project_future_primos(current_primos, 0,0,0,days_until_enddate,cleaned['welkin_moon'],cleaned['battlepass'], cleaned['average_abyss_stars'])
+                print(future_primos)
+                current_wishes = math.floor(current_primos/160)
+                future_wishes = math.floor(future_primos/160)
+                context = {
+                    'current_primos': current_primos,
+                    'future_primos': future_primos,
+                    'current_wishes': current_wishes,
+                    'future_wishes': future_wishes,
+                    'current_date': current_date,
+                    'future_date': future_date
+                }
+                return render(request, 'analyze/project_primos_result.html', context)
+            else:
+                print("invalid")
+                return render(request, 'analyze/project_primos.html')
+        else:
+            return render(request, 'analyze/project_primos_result.html')

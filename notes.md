@@ -1,5 +1,24 @@
 IF STATIC CSS ISNT IMPLEMENTED FIRST TRY SHIFT-RELOADING PAGE
 
+1. Remove all the migration files
+
+get rid of all */migrations/*.py" -not -name "__init__.py" -delete
+get rid of all "*/migrations/*.pyc"
+2. Delete db.sqlite3
+
+rm db.sqlite3
+3. Create and run the migrations:
+
+python manage.py makemigrations
+python manage.py migrate
+4. Sync the database:
+python manage.py migrate --run-syncdb
+
+# for a specific table
+
+python manage.py dumpdata analyze.character > characters.json
+python manage.py dumpdata analyze.banner analyze.characterbanner analyze.weaponbanner > banners.json
+
 python manage.py makemigrations
 python manage.py sqlmigrate
 python manage.py migrate

@@ -17,6 +17,7 @@ make names more sane
 - add proj future wishes
   - starglitter back setting for calculating additional wishes
 - allow proj future wishes to have proper data and direct into weapon banner / character banner
+- add proper current days into update mechanism
 - add the ability for banners to have end dates and for users to proj for the end of a specific banner
 
 - add side bar for navigation
@@ -49,6 +50,7 @@ make names more sane
   - character banner creators / weapon banner creators (can probably reuse)
   - analysis input character / weapon
   - analysis results
+    - add graph
 
 - figure out why there are two databases: one in mainstuff and one in the main dir
 - add constants for main dir or something?
