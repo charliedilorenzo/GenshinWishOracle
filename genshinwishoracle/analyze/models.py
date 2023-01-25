@@ -1,8 +1,6 @@
 from django.db import models
 import datetime
 from django.utils import timezone
-from django.contrib.contenttypes.models import ContentType
-
 class Character(models.Model):
     def __str__(self):
         return self.name

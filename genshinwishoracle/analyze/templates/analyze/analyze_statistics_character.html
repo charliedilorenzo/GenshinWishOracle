@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 {% block content %}
 <h1>Statistics</h1>
-<form action="{% url 'analyze:switch_banner_type_character' %}" method="post">
+<form method="post">
     {% csrf_token %}
     <div>
         <button class="static-button" role="button">Character Banner</button>
@@ -10,7 +10,7 @@
             Banner</button>
     </div>
 </form>
-<form action="{% url 'analyze:analysis_in_progress' %}" method="post" novalidate>
+<form method="post" novalidate>
     {% csrf_token %}
     <table>
         <input type="hidden" name="banner_type" value="character">

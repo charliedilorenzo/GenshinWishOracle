@@ -47,9 +47,9 @@ class AnalyzeStatisticsCharacterForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        if cleaned_data['pity'] == None:
+        if 'pity' not in cleaned_data or cleaned_data['pity'] == None:
             cleaned_data['pity']= 0
-        if cleaned_data['guaranteed'] == None:
+        if 'guaranteed' not in cleaned_data or cleaned_data['guaranteed'] == None:
             cleaned_data['guaranteed'] = False
         return cleaned_data
 class AnalyzeStatisticsWeaponForm(forms.Form):
@@ -64,11 +64,11 @@ class AnalyzeStatisticsWeaponForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        if cleaned_data['pity'] == None:
+        if 'pity' not in cleaned_data or cleaned_data['pity'] == None:
             cleaned_data['pity']= 0
-        if cleaned_data['guaranteed'] == None:
+        if 'guaranteed' not in cleaned_data or  cleaned_data['guaranteed'] == None:
             cleaned_data['guaranteed'] = False
-        if cleaned_data['fate_points'] == None:
+        if 'fate_points' not in cleaned_data or cleaned_data['fate_points'] == None:
             cleaned_data['fate_points']  = 0
         return cleaned_data
 
