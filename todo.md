@@ -12,6 +12,8 @@
 
 ## New Stuff
 
+- add social apps login
+
 - basic user
 - add users and user personal data:
   - users banners
@@ -28,6 +30,8 @@
     - for weapon banner
   - welkin user
   - bp user
+
+- in settings SESSION_COOKIE_AGE = 60 *60* 24 * 30
 
 - add better rerouting of errors in project primo
   - try using "from django.shortcuts import redirect"

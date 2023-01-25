@@ -19,6 +19,8 @@ python manage.py migrate --run-syncdb
 
 # for a specific table
 
+<!-- from django.contrib.auth.models import User -->
+python manage.py dumpdata auth users.Profile > users.json
 python manage.py dumpdata analyze.character > characters.json
 python manage.py dumpdata analyze.banner analyze.characterbanner analyze.weaponbanner > banners.json
 

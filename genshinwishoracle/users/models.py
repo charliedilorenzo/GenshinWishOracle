@@ -4,26 +4,28 @@ import math
 from django.conf import settings
 from analyze.models import Banner
 
-class CustomUser(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+# Extending User Model Using a One-To-One Link
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     banners = models.ManyToManyField(Banner)
 
-    numprimos = models.IntegerField()
-    numgenesis = models.IntegerField()
-    numfates = models.IntegerField()
-    numstarglitter = models.IntegerField()
+    numprimos = models.IntegerField(default=0)
+    numgenesis = models.IntegerField(default=0)
+    numfates = models.IntegerField(default=0)
+    numstarglitter = models.IntegerField(default=0)
 
-    character_pity = models.IntegerField()
-    character_guaranteed = models.BooleanField()
-    character_fate_points = models.IntegerField()
+    character_pity = models.IntegerField(default=0)
+    character_guaranteed = models.BooleanField(default=False)
 
-    weapon_pity = models.IntegerField()
-    weapon_guaranteed = models.BooleanField()
-    weapon_fate_points = models.IntegerField()
+    weapon_pity = models.IntegerField(default=0)
+    weapon_guaranteed = models.BooleanField(default=False)
+    weapon_fate_points = models.IntegerField(default=0)
 
-    welkin_user = models.BooleanField()
-    battlepass_user = models.BooleanField()
+    welkin_user = models.BooleanField(default=False)
+    battlepass_user = models.BooleanField(default=False)
 
     def calculate_pure_primos(self):
         return self.numprimos+self.numgenesis+160*math.floor(self.numstarglitter/5) + 160*self.numfates
+
+    def __str__(self):
+        return self.user.username

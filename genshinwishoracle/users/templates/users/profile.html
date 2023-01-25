@@ -1,17 +1,67 @@
 {% extends "users/base.html" %}
-{% block title %} Home Page {% endblock title%}
+{% block title %}Profile Page{% endblock title %}
 {% block content %}
-<div class="jumbotron">
-    <h1 class="display-4">Welcome</h1>
-    <p class="lead">
-        This is <b>user registration and login system</b> build with django which is
-        a Python-based free and open-source web framework that follows the model–template–views architectural pattern.
-    </p>
-    <hr class="my-4">
-    <p class="lead">
-        <a class="btn btn-primary btn-lg" href="#" role="button">Logout</a>
-        <a class="btn btn-primary btn-lg" href="#" role="button">Sign in</a>
-    </p>
+{% if user_form.errors %}
+<div class="alert alert-danger alert-dismissible" role="alert">
+    <div id="form_errors">
+        {% for key, value in user_form.errors.items %}
+        <strong>{{ value }}</strong>
+        {% endfor %}
+    </div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
+{% endif %}
+<div class="form-content">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label class="small mb-1">Username:</label>
+                    {{ user_form.username }}
+                    <label class="small mb-1">Email:</label>
+                    {{ user_form.email }}
+                </div>
+                <div class="form-group">
+                    <a href="#">Change Password</a>
+                    <hr>
+                    <h2> Wishing Resources </h2>
+                    <label class="small mb-1">Primos:</label>
+                    {{ profile_form.numprimos }}
+                    <label class="small mb-1">Genesis:</label>
+                    {{ profile_form.numgenesis }}
+                    <label class="small mb-1">Fates:</label>
+                    {{ profile_form.numfates }}
+                    <label class="small mb-1">Starglitter:</label>
+                    {{ profile_form.starglitter }}
 
+                    <h2> Extra Primogem Income </h2>
+                    <label class="small mb-1">Welkin Moon:</label>
+                    {{ profile_form.welkin_user }}
+                    <label class="small mb-1">Battlepass:</label>
+                    {{ profile_form.battlepass_user }}
+
+                    <h2> Character Banner </h2>
+                    <label class="small mb-1">Pity:</label>
+                    {{ profile_form.character_pity }}
+                    <label class="small mb-1">Guaranateed:</label>
+                    {{ profile_form.character_guaranteed }}
+
+                    <h2> Weapon Banner </h2>
+                    <label class="small mb-1">Pity:</label>
+                    {{ profile_form.weapon_pity }}
+                    <label class="small mb-1">Guaranteed:</label>
+                    {{ profile_form.weapon_guaranteed }}
+                    <label class="small mb-1">Fate Points:</label>
+                    {{ profile_form.weapon_fate_points }}
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+        <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+    </form>
+</div>
 {% endblock content %}

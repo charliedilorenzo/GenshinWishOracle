@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-from genshinwishoracle import secret_key_from_settings
-
+from dotenv import load_dotenv
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =  secret_key_from_settings.SECRET_KEY_STORED
+SECRET_KEY =  SECRET_KEY = str(os.getenv('SECRET_KEY_STORED'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -130,3 +130,15 @@ STATICFILES_DIRS = [
     "C:\\Users\\carol\\Code\\Personal\\GenshinWishOracle\\genshinwishoracle\\analyze\\static\\analyze",
     "C:/Users/carol/Code/Personal/GenshinWishOracle/genshinwishoracle/analyze/static/analyze",
 ]
+
+# from adding users
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'login'
+# for emailing password recovery - currently not functional #TODO
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = str(os.getenv('EMAIL_USER'))
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_PASSWORD'))

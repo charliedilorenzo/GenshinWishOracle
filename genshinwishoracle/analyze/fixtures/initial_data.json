@@ -1012,24 +1012,6 @@
         }
     },
     {
-        "model": "auth.user",
-        "pk": 1,
-        "fields": {
-            "password": "pbkdf2_sha256$390000$OJD1N05DX0CCDhosfUBm9c$k12MCw1yZ6+75A1aqRJqgLdQoU2prJB9O6DvPKguQBM=",
-            "last_login": "2023-01-24T19:15:50.877Z",
-            "is_superuser": true,
-            "username": "charlie",
-            "first_name": "",
-            "last_name": "",
-            "email": "charlie.dilorenzo64@gmail.com",
-            "is_staff": true,
-            "is_active": true,
-            "date_joined": "2023-01-24T19:15:44.543Z",
-            "groups": [],
-            "user_permissions": []
-        }
-    },
-    {
         "model": "contenttypes.contenttype",
         "pk": 1,
         "fields": {
