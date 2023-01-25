@@ -49,11 +49,16 @@ class CharacterBanner(Banner):
             newCharBanner.save()
             self.char_ptr = newCharBanner
     
-    def __str__(self):
+    def __str__(self) -> str:
         five_stars = self.rateups.filter(rarity=5)
         five_stars = [str(i) for i in five_stars]
         five_star_str = ", ".join(five_stars)
         return "%s - %s - %s" % (self.name,five_star_str, self.enddate)
+
+
+    def get_base_banner_equivalent(self) -> Banner:
+        return self.banner_ptr
+    # TODO add query for all banners that are after certain date
 
 
 class WeaponBanner(Banner):
@@ -68,10 +73,14 @@ class WeaponBanner(Banner):
             newCharBanner.save()
             self.char_ptr = newCharBanner
     
-    def __str__(self):
+    def __str__(self) -> str:
         five_stars = self.rateups.filter(rarity=5)
         five_stars = [str(i) for i in five_stars]
         five_star_str = ", ".join(five_stars)
         return "%s - %s - %s" % (self.name,five_star_str, self.enddate)
+
+    def get_base_banner_equivalent(self) -> Banner:
+        return self.banner_ptr
+        # return Banner.objects.filter(id = self.banner_ptr)[0]
     # Need 2 Five Star and 5 Four Star
     # TODO same as character banner

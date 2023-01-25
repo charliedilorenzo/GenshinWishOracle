@@ -78,8 +78,17 @@ class ProjectPrimosForm(forms.Form):
     numfates = forms.IntegerField(min_value=0,initial=0,required=True)
     numstarglitter = forms.IntegerField(min_value=0,initial=0,required=True)
     end_date_manual_select = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
+    # TODO fix this to be less jank if possible
+    # consider somehow adding enddate and name to Banner and possibly even rateup
+    now = datetime.date.today()
+    valid_char_banners = models.CharacterBanner.objects.filter(enddate__gte=now)
+    valid_weapon_banners = models.WeaponBanner.objects.filter(enddate__gte=now)
+    banner_ids = [banner.get_base_banner_equivalent().id for banner in valid_char_banners]
+    banner_ids+= [banner.get_base_banner_equivalent().id for banner in valid_weapon_banners]
+    banners = models.Banner.objects.filter(id__in=banner_ids)
+    # banners = models.Banner.objects.all()
     end_date_banner_select = forms.ModelChoiceField(
-        queryset= models.Banner.objects.all(),
+        queryset= banners,
         widget=forms.Select(attrs={'size': 30},),
         initial=timezone.now(),
          required=False
@@ -116,7 +125,9 @@ class ProjectPrimosForm(forms.Form):
     def decide_date(self):
         cleaned_data = super().clean()
         if cleaned_data["end_date_banner_select"]!= None and self.manual_select_is_default():
-            return cleaned_data["end_date_banner_select"]
+            specified_banner = cleaned_data["end_date_banner_select"].get_specified_banner_equivalent()
+            enddate = specified_banner.enddate
+            return enddate
         elif cleaned_data["end_date_banner_select"] == None and not self.manual_select_is_default():
             return cleaned_data["end_date_manual_select"]
 

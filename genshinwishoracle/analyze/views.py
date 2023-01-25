@@ -189,10 +189,8 @@ def project_primos_in_progress(request):
         if request.method == 'POST':
             form  = forms.ProjectPrimosForm(request.POST)
             if form.is_valid():
-                print("valid")
                 cleaned = form.cleaned_data
                 if form.date_is_decidable() == False:
-                    print("not decideable")
                     return render(request, 'analyze/project_primos.html')
 
                 future_date = form.decide_date()
@@ -206,7 +204,6 @@ def project_primos_in_progress(request):
                 current_primos = pure_primo_estimate
 
                 future_primos = project_future_primos(current_primos, 0,0,0,days_until_enddate,cleaned['welkin_moon'],cleaned['battlepass'], cleaned['average_abyss_stars'])
-                print(future_primos)
                 current_wishes = math.floor(current_primos/160)
                 future_wishes = math.floor(future_primos/160)
                 context = {
@@ -219,7 +216,6 @@ def project_primos_in_progress(request):
                 }
                 return render(request, 'analyze/project_primos_result.html', context)
             else:
-                print("invalid")
                 return render(request, 'analyze/project_primos.html')
         else:
             return render(request, 'analyze/project_primos_result.html')
