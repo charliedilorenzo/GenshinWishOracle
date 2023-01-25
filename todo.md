@@ -12,18 +12,18 @@
 
 ## New Stuff
 
-make names more sane
+- add better rerouting of errors in project primo
+- add routing from project primos to analyze
 
-- add proj future wishes
-  - starglitter back setting for calculating additional wishes
-- allow proj future wishes to have proper data and direct into weapon banner / character banner
-- add proper current days into update mechanism
+- get amount of wishes required for at least n probability p amount of times
+  - call it probability to wishes
+- add proper current days into update mechanism for project primos
+- TODO add query for all banners that are after certain date
 - add the ability for banners to have end dates and for users to proj for the end of a specific banner
 
 - add side bar for navigation
 
-- get amount of wishes required for at least n probability p amount of times
-  - call it probability to wishes
+- starglitter back setting for calculating additional wishes
 
 - add users and user personal data:
   - users banners
