@@ -1,6 +1,6 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
-<a href="{% url 'home' %}"> BACK </a>
+<a href="{% url 'main-home' %}"> BACK </a>
 <h1>Analyze Index </h1>
 <ul>
     <li><a href="{% url 'analyze:analyze_statistics_character' %}">Banner Statistics Analysis</a></li>
@@ -8,6 +8,5 @@
     <li><a href="{% url 'analyze:weapon_banner' %}">Weapon Banners</a></li>
     <li><a href="{% url 'analyze:project_primos' %}"> Project Future Primogems</a></li>
     <li><a href="{% url 'analyze:probability_to_wishes' %}"> Probability to Wishes Required</a></li>
-    <li><a href="{% url 'analyze:user_data' %}"> Manage User Data </a></li>
     <li><a href="{% url 'analyze:wish_simulator' %}"> Wish Simulator </a></li>
 </ul>

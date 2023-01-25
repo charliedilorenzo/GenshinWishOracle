@@ -21,7 +21,6 @@ urlpatterns = [
     path('projectprimos/results',views.ProjectPrimosResultsView.as_view(), name='project_primos_results'),
     path('probability-to-wishes-required',views.ProbabilityToWishesView.as_view(), name='probability_to_wishes'),
     # TODO add data, edit data, delete
-    path('user-data',views.UserDataView.as_view(), name='user_data'),
     path('wishsimulator',views.WishSimulatorView.as_view(), name='wish_simulator'),
 ]
 urlpatterns += staticfiles_urlpatterns()

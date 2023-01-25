@@ -12,19 +12,7 @@
 
 ## New Stuff
 
-- add better rerouting of errors in project primo
-- add routing from project primos to analyze
-
-- get amount of wishes required for at least n probability p amount of times
-  - call it probability to wishes
-- add proper current days into update mechanism for project primos
-- TODO add query for all banners that are after certain date
-- add the ability for banners to have end dates and for users to proj for the end of a specific banner
-
-- add side bar for navigation
-
-- starglitter back setting for calculating additional wishes
-
+- basic user
 - add users and user personal data:
   - users banners
   - number of wishes
@@ -40,6 +28,20 @@
     - for weapon banner
   - welkin user
   - bp user
+
+- add better rerouting of errors in project primo
+  - try using "from django.shortcuts import redirect"
+- add routing from project primos to analyze
+- it seems that sometimes either the display or value are incorrect for high wish values on analyze
+
+- get amount of wishes required for at least n probability p amount of times
+  - call it probability to wishes
+- add proper current days into update mechanism for project primos
+- add the ability for banners to have end dates and for users to proj for the end of a specific banner
+
+- add side bar for navigation
+
+- starglitter back setting for calculating additional wishes
 
 - add boring wish simulator
 

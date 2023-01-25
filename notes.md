@@ -1,3 +1,6 @@
+user portion from:
+<https://dev.to/earthcomfy/creating-a-django-registration-login-app-part-i-1di5>
+
 IF STATIC CSS ISNT IMPLEMENTED FIRST TRY SHIFT-RELOADING PAGE
 
 1. Remove all the migration files
