@@ -10,6 +10,15 @@
         <button class="static-button">Weapon Banner</button>
     </div>
 </form>
+{% if user.is_authenticated %}
+<form method="post" novalidate>
+    {% csrf_token %}
+    <div>
+        <button class="import-button" name="import_user_data_character" value="import_data">
+            Import data</button>
+    </div>
+</form>
+{% endif %}
 <form method="post" novalidate>
     {% csrf_token %}
     <table>

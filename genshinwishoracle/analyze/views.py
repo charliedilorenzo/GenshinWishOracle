@@ -14,6 +14,8 @@ from .models import Character, Weapon, CharacterBanner, WeaponBanner
 
 from .analytical import AnalyticalCharacter, AnalyticalWeapon
 from .project_primos import project_future_primos
+from users.models import Profile
+from django.http import HttpResponseRedirect
 
 class IndexView(generic.ListView):
     template_name = 'analyze/index.html'
@@ -57,13 +59,29 @@ class StatisticsAnalyzeCharacterView(generic.FormView):
     template_name = 'analyze/analyze_statistics_character.html'
     success_url = reverse_lazy('analyze:analyze_results')
     def get(self, request, *args, **kwargs):
+        if 'input_user_data_character' in request.session and request.session['input_user_data_character'] == True:
+            print(request.session['input_user_data_character'])
+            if request.user.is_authenticated:
+                curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
+                wishes = math.floor(curr_user_prof.calculate_pure_primos()/160)
+                init = {'numwishes':wishes,'pity':curr_user_prof.character_pity,'guaranteed': curr_user_prof.character_guaranteed }
+                form = self.form_class(initial=init)
+                request.session["input_user_data_character"] = False
+                return render(request, self.template_name, context={'form': form})
         form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, context={'form': form})
 
     def post(self, request, *args, **kwargs):
         # check if we pressed the switch button 
         if request.POST.get("select_weapon_banner"):
             return redirect(to='/analyze/statistics/weapon/')
+        # i dont want to include extra stuff in the url personally
+        # still need to redirect though to allow update form
+        # redirect for self and add a session flag to alter initial form data
+        if request.POST.get("import_user_data_character"):
+            if request.user.is_authenticated:
+                request.session["input_user_data_character"] = True
+                return redirect(to='/analyze/statistics/character/')
         form = self.form_class(request.POST)
         if form.is_valid():
             cleaned = form.cleaned_data
@@ -72,7 +90,13 @@ class StatisticsAnalyzeCharacterView(generic.FormView):
             guaranteed = cleaned['guaranteed']
 
             analyze_obj = AnalyticalCharacter()
+            print(numwishes)
+            print(pity)
+            print(guaranteed)
             solution = analyze_obj.specific_solution(numwishes,pity,guaranteed,0)
+            print(solution)
+            print(sum(solution.values()))
+            # by 600 misses 5% of values by 700 misses 70%
             place_values = 3 
             for key in solution:
                 solution[key] = ("%.{}f".format(place_values) % float(solution[key]))
@@ -90,11 +114,22 @@ class StatisticsAnalyzeCharacterView(generic.FormView):
             }
             return render(request, 'analyze/analyze_results.html', context)
         return render(request, self.template_name, {'form': form})
+
+
 class StatisticsAnalyzeWeaponView(generic.FormView):
     form_class = forms.AnalyzeStatisticsWeaponForm
     template_name = 'analyze/analyze_statistics_weapon.html'
     success_url = reverse_lazy('analyze:analyze_results')
     def get(self, request, *args, **kwargs):
+        if 'input_user_data_weapon' in request.session and request.session['input_user_data_weapon'] == True:
+            print(request.session['input_user_data_weapon'])
+            if request.user.is_authenticated:
+                curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
+                wishes = math.floor(curr_user_prof.calculate_pure_primos()/160)
+                init = {'numwishes':wishes,'pity':curr_user_prof.weapon_pity,'guaranteed': curr_user_prof.weapon_guaranteed, 'fate_points': curr_user_prof.weapon_fate_points }
+                form = self.form_class(initial=init)
+                request.session["input_user_data_weapon"] = False
+                return render(request, self.template_name, context={'form': form})
         form = self.form_class(initial=self.initial)
         return render(request, self.template_name, {'form': form})
 
@@ -102,6 +137,13 @@ class StatisticsAnalyzeWeaponView(generic.FormView):
         # check if we pressed the switch button
         if request.POST.get("select_character_banner"):
             return redirect(to='/analyze/statistics/character/')
+        # i dont want to include extra stuff in the url personally
+        # still need to redirect though to allow update form
+        # redirect for self and add a session flag to alter initial form data
+        if request.POST.get("import_user_data_character"):
+            if request.user.is_authenticated:
+                request.session["input_user_data_weapon"] = True
+                return redirect(to='/analyze/statistics/weapon/')
         form = self.form_class(request.POST)
         if form.is_valid():
             cleaned = form.cleaned_data
@@ -111,7 +153,13 @@ class StatisticsAnalyzeWeaponView(generic.FormView):
             fate_points = cleaned['fate_points']
 
             analyze_obj = AnalyticalWeapon()
+            print(numwishes)
+            print(pity)
+            print(guaranteed)
             solution = analyze_obj.specific_solution(numwishes,pity,guaranteed,fate_points,0)
+            print(solution)
+            print(sum(solution.values()))
+            # by 400 deteriorates to missing around 14% of the values
             place_values = 3
             for key in solution:
                 solution[key] = ("%.{}f".format(place_values) % float(solution[key]))

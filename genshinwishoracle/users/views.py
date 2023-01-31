@@ -5,12 +5,16 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
 from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm
-from django.contrib.auth.views import LoginView, PasswordResetView
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 
 
 def home(request):
     return render(request, 'users/home.html')
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'users/change_password.html'
+    success_message = "Successfully Changed Your Password"
+    success_url = reverse_lazy('users-home')
 
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     template_name = 'users/password_reset.html'

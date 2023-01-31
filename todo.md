@@ -13,23 +13,7 @@
 ## New Stuff
 
 - add social apps login
-
-- basic user
-- add users and user personal data:
-  - users banners
-  - number of wishes
-    - num primogems
-    - num fates
-    - num starglitter
-    - num genesis
-  - pity
-    - for character banner
-    - for weapon banner
-  - guaranteed
-    - for character banner
-    - for weapon banner
-  - welkin user
-  - bp user
+- add ability for user to actually go to and change their profile stuff
 
 - in settings SESSION_COOKIE_AGE = 60 *60* 24 * 30
 
