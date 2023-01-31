@@ -90,12 +90,7 @@ class StatisticsAnalyzeCharacterView(generic.FormView):
             guaranteed = cleaned['guaranteed']
 
             analyze_obj = AnalyticalCharacter()
-            print(numwishes)
-            print(pity)
-            print(guaranteed)
             solution = analyze_obj.specific_solution(numwishes,pity,guaranteed,0)
-            print(solution)
-            print(sum(solution.values()))
             # by 600 misses 5% of values by 700 misses 70%
             place_values = 3 
             for key in solution:
@@ -153,12 +148,7 @@ class StatisticsAnalyzeWeaponView(generic.FormView):
             fate_points = cleaned['fate_points']
 
             analyze_obj = AnalyticalWeapon()
-            print(numwishes)
-            print(pity)
-            print(guaranteed)
             solution = analyze_obj.specific_solution(numwishes,pity,guaranteed,fate_points,0)
-            print(solution)
-            print(sum(solution.values()))
             # by 400 deteriorates to missing around 14% of the values
             place_values = 3
             for key in solution:

@@ -42,6 +42,8 @@
   - analysis results
     - add graph
 
+- IMPROVE ANALYTICAL by adding a function to find single solution in a complete database
+- pytest better analytical.py coverage
 - figure out why there are two databases: one in mainstuff and one in the main dir
 - add constants for main dir or something?
 - readd proj future wishes
