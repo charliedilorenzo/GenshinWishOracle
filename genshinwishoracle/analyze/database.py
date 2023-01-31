@@ -1,8 +1,9 @@
 import os
 import sqlite3
 
-global schema_file
-schema_file = 'C:\\Users\\carol\\Code\\Personal\\GenshinWishOracle\\genshinwishoracle\\analyze\\analyze_backend_temp_import\\database.db'
+global schema_file, path
+path = 'C:\\Users\\carol\\Code\\Personal\\GenshinWishOracle\\genshinwishoracle\\analyze'
+schema_file = path+"\\schema.sql"
 
 
 def check_db(filename: str) -> bool:
@@ -31,7 +32,7 @@ def check_table(table: str, conn:  sqlite3.Connection) -> bool:
 def create_data_tables(schema_filepath, conn: sqlite3.Connection) -> int:
     # TODO FIX THIS AND HAVE A BETTER GLOBAL VARIABLE FOR IT OR SOMETHING
     if schema_filepath == "":
-        schema_filepath = "C:\\Users\\carol\\Code\\Personal\\GenshinWishOracle\\mainstuff\\schema.sql"
+        schema_filepath = schema_file
     # will only create each table if it doesn't exist
     with open(schema_filepath, 'r') as rf:
         # Read the schema from the file
@@ -47,7 +48,9 @@ def init_db(conn: sqlite3.Connection) -> int:
 
 
 def get_default_db() -> str:
-    return "database.db"
+    return "C:\\Users\\carol\\Code\\Personal\\GenshinWishOracle\\genshinwishoracle\\analyze\\database.db"
+    # return "database.db"
+    # return path + "\\database.db"
 
 
 def update_data_in_table(data: list[tuple], table: str, conn: sqlite3.Connection) -> int:

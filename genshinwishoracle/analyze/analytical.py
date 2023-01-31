@@ -92,6 +92,11 @@ class AnalyticalCharacter:
         db_file = database.get_default_db()
         if exists(db_file):
             self.load_hashtable()
+        else:
+            conn = sqlite3.connect(db_file)
+            with conn:
+                database.init_db(conn)
+        self.calculate_and_write_all_solutions()
 
     def store_if_solution_doesnt_exist(self, num_wishes: int, pity: int, guaranteed: bool, solution: dict) -> None:
         lookup_num = self.lookup_num_generator(num_wishes, pity, guaranteed)
@@ -153,18 +158,19 @@ class AnalyticalCharacter:
         return result
 
     def calculate_and_write_all_solutions(self) -> None:
+        if len(self.hashtable) >= self.max_lookup:
+            return
         incomplete_lookups = {i for i in range(0, self.max_lookup)}
         for val in self.hashtable:
             incomplete_lookups.discard(val)
 
-        if len(self.hashtable) <= self.max_lookup:
-            while len(incomplete_lookups) > 0:
-                random_lookup = incomplete_lookups.pop()
-                settings = self.lookup_num_to_setting(random_lookup)
-                self.specific_solution(
-                    settings[0], settings[1], settings[2], 0)
+        while len(incomplete_lookups) > 0:
+            random_lookup = incomplete_lookups.pop()
+            settings = self.lookup_num_to_setting(random_lookup)
+            self.specific_solution(
+                settings[0], settings[1], settings[2], 0)
 
-            self.update_analytical_db()
+        self.update_analytical_db()
 
     def probability_on_copies_to_num_wishes(self, probability_desired, copies_desired, pity=0, guaranteed=False):
         # takes as input the probability desired for however many copies desired (or more copies). optionally can do for a specific pity or guaranteed
@@ -244,7 +250,6 @@ class AnalyticalWeapon:
 
     def __init__(self, soft_pity_dist: dict[int, float] = {}, base_five_star_rate=-1, fate_points_required=-1, copies_max=5, db_file="") -> None:
         self.tablename = "analytical_solutions_weapon"
-
         if base_five_star_rate == -1:
             base_five_star_rate = self.BASE_FIVE_STAR_RATE
 
@@ -278,6 +283,11 @@ class AnalyticalWeapon:
         db_file = database.get_default_db()
         if exists(db_file):
             self.load_hashtable()
+        else:
+            conn = sqlite3.connect(db_file)
+            with conn:
+                database.init_db(conn)
+        self.calculate_and_write_all_solutions()
 
     def store_if_solution_doesnt_exist(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, solution: dict) -> None:
         lookup_num = self.lookup_num_generator(
