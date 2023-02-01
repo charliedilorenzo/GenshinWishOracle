@@ -1,13 +1,18 @@
+{% extends "genshinwishoracle/bootstrap_base.html" %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 {% block content %}
-<h2>Character Banner Form</h2>
+<title>{% block title %} Character Banner Creation {% endblock %} </title>
+<div>
+    <a href="{% url 'analyze:character_banner' %}"><button name="back" class="back-button back-arrow">Back</button></a>
+</div>
+<h1 class="display-4"> Character Banner Creation </h1>
+
 <form method="post" novalidate>
     {% csrf_token %}
     <table>
         {{ form.as_table }}
     </table>
     <button type="submit">Save</button>
-    <a href="{% url 'analyze:character_banner' %}">Nevermind</a>
 </form>
 {% endblock %}

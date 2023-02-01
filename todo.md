@@ -12,10 +12,13 @@
 
 ## New Stuff
 
+- adding <https://github.com/paulino/django-bootstrap-sidebar>
+- add extra data of percent extra wishes to analytical (search the TODO for note on idea of how)
 - add social apps login
 - add ability for user to actually go to and change their profile stuff
 
 - in settings SESSION_COOKIE_AGE = 60 *60* 24 * 30
+- add import to project primos
 
 - add better rerouting of errors in project primo
   - try using "from django.shortcuts import redirect"
@@ -50,6 +53,8 @@
 - add tests to proj future wishes
 - add user settings to db
 - when changing pity need to wipe the database of analytical entries relevant
+- about in sidebar
+- find proper icon for genshin wish oracle
 
 ## structure
 

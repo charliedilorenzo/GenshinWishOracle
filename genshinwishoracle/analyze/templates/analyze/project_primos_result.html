@@ -1,10 +1,16 @@
+{% extends "genshinwishoracle/bootstrap_base.html" %}
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+<title>{% block title %} Primogem Projection Results {% endblock %} </title>
+<div>
+    <a href="{% url 'analyze:index' %}"><button name="back" class="back-button back-arrow">Back</button></a>
+</div>
+<h1 class="display-4"> Primogem Projection Results </h1>
 
 <body>
     {% csrf_token %}
     <div>
-        <h1> Primogem Projection: </h1>
         <ul>
             <li> Before </li>
             <li>Primogems: {{current_primos}}, Wishes: {{current_wishes}} </li>
@@ -14,10 +20,6 @@
             <li>Primogems: {{future_primos}}, Wishes: {{future_wishes}} </li>
         </ul>
     </div>
-    <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
-    <a href="{% url 'analyze:index' %}"> BACK </a>
 </body>
-
-
 
 {% endblock %}

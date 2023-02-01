@@ -1,7 +1,12 @@
+{% extends "genshinwishoracle/bootstrap_base.html" %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
-<a href="{% url 'analyze:index' %}"> BACK </a>
-<h1>Weapon Banner</h1>
+{% block content %}
+<title>{% block title %} Weapon Banners {% endblock %} </title>
+<div>
+    <a href="{% url 'analyze:index' %}"><button name="back" class="back-button back-arrow">Back</button></a>
+</div>
+<h1 class="display-4"> Weapon Banners </h1>
 <a href="{% url 'analyze:weapon_banner_create' %}"> Create new banner </a>
 <!-- TODO style this and the other banner -->
 <ul>
@@ -16,3 +21,4 @@
     </li>
     {% endfor %}
 </ul>
+{% endblock %}

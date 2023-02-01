@@ -22,5 +22,6 @@ urlpatterns = [
     path('probability-to-wishes-required',views.ProbabilityToWishesView.as_view(), name='probability_to_wishes'),
     # TODO add data, edit data, delete
     path('wishsimulator',views.WishSimulatorView.as_view(), name='wish_simulator'),
+    path('analyzeomni',views.StatisticsOmniView.as_view(), name='analyze_omni'),
 ]
 urlpatterns += staticfiles_urlpatterns()

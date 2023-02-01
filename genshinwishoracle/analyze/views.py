@@ -165,6 +165,70 @@ class StatisticsAnalyzeWeaponView(generic.FormView):
             }
             return render(request, 'analyze/analyze_results.html', context)
         return render(request, self.template_name, {'form': form})
+
+class StatisticsOmniView(generic.View):
+    template_name = 'analyze/analyze_omni.html'
+    success_url = reverse_lazy('analyze:index')
+    form_class = forms.AnalyzeStatisticsWeaponForm
+
+    # need form for wish info input
+    # need form for probability info input - allow input pity and guaranteed/fate points then vary around to find num wishes
+
+    # 
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name,{'form': form})
+        if 'input_user_data_weapon' in request.session and request.session['input_user_data_weapon'] == True:
+            print(request.session['input_user_data_weapon'])
+            if request.user.is_authenticated:
+                curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
+                wishes = math.floor(curr_user_prof.calculate_pure_primos()/160)
+                init = {'numwishes':wishes,'pity':curr_user_prof.weapon_pity,'guaranteed': curr_user_prof.weapon_guaranteed, 'fate_points': curr_user_prof.weapon_fate_points }
+                form = self.form_class(initial=init)
+                request.session["input_user_data_weapon"] = False
+                return render(request, self.template_name, context={'form': form})
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        # # check if we pressed the switch button
+        # if request.POST.get("select_character_banner"):
+        #     return redirect(to='/analyze/statistics/character/')
+        # # i dont want to include extra stuff in the url personally
+        # # still need to redirect though to allow update form
+        # # redirect for self and add a session flag to alter initial form data
+        # if request.POST.get("import_user_data_character"):
+        #     if request.user.is_authenticated:
+        #         request.session["input_user_data_weapon"] = True
+        #         return redirect(to='/analyze/statistics/weapon/')
+        # form = self.form_class(request.POST)
+        # if form.is_valid():
+        #     cleaned = form.cleaned_data
+        #     numwishes = cleaned['numwishes']
+        #     pity = cleaned['pity']
+        #     guaranteed = cleaned['guaranteed']
+        #     fate_points = cleaned['fate_points']
+
+        #     analyze_obj = AnalyticalWeapon()
+        #     solution = analyze_obj.specific_solution(numwishes,pity,guaranteed,fate_points,0)
+        #     # by 400 deteriorates to missing around 14% of the values
+        #     place_values = 3
+        #     for key in solution:
+        #         solution[key] = ("%.{}f".format(place_values) % float(solution[key]))
+
+        #     context = {
+        #         'banner_type' : "weapon",
+        #         'X' : solution[0],
+        #         'R1' : solution[1],
+        #         'R2' : solution[2],
+        #         'R3' : solution[3],
+        #         'R4' : solution[4],
+        #         'R5' : solution[5]
+        #     }
+        #     return render(request, 'analyze/analyze_results.html', context)
+        # return render(request, self.template_name, {'form': form})
+        return
 class StatisticsResultView(generic.View):
     template_name = 'analyze/analyze_results.html'
     success_url = reverse_lazy('analyze:index')

@@ -3,16 +3,12 @@
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 {% block content %}
 <div>
-    <a href="{% url 'analyze:index' %}"><button name="back" class="back-button back-arrow">Back</button></a>
+    <a href="{% url 'analyze:index' %}"><button name='character_banner_submit' type="submit"
+            class="back-button back-arrow">Back</button></a>
 </div>
-<title>{% block title %} Analysis Character Statistics {% endblock %} </title>
-<h1 class="display-4"> Statistics </h1>
+<h1>Statistics</h1>
 <form method="post">
     {% csrf_token %}
-    <div>
-        <a href="{% url 'analyze:index' %}"><button name='character_banner_submit' type="submit"
-                class="back-button back-arrow">Back</button></a>
-    </div>
     <div>
         <button class="static-button" role="button">Character Banner</button>
         <button class="hover-button" name="select_weapon_banner" value="weapon_banner">Weapon

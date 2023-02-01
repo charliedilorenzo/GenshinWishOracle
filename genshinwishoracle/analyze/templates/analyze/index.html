@@ -1,8 +1,14 @@
+{% extends "genshinwishoracle/bootstrap_base.html" %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
-<a href="{% url 'main-home' %}"> BACK </a>
-<h1>Analyze Index </h1>
+{% block content %}
+<title>{% block title %} Analyze Options {% endblock %} </title>
+<div>
+    <a href="{% url 'main-home' %}"><button name="back" class="back-button back-arrow">Back</button></a>
+</div>
+<h1 class="display-4"> Analyze Index </h1>
 <ul>
+    <li><a href="{% url 'analyze:analyze_omni' %}">TESTING Banner Statistics Analysis</a></li>
     <li><a href="{% url 'analyze:analyze_statistics_character' %}">Banner Statistics Analysis</a></li>
     <li><a href="{% url 'analyze:character_banner' %}">Character Banners</a></li>
     <li><a href="{% url 'analyze:weapon_banner' %}">Weapon Banners</a></li>
@@ -10,3 +16,4 @@
     <li><a href="{% url 'analyze:probability_to_wishes' %}"> Probability to Wishes Required</a></li>
     <li><a href="{% url 'analyze:wish_simulator' %}"> Wish Simulator </a></li>
 </ul>
+{% endblock %}

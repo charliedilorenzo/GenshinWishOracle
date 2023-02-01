@@ -154,7 +154,9 @@ class AnalyticalCharacter:
 
         self.store_if_solution_doesnt_exist(
             num_wishes, pity, guaranteed, result)
-
+        # TODO add an extra dictionary for after max constellations/refinements so that we can track for after
+        # it will be a probability dictionary that counts up the extra wishes as the percent of time you have that many additional wishes remaining
+        # should be possible and also work. Need to alter the helper function for this though
         return result
 
     def calculate_and_write_all_solutions(self) -> None:

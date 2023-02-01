@@ -1,9 +1,18 @@
+{% extends "genshinwishoracle/bootstrap_base.html" %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 {% block content %}
-<h1>Statistics</h1>
+<div>
+    <a href="{% url 'analyze:index' %}"><button name='back' class="back-button back-arrow">Back</button></a>
+</div>
+<title>{% block title %} Analyze Weapon Statistics {% endblock %} </title>
+<h1 class="display-4"> Statistics </h1>
 <form method="post">
     {% csrf_token %}
+    <div>
+        <a href="{% url 'analyze:index' %}"><button name='character_banner_submit' type="submit"
+                class="back-button back-arrow">Back</button></a>
+    </div>
     <div>
         <button class="hover-button" name="select_character_banner" role="button" value="character_banner">Character
             Banner</button>
@@ -26,6 +35,5 @@
         {{ form.as_table }}
     </table>
     <button name='weapon_banner_submit' type="submit">Save</button>
-    <a href="{% url 'analyze:index' %}">Nevermind</a>
 </form>
 {% endblock %}

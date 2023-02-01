@@ -1,7 +1,12 @@
+{% extends "genshinwishoracle/bootstrap_base.html" %}
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
-<h1> Project Primogems </h1>
+<title>{% block title %} Primogem Projection {% endblock %} </title>
+<div>
+    <a href="{% url 'analyze:index' %}"><button name="back" class="back-button back-arrow">Back</button></a>
+</div>
+<h1 class="display-4"> Primogem Projection </h1>
 <form method="post" action="{% url 'analyze:project_primos_in_progress' %}">
     {% csrf_token %}
     <table>
