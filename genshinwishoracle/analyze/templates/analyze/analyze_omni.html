@@ -2,34 +2,76 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 {% block content %}
+<title>{% block title %} Analyze Statistics {% endblock %} </title>
 <div>
     <a href="{% url 'analyze:index' %}"><button name='character_banner_submit' type="submit"
             class="back-button back-arrow">Back</button></a>
 </div>
 <h1>Statistics</h1>
+{% if banner_type == "character" %}
 <form method="post">
     {% csrf_token %}
     <div>
-        <button class="static-button" role="button">Character Banner</button>
-        <button class="hover-button" name="select_weapon_banner" value="weapon_banner">Weapon
+        <button class="hover-button" name="select_weapon_banner" value="weapon_banner">Switch to Weapon
             Banner</button>
     </div>
 </form>
+{% endif %}
+{% if banner_type == "weapon" %}
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <button class="hover-button" name="select_character_banner" value="character_banner">Switch to
+            Character
+            Banner</button>
+    </div>
+</form>
+{% endif %}
+{% if statistics_type == "calcprobability" %}
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <button class="hover-button" name="select_calcnumwishes" value="calcnumwishes">Switch to Calculate Number of
+            Wishes</button>
+    </div>
+</form>
+{% endif %}
+{% if statistics_type == "calcnumwishes" %}
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <button class="hover-button" name="select_calcprobability" value="calcprobability">Switch to Calculate
+            Probability</button>
+    </div>
+</form>
+{% endif %}
+
 {% if user.is_authenticated %}
 <form method="post" novalidate>
     {% csrf_token %}
     <div>
-        <button class="import-button" name="import_user_data_character" value="import_data">
+        <button class="import-button" name="import_user_data" value="import_data">
             Import data</button>
     </div>
 </form>
 {% endif %}
-<form method="post" novalidate>
-    {% csrf_token %}
-    <table>
-        <input type="hidden" name="banner_type" value="character">
-        {{ form.as_table }}
-    </table>
-    <button name='character_banner_submit' type="submit">Save</button>
-</form>
+<div>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <table>
+            {{ first_form.as_table }}
+        </table>
+        <button name='submit' type="submit">Save</button>
+    </form>
+</div>
+
+<div>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <table>
+            {{ second_form.as_table }}
+        </table>
+    </form>
+</div>
+
 {% endblock %}

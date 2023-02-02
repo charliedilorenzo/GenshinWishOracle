@@ -36,7 +36,7 @@ class CreateWeaponBannerForm(forms.ModelForm):
     )
     enddate = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
 
-class AnalyzeStatisticsCharacterForm(forms.Form):
+class AnalyzeStatisticsCharacterToProbabilityForm(forms.Form):
     numwishes = forms.IntegerField(min_value=0)
     pity = forms.IntegerField(max_value=90,min_value=0, initial=0, required=False)
     guaranteed = forms.BooleanField(initial=False, required=False)
@@ -52,11 +52,57 @@ class AnalyzeStatisticsCharacterForm(forms.Form):
         if 'guaranteed' not in cleaned_data or cleaned_data['guaranteed'] == None:
             cleaned_data['guaranteed'] = False
         return cleaned_data
-class AnalyzeStatisticsWeaponForm(forms.Form):
+class AnalyzeStatisticsWeaponToProbabilityForm(forms.Form):
     numwishes = forms.IntegerField(min_value=0)
     pity = forms.IntegerField(max_value=80,min_value=0, initial=0, required=False)
     guaranteed = forms.BooleanField(initial=False, required=False)
     fate_points = forms.IntegerField(min_value=0,max_value=2,initial=0,required=False)
+
+    def is_valid(self) -> bool:
+        valid = super().is_valid()
+        return valid
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if 'pity' not in cleaned_data or cleaned_data['pity'] == None:
+            cleaned_data['pity']= 0
+        if 'guaranteed' not in cleaned_data or  cleaned_data['guaranteed'] == None:
+            cleaned_data['guaranteed'] = False
+        if 'fate_points' not in cleaned_data or cleaned_data['fate_points'] == None:
+            cleaned_data['fate_points']  = 0
+        return cleaned_data
+
+class AnalyzeStatisticsCharacterToNumWishes(forms.Form):
+    pity = forms.IntegerField(max_value=90,min_value=0, initial=0, required=False)
+    guaranteed = forms.BooleanField(initial=False, required=False)
+    c0 = forms.FloatField(min_value=0,max_value=1,initial=0)
+    c1 = forms.FloatField(min_value=0,max_value=1,initial=0)
+    c2 = forms.FloatField(min_value=0,max_value=1,initial=0)
+    c3 = forms.FloatField(min_value=0,max_value=1,initial=0)
+    c4 = forms.FloatField(min_value=0,max_value=1,initial=0)
+    c5 = forms.FloatField(min_value=0,max_value=1,initial=0)
+    c6 = forms.FloatField(min_value=0,max_value=1,initial=0)
+
+    def is_valid(self) -> bool:
+        valid = super().is_valid()
+        return valid
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if 'pity' not in cleaned_data or cleaned_data['pity'] == None:
+            cleaned_data['pity']= 0
+        if 'guaranteed' not in cleaned_data or cleaned_data['guaranteed'] == None:
+            cleaned_data['guaranteed'] = False
+        return cleaned_data
+class AnalyzeStatisticsWeaponToNumWishes(forms.Form):
+    pity = forms.IntegerField(max_value=80,min_value=0, initial=0, required=False)
+    guaranteed = forms.BooleanField(initial=False, required=False)
+    fate_points = forms.IntegerField(min_value=0,max_value=2,initial=0,required=False)
+    r1 = forms.FloatField(min_value=0,max_value=1,initial=0)
+    r2 = forms.FloatField(min_value=0,max_value=1,initial=0)
+    r3 = forms.FloatField(min_value=0,max_value=1,initial=0)
+    r4 = forms.FloatField(min_value=0,max_value=1,initial=0)
+    r5 = forms.FloatField(min_value=0,max_value=1,initial=0)
 
     def is_valid(self) -> bool:
         valid = super().is_valid()

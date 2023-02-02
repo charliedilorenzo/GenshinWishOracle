@@ -31,9 +31,10 @@
 <form method="post" novalidate>
     {% csrf_token %}
     <table>
-        <input type="hidden" name="banner_type" value="character">
         {{ form.as_table }}
     </table>
     <button name='character_banner_submit' type="submit">Save</button>
 </form>
+
+<div></div>
 {% endblock %}

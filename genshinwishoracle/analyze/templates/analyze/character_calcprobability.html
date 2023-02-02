@@ -3,9 +3,9 @@
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 {% block content %}
 <div>
-    <a href="{% url 'analyze:index' %}"><button name='back' class="back-button back-arrow">Back</button></a>
+    <a href="{% url 'analyze:index' %}"><button name="back" class="back-button back-arrow">Back</button></a>
 </div>
-<title>{% block title %} Analyze Weapon Statistics {% endblock %} </title>
+<title>{% block title %} Analysis Character Statistics {% endblock %} </title>
 <h1 class="display-4"> Statistics </h1>
 <form method="post">
     {% csrf_token %}
@@ -14,9 +14,9 @@
                 class="back-button back-arrow">Back</button></a>
     </div>
     <div>
-        <button class="hover-button" name="select_character_banner" role="button" value="character_banner">Character
+        <button class="static-button" role="button">Character Banner</button>
+        <button class="hover-button" name="select_weapon_banner" value="weapon_banner">Weapon
             Banner</button>
-        <button class="static-button">Weapon Banner</button>
     </div>
 </form>
 {% if user.is_authenticated %}
@@ -31,9 +31,10 @@
 <form method="post" novalidate>
     {% csrf_token %}
     <table>
-        <input type="hidden" name="banner_type" value="weapon">
         {{ form.as_table }}
     </table>
-    <button name='weapon_banner_submit' type="submit">Save</button>
+    <button name='character_banner_submit' type="submit">Save</button>
 </form>
+
+<div></div>
 {% endblock %}

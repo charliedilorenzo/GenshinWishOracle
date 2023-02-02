@@ -13,15 +13,20 @@ urlpatterns = [
     path('characterbanner/create', views.CharacterBannerCreateView.as_view(), name='character_banner_create'),
     path('weaponbanner/', views.WeaponBannerView.as_view(), name='weapon_banner'),
     path('weaponbanner/create', views.WeaponBannerCreateView.as_view(), name='weapon_banner_create'),
-    path('statistics/character/', views.StatisticsAnalyzeCharacterView.as_view(), name='analyze_statistics_character'),
-    path('statistics/weapon/', views.StatisticsAnalyzeWeaponView.as_view(), name='analyze_statistics_weapon'),
+    path('statistics/<str:banner_type>/<str:statistics_type>/', views.StatisticsAnalyzeOmniView.as_view(), name="statistics"),
+    path('statistics/character/calcprobability/', views.StatisticsAnalyzeCharacterView.as_view(), name='calcprobability_character'),
+    path('statistics/weapon/calcprobability/', views.StatisticsAnalyzeWeaponView.as_view(), name='calcprobability_weapon'),
+    path('statistics/character/calcnumwishes/', views.StatisticsAnalyzeCharacterView.as_view(), name='calcnumwishes_character'),
+    path('statistics/weapon/calcnumwishes/', views.StatisticsAnalyzeWeaponView.as_view(), name='calcnumwishes_weapon'),
     path('statistics/results',views.StatisticsResultView.as_view(), name='analyze_results'),
+    # path('statistics/character/', views.StatisticsAnalyzeCharacterView.as_view(), name='analyze_statistics_character'),
+    # path('statistics/weapon/', views.StatisticsAnalyzeWeaponView.as_view(), name='analyze_statistics_weapon'),
+    # path('statistics/results',views.StatisticsResultView.as_view(), name='analyze_results'),
     path('projectprimos',views.ProjectPrimosView.as_view(), name='project_primos'),
     path('projectprimos/results', views.project_primos_in_progress, name='project_primos_in_progress'),
     path('projectprimos/results',views.ProjectPrimosResultsView.as_view(), name='project_primos_results'),
     path('probability-to-wishes-required',views.ProbabilityToWishesView.as_view(), name='probability_to_wishes'),
     # TODO add data, edit data, delete
     path('wishsimulator',views.WishSimulatorView.as_view(), name='wish_simulator'),
-    path('analyzeomni',views.StatisticsOmniView.as_view(), name='analyze_omni'),
 ]
 urlpatterns += staticfiles_urlpatterns()

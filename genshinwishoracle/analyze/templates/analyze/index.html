@@ -8,8 +8,9 @@
 </div>
 <h1 class="display-4"> Analyze Index </h1>
 <ul>
-    <li><a href="{% url 'analyze:analyze_omni' %}">TESTING Banner Statistics Analysis</a></li>
-    <li><a href="{% url 'analyze:analyze_statistics_character' %}">Banner Statistics Analysis</a></li>
+    <li><a href="{% url 'analyze:statistics' 'character' 'calcprobability' %}"> TESTING Banner Statistics Analysis</a>
+    </li>
+    <li><a href="{% url 'analyze:calcprobability_character' %}">Banner Statistics Analysis</a></li>
     <li><a href="{% url 'analyze:character_banner' %}">Character Banners</a></li>
     <li><a href="{% url 'analyze:weapon_banner' %}">Weapon Banners</a></li>
     <li><a href="{% url 'analyze:project_primos' %}"> Project Future Primogems</a></li>
