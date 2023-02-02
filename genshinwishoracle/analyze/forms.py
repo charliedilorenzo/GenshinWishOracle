@@ -72,16 +72,11 @@ class AnalyzeStatisticsWeaponToProbabilityForm(forms.Form):
             cleaned_data['fate_points']  = 0
         return cleaned_data
 
-class AnalyzeStatisticsCharacterToNumWishes(forms.Form):
+class AnalyzeStatisticsCharacterToNumWishesForm(forms.Form):
+    numcopies = forms.IntegerField(max_value=7,min_value=0, initial=1)
+    minimum_probability = forms.FloatField(max_value=1,min_value=0, initial=0)
     pity = forms.IntegerField(max_value=90,min_value=0, initial=0, required=False)
     guaranteed = forms.BooleanField(initial=False, required=False)
-    c0 = forms.FloatField(min_value=0,max_value=1,initial=0)
-    c1 = forms.FloatField(min_value=0,max_value=1,initial=0)
-    c2 = forms.FloatField(min_value=0,max_value=1,initial=0)
-    c3 = forms.FloatField(min_value=0,max_value=1,initial=0)
-    c4 = forms.FloatField(min_value=0,max_value=1,initial=0)
-    c5 = forms.FloatField(min_value=0,max_value=1,initial=0)
-    c6 = forms.FloatField(min_value=0,max_value=1,initial=0)
 
     def is_valid(self) -> bool:
         valid = super().is_valid()
@@ -94,15 +89,12 @@ class AnalyzeStatisticsCharacterToNumWishes(forms.Form):
         if 'guaranteed' not in cleaned_data or cleaned_data['guaranteed'] == None:
             cleaned_data['guaranteed'] = False
         return cleaned_data
-class AnalyzeStatisticsWeaponToNumWishes(forms.Form):
+class AnalyzeStatisticsWeaponToNumWishesForm(forms.Form):
+    numcopies = forms.IntegerField(max_value=5,min_value=0, initial=1)
+    minimum_probability = forms.FloatField(max_value=1,min_value=0, initial=0)
     pity = forms.IntegerField(max_value=80,min_value=0, initial=0, required=False)
     guaranteed = forms.BooleanField(initial=False, required=False)
     fate_points = forms.IntegerField(min_value=0,max_value=2,initial=0,required=False)
-    r1 = forms.FloatField(min_value=0,max_value=1,initial=0)
-    r2 = forms.FloatField(min_value=0,max_value=1,initial=0)
-    r3 = forms.FloatField(min_value=0,max_value=1,initial=0)
-    r4 = forms.FloatField(min_value=0,max_value=1,initial=0)
-    r5 = forms.FloatField(min_value=0,max_value=1,initial=0)
 
     def is_valid(self) -> bool:
         valid = super().is_valid()

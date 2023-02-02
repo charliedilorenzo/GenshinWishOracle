@@ -6,16 +6,11 @@
   - gui
   - checkout installed apps <https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-INSTALLED_APPS>
 
-## Refactoring
-
-- proj_future_wishes
-
 ## New Stuff
 
-- adding <https://github.com/paulino/django-bootstrap-sidebar>
+- add wish simulator
 - add extra data of percent extra wishes to analytical (search the TODO for note on idea of how)
 - add social apps login
-- add ability for user to actually go to and change their profile stuff
 
 - in settings SESSION_COOKIE_AGE = 60 *60* 24 * 30
 - add import to project primos
@@ -23,20 +18,11 @@
 - add better rerouting of errors in project primo
   - try using "from django.shortcuts import redirect"
 - add routing from project primos to analyze
-- it seems that sometimes either the display or value are incorrect for high wish values on analyze
-
-- get amount of wishes required for at least n probability p amount of times
-  - call it probability to wishes
 - add proper current days into update mechanism for project primos
-- add the ability for banners to have end dates and for users to proj for the end of a specific banner
-
-- add side bar for navigation
-
 - starglitter back setting for calculating additional wishes
-
 - add boring wish simulator
-
 - banner creator: - make sure to check proper amount of 5 stars and 4 stars
+- user setting for autoimport every time
 
 - improve looks:
   - character banner / weapon banner (can probably reuse)
@@ -48,12 +34,9 @@
 - IMPROVE ANALYTICAL by adding a function to find single solution in a complete database
 - pytest better analytical.py coverage
 - figure out why there are two databases: one in mainstuff and one in the main dir
-- add constants for main dir or something?
-- readd proj future wishes
+- add constants for main dir or something? for database i assume?
 - add tests to proj future wishes
-- add user settings to db
 - when changing pity need to wipe the database of analytical entries relevant
-- about in sidebar
 - find proper icon for genshin wish oracle
 
 ## structure

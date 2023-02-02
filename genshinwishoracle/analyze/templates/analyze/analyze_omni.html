@@ -7,55 +7,53 @@
     <a href="{% url 'analyze:index' %}"><button name='character_banner_submit' type="submit"
             class="back-button back-arrow">Back</button></a>
 </div>
-<h1>Statistics</h1>
-{% if banner_type == "character" %}
-<form method="post">
-    {% csrf_token %}
-    <div>
-        <button class="hover-button" name="select_weapon_banner" value="weapon_banner">Switch to Weapon
-            Banner</button>
-    </div>
-</form>
-{% endif %}
-{% if banner_type == "weapon" %}
-<form method="post">
-    {% csrf_token %}
-    <div>
-        <button class="hover-button" name="select_character_banner" value="character_banner">Switch to
-            Character
-            Banner</button>
-    </div>
-</form>
-{% endif %}
-{% if statistics_type == "calcprobability" %}
-<form method="post">
-    {% csrf_token %}
-    <div>
-        <button class="hover-button" name="select_calcnumwishes" value="calcnumwishes">Switch to Calculate Number of
-            Wishes</button>
-    </div>
-</form>
-{% endif %}
-{% if statistics_type == "calcnumwishes" %}
-<form method="post">
-    {% csrf_token %}
-    <div>
-        <button class="hover-button" name="select_calcprobability" value="calcprobability">Switch to Calculate
-            Probability</button>
-    </div>
-</form>
-{% endif %}
-
-{% if user.is_authenticated %}
-<form method="post" novalidate>
-    {% csrf_token %}
-    <div>
-        <button class="import-button" name="import_user_data" value="import_data">
-            Import data</button>
-    </div>
-</form>
-{% endif %}
+<h1 class="display-3">Statistics</h1>
 <div>
+    <h2 class="display-6"> Settings </h2>
+    <div>
+        {% if banner_type == "character" %}
+        <form method="post">
+            {% csrf_token %}
+            <button class="hover-button" name="select_weapon_banner" value="weapon_banner">Switch to Weapon
+                Banner</button>
+        </form>
+        {% endif %}
+        {% if banner_type == "weapon" %}
+        <form method="post">
+            {% csrf_token %}
+            <button class="hover-button" name="select_character_banner" value="character_banner">Switch to
+                Character
+                Banner</button>
+        </form>
+        {% endif %}
+        {% if statistics_type == "calcprobability" %}
+        <form method="post">
+            {% csrf_token %}
+            <button class="hover-button" name="select_calcnumwishes" value="calcnumwishes">Switch to Calculate Number of
+                Wishes</button>
+        </form>
+        {% endif %}
+        {% if statistics_type == "calcnumwishes" %}
+        <form method="post">
+            {% csrf_token %}
+            <button class="hover-button" name="select_calcprobability" value="calcprobability">Switch to Calculate
+                Probability</button>
+        </form>
+        {% endif %}
+    </div>
+
+    {% if user.is_authenticated %}
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div>
+            <button class="import-button" name="import_user_data" value="import_data">
+                Import data</button>
+        </div>
+    </form>
+    {% endif %}
+</div>
+<div>
+    <h2 class="display-6"> Inputs </h2>
     <form method="post" novalidate>
         {% csrf_token %}
         <table>
@@ -66,6 +64,7 @@
 </div>
 
 <div>
+    <h2 class="display-6"> Outputs </h2>
     <form method="post" novalidate>
         {% csrf_token %}
         <table>

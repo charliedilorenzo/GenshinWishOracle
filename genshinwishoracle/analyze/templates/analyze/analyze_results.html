@@ -10,18 +10,124 @@
     </div>
     <title>{% block title %} Analyze Results {% endblock %} </title>
     <div>
-        {% if banner_type == "character" %}
+        <div>
+            <h1 class="display-4"> Input info: </h1>
+        </div>
+        <div>
+            <label class="small mb-1">Banner Type:</label>
+            {{ banner_type}}
+        </div>
+        {% if statistics_type == "calcprobability" %}
+        <div>
+            <label class="small mb-1">Statistics Type:</label>
+            Wish Info to Probability
+        </div>
+        {% elif statistics_type == "calcnumwishes" %}
+        <div>
+            <label class="small mb-1">Statistics Type:</label>
+            Probability to Wish Info
+        </div>
+        {% endif %}
+        <div>
+            {% if statistics_type == "calcprobability" %}
+            <label class="small mb-1">Number of Wishes: </label>
+            {{ numwishes }}
+            {% elif statistics_type == "calcnumwishes" %}
+            <label class="small mb-1">Number of Copies: </label>
+            {{ num_copies }}
+            <label class="small mb-1">Mininum Probability: </label>
+            {{ minimum_probability }}
+            {% endif %}
+        </div>
+        <div>
+            <label class="small mb-1">Pity: </label>
+            {{ pity }}
+        </div>
+        <div>
+            <label class="small mb-1">Guaranteed: </label>
+            {{ guaranteed }}
+        </div>
+        {% if banner_type == "Weapon" %}
+        <div>
+            <label class="small mb-1">Fate Points: </label>
+            {{ fate_points }}
+        </div>
+        {% endif %}
+    </div>
+    <div>
+        {% if statistics_type == "calcprobability" %}
+        {% if banner_type == "Character" %}
         <h1 class="display-4"> Character Banner Analysis Results </h1>
         <table>
-            X , C0 , C1 , C2 , C3 , C4 , C5 , C6 <br>
-            {{X}} , {{C0}} , {{C1}} , {{C2}} , {{C3}} , {{C4}} , {{C5}} , {{C6}}
+            <tr>
+                <td>X:</td>
+                <td>{{X}}</td>
+            </tr>
+            <tr>
+                <td>C0:</td>
+                <td>{{C0}}</td>
+            </tr>
+            <tr>
+                <td>C1:</td>
+                <td>{{C1}}</td>
+            </tr>
+            <tr>
+                <td>C2:</td>
+                <td>{{C2}}</td>
+            </tr>
+            <tr>
+                <td>C3:</td>
+                <td>{{C3}}</td>
+            </tr>
+            <tr>
+                <td>C4:</td>
+                <td>{{C4}}</td>
+            </tr>
+            <tr>
+                <td>C5:</td>
+                <td>{{C5}}</td>
+            </tr>
+            <tr>
+                <td>C6:</td>
+                <td>{{C6}}</td>
+            </tr>
         </table>
-        {% elif banner_type == "weapon" %}
+        {% elif banner_type == "Weapon" %}
         <h1 class="display-4"> Weapon Banner Analysis Results </h1>
         <table>
-            X , R1 , R2 , R3 , R4 , R5 <br>
-            {{X}} , {{R1}} , {{R2}} , {{R3}} , {{R4}} , {{R5}}
+            <tr>
+                <td>X:</td>
+                <td>{{X}}</td>
+            </tr>
+            <tr>
+                <td>R1:</td>
+                <td>{{R1}}</td>
+            </tr>
+            <tr>
+                <td>R2:</td>
+                <td>{{R2}}</td>
+            </tr>
+            <tr>
+                <td>R3:</td>
+                <td>{{R3}}</td>
+            </tr>
+            <tr>
+                <td>R4:</td>
+                <td>{{R4}}</td>
+            </tr>
+            <tr>
+                <td>R5:</td>
+                <td>{{R5}}</td>
+            </tr>
         </table>
+        {% endif %}
+        {% elif statistics_type == "calcnumwishes" %}
+        <div>
+            <h2>Number of Wishes: </h2>
+        </div>
+        <div>
+            <h3>{{ numwishes }}</h3>
+        </div>
         {% endif %}
     </div>
     <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
