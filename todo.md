@@ -11,6 +11,8 @@
 - add wish simulator
 - add extra data of percent extra wishes to analytical (search the TODO for note on idea of how)
 - add social apps login
+- fix organization for css stuff
+- make outputs list of form field names but cannot be filled out
 
 - in settings SESSION_COOKIE_AGE = 60 *60* 24 * 30
 - add import to project primos

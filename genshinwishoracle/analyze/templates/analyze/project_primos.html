@@ -7,7 +7,16 @@
     <a href="{% url 'analyze:index' %}"><button name="back" class="back-button back-arrow">Back</button></a>
 </div>
 <h1 class="display-4"> Primogem Projection </h1>
-<form method="post" action="{% url 'analyze:project_primos_in_progress' %}">
+{% if user.is_authenticated %}
+<form method="post" novalidate>
+    {% csrf_token %}
+    <div>
+        <button class="import-button" name="import_user_data" value="import_data">
+            Import data</button>
+    </div>
+</form>
+{% endif %}
+<form method="post">
     {% csrf_token %}
     <table>
         {{ form.as_table }}

@@ -218,45 +218,62 @@ class StatisticsResultView(generic.View):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         return data
+        
 class ProjectPrimosView(generic.FormView):
     template_name = 'analyze/project_primos.html'
     success_url = reverse_lazy('analyze:project_primos_results')
     form_class = forms.ProjectPrimosForm
 
-def project_primos_in_progress(request):
-        if request.method == 'POST':
-            form  = forms.ProjectPrimosForm(request.POST)
-            if form.is_valid():
-                cleaned = form.cleaned_data
-                if form.date_is_decidable() == False:
-                    return render(request, 'analyze/project_primos.html')
-
-                future_date = form.decide_date()
-                now = datetime.date.today()
-                days_until_enddate = (future_date-now).days
-                if days_until_enddate < 0:
-                    # non-sensical end date
-                    return render(request, 'analyze/project_primos.html')
-                current_date = timezone.now
-                pure_primo_estimate = cleaned['numprimos']+cleaned['numgenesis']+160*math.floor(cleaned['numstarglitter']/5)+ 160*cleaned['numfates']
-                current_primos = pure_primo_estimate
-
-                future_primos = project_future_primos(current_primos, 0,0,0,days_until_enddate,cleaned['welkin_moon'],cleaned['battlepass'], cleaned['average_abyss_stars'])
-                current_wishes = math.floor(current_primos/160)
-                future_wishes = math.floor(future_primos/160)
-                context = {
-                    'current_primos': current_primos,
-                    'future_primos': future_primos,
-                    'current_wishes': current_wishes,
-                    'future_wishes': future_wishes,
-                    'current_date': current_date,
-                    'future_date': future_date
-                }
-                return render(request, 'analyze/project_primos_result.html', context)
-            else:
-                return render(request, 'analyze/project_primos.html')
+    def get(self, request,*args, **kwargs):
+        context = {}
+        if 'import_data' in request.session and request.session['import_data'] == True:
+            request.session['import_data'] = False
+            if request.user.is_authenticated:
+                curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
+                request.session['import_data'] = False
+                init = {'numprimos': curr_user_prof.numprimos, 'numgenesis': curr_user_prof.numgenesis, 'numfates': curr_user_prof.numfates, 'numstarglitter': curr_user_prof.numstarglitter}
+                context['form'] = self.form_class(initial=init)
         else:
-            return render(request, 'analyze/project_primos_result.html')
+            context['form'] = self.form_class
+
+        return render(request, self.template_name, context=context)
+
+    def post(self, request,*args, **kwargs):
+        if request.POST.get("import_user_data"):
+            if request.user.is_authenticated:
+                request.session["import_data"] = True
+                return redirect(to='/analyze/projectprimos')
+        form  = forms.ProjectPrimosForm(request.POST)
+        if form.is_valid():
+            cleaned = form.cleaned_data
+            if form.date_is_decidable() == False:
+                return render(request, 'analyze/project_primos.html')
+
+            future_date = form.decide_date()
+            now = datetime.date.today()
+            days_until_enddate = (future_date-now).days
+            if days_until_enddate < 0:
+                # non-sensical end date
+                return render(request, 'analyze/project_primos.html')
+            current_date = timezone.now
+            pure_primo_estimate = cleaned['numprimos']+cleaned['numgenesis']+160*math.floor(cleaned['numstarglitter']/5)+ 160*cleaned['numfates']
+            current_primos = pure_primo_estimate
+
+            future_primos = project_future_primos(current_primos, 0,0,0,days_until_enddate,cleaned['welkin_moon'],cleaned['battlepass'], cleaned['average_abyss_stars'])
+            current_wishes = math.floor(current_primos/160)
+            future_wishes = math.floor(future_primos/160)
+            context = {
+                'current_primos': current_primos,
+                'future_primos': future_primos,
+                'current_wishes': current_wishes,
+                'future_wishes': future_wishes,
+                'current_date': current_date,
+                'future_date': future_date
+            }
+            return render(request, 'analyze/project_primos_result.html', context)
+        else:
+            return render(request, 'analyze/project_primos.html')
+
 class ProjectPrimosResultsView(generic.View):
     template_name = 'analyze/project_primos_results.html'
     success_url = reverse_lazy('analyze:project_primos')
