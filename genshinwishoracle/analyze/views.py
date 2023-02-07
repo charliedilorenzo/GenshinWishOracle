@@ -56,60 +56,76 @@ class WeaponBannerCreateView(generic.CreateView):
 
 class StatisticsAnalyzeOmniView(generic.View):
     template_name = 'analyze/analyze_omni.html'
-    default_url = '/analyze/statistics/weapon/calcprobability/'
     valid_banner_types = ['character', 'weapon']
     valid_statistics_types = ['calcprobability', 'calcnumwishes']
+    default_url = "/analyze/{}/{}/".format(valid_banner_types[0], valid_statistics_types[0])
 
     def get(self, request,banner_type, statistics_type, *args, **kwargs):
         if banner_type not in self.valid_banner_types or statistics_type not in self.valid_statistics_types:
-            return redirect(to='/analyze/statistics/weapon/calcprobability/')
+            return redirect(to=self.default_url)
         context = {"banner_type":banner_type,"statistics_type": statistics_type }
         first_form = self.get_first_form(request,banner_type=banner_type,statistics_type=statistics_type)
         request.session['import_data'] = False
         context["first_form"] = first_form
-        second_form =  self.get_second_form(request,banner_type=banner_type,statistics_type=statistics_type)
-        context["second_form"] = second_form
-        # form = self.form_class(initial=self.initial)
+        second_form_names =  self.get_second_form_names(request,banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
+        context["second_form_names"] = second_form_names
 
         return render(request, self.template_name, context=context)
 
     def get_first_form(self, request, banner_type, statistics_type):
-        if 'import_data' in request.session and request.session['import_data'] == True:
+        init = {}
+        form = self.banner_statistics_combo_to_form_obj(banner_type, statistics_type)
+        if request.POST:
+            request.session['wishes'] = None
+            form = form(request.POST)
+            return form
+        elif 'import_data' in request.session and request.session['import_data'] == True:
             if request.user.is_authenticated:
                 curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
                 wishes = math.floor(curr_user_prof.calculate_pure_primos()/160)
-                if statistics_type == "calcprobability" and banner_type == "character":
-                    init = {'numwishes':wishes,'pity':curr_user_prof.character_pity,'guaranteed': curr_user_prof.character_guaranteed }
-                    form = forms.AnalyzeStatisticsCharacterToProbabilityForm(initial=init)
-                elif statistics_type == "calcprobability" and banner_type == "weapon":
+                if banner_type == "character":
+                    init.update({'numwishes':wishes,'pity':curr_user_prof.character_pity,'guaranteed': curr_user_prof.character_guaranteed })
+                elif banner_type == "weapon":
                     init = {'numwishes':wishes,'pity':curr_user_prof.weapon_pity,'guaranteed': curr_user_prof.weapon_guaranteed, 'fate_points': curr_user_prof.weapon_fate_points }
-                    form = forms.AnalyzeStatisticsWeaponToProbabilityForm(initial=init)
-                if statistics_type == "calcnumwishes" and banner_type == "character":
-                    init = {'pity': curr_user_prof.character_pity,'guaranteed': curr_user_prof.character_guaranteed }
-                    form = forms.AnalyzeStatisticsCharacterToNumWishesForm(initial=init)
-                elif statistics_type == "calcnumwishes" and banner_type == "weapon":
-                    init = {'pity':curr_user_prof.weapon_pity,'guaranteed': curr_user_prof.weapon_guaranteed, 'fate_points': curr_user_prof.weapon_fate_points }
-                    form = forms.AnalyzeStatisticsWeaponToNumWishesForm(initial=init)
-        else:
-            if statistics_type == "calcprobability" and banner_type == "character":
-                form = forms.AnalyzeStatisticsCharacterToProbabilityForm
-            elif statistics_type == "calcprobability" and banner_type == "weapon":
-                form = forms.AnalyzeStatisticsWeaponToProbabilityForm
-            if statistics_type == "calcnumwishes" and banner_type == "character":
-                form = forms.AnalyzeStatisticsCharacterToNumWishesForm
-            elif statistics_type == "calcnumwishes" and banner_type == "weapon":
-                form = forms.AnalyzeStatisticsWeaponToNumWishesForm
+        # not very elegant but alternatives also seems to suck
+        elif 'wishes' in request.session and not request.session['wishes'] == None:
+            init.update({'numwishes': request.session['wishes']})
+        form = form(initial=init)
         return form
+        # if statistics_type == "calcprobability" and banner_type == "character":
+        #     form = forms.AnalyzeStatisticsCharacterToProbabilityForm(initial=init)
+        # elif statistics_type == "calcprobability" and banner_type == "weapon":
+        #     form = forms.AnalyzeStatisticsWeaponToProbabilityForm(initial=init)
+        # elif statistics_type == "calcnumwishes" and banner_type == "character":
+        #     form = forms.AnalyzeStatisticsCharacterToNumWishesForm(initial=init)
+        # elif statistics_type == "calcnumwishes" and banner_type == "weapon":
+        #     form = forms.AnalyzeStatisticsWeaponToNumWishesForm(initial=init)
     
-    def get_second_form(self, request, banner_type, statistics_type):
+    def get_second_form_names(self, request, banner_type, statistics_type,first_form):
         if statistics_type == "calcprobability" and banner_type == "character":
             form = forms.AnalyzeStatisticsCharacterToNumWishesForm
         elif statistics_type == "calcprobability" and banner_type == "weapon":
             form = forms.AnalyzeStatisticsWeaponToNumWishesForm
-        if statistics_type == "calcnumwishes" and banner_type == "character":
+        elif statistics_type == "calcnumwishes" and banner_type == "character":
             form = forms.AnalyzeStatisticsCharacterToProbabilityForm
         elif statistics_type == "calcnumwishes" and banner_type == "weapon":
             form = forms.AnalyzeStatisticsWeaponToProbabilityForm
+        # technically could just remove pity/guaranteed/fate_points
+        names = []
+        for field in form.Meta.fields:
+            if field not in first_form.Meta.fields:
+                names.append(field)
+        return names
+
+    def  banner_statistics_combo_to_form_obj(self,banner_type, statistics_type):
+        if statistics_type == "calcprobability" and banner_type == "character":
+            form = forms.AnalyzeStatisticsCharacterToProbabilityForm
+        elif statistics_type == "calcprobability" and banner_type == "weapon":
+            form = forms.AnalyzeStatisticsWeaponToProbabilityForm
+        elif statistics_type == "calcnumwishes" and banner_type == "character":
+            form = forms.AnalyzeStatisticsCharacterToNumWishesForm
+        elif statistics_type == "calcnumwishes" and banner_type == "weapon":
+            form = forms.AnalyzeStatisticsWeaponToNumWishesForm
         return form
 
     def post(self, request, banner_type, statistics_type,*args, **kwargs):
@@ -123,10 +139,13 @@ class StatisticsAnalyzeOmniView(generic.View):
         if request.POST.get("import_user_data"):
             if request.user.is_authenticated:
                 request.session["import_data"] = True
-                return redirect(to='/analyze/statistics/{}/{}/'.format(banner_type,statistics_type))
+                return redirect(to=reverse('analyze:statistics', kwargs={"banner_type":banner_type, "statistics_type":statistics_type}))
+        if request.POST.get("reset"):
+            if 'wishes' in request.session:
+                request.session.pop('wishes')
         request.session['import_data'] = False
         # add request post to the correct type given by function
-        form = self.get_first_form(request,banner_type,statistics_type)(request.POST)
+        form = self.get_first_form(request,banner_type,statistics_type)
         if form.is_valid():
             cleaned = form.cleaned_data
             place_values = 3 
@@ -226,6 +245,7 @@ class ProjectPrimosView(generic.FormView):
 
     def get(self, request,*args, **kwargs):
         context = {}
+        # using sessions here since I prefer a flag on the user rather than making the url look worse personally
         if 'import_data' in request.session and request.session['import_data'] == True:
             request.session['import_data'] = False
             if request.user.is_authenticated:
@@ -239,22 +259,29 @@ class ProjectPrimosView(generic.FormView):
         return render(request, self.template_name, context=context)
 
     def post(self, request,*args, **kwargs):
+        context ={}
         if request.POST.get("import_user_data"):
             if request.user.is_authenticated:
                 request.session["import_data"] = True
                 return redirect(to='/analyze/projectprimos')
+        elif request.POST.get("analyze_with_future_primogems"):
+            request.session["wishes"] = request.POST.get("analyze_with_future_primogems")
+            banner_type = "character"
+            statistics_type = "calcprobability"
+            return redirect(to=reverse('analyze:statistics', kwargs={"banner_type":banner_type, "statistics_type":statistics_type}))
         form  = forms.ProjectPrimosForm(request.POST)
         if form.is_valid():
+            # using sessions again to allow setiting 
             cleaned = form.cleaned_data
             if form.date_is_decidable() == False:
-                return render(request, 'analyze/project_primos.html')
+                return render(request, 'analyze/project_primos.html', context=context)
 
             future_date = form.decide_date()
             now = datetime.date.today()
             days_until_enddate = (future_date-now).days
             if days_until_enddate < 0:
                 # non-sensical end date
-                return render(request, 'analyze/project_primos.html')
+                return render(request, 'analyze/project_primo.html')
             current_date = timezone.now
             pure_primo_estimate = cleaned['numprimos']+cleaned['numgenesis']+160*math.floor(cleaned['numstarglitter']/5)+ 160*cleaned['numfates']
             current_primos = pure_primo_estimate
@@ -262,31 +289,30 @@ class ProjectPrimosView(generic.FormView):
             future_primos = project_future_primos(current_primos, 0,0,0,days_until_enddate,cleaned['welkin_moon'],cleaned['battlepass'], cleaned['average_abyss_stars'])
             current_wishes = math.floor(current_primos/160)
             future_wishes = math.floor(future_primos/160)
-            context = {
+            context.update({
                 'current_primos': current_primos,
                 'future_primos': future_primos,
                 'current_wishes': current_wishes,
                 'future_wishes': future_wishes,
                 'current_date': current_date,
-                'future_date': future_date
-            }
-            return render(request, 'analyze/project_primos_result.html', context)
+                'future_date': future_date})
+            return render(request, 'analyze/project_primos_result.html', context=context)
         else:
-            return render(request, 'analyze/project_primos.html')
-
-class ProjectPrimosResultsView(generic.View):
-    template_name = 'analyze/project_primos_results.html'
-    success_url = reverse_lazy('analyze:project_primos')
-    def get(self, request):
-        return render(request, 'analyze/project_primos_results.html')
-class ProbabilityToWishesView(generic.View):
-    template_name = 'analyze/probability_to_wishes.html'
-    success_url = reverse_lazy('analyze:index')
-    def get(self, request):
-        return render(request, 'analyze/probability_to_wishes.html')
-
+            return render(request, 'analyze/project_primos.html', context=context)
 class WishSimulatorView(generic.View):
     template_name = 'analyze/wish_simulator.html'
     success_url = reverse_lazy('analyze:index')
     def get(self, request):
        return render(request, 'analyze/wish_simulator.html')
+
+def context_from_request(request):
+    # i couldnt seem to find if there already existed a function for this online 
+    list_from_body = request.body.decode().split("&")
+    dict_from_body = {}
+    for item in list_from_body:
+        temp_split = item.split("=")
+        dict_from_body[temp_split[0]] = temp_split[1]
+    return dict_from_body
+
+def update_session_data(request):
+    pass

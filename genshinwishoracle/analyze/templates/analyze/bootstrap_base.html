@@ -66,16 +66,16 @@
                         Home </a>
                     <ul class="collapse list-unstyled" id="analyzeSubmenu">
                         <li>
-                            <a href="/analyze/"> Analyze Home </a>
+                            <a href="{% url 'analyze:index'%}"> Analyze Home </a>
                         </li>
                         <li>
-                            <a href="/analyze/statistics/character"> Statistics </a>
+                            <a href="{% url 'analyze:statistics' 'character' 'calcprobability' %}"> Statistics </a>
                         </li>
                         <li>
-                            <a href="/analyze/projectprimos"> Projection of Primogems </a>
+                            <a href="/analyze/projectprimos/"> Projection of Primogems </a>
                         </li>
                         <li>
-                            <a href="/analyze/wishsimulator"> Wish Simulator</a>
+                            <a href="/analyze/wishsimulator/"> Wish Simulator</a>
                         </li>
                     </ul>
                 </li>
@@ -121,7 +121,7 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarAdmin">
                                     {% if user.is_authenticated %}
-                                    <li><a class="dropdown-item" href="/logout/">
+                                    <li><a class="dropdown-item" href="/users/profile/">
                                             Profile</a></li>
                                     <li>
                                     <li><a class="dropdown-item" href="/logout/">

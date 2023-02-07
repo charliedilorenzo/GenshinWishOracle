@@ -46,17 +46,17 @@
             <ul class="list-unstyled components">
                 <li class="active">
                 <li>
-                    <a href="/">Home</a>
+                    <a href="{% url 'main-home'  %}">Home</a>
                 </li>
                 <li><a href="#userSubmenu" data-bs-toggle="collapse" aria-expanded="false" role="button"
                         class="dropdown-toggle"> User
                         Stuff</a>
                     <ul class="collapse list-unstyled" id="userSubmenu">
                         <li>
-                            <a href="/users/">User Home</a>
+                            <a href="{% url 'users:users-home' %}">User Home</a>
                         </li>
                         <li>
-                            <a href="/users/profile/"> Edit Profile</a>
+                            <a href="{% url 'users:profile' %}"> Edit Profile</a>
                         </li>
                     </ul>
                 </li>
@@ -65,16 +65,16 @@
                         Home </a>
                     <ul class="collapse list-unstyled" id="analyzeSubmenu">
                         <li>
-                            <a href="/analyze/"> Analyze Home </a>
+                            <a href="{% url 'analyze:index' %}"> Analyze Home </a>
                         </li>
                         <li>
-                            <a href="/analyze/statistics/character"> Statistics </a>
+                            <a href="{% url 'analyze:statistics' 'character' 'calcprobability' %}"> Statistics </a>
                         </li>
                         <li>
-                            <a href="/analyze/projectprimos"> Projection of Primogems </a>
+                            <a href="{% url 'analyze:project_primos' %}"> Projection of Primogems </a>
                         </li>
                         <li>
-                            <a href="/analyze/wishsimulator"> Wish Simulator</a>
+                            <a href="{% url 'analyze:wish_simulator'  %}"> Wish Simulator</a>
                         </li>
                     </ul>
                 </li>
@@ -83,7 +83,7 @@
             {% if user.is_authenticated %}
             <ul class="list-unstyled ">
                 <li>
-                    <a href="/logout/">Logout</a>
+                    <a href="{% url 'logout' %}">Logout</a>
                 </li>
             </ul>
             {% endif %}
@@ -108,10 +108,10 @@
                     <div class="collapse navbar-collapse" id="navbarTop">
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="/">Home</a>
+                                <a class="nav-link" href="{% url 'main-home'  %}">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/analyze/">Analyze</a>
+                                <a class="nav-link" href="{% url 'analyze:index' %}">Analyze</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarAdmin" role="button"
@@ -120,14 +120,14 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarAdmin">
                                     {% if user.is_authenticated %}
-                                    <li><a class="dropdown-item" href="/logout/">
+                                    <li><a class="dropdown-item" href="{% url 'users:profile' %}">
                                             Profile</a></li>
                                     <li>
-                                    <li><a class="dropdown-item" href="/logout/">
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">
                                             Logout</a></li>
                                     <li>
                                         {% else%}
-                                    <li><a class="dropdown-item" href="/login/">
+                                    <li><a class="dropdown-item" href="{% url 'login' %}">
                                             Login</a></li>
                                     <li>
                                         {% endif %}

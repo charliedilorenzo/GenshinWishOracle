@@ -37,6 +37,8 @@ class CreateWeaponBannerForm(forms.ModelForm):
     enddate = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
 
 class AnalyzeStatisticsCharacterToProbabilityForm(forms.Form):
+    class Meta:
+        fields = ['numwishes', 'pity', 'guaranteed']
     numwishes = forms.IntegerField(min_value=0)
     pity = forms.IntegerField(max_value=90,min_value=0, initial=0, required=False)
     guaranteed = forms.BooleanField(initial=False, required=False)
@@ -53,6 +55,8 @@ class AnalyzeStatisticsCharacterToProbabilityForm(forms.Form):
             cleaned_data['guaranteed'] = False
         return cleaned_data
 class AnalyzeStatisticsWeaponToProbabilityForm(forms.Form):
+    class Meta:
+        fields = ['numwishes', 'pity', 'guaranteed','fate_points']
     numwishes = forms.IntegerField(min_value=0)
     pity = forms.IntegerField(max_value=80,min_value=0, initial=0, required=False)
     guaranteed = forms.BooleanField(initial=False, required=False)
@@ -73,6 +77,8 @@ class AnalyzeStatisticsWeaponToProbabilityForm(forms.Form):
         return cleaned_data
 
 class AnalyzeStatisticsCharacterToNumWishesForm(forms.Form):
+    class Meta:
+        fields = ['numcopies', 'minimum_probability','pity', 'guaranteed']
     numcopies = forms.IntegerField(max_value=7,min_value=0, initial=1)
     minimum_probability = forms.FloatField(max_value=1,min_value=0, initial=0)
     pity = forms.IntegerField(max_value=90,min_value=0, initial=0, required=False)
@@ -90,6 +96,8 @@ class AnalyzeStatisticsCharacterToNumWishesForm(forms.Form):
             cleaned_data['guaranteed'] = False
         return cleaned_data
 class AnalyzeStatisticsWeaponToNumWishesForm(forms.Form):
+    class Meta:
+        fields = ['numcopies', 'minimum_probability','pity', 'guaranteed','fate_points']
     numcopies = forms.IntegerField(max_value=5,min_value=0, initial=1)
     minimum_probability = forms.FloatField(max_value=1,min_value=0, initial=0)
     pity = forms.IntegerField(max_value=80,min_value=0, initial=0, required=False)

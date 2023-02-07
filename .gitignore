@@ -6,6 +6,7 @@ superuser.txt
 genshinwishoracle/genshinwishoracle/secret_key_from_settings.py
 genshinwishoracle/static
 .env
+genshinwishoracle/db.sqlite3
 
 __pycache__/
 *.py[cod]

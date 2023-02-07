@@ -1,37 +1,34 @@
 #### TODO
 
-### CURRENT
-
-- django
-  - gui
-  - checkout installed apps <https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-INSTALLED_APPS>
+- checkout installed apps <https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-INSTALLED_APPS>
 
 ## New Stuff
 
-- add wish simulator
+- add reset button to both project primos and analyze
+- pin point exactly when to delete the wish in session part
+- add more statistics button to the statistics page so you can redirect back to statistics
+- add prevention of blank page when invalid form in: - comes from invalid form and improper rerender (I assume)
+  - analyze
+  - project primos
+- add graphs
+  - for analysis results
+    - wish to prob
+  - for project primos
+- add proper current days into update mechanism for project primos
 - add extra data of percent extra wishes to analytical (search the TODO for note on idea of how)
 - add social apps login
-- fix organization for css stuff
 - make outputs list of form field names but cannot be filled out
+- add wish simulator
 
 - in settings SESSION_COOKIE_AGE = 60 *60* 24 * 30
 - add import to project primos
 
 - add better rerouting of errors in project primo
   - try using "from django.shortcuts import redirect"
-- add routing from project primos to analyze
-- add proper current days into update mechanism for project primos
+
 - starglitter back setting for calculating additional wishes
-- add boring wish simulator
 - banner creator: - make sure to check proper amount of 5 stars and 4 stars
 - user setting for autoimport every time
-
-- improve looks:
-  - character banner / weapon banner (can probably reuse)
-  - character banner creators / weapon banner creators (can probably reuse)
-  - analysis input character / weapon
-  - analysis results
-    - add graph
 
 - IMPROVE ANALYTICAL by adding a function to find single solution in a complete database
 - pytest better analytical.py coverage
@@ -39,6 +36,12 @@
 - add constants for main dir or something? for database i assume?
 - add tests to proj future wishes
 - when changing pity need to wipe the database of analytical entries relevant
+
+- improve looks:
+  - character banner / weapon banner (can probably reuse)
+  - character banner creators / weapon banner creators (can probably reuse)
+  - analysis input character / weapon
+- fix organization for css stuff
 - find proper icon for genshin wish oracle
 
 ## structure

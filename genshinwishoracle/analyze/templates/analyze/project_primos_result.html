@@ -12,13 +12,25 @@
     {% csrf_token %}
     <div>
         <ul>
-            <li> Before </li>
+            <li> Before - {{ current_date }}</li>
             <li>Primogems: {{current_primos}}, Wishes: {{current_wishes}} </li>
             <br>
             <br>
-            <li> After </li>
+            <li> After - {{ future_date }} </li>
             <li>Primogems: {{future_primos}}, Wishes: {{future_wishes}} </li>
         </ul>
+    </div>
+    <div>
+        <div>
+            <h6>Use results?</h6>
+        </div>
+        <form action="{% url 'analyze:project_primos' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" name='analyze_with_future_primogems' value={{future_wishes}}>Analyze
+                with Future
+                Primogem
+                Count</button>
+        </form>
     </div>
 </body>
 

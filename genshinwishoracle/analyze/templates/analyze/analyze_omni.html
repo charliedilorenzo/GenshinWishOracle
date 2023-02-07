@@ -79,12 +79,9 @@
 
 <div>
     <h2 class="display-6"> Outputs </h2>
-    <form method="post" novalidate>
-        {% csrf_token %}
-        <table>
-            {{ second_form.as_table }}
-        </table>
-    </form>
+    {% for field in second_form_names %}
+    <div> {{field}}</div>
+    {% endfor %}
 </div>
 
 {% endblock %}
