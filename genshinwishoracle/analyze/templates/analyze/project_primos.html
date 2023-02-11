@@ -16,6 +16,13 @@
             Import data</button>
     </div>
 </form>
+<form method="post" novalidate>
+    {% csrf_token %}
+    <div>
+        <button class="reset-button" name="reset_values" value="reset_values"> Reset </button>
+    </div>
+</form>
+
 {% endif %}
 <form method="post">
     {% csrf_token %}

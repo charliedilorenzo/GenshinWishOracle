@@ -56,6 +56,7 @@ class WeaponBannerCreateView(generic.CreateView):
 
 class StatisticsAnalyzeOmniView(generic.View):
     template_name = 'analyze/analyze_omni.html'
+    result_template = 'analyze/analyze_result.html'
     valid_banner_types = ['character', 'weapon']
     valid_statistics_types = ['calcprobability', 'calcnumwishes']
     default_url = "/analyze/{}/{}/".format(valid_banner_types[0], valid_statistics_types[0])
@@ -129,6 +130,7 @@ class StatisticsAnalyzeOmniView(generic.View):
         return form
 
     def post(self, request, banner_type, statistics_type,*args, **kwargs):
+        context = {}
         # check if we pressed the switch button
         redirect_buttons = self.button_name_post_to_redirect(request, banner_type, statistics_type)
         if not redirect_buttons is None:
@@ -140,6 +142,15 @@ class StatisticsAnalyzeOmniView(generic.View):
             if request.user.is_authenticated:
                 request.session["import_data"] = True
                 return redirect(to=reverse('analyze:statistics', kwargs={"banner_type":banner_type, "statistics_type":statistics_type}))
+        elif request.POST.get("reset_values"):
+            request.session.pop('wishes')
+            request.session['import_data'] = False
+            context = {"banner_type":banner_type,"statistics_type": statistics_type }
+            first_form = self.get_first_form(request,banner_type=banner_type,statistics_type=statistics_type)
+            context["first_form"] = first_form
+            second_form_names =  self.get_second_form_names(request,banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
+            context["second_form_names"] = second_form_names
+            return render(request, self.template_name, context=context)
         if request.POST.get("reset"):
             if 'wishes' in request.session:
                 request.session.pop('wishes')
@@ -216,7 +227,7 @@ class StatisticsAnalyzeOmniView(generic.View):
                     'fate_points': cleaned['fate_points']
                 }
 
-            return render(request, 'analyze/analyze_results.html', context)
+            return render(request, self.result_template, context)
         return render(request, self.template_name, {'form': form})
 
     def button_name_post_to_redirect(self, request, banner_type, statistics_type):
@@ -240,6 +251,7 @@ class StatisticsResultView(generic.View):
         
 class ProjectPrimosView(generic.FormView):
     template_name = 'analyze/project_primos.html'
+    result_template = 'analyze/project_primos_result.html'
     success_url = reverse_lazy('analyze:project_primos_results')
     form_class = forms.ProjectPrimosForm
 
@@ -264,6 +276,10 @@ class ProjectPrimosView(generic.FormView):
             if request.user.is_authenticated:
                 request.session["import_data"] = True
                 return redirect(to=reverse_lazy('analyze:project_primos'))
+        elif request.POST.get("reset_values"):
+            form  = forms.ProjectPrimosForm()
+            context['form'] = form
+            return render(request, 'analyze/project_primos.html', context=context)
         elif request.POST.get("analyze_with_future_primogems"):
             request.session["wishes"] = request.POST.get("analyze_with_future_primogems")
             banner_type = "character"
@@ -274,14 +290,14 @@ class ProjectPrimosView(generic.FormView):
             # using sessions again to allow setiting 
             cleaned = form.cleaned_data
             if form.date_is_decidable() == False:
-                return render(request, 'analyze/project_primos.html', context=context)
+                return render(request,  self.template_name, context=context)
 
             future_date = form.decide_date()
             now = datetime.date.today()
             days_until_enddate = (future_date-now).days
             if days_until_enddate < 0:
                 # non-sensical end date
-                return render(request, 'analyze/project_primo.html')
+                return render(request, self.template_name)
             current_date = timezone.now
             pure_primo_estimate = cleaned['numprimos']+cleaned['numgenesis']+160*math.floor(cleaned['numstarglitter']/5)+ 160*cleaned['numfates']
             current_primos = pure_primo_estimate
@@ -296,9 +312,11 @@ class ProjectPrimosView(generic.FormView):
                 'future_wishes': future_wishes,
                 'current_date': current_date,
                 'future_date': future_date})
-            return render(request, 'analyze/project_primos_result.html', context=context)
+            return render(request, self.result_template, context=context)
         else:
-            return render(request, 'analyze/project_primos.html', context=context)
+            form  = forms.ProjectPrimosForm()
+            context['form'] = form
+            return render(request, self.template_name, context=context)
 class WishSimulatorView(generic.View):
     template_name = 'analyze/wish_simulator.html'
     success_url = reverse_lazy('analyze:index')
