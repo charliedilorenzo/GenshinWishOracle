@@ -7,7 +7,7 @@
     <div>
         <a href="{% url 'analyze:index' %}"><button name='back' type="submit" class="back-button"><i
                     class="back-arrow"></i>
-                Back</button></a>
+                Analyze Home </button></a>
     </div>
     <title>{% block title %} Analyze Results {% endblock %} </title>
     <div>
@@ -131,7 +131,11 @@
         </div>
         {% endif %}
     </div>
-    <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+    <div>
+        <a href="{% url 'analyze:statistics' 'character' 'calcprobability' %}"><button name='redirect' type="submit"
+                class="back-button"><i class="back-arrow"></i>
+                More Statistics</button></a>
+    </div>
 </body>
 
 

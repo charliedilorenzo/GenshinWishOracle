@@ -4,8 +4,6 @@
 
 ## New Stuff
 
-- add reset button to both project primos and analyze
-- pin point exactly when to delete the wish in session part
 - add more statistics button to the statistics page so you can redirect back to statistics
 - add prevention of blank page when invalid form in: - comes from invalid form and improper rerender (I assume)
   - analyze
@@ -19,6 +17,7 @@
 - add social apps login
 - make outputs list of form field names but cannot be filled out
 - add wish simulator
+- pin point exactly when to delete the wish in session part
 
 - in settings SESSION_COOKIE_AGE = 60 *60* 24 * 30
 - add import to project primos
