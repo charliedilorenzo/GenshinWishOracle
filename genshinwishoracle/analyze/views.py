@@ -263,7 +263,7 @@ class ProjectPrimosView(generic.FormView):
         if request.POST.get("import_user_data"):
             if request.user.is_authenticated:
                 request.session["import_data"] = True
-                return redirect(to='/analyze/projectprimos')
+                return redirect(to=reverse_lazy('analyze:project_primos'))
         elif request.POST.get("analyze_with_future_primogems"):
             request.session["wishes"] = request.POST.get("analyze_with_future_primogems")
             banner_type = "character"

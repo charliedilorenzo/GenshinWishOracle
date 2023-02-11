@@ -5,8 +5,9 @@
 <body>
     {% csrf_token %}
     <div>
-        <a href="{% url 'analyze:index' %}"><button name='character_banner_submit' type="submit"
-                class="back-button back-arrow">Back</button></a>
+        <a href="{% url 'analyze:index' %}"><button name='back' type="submit" class="back-button"><i
+                    class="back-arrow"></i>
+                Back</button></a>
     </div>
     <title>{% block title %} Analyze Results {% endblock %} </title>
     <div>

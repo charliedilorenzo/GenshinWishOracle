@@ -3,10 +3,12 @@
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 {% block content %}
 <title>{% block title %} Character Banners {% endblock %} </title>
+
 <div>
-    <a href="{% url 'analyze:index' %}"><button name='character_banner_submit' type="submit"
-            class="back-button back-arrow">Back</button></a>
+    <a href="{% url 'analyze:index' %}"><button name='back' type="submit" class="back-button"><i class="back-arrow"></i>
+            Back</button></a>
 </div>
+
 <h1 class="display-4">Character Banners</h1>
 <a href="{% url 'analyze:character_banner_create' %}"> Create new banner </a>
 <!-- TODO style this and the other banner -->

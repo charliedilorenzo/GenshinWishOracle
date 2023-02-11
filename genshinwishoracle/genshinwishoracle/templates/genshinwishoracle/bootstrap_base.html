@@ -13,6 +13,7 @@
     <link href="{% static 'fonts.css' %}" rel="stylesheet">
     <link href="{% static 'layout.css' %}" rel="stylesheet">
     <link rel="icon" href="{% static 'base/icons/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'base/style.css' %}">
 
 
     {% block custom-css %}
@@ -35,7 +36,7 @@
         <nav id="sidebar">
             <div class="text-center">
                 <div class="mb-4">
-                    <img id="logo" class="rounded mt-4" src="{% static 'images/Genshin_Impact_logo.svg' %}" alt="">
+                    <img id="logo" class="rounded mt-4" src="{% static 'base/icons/favicon.ico' %}" alt="">
                 </div>
                 <h3>Genshin Wish Oracle</h3>
                 <p>{{ user.username }}
