@@ -56,7 +56,7 @@ class WeaponBannerCreateView(generic.CreateView):
 
 class StatisticsAnalyzeOmniView(generic.View):
     template_name = 'analyze/analyze_omni.html'
-    result_template = 'analyze/analyze_result.html'
+    result_template = 'analyze/analyze_results.html'
     valid_banner_types = ['character', 'weapon']
     valid_statistics_types = ['calcprobability', 'calcnumwishes']
     default_url = "/analyze/{}/{}/".format(valid_banner_types[0], valid_statistics_types[0])
