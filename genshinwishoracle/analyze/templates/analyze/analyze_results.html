@@ -130,6 +130,7 @@
             <h3>{{ numwishes }}</h3>
         </div>
         {% endif %}
+        <img src="data:image/png;base64, {{chart|safe}}" alt="" id="img">
     </div>
     <div>
         <a href="{% url 'analyze:statistics' 'character' 'calcprobability' %}"><button name='redirect' type="submit"

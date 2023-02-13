@@ -12,7 +12,9 @@
     <link href="{% static 'bootstrap/sidebar-bootstrap.css' %}" rel="stylesheet">
     <link href="{% static 'fonts.css' %}" rel="stylesheet">
     <link href="{% static 'layout.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'base/style.css' %}">
     <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-5.0.0-beta1-dist/css/bootstrap.css' %}">
     <link rel="icon" href="{% static 'base/icons/favicon.ico' %}">
 
 
@@ -146,9 +148,7 @@
             {% include 'snippets/show_messages.html' %}
             {% endblock %}
 
-
-
-            <div id="content-wrapper">
+            <div class="container mb-3 mt-3" id="content-wrapper">
                 {% block content %}
                 {% endblock %}
             </div>

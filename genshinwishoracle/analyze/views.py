@@ -6,16 +6,15 @@ from django.views import generic
 from django.urls import reverse_lazy
 from . import forms
 from django.urls import reverse
-from django.http import HttpResponse
 from django.utils import timezone
 import math
 from django.contrib.auth.decorators import login_required
-from .models import Character, Weapon, CharacterBanner, WeaponBanner
+from .models import CharacterBanner, WeaponBanner
 
 from .analytical import AnalyticalCharacter, AnalyticalWeapon
 from .project_primos import project_future_primos
 from users.models import Profile
-from django.http import HttpResponseRedirect
+from . import utils
 
 class IndexView(generic.ListView):
     template_name = 'analyze/index.html'
@@ -180,6 +179,43 @@ class StatisticsAnalyzeOmniView(generic.View):
                     'guaranteed': cleaned['guaranteed'],
                     'numwishes': cleaned['numwishes']
                 }
+
+
+                # width = 0.35
+                # pyplot.switch_backend('AGG')
+                # ind = numpy.arange(len(solution.keys())) # the x locations for the groups
+                # fig = pyplot.figure(figsize=(10, 4))
+                # # ax = fig.add_axes([0,0,1,1])
+                # # ax.bar(ind, values, width)
+                # pyplot.bar(numpy.arange(len(keys)) , values, width)
+                # # ax.set_ylabel('Portion')
+                # # guaranteed_text = "with" if cleaned['guaranteed'] else "without"
+                # # ax.set_title('Wish Probability Breakdown for: {} Wishes, {} Pity, {} Guaranteed'.format(cleaned['numwishes'], cleaned['pity'], guaranteed_text))
+                # # ax.set_xticks(ind, ('G0','G1', 'G2', 'G3', 'G4', 'G5','G6','G7'))
+                # # ax.set_yticks(numpy.arange(0, 1, .1))
+                # guaranteed_text = "with" if cleaned['guaranteed'] else "without"
+                # pyplot.ylabel('Portion Resuling in Specified Constellation')
+                # pyplot.title('Wish Probability Breakdown for: {} Wishes, {} Pity, {} Guaranteed'.format(cleaned['numwishes'], cleaned['pity'], guaranteed_text))
+                # x_labels = ('E0','E1', 'E2', 'E3', 'E4', 'E5','E6','E7')
+                # if banner_type == "character":
+                #     x_labels = ["X"]
+                #     for i in range(0,7):
+                #         x_labels.append("C"+str(i))
+                # elif banner_type == "weapon":
+                #     x_labels = ["X"]
+                #     for i in range(1,6):
+                #         x_labels.append("C"+str(i))
+                # pyplot.xticks(ind, x_labels)
+                # pyplot.yticks(numpy.arange(0, 1, .1))
+                # pyplot.tight_layout()
+                # buffer = BytesIO()
+                # pyplot.savefig(buffer, format='png')
+                # buffer.seek(0)
+                # image_png = buffer.getvalue()
+                # graph = base64.b64encode(image_png)
+                # graph = graph.decode('utf-8')
+                # buffer.close()
+                context['chart'] = utils.bar_graph_for_statistics(solution,banner_type, statistics_type, cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],0)
             elif banner_type == "weapon" and statistics_type == "calcprobability":
                 analyze_obj = AnalyticalWeapon()
                 solution = analyze_obj.specific_solution(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned['fate_points'],0)
@@ -201,6 +237,7 @@ class StatisticsAnalyzeOmniView(generic.View):
                     'fate_points': cleaned['fate_points'],
                     'numwishes': cleaned['numwishes']
                 }
+                context['chart'] = utils.bar_graph_for_statistics(solution,banner_type, statistics_type, cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned['fate_points'])
             elif banner_type == "character" and statistics_type == "calcnumwishes":
                 analyze_obj = AnalyticalCharacter()
                 numwishes = analyze_obj.probability_on_copies_to_num_wishes(cleaned['minimum_probability'], cleaned['numcopies'],cleaned['pity'], cleaned['guaranteed'])
@@ -213,6 +250,7 @@ class StatisticsAnalyzeOmniView(generic.View):
                     'pity': cleaned['pity'],
                     'guaranteed': cleaned['guaranteed']
                 }
+                chart = ""
             elif banner_type == "weapon" and statistics_type == "calcnumwishes":
                 analyze_obj = AnalyticalWeapon()
                 numwishes = analyze_obj.probability_on_copies_to_num_wishes(cleaned['minimum_probability'], cleaned['numcopies'],cleaned['pity'], cleaned['guaranteed'],cleaned['fate_points'])

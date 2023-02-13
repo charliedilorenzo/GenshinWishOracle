@@ -3,6 +3,7 @@ import math
 from . import database
 import sqlite3
 from .helpers import add_dictionary_entries, multiply_dictionary_entries, upgrade_dictionary
+import pandas
 
 
 class AnalyticalCharacter:
@@ -158,7 +159,7 @@ class AnalyticalCharacter:
         # it will be a probability dictionary that counts up the extra wishes as the percent of time you have that many additional wishes remaining
         # should be possible and also work. Need to alter the helper function for this though
         return result
-
+    
     def calculate_and_write_all_solutions(self) -> None:
         if len(self.hashtable) >= self.max_lookup:
             return

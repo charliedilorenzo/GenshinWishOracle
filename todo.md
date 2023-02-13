@@ -6,7 +6,6 @@
 
 - add graphs
   - for analysis results
-    - wish to prob
   - for project primos
 - add proper current days into update mechanism for project primos
 - add extra data of percent extra wishes to analytical (search the TODO for note on idea of how)
@@ -14,6 +13,8 @@
 - make outputs list of form field names but cannot be filled out
 - add wish simulator
 - pin point exactly when to delete the wish in session part
+- good container from boostrap for content block  class="container mb-3 mt-3"
+- endblock title for endblock after block title
 - add warnings for unfilled fields in:
   - project primos
   - analyze
