@@ -226,9 +226,15 @@ class StatisticsAnalyzeOmniView(generic.View):
                     'guaranteed': cleaned['guaranteed'],
                     'fate_points': cleaned['fate_points']
                 }
-
             return render(request, self.result_template, context)
-        return render(request, self.template_name, {'form': form})
+        request.session.pop('wishes')
+        request.session['import_data'] = False
+        context = {"banner_type":banner_type,"statistics_type": statistics_type }
+        first_form = self.get_first_form(request,banner_type=banner_type,statistics_type=statistics_type)
+        context["first_form"] = first_form
+        second_form_names =  self.get_second_form_names(request,banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
+        context["second_form_names"] = second_form_names
+        return render(request, self.template_name, context)
 
     def button_name_post_to_redirect(self, request, banner_type, statistics_type):
         if request.POST.get("select_weapon_banner"):
@@ -314,7 +320,6 @@ class ProjectPrimosView(generic.FormView):
                 'future_date': future_date})
             return render(request, self.result_template, context=context)
         else:
-            form  = forms.ProjectPrimosForm()
             context['form'] = form
             return render(request, self.template_name, context=context)
 class WishSimulatorView(generic.View):

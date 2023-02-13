@@ -125,7 +125,6 @@ class ProjectPrimosForm(forms.Form):
     numstarglitter = forms.IntegerField(min_value=0,initial=0,required=True)
     end_date_manual_select = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
     # TODO fix this to be less jank if possible
-    # consider somehow adding enddate and name to Banner and possibly even rateup
     now = datetime.date.today()
     valid_char_banners = models.CharacterBanner.objects.filter(enddate__gte=now)
     valid_weapon_banners = models.WeaponBanner.objects.filter(enddate__gte=now)
