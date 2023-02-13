@@ -60,66 +60,46 @@
         {% if statistics_type == "calcprobability" %}
         {% if banner_type == "Character" %}
         <h1 class="display-4"> Character Banner Analysis Results </h1>
-        <table>
+        <table class="analysis-table">
             <tr>
-                <td>X:</td>
-                <td>{{X}}</td>
+                <td class="analysis-td">X:</td>
+                <td class="analysis-td">C0:</td>
+                <td class="analysis-td">C1:</td>
+                <td class="analysis-td">C2:</td>
+                <td class="analysis-td">C3:</td>
+                <td class="analysis-td">C4:</td>
+                <td class="analysis-td">C5:</td>
+                <td class="analysis-td">C6:</td>
             </tr>
             <tr>
-                <td>C0:</td>
-                <td>{{C0}}</td>
-            </tr>
-            <tr>
-                <td>C1:</td>
-                <td>{{C1}}</td>
-            </tr>
-            <tr>
-                <td>C2:</td>
-                <td>{{C2}}</td>
-            </tr>
-            <tr>
-                <td>C3:</td>
-                <td>{{C3}}</td>
-            </tr>
-            <tr>
-                <td>C4:</td>
-                <td>{{C4}}</td>
-            </tr>
-            <tr>
-                <td>C5:</td>
-                <td>{{C5}}</td>
-            </tr>
-            <tr>
-                <td>C6:</td>
-                <td>{{C6}}</td>
+                <td class="analysis-td">{{X}}</td>
+                <td class="analysis-td">{{C0}}</td>
+                <td class="analysis-td">{{C1}}</td>
+                <td class="analysis-td">{{C2}}</td>
+                <td class="analysis-td">{{C3}}</td>
+                <td class="analysis-td">{{C4}}</td>
+                <td class="analysis-td">{{C5}}</td>
+                <td class="analysis-td">{{C6}}</td>
             </tr>
         </table>
         {% elif banner_type == "Weapon" %}
         <h1 class="display-4"> Weapon Banner Analysis Results </h1>
-        <table>
+        <table class="analysis-table">
             <tr>
-                <td>X:</td>
-                <td>{{X}}</td>
+                <td class="analysis-td">X:</td>
+                <td class="analysis-td">R1:</td>
+                <td class="analysis-td">R2:</td>
+                <td class="analysis-td">R3:</td>
+                <td class="analysis-td">R4:</td>
+                <td class="analysis-td">R5:</td>
             </tr>
             <tr>
-                <td>R1:</td>
-                <td>{{R1}}</td>
-            </tr>
-            <tr>
-                <td>R2:</td>
-                <td>{{R2}}</td>
-            </tr>
-            <tr>
-                <td>R3:</td>
-                <td>{{R3}}</td>
-            </tr>
-            <tr>
-                <td>R4:</td>
-                <td>{{R4}}</td>
-            </tr>
-            <tr>
-                <td>R5:</td>
-                <td>{{R5}}</td>
+                <td class="analysis-td">{{X}}</td>
+                <td class="analysis-td">{{R1}}</td>
+                <td class="analysis-td">{{R2}}</td>
+                <td class="analysis-td">{{R3}}</td>
+                <td class="analysis-td">{{R4}}</td>
+                <td class="analysis-td">{{R5}}</td>
             </tr>
         </table>
         {% endif %}

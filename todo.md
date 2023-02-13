@@ -7,6 +7,8 @@
 - add proper current days into update mechanism for project primos
 - add extra data of percent extra wishes to analytical (search the TODO for note on idea of how)
 - IMPROVE ANALYTICAL by adding a function to find single solution in a complete database
+- add graphs for project primos?
+  - graph of primos up until the date mgiht work?
 - user setting for autoimport every time?
 - add social apps login
 - add wish simulator
@@ -14,8 +16,6 @@
   - project primos
   - analyze
   - banners
-- add graphs for project primos?
-  - graph of primos up until the date mgiht work?
 - good container from boostrap for content block  class="container mb-3 mt-3"
 - find the most realistic pity distribution
 

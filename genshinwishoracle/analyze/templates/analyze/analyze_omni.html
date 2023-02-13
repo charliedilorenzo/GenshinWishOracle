@@ -40,14 +40,14 @@
                 {% if banner_type == "character" %}
                 <form method="post">
                     {% csrf_token %}
-                    <button class="hover-button" name="select_weapon_banner" value="weapon_banner">Switch to Weapon
+                    <button class="switch-button" name="select_weapon_banner" value="weapon_banner">Switch to Weapon
                         Banner</button>
                 </form>
                 {% endif %}
                 {% if banner_type == "weapon" %}
                 <form method="post">
                     {% csrf_token %}
-                    <button class="hover-button" name="select_character_banner" value="character_banner">Switch to
+                    <button class="switch-button" name="select_character_banner" value="character_banner">Switch to
                         Character
                         Banner</button>
                 </form>
@@ -57,7 +57,7 @@
                 {% if statistics_type == "calcprobability" %}
                 <form method="post">
                     {% csrf_token %}
-                    <button class="hover-button" name="select_calcnumwishes" value="calcnumwishes">Switch to Calculate
+                    <button class="switch-button" name="select_calcnumwishes" value="calcnumwishes">Switch to Calculate
                         Number of
                         Wishes</button>
                 </form>
@@ -65,7 +65,7 @@
                 {% if statistics_type == "calcnumwishes" %}
                 <form method="post">
                     {% csrf_token %}
-                    <button class="hover-button" name="select_calcprobability" value="calcprobability">Switch to
+                    <button class="switch-button" name="select_calcprobability" value="calcprobability">Switch to
                         Calculate
                         Probability</button>
                 </form>
