@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
-<title>{% block title %} Wish Simulator {% endblock %} </title>
+<title>{% block title %} Wish Simulator {% endblock title %} </title>
 <div>
     <a href="{% url 'analyze:index' %}"><button name='back' type="submit" class="back-button"><i class="back-arrow"></i>
             Back</button></a>
@@ -14,4 +14,4 @@
     <h1 class="work-in-progress"> WORK IN PROGESS </h1>
 </body>
 
-{% endblock %}
+{% endblock content %}

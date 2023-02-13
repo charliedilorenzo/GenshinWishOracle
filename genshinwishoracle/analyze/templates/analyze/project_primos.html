@@ -1,8 +1,8 @@
 {% extends "genshinwishoracle/bootstrap_base.html" %}
 {% load static %}
-{% block content %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
-<title>{% block title %} Primogem Projection {% endblock %} </title>
+{% block content %}
+<title>{% block title %} Primogem Projection {% endblock title %} </title>
 <div>
     <a href="{% url 'analyze:index' %}"><button name='back' type="submit" class="back-button"><i class="back-arrow"></i>
             Back</button></a>
@@ -32,4 +32,4 @@
     <button type="submit">Save</button>
     <a href="{% url 'analyze:index' %}">Nevermind</a>
 </form>
-{% endblock %}
+{% endblock content %}

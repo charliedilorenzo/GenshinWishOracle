@@ -1,5 +1,6 @@
 {% extends "genshinwishoracle/bootstrap_base.html" %}
 {% load static %}
+<link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 {% block content %}
 
 <body>
@@ -9,7 +10,7 @@
                     class="back-arrow"></i>
                 Analyze Home </button></a>
     </div>
-    <title>{% block title %} Analyze Results {% endblock %} </title>
+    <title>{% block title %} Analyze Results {% endblock title %} </title>
     <div>
         <div>
             <h1 class="display-4"> Input info: </h1>
@@ -138,7 +139,4 @@
                 More Statistics</button></a>
     </div>
 </body>
-
-
-
-{% endblock %}
+{% endblock content %}

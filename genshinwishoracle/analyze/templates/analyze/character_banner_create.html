@@ -2,7 +2,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 {% block content %}
-<title>{% block title %} Character Banner Creation {% endblock %} </title>
+<title>{% block title %} Character Banner Creation {% endblock title %} </title>
 
 <div>
     <a href="{% url 'analyze:character_banner' %}"><button name='back' type="submit" class="back-button"><i
@@ -18,4 +18,4 @@
     </table>
     <button type="submit">Save</button>
 </form>
-{% endblock %}
+{% endblock content %}

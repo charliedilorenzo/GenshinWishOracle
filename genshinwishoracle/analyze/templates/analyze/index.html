@@ -2,7 +2,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 {% block content %}
-<title>{% block title %} Analyze Options {% endblock %} </title>
+<title>{% block title %} Analyze Options {% endblock title %} </title>
 <div>
     <a href="{% url 'main-home' %}"><button name='back' type="submit" class="back-button"><i class="back-arrow"></i>
             Back</button></a>
@@ -17,4 +17,4 @@
     <li><a href="{% url 'analyze:project_primos' %}"> Project Future Primogems</a></li>
     <li><a href="{% url 'analyze:wish_simulator' %}"> Wish Simulator </a></li>
 </ul>
-{% endblock %}
+{% endblock content %}
