@@ -116,6 +116,18 @@ def get_primary_key_column_name(table: str, conn: sqlite3.Connection) -> list:
         if row[5] == 1:
             return row[1]
 
+def get_entry_by_primary_key_analytical(table: str, conn: sqlite3.Connection, primary_key: int) -> list:
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM {} WHERE lookup = {}".format(table,primary_key))
+    rows = cur.fetchall()[0]
+    rows = rows[1:len(rows)]
+    return rows
+
+def count_entries_in_table(table: str, conn: sqlite3.Connection):
+    cur = conn.cursor()
+    count = cur.execute("SELECT COUNT() FROM {}".format(table)).fetchone()[0]
+    return count
+
 
 def get_db_connection(db_file: str) -> sqlite3.Connection:
     conn = sqlite3.connect(db_file)

@@ -1,5 +1,7 @@
-user portion from:
-<https://dev.to/earthcomfy/creating-a-django-registration-login-app-part-i-1di5>
+startup:
+.\venv\Scripts\activate
+cd genshinwishoracle
+python manage.py runserver
 
 IF STATIC CSS ISNT IMPLEMENTED FIRST TRY SHIFT-RELOADING PAGE
 

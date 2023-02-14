@@ -104,13 +104,19 @@ class AnalyticalCharacter:
         if lookup_num not in self.hashtable:
             self.hashtable.update({lookup_num: solution})
 
-    def find_single_solution_in_db(self, num_wishes: int, pity: int, guaranteed: bool, current_copies: int) -> dict[int, float]:
-        # TODO implement
-        return 0
+    def solution_from_database(self, lookup: int):
+        conn = sqlite3.connect(self.db_file)
+        vals_solution = database.get_entry_by_primary_key_analytical(self.tablename, conn,lookup)
+        vals_solution = list(vals_solution)
+        keys_solution = [i for i in range(0,len(vals_solution))]
+        dict_solution = {keys_solution[i]:vals_solution[i] for i in range(0,len(vals_solution)) }
+        return dict_solution
 
     def specific_solution(self, num_wishes: int, pity: int, guaranteed: bool, current_copies: int) -> dict[int, float]:
         lookup = self.lookup_num_generator(num_wishes, pity, guaranteed)
-        if lookup != -1 and lookup in self.hashtable:
+        if self.database_is_full():
+            return self.solution_from_database(lookup)
+        elif lookup != -1 and lookup in self.hashtable:
             temp = self.hashtable[lookup]
             result = {i: temp[i] for i in range(0, self.copies_max+1)}
             return result
@@ -189,10 +195,18 @@ class AnalyticalCharacter:
         # we should never get here but just in case
         return self.max_wishes_required
 
+    def database_is_full(self):
+        conn = sqlite3.connect(self.db_file)
+        count = database.count_entries_in_table(self.tablename, conn)
+        # we just care that its mostly full since its more efficient to estimate if its full then fill in on the off chance it isnt
+        if count >= self.max_lookup*.99:
+            return True
+        else:
+            return False
+
 
 class AnalyticalWeapon:
     BASE_FIVE_STAR_RATE = 0.006
-    # TODO IMPROVE THESE NUMBERS TO BE MORE ACCURATE
     DEFAULT_WEAPON_BANNER_SOFT_PITY = {62: 0.08, 63: 0.15, 64: 0.22, 65: 0.28, 66: 0.36, 67: 0.42, 68: 0.5,
                                        69: 0.56, 70: 0.6, 71: 0.67, 72: 0.71, 73: 0.75, 74: 0.80, 75: 0.83, 76: 0.84, 77: 0.80, 78: 0.5, 79: .5, 80: 1}
     BASE_FATE_POINTS = 2
@@ -298,14 +312,20 @@ class AnalyticalWeapon:
         if lookup_num not in self.hashtable:
             self.hashtable.update({lookup_num: solution})
 
-    def find_single_solution_in_db(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int) -> dict[int, float]:
-        # TODO implement
-        return 0
+    def solution_from_database(self, lookup: int):
+        conn = sqlite3.connect(self.db_file)
+        vals_solution = database.get_entry_by_primary_key_analytical(self.tablename, conn,lookup)
+        vals_solution = list(vals_solution)
+        keys_solution = [i for i in range(0,len(vals_solution))]
+        dict_solution = {keys_solution[i]:vals_solution[i] for i in range(0,len(vals_solution)) }
+        return dict_solution
 
     def specific_solution(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int) -> dict[int, float]:
         lookup = self.lookup_num_generator(
             num_wishes, pity, guaranteed, fate_points)
-        if lookup != -1 and lookup in self.hashtable:
+        if self.database_is_full():
+            return self.solution_from_database(lookup)
+        elif lookup != -1 and lookup in self.hashtable:
             temp = self.hashtable[lookup]
             result = {i: temp[i] for i in range(0, self.copies_max+1)}
             return result
@@ -390,3 +410,12 @@ class AnalyticalWeapon:
                 return i
         # we should never get here but just in case
         return self.max_wishes_required
+
+    def database_is_full(self):
+        conn = sqlite3.connect(self.db_file)
+        count = database.count_entries_in_table(self.tablename, conn)
+        # we just care that its mostly full since its more efficient to estimate if its full then fill in on the off chance it isnt
+        if count >= self.max_lookup*.99:
+            return True
+        else:
+            return False

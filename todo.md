@@ -4,8 +4,6 @@
 
 ## New Stuff
 
-- add extra data of percent extra wishes to analytical (search the TODO for note on idea of how)
-- IMPROVE ANALYTICAL by adding a function to find single solution in a complete database
 - add graphs for project primos?
   - graph of primos up until the date mgiht work?
 - user setting for autoimport every time?
@@ -17,6 +15,9 @@
   - banners
 - good container from boostrap for content block  class="container mb-3 mt-3"
 - find the most realistic pity distribution
+- get rid of hash table from analytical?
+- add extra data of percent extra wishes to analytical (search the TODO for note on idea of how)
+- import analytical database
 
 - in settings SESSION_COOKIE_AGE = 60 *60* 24 * 30
 
@@ -38,6 +39,8 @@
 - allow change of pity distribution:
   - when changing pity need to wipe the database of analytical entries relevant
   -
+- logrithmically seeking for probability to num wishes is likely useless since the space is only ~2000 big so it will reduce from 2000 operations to 10 operations (maybe) which probably isnt that big a deal in this case
+- project primos UPDATE_IDENTIFIER for last update
 
 ## structure
 
