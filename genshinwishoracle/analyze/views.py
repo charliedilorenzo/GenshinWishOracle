@@ -12,11 +12,9 @@ from django.contrib.auth.decorators import login_required
 from .models import CharacterBanner, WeaponBanner
 from datetime import date
 
-from .analytical import AnalyticalCharacter, AnalyticalWeapon
+from . import analytical
 from .project_primos import project_future_primos, project_primos_chart
 from users.models import Profile
-from . import utils
-
 class IndexView(generic.ListView):
     template_name = 'analyze/index.html'
     context_object_name = 'index'
@@ -161,7 +159,7 @@ class StatisticsAnalyzeOmniView(generic.View):
             cleaned = form.cleaned_data
             place_values = 3 
             if banner_type == "character" and statistics_type == "calcprobability":
-                analyze_obj = AnalyticalCharacter()
+                analyze_obj = analytical.AnalyticalCharacter()
                 solution = analyze_obj.specific_solution(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],0)
                 for key in solution:
                     solution[key] = ("%.{}f".format(place_values) % float(solution[key]))
@@ -180,9 +178,9 @@ class StatisticsAnalyzeOmniView(generic.View):
                     'guaranteed': cleaned['guaranteed'],
                     'numwishes': cleaned['numwishes']
                 }
-                context['chart'] = utils.bar_graph_for_statistics(solution,banner_type, statistics_type, cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],0)
+                context['chart'] = analytical.bar_graph_for_statistics(solution,banner_type, statistics_type, cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],0)
             elif banner_type == "weapon" and statistics_type == "calcprobability":
-                analyze_obj = AnalyticalWeapon()
+                analyze_obj = analytical.AnalyticalWeapon()
                 solution = analyze_obj.specific_solution(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned['fate_points'],0)
                 # by 400 deteriorates to missing around 14% of the values
                 place_values = 3
@@ -202,9 +200,9 @@ class StatisticsAnalyzeOmniView(generic.View):
                     'fate_points': cleaned['fate_points'],
                     'numwishes': cleaned['numwishes']
                 }
-                context['chart'] = utils.bar_graph_for_statistics(solution,banner_type, statistics_type, cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned['fate_points'])
+                context['chart'] = analytical.bar_graph_for_statistics(solution,banner_type, statistics_type, cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned['fate_points'])
             elif banner_type == "character" and statistics_type == "calcnumwishes":
-                analyze_obj = AnalyticalCharacter()
+                analyze_obj = analytical.AnalyticalCharacter()
                 numwishes = analyze_obj.probability_on_copies_to_num_wishes(cleaned['minimum_probability'], cleaned['numcopies'],cleaned['pity'], cleaned['guaranteed'])
                 context = {
                     'banner_type' : banner_type.capitalize(),
@@ -217,7 +215,7 @@ class StatisticsAnalyzeOmniView(generic.View):
                 }
                 chart = ""
             elif banner_type == "weapon" and statistics_type == "calcnumwishes":
-                analyze_obj = AnalyticalWeapon()
+                analyze_obj = analytical.AnalyticalWeapon()
                 numwishes = analyze_obj.probability_on_copies_to_num_wishes(cleaned['minimum_probability'], cleaned['numcopies'],cleaned['pity'], cleaned['guaranteed'],cleaned['fate_points'])
                 context = {
                     'banner_type' : banner_type.capitalize(),
