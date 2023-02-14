@@ -4,14 +4,13 @@
 
 ## New Stuff
 
-- move utils graph functions to analytical.py
-- user setting for autoimport every time?
-- add social apps login
-- add wish simulator
 - add warnings for unfilled fields in:
   - project primos
   - analyze
   - banners
+- user setting for autoimport every time?
+- add social apps login
+- add wish simulator
 - good container from boostrap for content block  class="container mb-3 mt-3"
 - find the most realistic pity distribution
 - get rid of hash table from analytical?

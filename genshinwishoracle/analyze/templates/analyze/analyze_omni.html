@@ -79,9 +79,21 @@
     <h2 class="display-6"> Inputs </h2>
     <form method="post" novalidate>
         {% csrf_token %}
-        <table>
-            {{ first_form.as_table }}
-        </table>
+
+        {% for field in first_form %}
+        {% if field.errors %}
+        {% for error in field.errors %}
+        <div class="form-alert-class">
+            <strong>{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+
+        {% for field in first_form %}
+        {{ field.label_tag }}
+        {{ field }}
+        {% endfor %}
         <button name='submit' type="submit">Save</button>
     </form>
 </div>
