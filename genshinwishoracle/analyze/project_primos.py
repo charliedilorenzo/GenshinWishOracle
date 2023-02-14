@@ -1,10 +1,15 @@
 import math
 from datetime import datetime
+import base64
+from .models import *
+from io import BytesIO
+from matplotlib import pyplot 
+import numpy
 
 def calc_days_into_update():
     # the start of 3.4 currently should be fine
-    UPDATE_IDENTIFIER = datetime(2023,1,18)
-    current = datetime.now()
+    UPDATE_IDENTIFIER = datetime.datetime(2023,1,18)
+    current = datetime.datetime.now()
     delta = current-UPDATE_IDENTIFIER
     days = delta.days
     # mod 42 since the standard update is 6 weeks long
@@ -16,7 +21,7 @@ def project_future_primos(current_primos, current_genesis_crystals,current_fates
 
         # TODO FIX THIS and make it functional
         current_days_into_update = calc_days_into_update()
-    day_in_month = datetime.now().day
+    day_in_month = datetime.datetime.now().day
 
     #primogems for daily commisions -60 per day- 2520 per update
     future_primos = days_till_banner_end_date*60
@@ -51,3 +56,27 @@ def project_future_primos(current_primos, current_genesis_crystals,current_fates
         # primogems from welkin moon - 90 per day - 3780 per update
         future_primos += days_till_banner_end_date*90
     return future_primos+current_total_primos
+
+def project_primos_chart(current_primos, current_genesis_crystals,current_fates, current_starglitter, days_till_banner_end_date, welkin_moon = True, battlepass = False, abyss_stars = 27, current_days_into_update = -1):
+    days_data = []
+    primos_data = []
+    for i in range(1,days_till_banner_end_date+1):
+        days_data.append(i)
+        primos_data.append(project_future_primos(current_primos, current_genesis_crystals,current_fates, current_starglitter, i, welkin_moon = welkin_moon, battlepass = battlepass, abyss_stars = abyss_stars, current_days_into_update = current_days_into_update))
+    
+    pyplot.switch_backend('AGG')
+    fig, ax = pyplot.subplots(figsize=(10, 6))
+    plot = pyplot.plot(days_data,primos_data)
+    fig.suptitle('Primo income over {} Days'.format(days_till_banner_end_date))
+    fig.supylabel('Number of Primos')
+    fig.supxlabel('Number of Days')
+    pyplot.tight_layout()
+
+    buffer = BytesIO()
+    pyplot.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    graph = base64.b64encode(image_png)
+    graph = graph.decode('utf-8')
+    buffer.close()
+    return graph

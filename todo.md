@@ -4,6 +4,7 @@
 
 ## New Stuff
 
+- move utils graph functions to analytical.py
 - add graphs for project primos?
   - graph of primos up until the date mgiht work?
 - user setting for autoimport every time?
