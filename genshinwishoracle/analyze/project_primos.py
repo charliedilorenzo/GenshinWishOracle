@@ -1,11 +1,21 @@
 import math
 from datetime import datetime
 
+def calc_days_into_update():
+    # the start of 3.4 currently should be fine
+    UPDATE_IDENTIFIER = datetime(2023,1,18)
+    current = datetime.now()
+    delta = current-UPDATE_IDENTIFIER
+    days = delta.days
+    # mod 42 since the standard update is 6 weeks long
+    return days % 42 
+
 def project_future_primos(current_primos, current_genesis_crystals,current_fates, current_starglitter, days_till_banner_end_date, welkin_moon = True, battlepass = False, abyss_stars = 27, current_days_into_update = -1):
     current_total_primos = current_primos+current_genesis_crystals+160*math.floor(current_starglitter/5) + 160*current_fates
     if (current_days_into_update == -1):
+
         # TODO FIX THIS and make it functional
-        current_days_into_update = 0
+        current_days_into_update = calc_days_into_update()
     day_in_month = datetime.now().day
 
     #primogems for daily commisions -60 per day- 2520 per update

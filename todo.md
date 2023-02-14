@@ -4,7 +4,6 @@
 
 ## New Stuff
 
-- add proper current days into update mechanism for project primos
 - add extra data of percent extra wishes to analytical (search the TODO for note on idea of how)
 - IMPROVE ANALYTICAL by adding a function to find single solution in a complete database
 - add graphs for project primos?
