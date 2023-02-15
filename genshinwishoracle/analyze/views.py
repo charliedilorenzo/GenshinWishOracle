@@ -322,6 +322,11 @@ class ProjectPrimosView(generic.FormView):
             chart = project_primos_chart(current_primos, 0,0,0,days_until_enddate,cleaned['welkin_moon'],cleaned['battlepass'], cleaned['average_abyss_stars'])
             context['chart'] = chart
             return render(request, self.result_template, context=context)
+        elif not form.date_is_decidable():
+            form.add_error('end_date_manual_select', "Please add a manual banner end date or select a banner for its end date.")
+            context['form'] = form
+            print("not decidable")
+            return render(request, self.template_name, context=context)
         else:
             context['form'] = form
             return render(request, self.template_name, context=context)

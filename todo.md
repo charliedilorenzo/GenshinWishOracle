@@ -4,10 +4,7 @@
 
 ## New Stuff
 
-- add warnings for unfilled fields in:
-  - project primos
-  - analyze
-  - banners
+- improve form labels
 - user setting for autoimport every time?
 - add social apps login
 - add wish simulator
@@ -16,6 +13,8 @@
 - get rid of hash table from analytical?
 - add extra data of percent extra wishes to analytical (search the TODO for note on idea of how)
 - import analytical database
+- fix date-decidable in project primos for jan 1
+- novalidate for forms for proj_primo and analysis
 
 - in settings SESSION_COOKIE_AGE = 60 *60* 24 * 30
 

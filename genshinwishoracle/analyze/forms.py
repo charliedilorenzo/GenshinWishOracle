@@ -119,10 +119,10 @@ class AnalyzeStatisticsWeaponToNumWishesForm(forms.Form):
         return cleaned_data
 
 class ProjectPrimosForm(forms.Form):
-    numprimos = forms.IntegerField(min_value=0,initial=0,required=True )
-    numgenesis = forms.IntegerField(min_value=0,initial=0,required=True)
-    numfates = forms.IntegerField(min_value=0,initial=0,required=True)
-    numstarglitter = forms.IntegerField(min_value=0,initial=0,required=True)
+    numprimos = forms.IntegerField(min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of primogems."} )
+    numgenesis = forms.IntegerField(min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of genesis crystals."})
+    numfates = forms.IntegerField(min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of intertwined fates"})
+    numstarglitter = forms.IntegerField(min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of starglitter"})
     end_date_manual_select = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
     # TODO fix this to be less jank if possible
     now = datetime.date.today()
@@ -147,8 +147,6 @@ class ProjectPrimosForm(forms.Form):
         cleaned_data = super().clean()
         today = datetime.date.today()
         split_date_default = [str(today.year), "01", "01"]
-
-        banner_date =cleaned_data["end_date_banner_select"]
         split_date_manual = str(cleaned_data["end_date_manual_select"]).split("-")
         if split_date_manual == split_date_default:
             return True
@@ -184,4 +182,11 @@ class ProjectPrimosForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
+        if 'welkin_moon' not in cleaned_data or cleaned_data['welkin_moon'] == None:
+            cleaned_data['welkin_moon'] = False
+        if 'battlepass' not in cleaned_data or cleaned_data['battlepass'] == None:
+            cleaned_data['battlepass'] = False
+        if 'average_abyss_stars' not in cleaned_data or cleaned_data['average_abyss_stars'] == None:
+            cleaned_data['average_abyss_stars'] = False
+            
         return cleaned_data

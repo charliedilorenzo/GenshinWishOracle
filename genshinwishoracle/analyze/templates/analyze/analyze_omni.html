@@ -1,8 +1,8 @@
 {% extends "genshinwishoracle/bootstrap_base.html" %}
 {% load static %}
-{% block content %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 <link rel="stylesheet" href="{% static 'base/style.css' %}">
+{% block content %}
 <title>{% block title %} Analyze Statistics {% endblock %} </title>
 <div>
     <a href="{% url 'analyze:index' %}"><button name='back' type="submit" class="back-button"><i class="back-arrow"></i>
