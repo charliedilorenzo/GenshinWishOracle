@@ -128,10 +128,7 @@ class ProjectPrimosForm(forms.Form):
     now = datetime.date.today()
     valid_char_banners = models.CharacterBanner.objects.filter(enddate__gte=now)
     valid_weapon_banners = models.WeaponBanner.objects.filter(enddate__gte=now)
-    banner_ids = [banner.get_base_banner_equivalent().id for banner in valid_char_banners]
-    banner_ids+= [banner.get_base_banner_equivalent().id for banner in valid_weapon_banners]
-    banners = models.Banner.objects.filter(id__in=banner_ids)
-    # banners = models.Banner.objects.all()
+    banners = valid_char_banners.union(valid_weapon_banners)
     end_date_banner_select = forms.ModelChoiceField(label="End Date Select Through Banner",
         queryset= banners,
         widget=forms.Select(attrs={'size': 30},),
