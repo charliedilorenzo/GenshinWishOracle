@@ -4,7 +4,6 @@
 
 ## New Stuff
 
-- improve form labels
 - user setting for autoimport every time?
 - add social apps login
 - add wish simulator

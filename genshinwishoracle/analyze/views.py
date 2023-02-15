@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.utils import timezone
 import math
 from django.contrib.auth.decorators import login_required
-from .models import CharacterBanner, WeaponBanner
+from . import models
 from datetime import date
 
 from . import analytical
@@ -29,7 +29,7 @@ class CharacterBannerView(generic.ListView):
     context_object_name = 'character_banners'
 
     def get_queryset(self):
-        banners = CharacterBanner.objects.order_by()
+        banners = models.CharacterBanner.objects.order_by()
         return banners
 
 class WeaponBannerView(generic.ListView):
@@ -37,17 +37,17 @@ class WeaponBannerView(generic.ListView):
     context_object_name = 'weapon_banners'
 
     def get_queryset(self):
-        banners = WeaponBanner.objects.order_by()
+        banners = models.WeaponBanner.objects.order_by()
         return banners
 
 class CharacterBannerCreateView(generic.CreateView):
-    model = CharacterBanner
+    model = models.CharacterBanner
     form_class = forms.CreateCharacterBannerForm
     template_name = 'analyze/character_banner_create.html'
     success_url = reverse_lazy('analyze:character_banner')
 
 class WeaponBannerCreateView(generic.CreateView):
-    model = WeaponBanner
+    model = models.WeaponBanner
     form_class = forms.CreateWeaponBannerForm
     template_name = 'analyze/weapon_banner_create.html'
     success_url = reverse_lazy('analyze:weapon_banner')
@@ -333,8 +333,59 @@ class ProjectPrimosView(generic.FormView):
 class WishSimulatorView(generic.View):
     template_name = 'analyze/wish_simulator.html'
     success_url = reverse_lazy('analyze:index')
-    def get(self, request):
-       return render(request, 'analyze/wish_simulator.html')
+    form_class = forms.WishSimulatorForm
+    
+    def get(self, request,*args, **kwargs):
+        context = {}
+        context['form'] = self.form_class
+        return render(request, self.template_name,context=context)
+    def post(self, request,*args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            number_of_pulls = request.POST['number_of_pulls']
+            banner_id = request.POST['banner']
+            return redirect(to=reverse('analyze:wish_simulator_result', kwargs={"number_of_pulls":number_of_pulls,'banner_id': banner_id}))
+        else:
+            context = {}
+            context['form'] = self.form_class
+            return render(request, self.template_name,context=context)
+
+class WishSimulatorResultsView(generic.ListView):
+    template_name = 'analyze/wish_simulator_result.html'
+    success_url = reverse_lazy('analyze:index')
+    def get(self, request,banner_id, number_of_pulls,*args, **kwargs):
+        context ={}
+        context['number_of_pulls'] = number_of_pulls
+        banner = models.Banner.objects.filter(id=banner_id)[0]
+        banner = banner.get_specified_banner_equivalent()
+        rateups = banner.rateups
+        ru_five_stars = rateups.filter(rarity=5)
+        ru_four_stars = rateups.filter(rarity=4)
+        non_ru_five_stars = []
+        if type(banner) == models.CharacterBanner:
+            non_ru_five_stars = models.Character.objects.filter(rarity=5, limited=False)
+        elif type(banner) == models.WeaponBanner:
+            non_ru_five_stars = models.Weapon.objects.filter(rarity=5, limited=False)
+        
+        four_characters =models.Character.objects.filter(rarity=4, limited=False)
+        four_weapons = models.Weapon.objects.filter(rarity=4, limited=False)
+        non_ru_four_stars = four_characters.union(four_weapons)
+
+        # now we process this
+        # 50% chance of ru four star and ru five star
+        # 100% chance of ru if the last wasn't
+
+        return render(request, self.template_name, context=context)
+    def post(self, request,banner_id, number_of_pulls, *args, **kwargs):
+        pass
+
+    def get_queryset(self):
+        pass
+    
+    def get_context_data(self,**kwargs):
+        context = super(generic.ListView, self).get_context_data(**kwargs)
+        return context
+
 
 def context_from_request(request):
     # i couldnt seem to find if there already existed a function for this online 

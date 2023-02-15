@@ -10,8 +10,24 @@
 <h1 class="display-4"> Wish Simulator </h1>
 
 <body>
-    {% csrf_token %}
-    <h1 class="work-in-progress"> WORK IN PROGESS </h1>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+        {% if field.errors %}
+        {% for error in field.errors %}
+        <div class="form-alert-class">
+            <strong>{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+
+        {% for field in form %}
+        {{ field.label_tag }}
+        {{ field }}
+        {% endfor %}
+        <button name='submit' type="submit">Save</button>
+    </form>
 </body>
 
 {% endblock content %}

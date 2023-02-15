@@ -190,3 +190,23 @@ class ProjectPrimosForm(forms.Form):
             cleaned_data['average_abyss_stars'] = False
             
         return cleaned_data
+    
+class WishSimulatorForm(forms.Form):
+    class Meta:
+        fields = ['number_of_pulls', 'banner']
+    number_of_pulls = forms.IntegerField(label="Number of Pulls",min_value=1, initial=1)
+    banners  = models.Banner.objects.all()
+    banner = forms.ModelChoiceField(label="Banner:",
+        queryset= banners,
+        widget=forms.Select(attrs={'size': 30},),
+        initial=timezone.now(),
+         required=True
+    )
+
+    def is_valid(self) -> bool:
+        valid = super().is_valid()
+        return valid
+
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data

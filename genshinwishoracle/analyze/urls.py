@@ -17,5 +17,6 @@ urlpatterns = [
     path('statistics/results',views.StatisticsResultView.as_view(), name='analyze_results'),
     path('project-primos/',views.ProjectPrimosView.as_view(), name='project_primos'),
     path('wish-simulator/',views.WishSimulatorView.as_view(), name='wish_simulator'),
+    path('wish-simulator/<int:banner_id>/<int:number_of_pulls>/',views.WishSimulatorResultsView.as_view(), name='wish_simulator_result'),
 ]
 urlpatterns += staticfiles_urlpatterns()
