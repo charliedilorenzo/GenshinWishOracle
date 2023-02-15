@@ -102,18 +102,18 @@ class StatisticsAnalyzeOmniView(generic.View):
     
     def get_second_form_names(self, request, banner_type, statistics_type,first_form):
         if statistics_type == "calcprobability" and banner_type == "character":
-            form = forms.AnalyzeStatisticsCharacterToNumWishesForm
+            form = forms.AnalyzeStatisticsCharacterToNumWishesForm()
         elif statistics_type == "calcprobability" and banner_type == "weapon":
-            form = forms.AnalyzeStatisticsWeaponToNumWishesForm
+            form = forms.AnalyzeStatisticsWeaponToNumWishesForm()
         elif statistics_type == "calcnumwishes" and banner_type == "character":
-            form = forms.AnalyzeStatisticsCharacterToProbabilityForm
+            form = forms.AnalyzeStatisticsCharacterToProbabilityForm()
         elif statistics_type == "calcnumwishes" and banner_type == "weapon":
-            form = forms.AnalyzeStatisticsWeaponToProbabilityForm
+            form = forms.AnalyzeStatisticsWeaponToProbabilityForm()
         # technically could just remove pity/guaranteed/fate_points
         names = []
-        for field in form.Meta.fields:
+        for field in form.fields:
             if field not in first_form.Meta.fields:
-                names.append(field)
+                names.append(form[field].label)
         return names
 
     def  banner_statistics_combo_to_form_obj(self,banner_type, statistics_type):

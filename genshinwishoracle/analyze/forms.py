@@ -39,9 +39,9 @@ class CreateWeaponBannerForm(forms.ModelForm):
 class AnalyzeStatisticsCharacterToProbabilityForm(forms.Form):
     class Meta:
         fields = ['numwishes', 'pity', 'guaranteed']
-    numwishes = forms.IntegerField(min_value=0,error_messages={'required': "Please add your number of wishes", 'min_value': "Number of wishes must be greater than 0"})
-    pity = forms.IntegerField(max_value=90,min_value=0, initial=0, required=False, error_messages={'min_value': "Pity must be between 0 and 90", 'max_value': "Pity must be between 0 and 90"})
-    guaranteed = forms.BooleanField(initial=False, required=False)
+    numwishes = forms.IntegerField(label="Number of wishes", min_value=0,error_messages={'required': "Please add your number of wishes", 'min_value': "Number of wishes must be greater than 0"})
+    pity = forms.IntegerField(label="Pity",max_value=90,min_value=0, initial=0, required=False, error_messages={'min_value': "Pity must be between 0 and 90", 'max_value': "Pity must be between 0 and 90"})
+    guaranteed = forms.BooleanField(label="Have Guaranteed",initial=False, required=False)
 
     def is_valid(self) -> bool:
         valid = super().is_valid()
@@ -57,10 +57,10 @@ class AnalyzeStatisticsCharacterToProbabilityForm(forms.Form):
 class AnalyzeStatisticsWeaponToProbabilityForm(forms.Form):
     class Meta:
         fields = ['numwishes', 'pity', 'guaranteed','fate_points']
-    numwishes = forms.IntegerField(min_value=0,error_messages={'required': "Please add your number of wishes", 'min_value': "Number of wishes must be greater than 0"})
-    pity = forms.IntegerField(max_value=80,min_value=0, initial=0, required=False, error_messages={'min_value': "Pity must be between 0 and 80", 'max_value': "Pity must be between 0 and 80"})
-    guaranteed = forms.BooleanField(initial=False, required=False)
-    fate_points = forms.IntegerField(min_value=0,max_value=2,initial=0,required=False, error_messages={'min_value': "Fate Points must be between 0 and 2", 'max_value': "Fate Points must be between 0 and 2"})
+    numwishes = forms.IntegerField(label="Number of wishes",min_value=0,error_messages={'required': "Please add your number of wishes", 'min_value': "Number of wishes must be greater than 0"})
+    pity = forms.IntegerField(label="Pity", max_value=80,min_value=0, initial=0, required=False, error_messages={'min_value': "Pity must be between 0 and 80", 'max_value': "Pity must be between 0 and 80"})
+    guaranteed = forms.BooleanField(label="Have Guaranteed", initial=False, required=False)
+    fate_points = forms.IntegerField(label="Number of Fate Points", min_value=0,max_value=2,initial=0,required=False, error_messages={'min_value': "Fate Points must be between 0 and 2", 'max_value': "Fate Points must be between 0 and 2"})
 
     def is_valid(self) -> bool:
         valid = super().is_valid()
@@ -79,10 +79,10 @@ class AnalyzeStatisticsWeaponToProbabilityForm(forms.Form):
 class AnalyzeStatisticsCharacterToNumWishesForm(forms.Form):
     class Meta:
         fields = ['numcopies', 'minimum_probability','pity', 'guaranteed']
-    numcopies = forms.IntegerField(max_value=7,min_value=1, initial=1,error_messages={'required': "Please add your number of copies desired", 'min_value': "Number of copies must be between 1 and 7", 'max_value': "Number of copies must be between 1 and 7"})
-    minimum_probability = forms.FloatField(max_value=1,min_value=0, initial=0, error_messages={'required': "Please give the probability desired.", 'min_value': "Probability must be between 0 and 1", 'max_value': "Probability must be between 0 and 1"})
-    pity = forms.IntegerField(max_value=90,min_value=0, initial=0, required=False, error_messages={'min_value': "Pity must be between 0 and 90", 'max_value': "Pity must be between 0 and 90"})
-    guaranteed = forms.BooleanField(initial=False, required=False)
+    numcopies = forms.IntegerField(label="Number of Copies Desired",max_value=7,min_value=1, initial=1,error_messages={'required': "Please add your number of copies desired", 'min_value': "Number of copies must be between 1 and 7", 'max_value': "Number of copies must be between 1 and 7"})
+    minimum_probability = forms.FloatField(label="Minimum Probability of Copies Desired",max_value=1,min_value=0, initial=0, error_messages={'required': "Please give the probability desired.", 'min_value': "Probability must be between 0 and 1", 'max_value': "Probability must be between 0 and 1"})
+    pity = forms.IntegerField(label="Pity",max_value=90,min_value=0, initial=0, required=False, error_messages={'min_value': "Pity must be between 0 and 90", 'max_value': "Pity must be between 0 and 90"})
+    guaranteed = forms.BooleanField(label="Have Guaranteed",initial=False, required=False)
 
     def is_valid(self) -> bool:
         valid = super().is_valid()
@@ -98,11 +98,11 @@ class AnalyzeStatisticsCharacterToNumWishesForm(forms.Form):
 class AnalyzeStatisticsWeaponToNumWishesForm(forms.Form):
     class Meta:
         fields = ['numcopies', 'minimum_probability','pity', 'guaranteed','fate_points']
-    numcopies = forms.IntegerField(max_value=5,min_value=1, initial=1, error_messages={'required': "Please add your number of copies desired", 'min_value': "Number of copies must be between 1 and 5", 'max_value': "Number of copies must be between 1 and 5"})
-    minimum_probability = forms.FloatField(max_value=1,min_value=0, initial=0, error_messages={'required': "Please give the probability desired.", 'min_value': "Probability must be between 0 and 1", 'max_value': "Probability must be between 0 and 1"})
-    pity = forms.IntegerField(max_value=80,min_value=0, initial=0, required=False,error_messages={'min_value': "Pity must be between 0 and 80", 'max_value': "Pity must be between 0 and 80"})
-    guaranteed = forms.BooleanField(initial=False, required=False)
-    fate_points = forms.IntegerField(min_value=0,max_value=2,initial=0,required=False,error_messages={'min_value': "Fate Points must be between 0 and 2", 'max_value': "Fate Points must be between 0 and 2"})
+    numcopies = forms.IntegerField(label="Number of Copies Desired",max_value=5,min_value=1, initial=1, error_messages={'required': "Please add your number of copies desired", 'min_value': "Number of copies must be between 1 and 5", 'max_value': "Number of copies must be between 1 and 5"})
+    minimum_probability = forms.FloatField(label="Minimum Probability of Copies Desired",max_value=1,min_value=0, initial=0, error_messages={'required': "Please give the probability desired.", 'min_value': "Probability must be between 0 and 1", 'max_value': "Probability must be between 0 and 1"})
+    pity = forms.IntegerField(label="Pity",max_value=80,min_value=0, initial=0, required=False,error_messages={'min_value': "Pity must be between 0 and 80", 'max_value': "Pity must be between 0 and 80"})
+    guaranteed = forms.BooleanField(label="Have Guaranteed",initial=False, required=False)
+    fate_points = forms.IntegerField(label="Number of Fate Points", min_value=0,max_value=2,initial=0,required=False,error_messages={'min_value': "Fate Points must be between 0 and 2", 'max_value': "Fate Points must be between 0 and 2"})
 
     def is_valid(self) -> bool:
         valid = super().is_valid()
@@ -119,11 +119,11 @@ class AnalyzeStatisticsWeaponToNumWishesForm(forms.Form):
         return cleaned_data
 
 class ProjectPrimosForm(forms.Form):
-    numprimos = forms.IntegerField(min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of primogems."} )
-    numgenesis = forms.IntegerField(min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of genesis crystals."})
-    numfates = forms.IntegerField(min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of intertwined fates"})
-    numstarglitter = forms.IntegerField(min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of starglitter"})
-    end_date_manual_select = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
+    numprimos = forms.IntegerField(label="Number of Wishes",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of primogems."} )
+    numgenesis = forms.IntegerField(label="Number of Genesis Crystal",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of genesis crystals."})
+    numfates = forms.IntegerField(label="Number of Intertwined Fate",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of intertwined fates"})
+    numstarglitter = forms.IntegerField(label="Number of Starglitter",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of starglitter"})
+    end_date_manual_select = forms.DateField(label="End Date Manual Select",widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
     # TODO fix this to be less jank if possible
     now = datetime.date.today()
     valid_char_banners = models.CharacterBanner.objects.filter(enddate__gte=now)
@@ -132,16 +132,16 @@ class ProjectPrimosForm(forms.Form):
     banner_ids+= [banner.get_base_banner_equivalent().id for banner in valid_weapon_banners]
     banners = models.Banner.objects.filter(id__in=banner_ids)
     # banners = models.Banner.objects.all()
-    end_date_banner_select = forms.ModelChoiceField(
+    end_date_banner_select = forms.ModelChoiceField(label="End Date Select Through Banner",
         queryset= banners,
         widget=forms.Select(attrs={'size': 30},),
         initial=timezone.now(),
          required=False
     )
 
-    welkin_moon = forms.BooleanField(initial=False, required=False)
-    battlepass = forms.BooleanField(initial=False, required=False)
-    average_abyss_stars = forms.IntegerField(initial=27, required=False)
+    welkin_moon = forms.BooleanField(label="Welkin Moon",initial=False, required=False)
+    battlepass = forms.BooleanField(label="Battlepass",initial=False, required=False)
+    average_abyss_stars = forms.IntegerField(label="Average Abyss Stars",initial=27, required=False)
 
     def manual_select_is_default(self):
         cleaned_data = super().clean()
