@@ -25,6 +25,7 @@ python manage.py migrate --run-syncdb
 python manage.py dumpdata auth users.Profile > users.json
 python manage.py dumpdata analyze.character > characters.json
 python manage.py dumpdata analyze.banner analyze.characterbanner analyze.weaponbanner > banners.json
+python manage.py loaddata initial_data.json
 
 python manage.py makemigrations
 python manage.py sqlmigrate

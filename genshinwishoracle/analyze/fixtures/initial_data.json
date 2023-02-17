@@ -19,15 +19,6 @@
     },
     {
         "model": "analyze.character",
-        "pk": 4,
-        "fields": {
-            "rarity": 5,
-            "name": "Jean",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
         "pk": 5,
         "fields": {
             "rarity": 5,
@@ -249,370 +240,6 @@
             "rarity": 4,
             "name": "Eye Of Perception",
             "limited": false
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 1,
-        "fields": {
-            "action_time": "2023-01-24T19:16:29.862Z",
-            "user": 1,
-            "content_type": 2,
-            "object_id": "3",
-            "object_repr": "Xiao",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 2,
-        "fields": {
-            "action_time": "2023-01-24T19:16:34.041Z",
-            "user": 1,
-            "content_type": 2,
-            "object_id": "4",
-            "object_repr": "Jean",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 3,
-        "fields": {
-            "action_time": "2023-01-24T19:16:39.051Z",
-            "user": 1,
-            "content_type": 2,
-            "object_id": "5",
-            "object_repr": "Diluc",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 4,
-        "fields": {
-            "action_time": "2023-01-24T19:16:45.693Z",
-            "user": 1,
-            "content_type": 2,
-            "object_id": "6",
-            "object_repr": "Qiqi",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 5,
-        "fields": {
-            "action_time": "2023-01-24T19:16:49.826Z",
-            "user": 1,
-            "content_type": 2,
-            "object_id": "7",
-            "object_repr": "Mona",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 6,
-        "fields": {
-            "action_time": "2023-01-24T19:17:09.254Z",
-            "user": 1,
-            "content_type": 2,
-            "object_id": "8",
-            "object_repr": "Keqing",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 7,
-        "fields": {
-            "action_time": "2023-01-24T19:17:17.186Z",
-            "user": 1,
-            "content_type": 2,
-            "object_id": "9",
-            "object_repr": "Kaeya",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 8,
-        "fields": {
-            "action_time": "2023-01-24T19:17:21.580Z",
-            "user": 1,
-            "content_type": 2,
-            "object_id": "10",
-            "object_repr": "Lisa",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 9,
-        "fields": {
-            "action_time": "2023-01-24T19:17:28.944Z",
-            "user": 1,
-            "content_type": 2,
-            "object_id": "11",
-            "object_repr": "Yaoyao",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 10,
-        "fields": {
-            "action_time": "2023-01-24T19:18:00.658Z",
-            "user": 1,
-            "content_type": 2,
-            "object_id": "12",
-            "object_repr": "Kuki Shinobu",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 11,
-        "fields": {
-            "action_time": "2023-01-24T19:19:31.210Z",
-            "user": 1,
-            "content_type": 2,
-            "object_id": "2",
-            "object_repr": "Sacrificial Sword",
-            "action_flag": 3,
-            "change_message": ""
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 12,
-        "fields": {
-            "action_time": "2023-01-24T19:19:49.689Z",
-            "user": 1,
-            "content_type": 2,
-            "object_id": "13",
-            "object_repr": "Zhongli",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 13,
-        "fields": {
-            "action_time": "2023-01-24T19:19:56.073Z",
-            "user": 1,
-            "content_type": 2,
-            "object_id": "14",
-            "object_repr": "Bennett",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 14,
-        "fields": {
-            "action_time": "2023-01-24T19:21:31.260Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "1",
-            "object_repr": "Amos' Bow",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 15,
-        "fields": {
-            "action_time": "2023-01-24T19:21:41.450Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "2",
-            "object_repr": "Aquila Favonia",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 16,
-        "fields": {
-            "action_time": "2023-01-24T19:21:57.928Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "3",
-            "object_repr": "Lost Prayer to the Sacred Winds",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 17,
-        "fields": {
-            "action_time": "2023-01-24T19:22:07.204Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "4",
-            "object_repr": "Primordial Jade Winged-Spear",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 18,
-        "fields": {
-            "action_time": "2023-01-24T19:22:12.657Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "5",
-            "object_repr": "Skyward Atlas",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 19,
-        "fields": {
-            "action_time": "2023-01-24T19:22:17.713Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "6",
-            "object_repr": "Skyward Blade",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 20,
-        "fields": {
-            "action_time": "2023-01-24T19:22:25.555Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "7",
-            "object_repr": "Skyward Harp",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 21,
-        "fields": {
-            "action_time": "2023-01-24T19:22:31.111Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "8",
-            "object_repr": "Skyward Pride",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 22,
-        "fields": {
-            "action_time": "2023-01-24T19:22:36.264Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "9",
-            "object_repr": "Skyward Spine",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 23,
-        "fields": {
-            "action_time": "2023-01-24T19:22:45.567Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "10",
-            "object_repr": "Wolf's Gravestone",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 24,
-        "fields": {
-            "action_time": "2023-01-24T19:22:57.192Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "11",
-            "object_repr": "Sacrificial Sword",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 25,
-        "fields": {
-            "action_time": "2023-01-24T19:23:03.649Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "12",
-            "object_repr": "Sacrificial Bow",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 26,
-        "fields": {
-            "action_time": "2023-01-24T19:23:09.257Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "13",
-            "object_repr": "Sacrificial Fragments",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 27,
-        "fields": {
-            "action_time": "2023-01-24T19:23:15.012Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "14",
-            "object_repr": "Sacrificial Greatsword",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
-        }
-    },
-    {
-        "model": "admin.logentry",
-        "pk": 28,
-        "fields": {
-            "action_time": "2023-01-24T19:23:33.990Z",
-            "user": 1,
-            "content_type": 3,
-            "object_id": "15",
-            "object_repr": "Eye Of Perception",
-            "action_flag": 1,
-            "change_message": "[{\"added\": {}}]"
         }
     },
     {
@@ -1142,123 +769,6 @@
     },
     {
         "model": "analyze.character",
-        "pk": 1,
-        "fields": {
-            "rarity": 4,
-            "name": "Amber",
-            "limited": true
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 3,
-        "fields": {
-            "rarity": 5,
-            "name": "Xiao",
-            "limited": true
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 4,
-        "fields": {
-            "rarity": 5,
-            "name": "Jean",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 5,
-        "fields": {
-            "rarity": 5,
-            "name": "Diluc",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 6,
-        "fields": {
-            "rarity": 5,
-            "name": "Qiqi",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 7,
-        "fields": {
-            "rarity": 5,
-            "name": "Mona",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 8,
-        "fields": {
-            "rarity": 5,
-            "name": "Keqing",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 9,
-        "fields": {
-            "rarity": 4,
-            "name": "Kaeya",
-            "limited": true
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 10,
-        "fields": {
-            "rarity": 4,
-            "name": "Lisa",
-            "limited": true
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 11,
-        "fields": {
-            "rarity": 4,
-            "name": "Yaoyao",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 12,
-        "fields": {
-            "rarity": 4,
-            "name": "Kuki Shinobu",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 13,
-        "fields": {
-            "rarity": 5,
-            "name": "Zhongli",
-            "limited": true
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 14,
-        "fields": {
-            "rarity": 4,
-            "name": "Bennett",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
         "pk": 15,
         "fields": {
             "rarity": 5,
@@ -1304,15 +814,6 @@
     },
     {
         "model": "analyze.character",
-        "pk": 20,
-        "fields": {
-            "rarity": 4,
-            "name": "Bennett",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
         "pk": 21,
         "fields": {
             "rarity": 4,
@@ -1345,15 +846,6 @@
             "rarity": 5,
             "name": "Cyno",
             "limited": true
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 25,
-        "fields": {
-            "rarity": 5,
-            "name": "Diluc",
-            "limited": false
         }
     },
     {
@@ -1430,28 +922,10 @@
     },
     {
         "model": "analyze.character",
-        "pk": 34,
-        "fields": {
-            "rarity": 5,
-            "name": "Jean",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
         "pk": 35,
         "fields": {
             "rarity": 5,
             "name": "Kaedehara Kazuha",
-            "limited": true
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 36,
-        "fields": {
-            "rarity": 4,
-            "name": "Kaeya",
             "limited": true
         }
     },
@@ -1475,15 +949,6 @@
     },
     {
         "model": "analyze.character",
-        "pk": 39,
-        "fields": {
-            "rarity": 5,
-            "name": "Keqing",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
         "pk": 40,
         "fields": {
             "rarity": 5,
@@ -1502,37 +967,10 @@
     },
     {
         "model": "analyze.character",
-        "pk": 42,
-        "fields": {
-            "rarity": 4,
-            "name": "Kuki Shinobu",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
         "pk": 43,
         "fields": {
             "rarity": 4,
             "name": "Layla",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 44,
-        "fields": {
-            "rarity": 4,
-            "name": "Lisa",
-            "limited": true
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 45,
-        "fields": {
-            "rarity": 5,
-            "name": "Mona",
             "limited": false
         }
     },
@@ -1569,15 +1007,6 @@
         "fields": {
             "rarity": 4,
             "name": "Noelle",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 50,
-        "fields": {
-            "rarity": 5,
-            "name": "Qiqi",
             "limited": false
         }
     },
@@ -1709,15 +1138,6 @@
     },
     {
         "model": "analyze.character",
-        "pk": 65,
-        "fields": {
-            "rarity": 5,
-            "name": "Xiao",
-            "limited": true
-        }
-    },
-    {
-        "model": "analyze.character",
         "pk": 66,
         "fields": {
             "rarity": 4,
@@ -1754,15 +1174,6 @@
     },
     {
         "model": "analyze.character",
-        "pk": 70,
-        "fields": {
-            "rarity": 4,
-            "name": "Yaoyao",
-            "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
         "pk": 71,
         "fields": {
             "rarity": 5,
@@ -1786,15 +1197,6 @@
             "rarity": 4,
             "name": "Yun Jin",
             "limited": false
-        }
-    },
-    {
-        "model": "analyze.character",
-        "pk": 74,
-        "fields": {
-            "rarity": 5,
-            "name": "Zhongli",
-            "limited": true
         }
     }
 ]
