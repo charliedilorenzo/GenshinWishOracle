@@ -5,11 +5,17 @@ import sqlite3
 from .helpers import add_dictionary_entries, multiply_dictionary_entries, upgrade_dictionary
 import pandas
 
+DEFAULT_CHARACTER_BANNER_SOFT_PITY = {73: .06, 74: .12, 75: .18, 76: .24, 77: .3, 78: .35,
+                                          79: .4, 80: .45, 81: .5, 82: .55, 83: .6, 84: .65, 85: .65, 86: .5, 87: .5, 88: .25, 89: 0.5, 90: 1}
+
+DEFAULT_WEAPON_BANNER_SOFT_PITY = {62: 0.08, 63: 0.15, 64: 0.22, 65: 0.28, 66: 0.36, 67: 0.42, 68: 0.5,
+                                       69: 0.56, 70: 0.6, 71: 0.67, 72: 0.71, 73: 0.75, 74: 0.80, 75: 0.83, 76: 0.84, 77: 0.80, 78: 0.5, 79: .5, 80: 1}
+
+BASE_CHARACTER_FIVE_STAR_RATE = 0.006
+BASE_WEAPON_FIVE_STAR_RATE = 0
+BASE_MAXIMUM_FATE_POINTS = 2
 
 class AnalyticalCharacter:
-    BASE_FIVE_STAR_RATE = 0.006
-    DEFAULT_CHARACTER_BANNER_SOFT_PITY = {73: .06, 74: .12, 75: .18, 76: .24, 77: .3, 78: .35,
-                                          79: .4, 80: .45, 81: .5, 82: .55, 83: .6, 84: .65, 85: .65, 86: .5, 87: .5, 88: .25, 89: 0.5, 90: 1}
 
     def update_analytical_db(self) -> int:
         # converting to sets now
@@ -64,7 +70,7 @@ class AnalyticalCharacter:
         self.tablename = "analytical_solutions_character"
 
         if base_five_star_rate == -1:
-            base_five_star_rate = self.BASE_FIVE_STAR_RATE
+            base_five_star_rate = BASE_CHARACTER_FIVE_STAR_RATE
 
         if db_file == "":
             self.db_file = database.get_default_db()
@@ -73,7 +79,7 @@ class AnalyticalCharacter:
         if soft_pity_dist == {}:
             # technically pity starts at 74 but this a more accurate way of estimation for some reason
             # still looking into why
-            self.soft_pity_dist = self.DEFAULT_CHARACTER_BANNER_SOFT_PITY
+            self.soft_pity_dist = DEFAULT_CHARACTER_BANNER_SOFT_PITY
         else:
             self.soft_pity_dist = soft_pity_dist
 
@@ -206,11 +212,6 @@ class AnalyticalCharacter:
 
 
 class AnalyticalWeapon:
-    BASE_FIVE_STAR_RATE = 0.006
-    DEFAULT_WEAPON_BANNER_SOFT_PITY = {62: 0.08, 63: 0.15, 64: 0.22, 65: 0.28, 66: 0.36, 67: 0.42, 68: 0.5,
-                                       69: 0.56, 70: 0.6, 71: 0.67, 72: 0.71, 73: 0.75, 74: 0.80, 75: 0.83, 76: 0.84, 77: 0.80, 78: 0.5, 79: .5, 80: 1}
-    BASE_FATE_POINTS = 2
-
     def update_analytical_db(self) -> int:
         # converting to sets now
         analytical_sets = []
@@ -268,19 +269,19 @@ class AnalyticalWeapon:
     def __init__(self, soft_pity_dist: dict[int, float] = {}, base_five_star_rate=-1, fate_points_required=-1, copies_max=5, db_file="") -> None:
         self.tablename = "analytical_solutions_weapon"
         if base_five_star_rate == -1:
-            base_five_star_rate = self.BASE_FIVE_STAR_RATE
+            base_five_star_rate = BASE_WEAPON_FIVE_STAR_RATE
 
         if db_file == "":
             self.db_file = database.get_default_db()
 
         if fate_points_required == -1:
-            self.fate_points_required = self.BASE_FATE_POINTS
+            self.fate_points_required = BASE_MAXIMUM_FATE_POINTS
 
         # soft_pity_dist - dictionary (empty for default option)
         if soft_pity_dist == {}:
             # technically pity starts at 74 but this a more accurate way of estimation for some reason
             # still looking into why
-            self.soft_pity_dist = self.DEFAULT_WEAPON_BANNER_SOFT_PITY
+            self.soft_pity_dist = DEFAULT_WEAPON_BANNER_SOFT_PITY
         else:
             self.soft_pity_dist = soft_pity_dist
 

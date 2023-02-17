@@ -12,6 +12,11 @@
 
 <body>
     {{number_of_pulls}}
+    <table>
+        {% for pull in pulls %}
+        <td>{{pull}}</td>
+        {% endfor %}
+    </table>
 </body>
 
 {% endblock content %}

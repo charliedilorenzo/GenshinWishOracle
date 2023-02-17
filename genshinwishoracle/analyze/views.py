@@ -15,6 +15,8 @@ from datetime import date
 from . import analytical
 from .project_primos import project_future_primos, project_primos_chart
 from users.models import Profile
+from . import wish_simulator
+
 class IndexView(generic.ListView):
     template_name = 'analyze/index.html'
     context_object_name = 'index'
@@ -356,28 +358,9 @@ class WishSimulatorResultsView(generic.ListView):
     def get(self, request,banner_id, number_of_pulls,*args, **kwargs):
         context ={}
         context['number_of_pulls'] = number_of_pulls
-        banner = models.Banner.objects.filter(id=banner_id)[0]
-        banner = banner.get_specified_banner_equivalent()
-        rateups = banner.rateups
-        ru_five_stars = rateups.filter(rarity=5)
-        ru_four_stars = rateups.filter(rarity=4)
-        non_ru_five_stars = []
-        if type(banner) == models.CharacterBanner:
-            non_ru_five_stars = models.Character.objects.filter(rarity=5, limited=False)
-        elif type(banner) == models.WeaponBanner:
-            non_ru_five_stars = models.Weapon.objects.filter(rarity=5, limited=False)
-        
-        four_characters =models.Character.objects.filter(rarity=4, limited=False)
-        four_weapons = models.Weapon.objects.filter(rarity=4, limited=False)
-        non_ru_four_stars = four_characters.union(four_weapons)
-
-        # now we process this
-        # 50% chance of ru four star and ru five star
-        # 100% chance of ru if the last wasn't
-
+        pulls = self.wish_simulator(number_of_pulls, banner_id)
+        context['pulls'] = pulls
         return render(request, self.template_name, context=context)
-    def post(self, request,banner_id, number_of_pulls, *args, **kwargs):
-        pass
 
     def get_queryset(self):
         pass
@@ -386,6 +369,21 @@ class WishSimulatorResultsView(generic.ListView):
         context = super(generic.ListView, self).get_context_data(**kwargs)
         return context
 
+    def wish_simulator(self, number_of_pulls, banner):
+        five_star_pity = 0
+        five_star_guaranteed = False
+        four_star_pity = 0 
+        four_star_guaranteed = False
+        fate_points = 0
+
+        banner = models.Banner.objects.filter(id=banner)[0]
+        rateups= banner.get_specified_banner_equivalent().rateups.all()
+
+        simulator = wish_simulator.WishSim(banner,rateups[0])
+        pulls = simulator.roll(number_of_pulls,five_star_pity,five_star_guaranteed,four_star_pity,four_star_guaranteed, fate_points)
+        return pulls
+
+    
 
 def context_from_request(request):
     # i couldnt seem to find if there already existed a function for this online 
