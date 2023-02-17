@@ -24,6 +24,7 @@ python manage.py migrate --run-syncdb
 <!-- from django.contrib.auth.models import User -->
 python manage.py dumpdata auth users.Profile > users.json
 python manage.py dumpdata analyze.character > characters.json
+python manage.py dumpdata analyze.weapon > weapons.json
 python manage.py dumpdata analyze.banner analyze.characterbanner analyze.weaponbanner > banners.json
 python manage.py loaddata initial_data.json
 
@@ -68,3 +69,7 @@ deactivate
 pip freeze > requirements.txt
 
 pip install -r requirements.txt
+
+# WEAPONS AVAILABILITY
+
+<https://genshin-impact.fandom.com/wiki/Weapon/List/By_Availability>

@@ -1198,5 +1198,572 @@
             "name": "Yun Jin",
             "limited": false
         }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 17,
+        "fields": {
+            "rarity": 5,
+            "name": "A Thousand Floating Dreams",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 18,
+        "fields": {
+            "rarity": 5,
+            "name": "Everlasting Moonglow",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 19,
+        "fields": {
+            "rarity": 5,
+            "name": "Kagura's Verity",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 20,
+        "fields": {
+            "rarity": 5,
+            "name": "Memory of Dust",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 21,
+        "fields": {
+            "rarity": 5,
+            "name": "Tulaytullah's Remembrance",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 22,
+        "fields": {
+            "rarity": 4,
+            "name": "Favonius Codex",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 23,
+        "fields": {
+            "rarity": 4,
+            "name": "The Widsith",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 24,
+        "fields": {
+            "rarity": 4,
+            "name": "Wandering Evenstar",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 25,
+        "fields": {
+            "rarity": 4,
+            "name": "Wine and Song",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 26,
+        "fields": {
+            "rarity": 3,
+            "name": "Emerald Orb",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 27,
+        "fields": {
+            "rarity": 3,
+            "name": "Magic Guide",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 29,
+        "fields": {
+            "rarity": 3,
+            "name": "Thrilling Tales of Dragon Slayer",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 31,
+        "fields": {
+            "rarity": 5,
+            "name": "Freedom-Sworn",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 32,
+        "fields": {
+            "rarity": 5,
+            "name": "Haran Geppaku Futsu",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 33,
+        "fields": {
+            "rarity": 5,
+            "name": "Key of Khaj-Nisut",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 34,
+        "fields": {
+            "rarity": 5,
+            "name": "Light of Foliar Incision",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 35,
+        "fields": {
+            "rarity": 5,
+            "name": "Mistsplitter Reforged",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 36,
+        "fields": {
+            "rarity": 5,
+            "name": "Primordial Jade Cutter",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 37,
+        "fields": {
+            "rarity": 5,
+            "name": "Summit Shaper",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 38,
+        "fields": {
+            "rarity": 4,
+            "name": "Favonius Sword",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 39,
+        "fields": {
+            "rarity": 4,
+            "name": "Lion's Roar",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 40,
+        "fields": {
+            "rarity": 4,
+            "name": "The Alley Flash",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 41,
+        "fields": {
+            "rarity": 4,
+            "name": "The Flute",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 42,
+        "fields": {
+            "rarity": 4,
+            "name": "Xiphos' Moonlight",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 43,
+        "fields": {
+            "rarity": 3,
+            "name": "Cool Steel",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 45,
+        "fields": {
+            "rarity": 3,
+            "name": "Harbinger of Dawn",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 46,
+        "fields": {
+            "rarity": 3,
+            "name": "Skyrider Sword",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 48,
+        "fields": {
+            "rarity": 5,
+            "name": "Redhorn Stonethresher",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 49,
+        "fields": {
+            "rarity": 5,
+            "name": "Song of Broken Pines",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 50,
+        "fields": {
+            "rarity": 5,
+            "name": "The Unforged",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 51,
+        "fields": {
+            "rarity": 4,
+            "name": "Akuoumaru",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 52,
+        "fields": {
+            "rarity": 4,
+            "name": "Favonius Greatsword",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 53,
+        "fields": {
+            "rarity": 4,
+            "name": "Lithic Blade",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 54,
+        "fields": {
+            "rarity": 4,
+            "name": "Rainslasher",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 55,
+        "fields": {
+            "rarity": 4,
+            "name": "The Bell",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 56,
+        "fields": {
+            "rarity": 3,
+            "name": "Bloodtainted Greatsword",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 57,
+        "fields": {
+            "rarity": 3,
+            "name": "Debate Club",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 58,
+        "fields": {
+            "rarity": 3,
+            "name": "Ferrous Shadow",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 61,
+        "fields": {
+            "rarity": 5,
+            "name": "Calamity Queller",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 62,
+        "fields": {
+            "rarity": 5,
+            "name": "Engulfing Lightning",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 63,
+        "fields": {
+            "rarity": 5,
+            "name": "Staff of Homa",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 64,
+        "fields": {
+            "rarity": 5,
+            "name": "Staff of the Scarlet Sands",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 65,
+        "fields": {
+            "rarity": 5,
+            "name": "Vortex Vanquisher",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 66,
+        "fields": {
+            "rarity": 4,
+            "name": "Dragon's Bane",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 67,
+        "fields": {
+            "rarity": 4,
+            "name": "Favonius Lance",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 68,
+        "fields": {
+            "rarity": 4,
+            "name": "Lithic Spear",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 69,
+        "fields": {
+            "rarity": 4,
+            "name": "Wavebreaker's Fin",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 70,
+        "fields": {
+            "rarity": 3,
+            "name": "Black Tassel",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 73,
+        "fields": {
+            "rarity": 5,
+            "name": "Aqua Simulacra",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 74,
+        "fields": {
+            "rarity": 5,
+            "name": "Elegy for the End",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 75,
+        "fields": {
+            "rarity": 5,
+            "name": "Hunter's Path",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 76,
+        "fields": {
+            "rarity": 5,
+            "name": "Polar Star",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 77,
+        "fields": {
+            "rarity": 5,
+            "name": "Thundering Pulse",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 78,
+        "fields": {
+            "rarity": 4,
+            "name": "Alley Hunter",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 79,
+        "fields": {
+            "rarity": 4,
+            "name": "Favonius Warbow",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 80,
+        "fields": {
+            "rarity": 4,
+            "name": "Mitternachts Waltz",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 81,
+        "fields": {
+            "rarity": 4,
+            "name": "Mouun's Moon",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 82,
+        "fields": {
+            "rarity": 4,
+            "name": "Rust",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 83,
+        "fields": {
+            "rarity": 4,
+            "name": "The Stringless",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 85,
+        "fields": {
+            "rarity": 3,
+            "name": "Raven Bow",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 87,
+        "fields": {
+            "rarity": 3,
+            "name": "Sharpshooter's Oath",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 88,
+        "fields": {
+            "rarity": 3,
+            "name": "Slingshot",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 89,
+        "fields": {
+            "rarity": 4,
+            "name": "Makhaira Aquamarine",
+            "limited": true
+        }
     }
 ]
