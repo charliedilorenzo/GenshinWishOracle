@@ -7,34 +7,86 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.exceptions import ValidationError
 import datetime
+from django.db.models import Q
 
 class CreateCharacterBannerForm(forms.ModelForm):
     class Meta:
         model = models.CharacterBanner
         fields = ['name', 'rateups', 'enddate']
-    name = forms.CharField(max_length = 64)
-    # rateups = forms.ModelMultipleChoiceField(
-        # queryset=models.Character.objects.all(),
-        # widget=forms.MultiWidget(widgets=[forms.Select, forms.Select, forms.Select, forms.Select])
-    # )
+    name = forms.CharField(max_length = 64,error_messages={'required': "Please add a banner name."})
     rateups = forms.ModelMultipleChoiceField(
-        queryset=models.Character.objects.all(),
+        queryset=models.Character.objects.filter(~Q(rarity = 3)),
         widget=forms.SelectMultiple(attrs={'size': 30}),
-        validators=[validate_character_rateups]  
+        validators=[validate_character_rateups],
+        required = True, 
+        error_messages={'required': "Please add rateups to the banner."}
     )
     enddate = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
 
+    def verify_rateups(self):
+        cleaned_data = super().clean()
+        rateups = cleaned_data.get('rateups')
+        if rateups is None or len(rateups) == 0:
+            return False
+        rateups_breakdown = {}
+        rateup_reqs = self.get_rateup_requirements()
+        for key in rateup_reqs:
+            rateups_breakdown[key] = len(rateups.filter(rarity=key))
+        if rateups_breakdown == rateup_reqs:
+            return True
+        return False
+
+    def is_valid(self) -> bool:
+        valid = super().is_valid()
+        if not self.verify_rateups():
+            return False
+        return valid
+
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
+    
+    def get_rateup_requirements(self) -> dict[int:int]:
+        rateup_reqs = {3: 0, 4: 3, 5: 1}
+        return rateup_reqs
 class CreateWeaponBannerForm(forms.ModelForm):
     class Meta:
         model = models.WeaponBanner
         fields = ['name', 'rateups', 'enddate']
-    name = forms.CharField(max_length = 64)
+    name = forms.CharField(max_length = 64, error_messages={'required': "Please add a banner name."})
     rateups = forms.ModelMultipleChoiceField(
-        queryset=models.Weapon.objects.all(),
-        widget=forms.SelectMultiple(attrs={'size': 30})
-        # TODO add validator
+        queryset=models.Weapon.objects.filter(~Q(rarity = 3)),
+        widget=forms.SelectMultiple(attrs={'size': 30}),
+        error_messages={'required': "Please add rateups to the banner."}
     )
     enddate = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
+
+    def verify_rateups(self):
+        cleaned_data = super().clean()
+        rateups = cleaned_data.get('rateups')=
+        if rateups is None or len(rateups) == 0:
+            return False
+        rateups_breakdown = {}
+        rateup_reqs = self.get_rateup_requirements()
+        for key in rateup_reqs:
+            rateups_breakdown[key] = len(rateups.filter(rarity=key))
+        if rateups_breakdown == rateup_reqs:
+            return True
+        return False
+    
+    def is_valid(self) -> bool:
+        valid = super().is_valid()
+        if not self.verify_rateups():
+            return False
+        return valid
+
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
+    
+    def get_rateup_requirements(self) -> dict[int:int]:
+        rateup_reqs = {3: 0, 4: 5, 5: 2}
+        return rateup_reqs
 
 class AnalyzeStatisticsCharacterToProbabilityForm(forms.Form):
     class Meta:
@@ -75,6 +127,7 @@ class AnalyzeStatisticsWeaponToProbabilityForm(forms.Form):
         if 'fate_points' not in cleaned_data or cleaned_data['fate_points'] == None:
             cleaned_data['fate_points']  = 0
         return cleaned_data
+    
 
 class AnalyzeStatisticsCharacterToNumWishesForm(forms.Form):
     class Meta:

@@ -8,7 +8,8 @@
 - make sure that banner construction required:
   - for character: single 5 star ru, three 4 star ru
   - for weapon: two 5 star ru, five 4 star ru
-- make banner construction search my name
+- make banner construction search by name
+- make banners only visible to the user that made them
 - user setting for autoimport every time?
 - add social apps login
 - good container from boostrap for content block  class="container mb-3 mt-3"

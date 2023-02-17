@@ -48,11 +48,49 @@ class CharacterBannerCreateView(generic.CreateView):
     template_name = 'analyze/character_banner_create.html'
     success_url = reverse_lazy('analyze:character_banner')
 
+    def get(self, request,*args, **kwargs):
+        context = {}
+        context['form'] = self.form_class
+        return render(request, self.template_name, context=context)
+
+    def post(self, request,*args, **kwargs):
+        context ={}
+        form  = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(to=self.success_url)
+        elif not form.verify_rateups():
+            form.add_error('rateups', "This kind of banners requires exactly one 5 star and three 4 stars.")
+            context['form'] = form
+            return render(request, self.template_name, context=context)
+        else:
+            context['form'] = form
+            return render(request, self.template_name, context=context)
+
 class WeaponBannerCreateView(generic.CreateView):
     model = models.WeaponBanner
     form_class = forms.CreateWeaponBannerForm
     template_name = 'analyze/weapon_banner_create.html'
     success_url = reverse_lazy('analyze:weapon_banner')
+
+    def get(self, request,*args, **kwargs):
+        context = {}
+        context['form'] = self.form_class
+        return render(request, self.template_name, context=context)
+
+    def post(self, request,*args, **kwargs):
+        context ={}
+        form  = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(to=self.success_url)
+        elif not form.verify_rateups():
+            form.add_error('rateups', "This kind of banners requires exactly two 5 stars and five 4 stars.")
+            context['form'] = form
+            return render(request, self.template_name, context=context)
+        else:
+            context['form'] = form
+            return render(request, self.template_name, context=context)
 
 class StatisticsAnalyzeOmniView(generic.View):
     template_name = 'analyze/analyze_omni.html'
@@ -93,14 +131,6 @@ class StatisticsAnalyzeOmniView(generic.View):
             init.update({'numwishes': request.session['wishes']})
         form = form(initial=init)
         return form
-        # if statistics_type == "calcprobability" and banner_type == "character":
-        #     form = forms.AnalyzeStatisticsCharacterToProbabilityForm(initial=init)
-        # elif statistics_type == "calcprobability" and banner_type == "weapon":
-        #     form = forms.AnalyzeStatisticsWeaponToProbabilityForm(initial=init)
-        # elif statistics_type == "calcnumwishes" and banner_type == "character":
-        #     form = forms.AnalyzeStatisticsCharacterToNumWishesForm(initial=init)
-        # elif statistics_type == "calcnumwishes" and banner_type == "weapon":
-        #     form = forms.AnalyzeStatisticsWeaponToNumWishesForm(initial=init)
     
     def get_second_form_names(self, request, banner_type, statistics_type,first_form):
         if statistics_type == "calcprobability" and banner_type == "character":
@@ -327,7 +357,6 @@ class ProjectPrimosView(generic.FormView):
         elif not form.date_is_decidable():
             form.add_error('end_date_manual_select', "Please add a manual banner end date or select a banner for its end date.")
             context['form'] = form
-            print("not decidable")
             return render(request, self.template_name, context=context)
         else:
             context['form'] = form
@@ -372,10 +401,6 @@ class WishSimulatorResultsView(generic.ListView):
             ten_pull.append(pulls[(i)*10+k])
         if ten_pull != []:
             ten_pulls.append(ten_pull)
-                
-        # character_name = "Zhongli"
-        # cool_pull = "<strong class=\"five-star\"> {} </strong>".format(character_name)
-        # context['cool_pull'] = cool_pull
         context['ten_pulls'] = ten_pulls
         return render(request, self.template_name, context=context)
 
@@ -392,11 +417,8 @@ class WishSimulatorResultsView(generic.ListView):
         four_star_pity = 0 
         four_star_guaranteed = False
         fate_points = 0
-
         banner = models.Banner.objects.filter(id=banner)[0]
-        print( banner.get_specified_banner_equivalent())
         rateups= banner.get_specified_banner_equivalent().rateups.all()
-        print(rateups)
         simulator = wish_simulator.WishSim(banner,rateups[0])
         pulls = simulator.roll(number_of_pulls,five_star_pity,five_star_guaranteed,four_star_pity,four_star_guaranteed, fate_points)
         return pulls

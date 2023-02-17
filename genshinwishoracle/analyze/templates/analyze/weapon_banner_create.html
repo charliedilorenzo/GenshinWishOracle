@@ -12,8 +12,27 @@
 <h1 class="display-4"> Weapon Banner Create </h1>
 <form method="post" novalidate>
     {% csrf_token %}
+
+    {% for field in form %}
+    {% if field.errors %}
+    {% for error in field.errors %}
+    <div class="form-alert-class">
+        <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
     <table>
-        {{ form.as_table }}
+        {% for field in form %}
+        <tr>
+            <td>
+                {{ field.label_tag }}
+            </td>
+            <td>
+                {{ field }}
+            </td>
+        </tr>
+        {% endfor %}
     </table>
     <button type="submit">Save</button>
     <a href="{% url 'analyze:weapon_banner' %}">Nevermind</a>
