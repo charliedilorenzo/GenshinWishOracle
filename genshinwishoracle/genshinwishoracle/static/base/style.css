@@ -208,19 +208,3 @@
 }
 
 /* --------------------- OTHER STUFF ---------------- */
-
-.analysis-table {
-    border: 1px solid black;
-    row-gap: 5px;
-
-}
-
-.analysis-td {
-    text-align: center;
-    border: 1px solid black;
-    padding: 5px;
-}
-
-.form-alert-class {
-    color: red;
-}

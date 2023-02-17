@@ -1,0 +1,39 @@
+.analysis-table {
+    border: 1px solid black;
+    row-gap: 5px;
+
+}
+
+.analysis-td {
+    text-align: center;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.form-alert-class {
+    color: red;
+}
+
+.five-star {
+    color: orange;
+}
+
+.four-star {
+    color: rgb(184, 111, 186);
+}
+
+.three-star {
+    color: grey
+}
+
+.wishing-table {
+    border: 1px solid black;
+    row-gap: 2px;
+
+}
+
+.wishing-td {
+    text-align: center;
+    border: 1px solid black;
+    padding: 2px;
+}

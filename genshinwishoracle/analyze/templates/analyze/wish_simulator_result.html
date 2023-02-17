@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+<link rel="stylesheet" href="{% static 'genshinwishoracle/style.css' %}">
 <title>{% block title %} Wish Simulator Results {% endblock title %} </title>
 <div>
     <a href="{% url 'analyze:wish_simulator' %}"><button name='back' type="submit" class="back-button"><i
@@ -12,9 +13,13 @@
 
 <body>
     {{number_of_pulls}}
-    <table>
-        {% for pull in pulls %}
-        <td>{{pull}}</td>
+    <table class="wishing-table">
+        {% for ten_pull in ten_pulls %}
+        <tr>
+            {% for pull in ten_pull%}
+            <td class="wishing-td">{{pull | safe}}</td>
+            {% endfor %}
+        </tr>
         {% endfor %}
     </table>
 </body>

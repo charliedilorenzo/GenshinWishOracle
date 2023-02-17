@@ -359,7 +359,24 @@ class WishSimulatorResultsView(generic.ListView):
         context ={}
         context['number_of_pulls'] = number_of_pulls
         pulls = self.wish_simulator(number_of_pulls, banner_id)
-        context['pulls'] = pulls
+        ten_pulls = []
+        i = 0
+        for i in range(0,math.floor(len(pulls) / 10)):
+            ten_pull = []
+            for j in range(0,10):
+                ten_pull.append(pulls[i*10+j])
+            ten_pulls.append(ten_pull)
+        ten_pull = []
+        for k in range(0,len(pulls) % 10):
+            k
+            ten_pull.append(pulls[(i)*10+k])
+        if ten_pull != []:
+            ten_pulls.append(ten_pull)
+                
+        # character_name = "Zhongli"
+        # cool_pull = "<strong class=\"five-star\"> {} </strong>".format(character_name)
+        # context['cool_pull'] = cool_pull
+        context['ten_pulls'] = ten_pulls
         return render(request, self.template_name, context=context)
 
     def get_queryset(self):
@@ -377,8 +394,9 @@ class WishSimulatorResultsView(generic.ListView):
         fate_points = 0
 
         banner = models.Banner.objects.filter(id=banner)[0]
+        print( banner.get_specified_banner_equivalent())
         rateups= banner.get_specified_banner_equivalent().rateups.all()
-
+        print(rateups)
         simulator = wish_simulator.WishSim(banner,rateups[0])
         pulls = simulator.roll(number_of_pulls,five_star_pity,five_star_guaranteed,four_star_pity,four_star_guaranteed, fate_points)
         return pulls

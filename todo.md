@@ -5,6 +5,10 @@
 ## New Stuff
 
 - fix TODOs in wish simulator
+- make sure that banner construction required:
+  - for character: single 5 star ru, three 4 star ru
+  - for weapon: two 5 star ru, five 4 star ru
+- make banner construction search my name
 - user setting for autoimport every time?
 - add social apps login
 - good container from boostrap for content block  class="container mb-3 mt-3"

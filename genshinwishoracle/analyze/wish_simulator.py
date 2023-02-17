@@ -20,7 +20,6 @@ class WishSim:
         self.banner_type = "character"
         self.non_ru_five_stars = models.Character.objects.filter(rarity=5, limited=False)
         self.prob_at_value = analytical.DEFAULT_CHARACTER_BANNER_SOFT_PITY
-        # TODO add five star rate?
         self.five_star_rate = analytical.BASE_CHARACTER_FIVE_STAR_RATE
         self.rate_up_prob = .5
     elif type(banner) == models.WeaponBanner:
@@ -28,9 +27,7 @@ class WishSim:
         self.non_ru_five_stars = models.Weapon.objects.filter(rarity=5, limited=False)
         self.epitomized_path_progress = 0
         self.prob_at_value = analytical.DEFAULT_WEAPON_BANNER_SOFT_PITY
-        # TODO add five star rate?
         self.five_star_rate = analytical.BASE_WEAPON_FIVE_STAR_RATE
-        # TODO add fate point max
         self.epitomized_maximum = analytical.BASE_MAXIMUM_FATE_POINTS
         self.rate_up_prob = .75
 
@@ -45,11 +42,6 @@ class WishSim:
     three_star_weapons = models.Weapon.objects.filter(rarity=3, limited=False)
     self.three_stars = list(three_star_characters.union(three_star_weapons))
     self.desired_five_star = desired_five_star
-
-    print(self.ru_five_stars)
-    print(self.non_ru_five_stars)
-    print(self.ru_five_stars)
-    print(self.non_ru_four_stars)
 
     # these can be reassigned with roll()
     self.five_star_guaranteed = False
@@ -68,7 +60,7 @@ class WishSim:
     # this is to check if we win 50/50, it will still run if we have guaranteed but it will not overwrite
     if (y__random_under_one(self.rate_up_prob)):
       self.five_star_guaranteed = True
-    if (self.epitomized_path_progress >= self.epitomized_maximum):
+    if self.banner_type == "weapon" and (self.epitomized_path_progress >= self.epitomized_maximum):
       choice = self.desired_five_star
       self.epitomized_path_progress=0
       self.five_star_guaranteed = False
@@ -85,7 +77,7 @@ class WishSim:
       self.five_star_guaranteed = True
     self.five_star_pity = 0
     self.four_star_pity = 0
-    self.pulls.append(choice)
+    self.pulls.append(self.pull_to_html_format(choice,5))
 
   def generate_four_star(self):
     if (y__random_under_one(self.rate_up_prob)):
@@ -97,7 +89,7 @@ class WishSim:
       choice = random.choice(self.non_ru_four_stars)
       self.four_star_guaranteed = True
     self.four_star_pity = 0
-    self.pulls.append(choice)
+    self.pulls.append(self.pull_to_html_format(choice,4))
 
   def roll(self, number_of_pulls: int, five_star_pity: int, five_star_guaranteed: bool, four_star_pity: int, four_star_guaranteed: bool, fate_points: int):
     #cap them out, just in case
@@ -140,6 +132,14 @@ class WishSim:
         
         # generate a three star
         choice = random.choice(self.three_stars)
-        self.pulls.append(choice)
+        self.pulls.append(self.pull_to_html_format(choice,3))
         continue 
     return self.pulls
+  
+  def pull_to_html_format(self, name, rarity):
+    if rarity == 5:
+      return "<strong class=\"five-star\"> {} </strong>".format(name)
+    elif rarity == 4:
+      return "<strong class=\"four-star\"> {} </strong>".format(name)
+    elif rarity == 3:
+      return "<p class=\"three-star\"> {} </p>".format(name)
