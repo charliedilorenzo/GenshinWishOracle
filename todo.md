@@ -8,6 +8,7 @@
 - make banners only visible to the user that made them
 - user setting for autoimport every time?
 - add social apps login
+- fix some of the users stuff
 - good container from boostrap for content block  class="container mb-3 mt-3"
 - find the most realistic pity distribution
 - get rid of hash table from analytical?
