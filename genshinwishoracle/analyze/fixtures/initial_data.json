@@ -1139,5 +1139,662 @@
                 15
             ]
         }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 1,
+        "fields": {
+            "rarity": 4,
+            "name": "Amber",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 3,
+        "fields": {
+            "rarity": 5,
+            "name": "Xiao",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 4,
+        "fields": {
+            "rarity": 5,
+            "name": "Jean",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 5,
+        "fields": {
+            "rarity": 5,
+            "name": "Diluc",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 6,
+        "fields": {
+            "rarity": 5,
+            "name": "Qiqi",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 7,
+        "fields": {
+            "rarity": 5,
+            "name": "Mona",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 8,
+        "fields": {
+            "rarity": 5,
+            "name": "Keqing",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 9,
+        "fields": {
+            "rarity": 4,
+            "name": "Kaeya",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 10,
+        "fields": {
+            "rarity": 4,
+            "name": "Lisa",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 11,
+        "fields": {
+            "rarity": 4,
+            "name": "Yaoyao",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 12,
+        "fields": {
+            "rarity": 4,
+            "name": "Kuki Shinobu",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 13,
+        "fields": {
+            "rarity": 5,
+            "name": "Zhongli",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 14,
+        "fields": {
+            "rarity": 4,
+            "name": "Bennett",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 15,
+        "fields": {
+            "rarity": 5,
+            "name": "Albedo",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 16,
+        "fields": {
+            "rarity": 5,
+            "name": "Alhaitham",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 17,
+        "fields": {
+            "rarity": 5,
+            "name": "Arataki Itto",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 18,
+        "fields": {
+            "rarity": 4,
+            "name": "Barbara",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 19,
+        "fields": {
+            "rarity": 4,
+            "name": "Beidou",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 20,
+        "fields": {
+            "rarity": 4,
+            "name": "Bennett",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 21,
+        "fields": {
+            "rarity": 4,
+            "name": "Candace",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 22,
+        "fields": {
+            "rarity": 4,
+            "name": "Chongyun",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 23,
+        "fields": {
+            "rarity": 4,
+            "name": "Collei",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 24,
+        "fields": {
+            "rarity": 5,
+            "name": "Cyno",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 25,
+        "fields": {
+            "rarity": 5,
+            "name": "Diluc",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 26,
+        "fields": {
+            "rarity": 4,
+            "name": "Diona",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 27,
+        "fields": {
+            "rarity": 4,
+            "name": "Dori",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 28,
+        "fields": {
+            "rarity": 5,
+            "name": "Eula",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 29,
+        "fields": {
+            "rarity": 4,
+            "name": "Faruzan",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 30,
+        "fields": {
+            "rarity": 4,
+            "name": "Fischl",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 31,
+        "fields": {
+            "rarity": 5,
+            "name": "Ganyu",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 32,
+        "fields": {
+            "rarity": 4,
+            "name": "Gorou",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 33,
+        "fields": {
+            "rarity": 5,
+            "name": "Hu Tao",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 34,
+        "fields": {
+            "rarity": 5,
+            "name": "Jean",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 35,
+        "fields": {
+            "rarity": 5,
+            "name": "Kaedehara Kazuha",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 36,
+        "fields": {
+            "rarity": 4,
+            "name": "Kaeya",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 37,
+        "fields": {
+            "rarity": 5,
+            "name": "Kamisato Ayaka",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 38,
+        "fields": {
+            "rarity": 5,
+            "name": "Kamisato Ayato",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 39,
+        "fields": {
+            "rarity": 5,
+            "name": "Keqing",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 40,
+        "fields": {
+            "rarity": 5,
+            "name": "Klee",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 41,
+        "fields": {
+            "rarity": 4,
+            "name": "Kujou Sara",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 42,
+        "fields": {
+            "rarity": 4,
+            "name": "Kuki Shinobu",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 43,
+        "fields": {
+            "rarity": 4,
+            "name": "Layla",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 44,
+        "fields": {
+            "rarity": 4,
+            "name": "Lisa",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 45,
+        "fields": {
+            "rarity": 5,
+            "name": "Mona",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 46,
+        "fields": {
+            "rarity": 5,
+            "name": "Nahida",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 47,
+        "fields": {
+            "rarity": 5,
+            "name": "Nilou",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 48,
+        "fields": {
+            "rarity": 4,
+            "name": "Ningguang",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 49,
+        "fields": {
+            "rarity": 4,
+            "name": "Noelle",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 50,
+        "fields": {
+            "rarity": 5,
+            "name": "Qiqi",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 51,
+        "fields": {
+            "rarity": 5,
+            "name": "Raiden Shogun",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 52,
+        "fields": {
+            "rarity": 4,
+            "name": "Razor",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 53,
+        "fields": {
+            "rarity": 4,
+            "name": "Rosaria",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 54,
+        "fields": {
+            "rarity": 5,
+            "name": "Sangonomiya Kokomi",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 55,
+        "fields": {
+            "rarity": 4,
+            "name": "Sayu",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 56,
+        "fields": {
+            "rarity": 5,
+            "name": "Shenhe",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 57,
+        "fields": {
+            "rarity": 4,
+            "name": "Shikanoin Heizou",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 58,
+        "fields": {
+            "rarity": 4,
+            "name": "Sucrose",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 59,
+        "fields": {
+            "rarity": 5,
+            "name": "Tartaglia",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 60,
+        "fields": {
+            "rarity": 4,
+            "name": "Thoma",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 61,
+        "fields": {
+            "rarity": 5,
+            "name": "Tighnari",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 62,
+        "fields": {
+            "rarity": 5,
+            "name": "Venti",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 63,
+        "fields": {
+            "rarity": 5,
+            "name": "Wanderer",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 64,
+        "fields": {
+            "rarity": 4,
+            "name": "Xiangling",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 65,
+        "fields": {
+            "rarity": 5,
+            "name": "Xiao",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 66,
+        "fields": {
+            "rarity": 4,
+            "name": "Xingqiu",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 67,
+        "fields": {
+            "rarity": 4,
+            "name": "Xinyan",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 68,
+        "fields": {
+            "rarity": 5,
+            "name": "Yae Miko",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 69,
+        "fields": {
+            "rarity": 4,
+            "name": "Yanfei",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 70,
+        "fields": {
+            "rarity": 4,
+            "name": "Yaoyao",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 71,
+        "fields": {
+            "rarity": 5,
+            "name": "Yelan",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 72,
+        "fields": {
+            "rarity": 5,
+            "name": "Yoimiya",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 73,
+        "fields": {
+            "rarity": 4,
+            "name": "Yun Jin",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 74,
+        "fields": {
+            "rarity": 5,
+            "name": "Zhongli",
+            "limited": true
+        }
     }
 ]
