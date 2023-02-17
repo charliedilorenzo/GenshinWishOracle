@@ -63,7 +63,7 @@ class CreateWeaponBannerForm(forms.ModelForm):
 
     def verify_rateups(self):
         cleaned_data = super().clean()
-        rateups = cleaned_data.get('rateups')=
+        rateups = cleaned_data.get('rateups')
         if rateups is None or len(rateups) == 0:
             return False
         rateups_breakdown = {}

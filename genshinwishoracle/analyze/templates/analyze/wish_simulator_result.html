@@ -12,7 +12,12 @@
 <h1 class="display-4"> Wish Simulator Results</h1>
 
 <body>
-    {{number_of_pulls}}
+    <div>
+        <h1 class="display-6"> Number of Pulls </h1>:
+    </div>
+    <div>
+        {{number_of_pulls}}
+    </div>
     <table class="wishing-table">
         {% for ten_pull in ten_pulls %}
         <tr>

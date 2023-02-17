@@ -4,10 +4,6 @@
 
 ## New Stuff
 
-- fix TODOs in wish simulator
-- make sure that banner construction required:
-  - for character: single 5 star ru, three 4 star ru
-  - for weapon: two 5 star ru, five 4 star ru
 - make banner construction search by name
 - make banners only visible to the user that made them
 - user setting for autoimport every time?
@@ -19,6 +15,7 @@
 - import analytical database
 - fix date-decidable in project primos for jan 1
 - novalidate for forms for proj_primo and analysis
+- improve the accurary of four star distribution for wish sim
 
 - in settings SESSION_COOKIE_AGE = 60 *60* 24 * 30
 
