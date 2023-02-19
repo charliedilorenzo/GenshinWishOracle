@@ -89,10 +89,10 @@ class CreateWeaponBannerForm(forms.ModelForm):
         model = models.WeaponBanner
         fields = ['name', 'rateups', 'enddate']
     name = forms.CharField(max_length = 64, error_messages={'required': "Please add a banner name."})
-    # rateups = 
+    custom_widget = FilteredSelectMultiple('rateups', is_stacked=False)
     rateups = forms.ModelMultipleChoiceField(
         queryset=models.Weapon.objects.filter(~Q(rarity = 3)),
-        widget=forms.SelectMultiple(attrs={'size': 30}),
+        widget=custom_widget,
         error_messages={'required': "Please add rateups to the banner."}
     )
     enddate = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))

@@ -1,6 +1,8 @@
 {% extends "genshinwishoracle/bootstrap_base.html" %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+<link rel=" stylesheet" href="{% static 'analyze/style.css' %}">
+<link rel=" stylesheet" href="{% static 'analyze/css/widgets.css' %}">
+<script type="text/javascript" src="{% url 'jsi18n' %}"></script>
 {% block content %}
 <title>{% block title %} Weapon Banner Create {% endblock title %} </title>
 
@@ -10,31 +12,29 @@
             Back</button></a>
 </div>
 <h1 class="display-4"> Weapon Banner Create </h1>
-<form method="post" novalidate>
-    {% csrf_token %}
-
-    {% for field in form %}
-    {% if field.errors %}
-    {% for error in field.errors %}
-    <div class="form-alert-class">
-        <strong>{{ error|escape }}</strong>
-    </div>
-    {% endfor %}
-    {% endif %}
-    {% endfor %}
-    <table>
+<div id='frame'>
+    <form method="post" novalidate>
         {% for field in form %}
-        <tr>
-            <td>
-                {{ field.label_tag }}
-            </td>
-            <td>
-                {{ field }}
-            </td>
-        </tr>
+        {% if field.errors %}
+        {% for error in field.errors %}
+        <div class="form-alert-class">
+            <strong>{{ error|escape }}</strong>
+        </div>
         {% endfor %}
-    </table>
-    <button type="submit">Save</button>
-    <a href="{% url 'analyze:weapon_banner' %}">Nevermind</a>
-</form>
+        {% endif %}
+        {% endfor %}
+        <div id='sk_body'>
+            <fieldset>
+                <form>
+                    {% csrf_token %}
+                    <table>
+                        {{ form.media }}
+                        {{ form.as_table }}
+                    </table>
+                    <input type="submit" value="Submit">
+                </form>
+            </fieldset>
+        </div>
+    </form>
+</div>
 {% endblock content %}
