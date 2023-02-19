@@ -3,6 +3,8 @@ startup:
 cd genshinwishoracle
 python manage.py runserver
 
+<https://github.com/Goyet-Christopher/FilteredSelectMultiple>
+
 IF STATIC CSS ISNT IMPLEMENTED FIRST TRY SHIFT-RELOADING PAGE
 
 1. Remove all the migration files

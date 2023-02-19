@@ -50,7 +50,10 @@ class CharacterBannerCreateView(generic.CreateView):
 
     def get(self, request,*args, **kwargs):
         context = {}
-        context['form'] = self.form_class
+        form = self.form_class()
+        context.update(form.get_context())
+        context['form'] = form
+
         return render(request, self.template_name, context=context)
 
     def post(self, request,*args, **kwargs):

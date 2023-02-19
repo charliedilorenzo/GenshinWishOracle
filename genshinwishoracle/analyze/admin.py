@@ -1,5 +1,16 @@
 from django.contrib import admin
 from . import models
+from django.contrib.admin import widgets
+
+class ManyToManyAdmin(admin.ModelAdmin):
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        kwargs['widget']= widgets.FilteredSelectMultiple(
+            db_field.verbose_name,
+            db_field.name in self.filter_vertical
+        )
+
+        return super(admin.ModelAdmin, self).formfield_for_manytomany(
+            db_field, request=request, **kwargs)
 
 class WeaponAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -59,8 +70,28 @@ class CharacterBannerAdmin(admin.ModelAdmin):
     list_display = ('name',)
     list_filter = ['name']
     search_fields = ['name']
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        kwargs['widget']= widgets.FilteredSelectMultiple(
+            db_field.verbose_name,
+            db_field.name in self.filter_vertical
+        )
 
-class WeaponBanner(admin.TabularInline):
+        return super(admin.ModelAdmin, self).formfield_for_manytomany(
+            db_field, request=request, **kwargs)
+
+class CharacterBannerAdmin(ManyToManyAdmin):
+    fieldsets = [
+        ('Name', {'fields': ['name']}),
+        ('Rateups', {'fields': [
+         'rateups']}),
+        ('End Date', {'fields': [
+         'enddate']}),
+    ]
+    list_display = ('name',)
+    list_filter = ['name']
+    search_fields = ['name']
+
+class WeaponBanner(ManyToManyAdmin):
     model = models.WeaponBanner
 
 class CharacterBanner(admin.TabularInline):

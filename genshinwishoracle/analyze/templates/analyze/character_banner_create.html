@@ -1,9 +1,11 @@
 {% extends "genshinwishoracle/bootstrap_base.html" %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+<html lang="{{ LANGUAGE_CODE }}">
+<link rel=" stylesheet" href="{% static 'analyze/style.css' %}">
+<link rel=" stylesheet" href="{% static 'analyze/css/widgets.css' %}">
+<script type="text/javascript" src="{% url 'jsi18n' %}"></script>
 {% block content %}
 <title>{% block title %} Character Banner Creation {% endblock title %} </title>
-
 <div>
     <a href="{% url 'analyze:character_banner' %}"><button name='back' type="submit" class="back-button"><i
                 class="back-arrow"></i>
@@ -11,30 +13,32 @@
 </div>
 <h1 class="display-4"> Character Banner Creation </h1>
 
-<form method="post" novalidate>
-    {% csrf_token %}
-
-    {% for field in form %}
-    {% if field.errors %}
-    {% for error in field.errors %}
-    <div class="form-alert-class">
-        <strong>{{ error|escape }}</strong>
-    </div>
-    {% endfor %}
-    {% endif %}
-    {% endfor %}
-    <table>
+<div id='frame'>
+    <form method="post" novalidate>
         {% for field in form %}
-        <tr>
-            <td>
-                {{ field.label_tag }}
-            </td>
-            <td>
-                {{ field }}
-            </td>
-        </tr>
+        {% if field.errors %}
+        {% for error in field.errors %}
+        <div class="form-alert-class">
+            <strong>{{ error|escape }}</strong>
+        </div>
         {% endfor %}
-    </table>
-    <button type="submit">Save</button>
-</form>
-{% endblock content %}
+        {% endif %}
+        {% endfor %}
+        <div id='sk_body'>
+            <fieldset>
+                <legend>Fill required fields</legend>
+                <form>
+                    {% csrf_token %}
+                    <table>
+                        {{ form.media }}
+                        {{ form.as_table }}
+                    </table>
+                    <input type="submit" value="Submit">
+                </form>
+            </fieldset>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+</html>

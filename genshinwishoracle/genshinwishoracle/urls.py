@@ -21,6 +21,7 @@ from django.contrib.auth import views as auth_views
 from users.forms import LoginForm
 from django.views.generic import TemplateView
 from django.views.generic import RedirectView
+from django.views.i18n import JavaScriptCatalog
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='main-home'),
@@ -40,5 +41,6 @@ urlpatterns = [
          auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'),
          name='password_reset_complete'),
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
-    path(r'^favicon\.ico$',RedirectView.as_view(url='/static/base/icons/favicon.ico')),
+    path('favicon.ico',RedirectView.as_view(url='/static/base/icons/favicon.ico')),
+    path('jsi18n', JavaScriptCatalog.as_view(), name='jsi18n'),
 ]

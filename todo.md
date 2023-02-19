@@ -5,6 +5,7 @@
 ## New Stuff
 
 - make banner construction search by name
+- add extra folders to templates and static if necessary (such as form)
 - make banners only visible to the user that made them
 - user setting for autoimport every time?
 - add social apps login

@@ -2,24 +2,57 @@ from django import forms
 from . import models
 from .validators import validate_character_rateups
 from django.utils import timezone
-from django.core.validators import MaxValueValidator, MinValueValidator
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.core.exceptions import ValidationError
 import datetime
 from django.db.models import Q
+from django.conf import settings
+
+# imported from django.contrib.admin
+class FilteredSelectMultiple(forms.SelectMultiple):
+    """
+    A SelectMultiple with a JavaScript filter interface.
+
+    Note that the resulting JavaScript assumes that the jsi18n
+    catalog has been loaded in the page
+    """
+
+    class Media:
+        css = {
+                'all': ('/static/admin/css/widgets.css',),
+            }
+        js = [
+            settings.STATIC_URL + "analyze/js/core.js",
+            settings.STATIC_URL + "analyze/js/SelectBox.js",
+            settings.STATIC_URL + "analyze/js/SelectFilter2.js",
+            '/jsi18n',
+        ]
+
+    def __init__(self, verbose_name, is_stacked, attrs=None, choices=()):
+        self.verbose_name = verbose_name
+        self.is_stacked = is_stacked
+        super().__init__(attrs, choices)
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context["widget"]["attrs"]["class"] = "selectfilter"
+        if self.is_stacked:
+            context["widget"]["attrs"]["class"] += "stacked"
+        context["widget"]["attrs"]["data-field-name"] = self.verbose_name
+        context["widget"]["attrs"]["data-is-stacked"] = int(self.is_stacked)
+        return context
+
 
 class CreateCharacterBannerForm(forms.ModelForm):
     class Meta:
         model = models.CharacterBanner
         fields = ['name', 'rateups', 'enddate']
     name = forms.CharField(max_length = 64,error_messages={'required': "Please add a banner name."})
+    custom_widget = FilteredSelectMultiple('rateups', is_stacked=False)
     rateups = forms.ModelMultipleChoiceField(
-        queryset=models.Character.objects.filter(~Q(rarity = 3)),
-        widget=forms.SelectMultiple(attrs={'size': 30}),
-        validators=[validate_character_rateups],
+        queryset=models.Character.objects.all(),
+        widget=custom_widget,
         required = True, 
-        error_messages={'required': "Please add rateups to the banner."}
+        error_messages={'required': "Please add rateups to the banner."},
+        label = "Rateup"
     )
     enddate = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
 
@@ -50,10 +83,13 @@ class CreateCharacterBannerForm(forms.ModelForm):
         rateup_reqs = {3: 0, 4: 3, 5: 1}
         return rateup_reqs
 class CreateWeaponBannerForm(forms.ModelForm):
+    class Media:
+        js = ("my_code.js",)
     class Meta:
         model = models.WeaponBanner
         fields = ['name', 'rateups', 'enddate']
     name = forms.CharField(max_length = 64, error_messages={'required': "Please add a banner name."})
+    # rateups = 
     rateups = forms.ModelMultipleChoiceField(
         queryset=models.Weapon.objects.filter(~Q(rarity = 3)),
         widget=forms.SelectMultiple(attrs={'size': 30}),
@@ -172,6 +208,7 @@ class AnalyzeStatisticsWeaponToNumWishesForm(forms.Form):
         return cleaned_data
 
 class ProjectPrimosForm(forms.Form):
+    
     numprimos = forms.IntegerField(label="Number of Wishes",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of primogems."} )
     numgenesis = forms.IntegerField(label="Number of Genesis Crystal",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of genesis crystals."})
     numfates = forms.IntegerField(label="Number of Intertwined Fate",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of intertwined fates"})
@@ -179,11 +216,14 @@ class ProjectPrimosForm(forms.Form):
     end_date_manual_select = forms.DateField(label="End Date Manual Select",widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
     # TODO fix this to be less jank if possible
     now = datetime.date.today()
+    
+    # get the banners
     valid_char_banners = models.CharacterBanner.objects.filter(enddate__gte=now)
     valid_weapon_banners = models.WeaponBanner.objects.filter(enddate__gte=now)
     banner_ids = [banner.get_base_banner_equivalent().id for banner in valid_char_banners]
     banner_ids+= [banner.get_base_banner_equivalent().id for banner in valid_weapon_banners]
     banners = models.Banner.objects.filter(id__in=banner_ids)
+    
     end_date_banner_select = forms.ModelChoiceField(label="End Date Select Through Banner",
         queryset= banners,
         widget=forms.Select(attrs={'size': 30},),
