@@ -15,16 +15,16 @@ Multiple functions are implemented (or to be implemented):
 
 - Wish Simulator: Relatively simple and gives one possible simulation of how a wishing session might go with as accurate statistics as I can provide
 - Wish Projection: Using [data from past patchs](/README.md#patch-primo-income), I try to as conservatively as possible estimate the amount of (equivalent) primogems one can get with Welkin and BP as addtional income sources
-- Wish Statistics Analysis: Prior I had another project [GenshinWishStats](https://github.com/charliedilorenzo/GenshinWishStats), which derived statistics via brute force repeated simulations. Recently I've realized how to analytically derive the statistics for Genshin Impact wishing including pity, guaranteed, fate points, etc. I also have crossed check this method with the other one and them seem to agree
+- Wish Statistics Analysis: Prior I had another project [GenshinWishStats](https://github.com/charliedilorenzo/GenshinWishStats), which derived statistics via brute force repeated simulations. Recently, I've realized how to analytically derive the statistics for Genshin Impact wishing including pity, guaranteed, fate points, etc. I also have crossed-check this method with the other one and they agree with great accuracy (though the brute force method has variance so there is always some difference).
 - Custom Banners: Store different banners to be used in the simulator or statistics analyzer
 
 ## How does it work?
 
-&ensp;&ensp; The analytical functions works recursively and use the solution for connecting wish number/pity level/guaranteed state/fate point combinations in order to derive subsequent solutions. While this process took around 24 hours to calculate solutions for a given pity/guaranteed combination on character banner for all amounts of wishes, now it takes around 2 minutes to calculate for all wish numbers, all pity, all guaranteed, and all fate points.
+&ensp;&ensp; The analytical functions works recursively and use the solution for connecting wish number/pity level/guaranteed state/fate point combinations in order to derive subsequent solutions. While the previous process took around 24 hours to calculate solutions for a given pity/guaranteed combination on character banner for all amounts of wishes, now it takes around 2 minutes to calculate for all wish numbers, all pity, all guaranteed, and all fate points.
 
 ## Existing Errors
 
-&ensp;&ensp; The major point of error would be that the soft pity region (around with 74-90 for character banner) is likely not fully accurately given. That is why I will allow people to override my defaults and give whatever values they desire for pity distribution. Once I have progressed the project further in functionality I will scour the internet to find more accurate numbers. However, as the case may be the function will work properly ASSUMING that eventually I get more accurate pity distribution
+&ensp;&ensp; The major point of error would be that the soft pity region (around with 74-90 for character banner) is likely not fully accurately given. That is why I will allow people to override my defaults and give whatever values they desire for pity distribution. Once I have progressed the project further in functionality I will scour the internet to find more accurate numbers. However, as the case may be the function will work properly ASSUMING that eventually I get more accurate pity distribution.
 
 ## Informing Data
 
