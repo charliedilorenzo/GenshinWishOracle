@@ -4,10 +4,13 @@
 
 ## New Stuff
 
-- get rid of custom users in database
+- fix issue with "get() returned more than one Profile -- it returned 2!"
+- make queries for all banners correct again
+- add string method for banners
+- make names unique per user
+- make banners only visible to the user that made them
 - for banners make the arrow in the many to many bigger
 - add banner_type to banners and end_date
-- make banners only visible to the user that made them
 - add extra folders to templates and static if necessary (such as form)
 - add ability to delete and edit banners  in the listview
 - user setting for autoimport every time?

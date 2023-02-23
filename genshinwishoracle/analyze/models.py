@@ -5,7 +5,6 @@ from django.utils import timezone
 class Character(models.Model):
     def __str__(self):
         return self.name
-    # TODO make field 3/4/5 only
     # TODO PositiveIntegerField
     rarity = models.IntegerField()
     name = models.CharField(max_length= 32)
@@ -14,7 +13,6 @@ class Character(models.Model):
 class Weapon(models.Model):
     def __str__(self):
         return self.name
-    # TODO make field 3/4/5 only
     # TODO PositiveIntegerField
     rarity = models.IntegerField()
     name = models.CharField(max_length= 32)
@@ -30,13 +28,10 @@ class Banner(models.Model):
     banner_type = models.CharField(max_length = 64,choices=BANNER_TYPE)
     # not abstract simply so I can query, but nobody should be making the base Banner class
     def __str__(self):
-        return ""
         return str(self.get_specified_banner_equivalent())
 
 
     def get_specified_banner_equivalent(self):
-        print("id", self.id)
-        print()
         if self.banner_type == CHARACTER:
             found = CharacterBanner.objects.filter(banner_ptr_id=self.id)
             if len(found) > 0:
@@ -61,7 +56,6 @@ class CharacterBanner(Banner):
         super(CharacterBanner,self).save(*args, **kwargs)
     
     def __str__(self) -> str:
-        return ""
         five_stars = self.rateups.filter(rarity=5)
         five_stars = [str(i) for i in five_stars]
         five_star_str = ", ".join(five_stars)
@@ -88,7 +82,6 @@ class WeaponBanner(Banner):
         super(WeaponBanner,self).save(*args, **kwargs)
     
     def __str__(self) -> str:
-        return ""
         five_stars = self.rateups.filter(rarity=5)
         five_stars = [str(i) for i in five_stars]
         five_star_str = ", ".join(five_stars)
