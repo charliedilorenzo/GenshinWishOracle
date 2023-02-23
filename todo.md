@@ -5,6 +5,7 @@
 ## New Stuff
 
 - make banner names unique per user
+  - weapon
 - add ability to delete and edit banners  in the listview
 - banner detail view
 - for banners make the arrow in the many to many bigger

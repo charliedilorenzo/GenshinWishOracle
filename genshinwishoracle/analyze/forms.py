@@ -129,14 +129,38 @@ class CreateWeaponBannerForm(forms.ModelForm):
     class Meta:
         model = models.WeaponBanner
         fields = ['name', 'rateups', 'enddate']
-    name = forms.CharField(max_length = 64, error_messages={'required': "Please add a banner name."})
-    custom_widget = FilteredSelectMultiple('rateups', is_stacked=False)
-    rateups = forms.ModelMultipleChoiceField(
-        queryset=models.Weapon.objects.filter(~Q(rarity = 3)),
-        widget=custom_widget,
-        error_messages={'required': "Please add rateups to the banner."}
-    )
-    enddate = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
+    def __init__(self, *args, **kwargs):
+        self.request= kwargs.pop('request', None)
+        user_id = self.request.user.id
+        print("init user_id", user_id)
+        super(CreateWeaponBannerForm, self).__init__(*args, **kwargs)
+        self.fields['name'] = forms.CharField(max_length = 64,error_messages={'required': "Please add a banner name."})
+        custom_widget = FilteredSelectMultiple('rateups', is_stacked=False)
+        self.fields['rateups']= forms.ModelMultipleChoiceField(
+            queryset=models.Weapon.objects.filter(~Q(rarity = 3)),
+            widget=custom_widget,
+            required = True, 
+            error_messages={'required': "Please add rateups to the banner."},
+            label = "Rateup"
+        )
+        self.fields['enddate'] = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
+        self.user_id = None
+        if user_id is not None:
+            user = User.objects.filter(id=user_id)
+        else:
+            user = User.objects.none()
+        # check they actually exist
+        if len(user) != 1:
+            pass
+        else:
+            self.user_id = user_id
+
+    def unique_name_for_user(self, current_name):
+        profile = Profile.objects.filter(user_id = self.user_id)[0]
+        banners = profile.banners.filter(name=current_name)
+        if len(banners) == 0:
+            return True
+        return False
 
     def verify_rateups(self):
         cleaned_data = super().clean()
@@ -153,7 +177,12 @@ class CreateWeaponBannerForm(forms.ModelForm):
     
     def is_valid(self) -> bool:
         valid = super().is_valid()
+        cleaned_data = super().clean()
         if not self.verify_rateups():
+            self.add_error('rateups', "This kind of banners requires exactly one 5 star and three 4 stars.")
+            return False
+        elif cleaned_data.get('name', None) is not None and not self.unique_name_for_user(cleaned_data.get('name', None)):
+            self.add_error("name", "You have already created a banner with this name. Please choose another.")
             return False
         return valid
 
