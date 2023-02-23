@@ -4,9 +4,9 @@
 
 ## New Stuff
 
-- banner detail view
 - make banner names unique per user
 - add ability to delete and edit banners  in the listview
+- banner detail view
 - for banners make the arrow in the many to many bigger
 - add extra folders to templates and static if necessary (such as form)
 - user setting for autoimport every time?

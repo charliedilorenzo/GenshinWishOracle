@@ -64,25 +64,26 @@ class CharacterBannerCreateView(generic.CreateView):
     success_url = reverse_lazy('analyze:character_banner')
 
     def get(self, request,*args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(to=reverse_lazy('analyze:index'))
         context = {}
-        form = self.form_class()
-        context.update(form.get_context())
+        kwargs = {}
+        kwargs.update({"request": request})
+        form = self.form_class(**kwargs)
         context['form'] = form
-
         return render(request, self.template_name, context=context)
 
     def post(self, request,*args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(to=reverse_lazy('analyze:index'))
         context ={}
-        form  = self.form_class(request.POST)
+        kwargs.update({"request": request})
+        form  = self.form_class(request.POST, **kwargs)
         if form.is_valid():
             character_banner = form.save()
             profile = Profile.objects.filter(user_id= request.user.id)[0]
             profile.banners.add(character_banner)
             return redirect(to=self.success_url)
-        elif not form.verify_rateups():
-            form.add_error('rateups', "This kind of banners requires exactly one 5 star and three 4 stars.")
-            context['form'] = form
-            return render(request, self.template_name, context=context)
         else:
             context['form'] = form
             return render(request, self.template_name, context=context)

@@ -29,7 +29,6 @@ class Banner(models.Model):
     # not abstract simply so I can query, but nobody should be making the base Banner class
     def __str__(self):
         specified = self.get_specified_banner_equivalent()
-        print(specified)
         return str(specified)
 
 
