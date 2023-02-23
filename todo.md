@@ -4,9 +4,6 @@
 
 ## New Stuff
 
-- only display banner in index when logged in
-  - character
-  - weapon
 - banner detail view
 - make banner names unique per user
 - add ability to delete and edit banners  in the listview
