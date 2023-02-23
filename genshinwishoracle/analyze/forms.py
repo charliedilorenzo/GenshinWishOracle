@@ -5,6 +5,8 @@ from django.utils import timezone
 import datetime
 from django.db.models import Q
 from django.conf import settings
+from django.contrib.auth.models import User
+from users.models import Profile
 
 # imported from django.contrib.admin
 class FilteredSelectMultiple(forms.SelectMultiple):
@@ -231,26 +233,41 @@ class AnalyzeStatisticsWeaponToNumWishesForm(forms.Form):
         return cleaned_data
 
 class ProjectPrimosForm(forms.Form):
-    
-    numprimos = forms.IntegerField(label="Number of Wishes",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of primogems."} )
-    numgenesis = forms.IntegerField(label="Number of Genesis Crystal",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of genesis crystals."})
-    numfates = forms.IntegerField(label="Number of Intertwined Fate",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of intertwined fates"})
-    numstarglitter = forms.IntegerField(label="Number of Starglitter",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of starglitter"})
-    end_date_manual_select = forms.DateField(label="End Date Manual Select",widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
-    # TODO fix this to be less jank if possible
-    now = datetime.date.today()
-    banners = models.Banner.objects.filter(enddate__gte=now)
-    
-    end_date_banner_select = forms.ModelChoiceField(label="End Date Select Through Banner",
-        queryset= banners,
-        widget=forms.Select(attrs={'size': 30},),
-        initial=timezone.now(),
-         required=False
-    )
+    class Meta:
+        fields = ['numprimos', 'numgenesis', 'numfates', 'numstarglitter', 'end_date_manual_select', 'end_date_banner_select', 'welkin_moon', 'battlepass', 'average_abyss_stars']\
 
-    welkin_moon = forms.BooleanField(label="Welkin Moon",initial=False, required=False)
-    battlepass = forms.BooleanField(label="Battlepass",initial=False, required=False)
-    average_abyss_stars = forms.IntegerField(label="Average Abyss Stars",initial=27, required=False)
+    def __init__(self, *args, **kwargs):
+        user_id = kwargs.pop('user_id', None)
+        super(ProjectPrimosForm, self).__init__(*args, **kwargs)
+        self.fields['numprimos'] = forms.IntegerField(label="Number of Wishes",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of primogems."} )
+        self.fields['numgenesis'] = forms.IntegerField(label="Number of Genesis Crystal",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of genesis crystals."})
+        self.fields['numfates'] = forms.IntegerField(label="Number of Intertwined Fate",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of intertwined fates"})
+        self.fields['numstarglitter'] = forms.IntegerField(label="Number of Starglitter",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of starglitter"})
+        self.fields['end_date_manual_select'] = forms.DateField(label="End Date Manual Select",widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
+
+        self.fields['welkin_moon'] = forms.BooleanField(label="Welkin Moon",initial=False, required=False)
+        self.fields['battlepass '] = forms.BooleanField(label="Battlepass",initial=False, required=False)
+        self.fields['average_abyss_stars'] = forms.IntegerField(label="Average Abyss Stars",initial=27, required=False)
+        if user_id is not None:
+            user = User.objects.filter(id=user_id)
+        else:
+            user = User.objects.none()
+        # check they actually exist
+        if len(user) != 1:
+            pass
+        else:
+            profile = Profile.objects.filter(user_id=user_id)
+            if len(profile) != 1:
+                return 
+            profile = profile[0]
+            now = datetime.date.today()
+            banners = profile.banners.filter(enddate__gte=now)
+            self.fields['end_date_banner_select '] = forms.ModelChoiceField(label="End Date Select Through Banner",
+                queryset= banners,
+                widget=forms.Select(attrs={'size': 30},),
+                initial=timezone.now(),
+                required=False
+            )
 
     def manual_select_is_default(self):
         cleaned_data = super().clean()

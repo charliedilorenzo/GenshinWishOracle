@@ -4,14 +4,15 @@
 
 ## New Stuff
 
-- make queries for all banners correct again
-- add string method for banners
-- make names unique per user
 - make banners only visible to the user that made them
-- for banners make the arrow in the many to many bigger
-- add banner_type to banners and end_date
-- add extra folders to templates and static if necessary (such as form)
+  - project primos
+  - weapon banner
+  - character banner
+- banner detail view
+- make banner names unique per user
 - add ability to delete and edit banners  in the listview
+- for banners make the arrow in the many to many bigger
+- add extra folders to templates and static if necessary (such as form)
 - user setting for autoimport every time?
 - add social apps login
 - fix some of the users stuff

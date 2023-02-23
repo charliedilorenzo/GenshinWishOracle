@@ -77,6 +77,8 @@ class CharacterBannerCreateView(generic.CreateView):
         form  = self.form_class(request.POST)
         if form.is_valid():
             character_banner = form.save()
+            profile = Profile.objects.filter(user_id= request.user.id)[0]
+            profile.banners.add(character_banner)
             return redirect(to=self.success_url)
         elif not form.verify_rateups():
             form.add_error('rateups', "This kind of banners requires exactly one 5 star and three 4 stars.")
@@ -102,6 +104,8 @@ class WeaponBannerCreateView(generic.CreateView):
         form  = self.form_class(request.POST)
         if form.is_valid():
             weapon_banner = form.save()
+            profile = Profile.objects.filter(user_id= request.user.id)[0]
+            profile.banners.add(weapon_banner)
             return redirect(to=self.success_url)
         elif not form.verify_rateups():
             form.add_error('rateups', "This kind of banners requires exactly two 5 stars and five 4 stars.")
@@ -315,16 +319,17 @@ class ProjectPrimosView(generic.FormView):
 
     def get(self, request,*args, **kwargs):
         context = {}
+        kwargs = {}
+        if request.user.is_authenticated:
+            curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
+            kwargs.update({'user_id': request.user.id})
         # using sessions here since I prefer a flag on the user rather than making the url look worse personally
         if 'import_data' in request.session and request.session['import_data'] == True:
             request.session['import_data'] = False
-            if request.user.is_authenticated:
-                curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
-                request.session['import_data'] = False
-                init = {'numprimos': curr_user_prof.numprimos, 'numgenesis': curr_user_prof.numgenesis, 'numfates': curr_user_prof.numfates, 'numstarglitter': curr_user_prof.numstarglitter}
-                context['form'] = self.form_class(initial=init)
+            init = {'numprimos': curr_user_prof.numprimos, 'numgenesis': curr_user_prof.numgenesis, 'numfates': curr_user_prof.numfates, 'numstarglitter': curr_user_prof.numstarglitter}
+            context['form'] = self.form_class(initial=init, **kwargs)
         else:
-            context['form'] = self.form_class
+            context['form'] = self.form_class(**kwargs)
 
         return render(request, self.template_name, context=context)
 
