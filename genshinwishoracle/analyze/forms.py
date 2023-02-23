@@ -239,15 +239,7 @@ class ProjectPrimosForm(forms.Form):
     end_date_manual_select = forms.DateField(label="End Date Manual Select",widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
     # TODO fix this to be less jank if possible
     now = datetime.date.today()
-    
-    # get the banners
-    valid_char_banners = models.CharacterBanner.objects.filter(enddate__gte=now)
-    valid_weapon_banners = models.WeaponBanner.objects.filter(enddate__gte=now)
-    # banner_ids = [banner.get_base_banner_equivalent().id for banner in valid_char_banners]
-    # banner_ids+= [banner.get_base_banner_equivalent().id for banner in valid_weapon_banners]
-    # TODO fix it 
-    # banners = models.Banner.objects.filter(id__in=banner_ids)
-    banners = models.CharacterBanner.objects.all()
+    banners = models.Banner.objects.filter(enddate__gte=now)
     
     end_date_banner_select = forms.ModelChoiceField(label="End Date Select Through Banner",
         queryset= banners,
@@ -313,8 +305,7 @@ class WishSimulatorForm(forms.Form):
         fields = ['number_of_pulls', 'banner']
     number_of_pulls = forms.IntegerField(label="Number of Pulls",min_value=1, initial=1)
      # TODO fix it 
-    # banners  = models.Banner.objects.all()
-    banners = models.CharacterBanner.objects.all()
+    banners = models.Banner.objects.all()
 
     banner = forms.ModelChoiceField(label="Banner:",
         queryset= banners,

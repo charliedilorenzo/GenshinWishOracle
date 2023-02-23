@@ -4,7 +4,6 @@
 
 ## New Stuff
 
-- fix issue with "get() returned more than one Profile -- it returned 2!"
 - make queries for all banners correct again
 - add string method for banners
 - make names unique per user

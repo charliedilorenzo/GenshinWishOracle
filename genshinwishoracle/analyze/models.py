@@ -28,7 +28,9 @@ class Banner(models.Model):
     banner_type = models.CharField(max_length = 64,choices=BANNER_TYPE)
     # not abstract simply so I can query, but nobody should be making the base Banner class
     def __str__(self):
-        return str(self.get_specified_banner_equivalent())
+        specified = self.get_specified_banner_equivalent()
+        print(specified)
+        return str(specified)
 
 
     def get_specified_banner_equivalent(self):
@@ -39,7 +41,7 @@ class Banner(models.Model):
             else:
                 return None
         elif self.banner_type == WEAPON:
-            found = WeaponBanner.objects.filter(banner_ptr=self.id)[0]
+            found = WeaponBanner.objects.filter(banner_ptr=self.id)
             if len(found) > 0:
                 return found[0]
             else:
