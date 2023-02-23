@@ -82,6 +82,18 @@ class CreateCharacterBannerForm(forms.ModelForm):
     def get_rateup_requirements(self) -> dict[int:int]:
         rateup_reqs = {3: 0, 4: 3, 5: 1}
         return rateup_reqs
+    
+    def save(self, commit=True) -> models.CharacterBanner:
+        cleaned_data = super().clean()
+        # if not commit:
+        #     raise NotImplementedError("Can't create object without database save")
+        rateups = cleaned_data.get('rateups')
+        kwargs = {'name': cleaned_data.get('name'), 'enddate': cleaned_data.get('enddate')}
+        character_banner = self.Meta.model(**kwargs)
+        character_banner.save()    
+        character_banner.rateups.set(rateups)
+        return character_banner
+
 class CreateWeaponBannerForm(forms.ModelForm):
     class Media:
         js = ("my_code.js",)
@@ -123,6 +135,17 @@ class CreateWeaponBannerForm(forms.ModelForm):
     def get_rateup_requirements(self) -> dict[int:int]:
         rateup_reqs = {3: 0, 4: 5, 5: 2}
         return rateup_reqs
+    
+    def save(self, commit=True) -> models.WeaponBanner:
+        cleaned_data = super().clean()
+        # if not commit:
+        #     raise NotImplementedError("Can't create object without database save")
+        rateups = cleaned_data.get('rateups')
+        kwargs = {'name': cleaned_data.get('name'), 'enddate': cleaned_data.get('enddate')}
+        weapon_banner = self.Meta.model(**kwargs)
+        weapon_banner.save()    
+        weapon_banner.rateups.set(rateups)
+        return weapon_banner
 
 class AnalyzeStatisticsCharacterToProbabilityForm(forms.Form):
     class Meta:
@@ -220,9 +243,11 @@ class ProjectPrimosForm(forms.Form):
     # get the banners
     valid_char_banners = models.CharacterBanner.objects.filter(enddate__gte=now)
     valid_weapon_banners = models.WeaponBanner.objects.filter(enddate__gte=now)
-    banner_ids = [banner.get_base_banner_equivalent().id for banner in valid_char_banners]
-    banner_ids+= [banner.get_base_banner_equivalent().id for banner in valid_weapon_banners]
-    banners = models.Banner.objects.filter(id__in=banner_ids)
+    # banner_ids = [banner.get_base_banner_equivalent().id for banner in valid_char_banners]
+    # banner_ids+= [banner.get_base_banner_equivalent().id for banner in valid_weapon_banners]
+    # TODO fix it 
+    # banners = models.Banner.objects.filter(id__in=banner_ids)
+    banners = models.CharacterBanner.objects.all()
     
     end_date_banner_select = forms.ModelChoiceField(label="End Date Select Through Banner",
         queryset= banners,
@@ -287,7 +312,10 @@ class WishSimulatorForm(forms.Form):
     class Meta:
         fields = ['number_of_pulls', 'banner']
     number_of_pulls = forms.IntegerField(label="Number of Pulls",min_value=1, initial=1)
-    banners  = models.Banner.objects.all()
+     # TODO fix it 
+    # banners  = models.Banner.objects.all()
+    banners = models.CharacterBanner.objects.all()
+
     banner = forms.ModelChoiceField(label="Banner:",
         queryset= banners,
         widget=forms.Select(attrs={'size': 30},),

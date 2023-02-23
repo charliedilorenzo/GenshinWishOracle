@@ -7,19 +7,66 @@ python manage.py runserver
 
 IF STATIC CSS ISNT IMPLEMENTED FIRST TRY SHIFT-RELOADING PAGE
 
-1. Remove all the migration files
+DROP TABLE analyze_banner;
+DROP TABLE analyze_weaponbanner;
+DROP TABLE analyze_characterbanner;
+DROP TABLE analyze_weaponbanner_rateups;
+DROP TABLE analyze_characterbanner_rateups;
+DROP TABLE users_profile_banners;
+DROP TABLE users_profile_characterbanners;
+DROP TABLE users_profile_weaponbanners;
 
-get rid of all */migrations/*.py" -not -name "__init__.py" -delete
-get rid of all "*/migrations/*.pyc"
-2. Delete db.sqlite3
+DROP TABLE analyze_banner;
+DROP TABLE analyze_weaponbanner;
+DROP TABLE analyze_characterbanner;
+DROP TABLE analyze_weaponbanner_rateups;
+DROP TABLE analyze_characterbanner_rateups;
+DROP TABLE users_profile_banners;
 
-rm db.sqlite3
-3. Create and run the migrations:
+CREATE TABLE IF NOT EXISTS analyze_characterbanner(
+    banner_ptr_id INT
+);
 
+CREATE TABLE IF NOT EXISTS analyze_weaponbanner (
+    banner_ptr_id INT
+);
+
+CREATE TABLE IF NOT EXISTS analyze_banner (
+    id INT PRIMARY KEY,
+    name TEXT,
+    enddate DATE,
+    banner_type TEXT
+);
+CREATE TABLE IF NOT EXISTS analyze_weaponbanner_rateups(
+    id INT PRIMARY KEY,
+    weaponbanner INT,
+    weapon_id INT
+);
+CREATE TABLE IF NOT EXISTS analyze_characterbanner_rateups(
+    id INT PRIMARY KEY,
+    characterbanner INT,
+    character_id INT
+);
+
+CREATE TABLE IF NOT EXISTS users_profile_banners(
+    id INT PRIMARY KEY,
+    profile_id INT,
+    banner_id INT
+);
+
+# hopefully surefire process if redoing tables manually doesnt work
+
+delete all migrations except folder and init
+delete the db
+comment out import views and all the urls
 python manage.py makemigrations
+<!-- python manage.py migrate --fake -->
 python manage.py migrate
-4. Sync the database:
 python manage.py migrate --run-syncdb
+python manage.py loaddata initial_data_content_types.json
+python manage.py loaddata initial_data_users.json
+python manage.py loaddata initial_data_auth.json
+python manage.py loaddata initial_data_character_and_weapons.json
 
 # for a specific table
 
@@ -28,14 +75,17 @@ python manage.py dumpdata auth users.Profile > users.json
 python manage.py dumpdata analyze.character > characters.json
 python manage.py dumpdata analyze.weapon > weapons.json
 python manage.py dumpdata analyze.banner analyze.characterbanner analyze.weaponbanner > banners.json
-python manage.py loaddata initial_data.json
 
-python manage.py makemigrations
-python manage.py sqlmigrate
-python manage.py migrate
-python manage.py runserver
+python manage.py loaddata initial_data_content_types.json
+python manage.py loaddata initial_data_users.json
+python manage.py loaddata initial_data_auth.json
+python manage.py loaddata initial_data_character_and_weapons.json
 
 python manage.py shell
+
+from analyze import models
+models.CharacterBanner.objects.all().delete()
+models.WeaponBanner.objects.all().delete()
 
 python manage.py test analyze
 

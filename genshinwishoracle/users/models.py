@@ -6,7 +6,7 @@ from analyze.models import Banner
 
 # Extending User Model Using a One-To-One Link
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, unique = True, on_delete=models.CASCADE, related_name="profile")
     banners = models.ManyToManyField(Banner)
 
     numprimos = models.IntegerField(default=0)

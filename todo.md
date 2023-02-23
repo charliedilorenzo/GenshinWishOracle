@@ -4,9 +4,12 @@
 
 ## New Stuff
 
-- make banner construction search by name
-- add extra folders to templates and static if necessary (such as form)
+- get rid of custom users in database
+- for banners make the arrow in the many to many bigger
+- add banner_type to banners and end_date
 - make banners only visible to the user that made them
+- add extra folders to templates and static if necessary (such as form)
+- add ability to delete and edit banners  in the listview
 - user setting for autoimport every time?
 - add social apps login
 - fix some of the users stuff

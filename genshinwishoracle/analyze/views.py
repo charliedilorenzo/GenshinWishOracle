@@ -16,7 +16,6 @@ from . import analytical
 from .project_primos import project_future_primos, project_primos_chart
 from users.models import Profile
 from . import wish_simulator
-
 class IndexView(generic.ListView):
     template_name = 'analyze/index.html'
     context_object_name = 'index'
@@ -30,6 +29,16 @@ class CharacterBannerView(generic.ListView):
     template_name = 'analyze/character_banner.html'
     context_object_name = 'character_banners'
 
+    
+    # def get(self, request,*args, **kwargs):
+    #     context = {}
+    #     if request.user.is_authenticated:
+    #         curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
+    #         context = self.get_context_data(curr_user_prof)
+    #         return render(request, self.template_name, context=context)
+    #     else:
+    #         return render(request, self.unauthenticated_template, context=context)
+
     def get_queryset(self):
         banners = models.CharacterBanner.objects.order_by()
         return banners
@@ -37,7 +46,14 @@ class CharacterBannerView(generic.ListView):
 class WeaponBannerView(generic.ListView):
     template_name = 'analyze/weapon_banner.html'
     context_object_name = 'weapon_banners'
-
+    
+    # def get_context_data(self):
+    #     context = super().get_context_data(**kwargs)
+    #     banners = user.banners
+    #     weapon_banners = []
+    #     context['weapon_banners'] = weapon_banners
+    #     return context
+    
     def get_queryset(self):
         banners = models.WeaponBanner.objects.order_by()
         return banners
@@ -60,7 +76,7 @@ class CharacterBannerCreateView(generic.CreateView):
         context ={}
         form  = self.form_class(request.POST)
         if form.is_valid():
-            form.save()
+            character_banner = form.save()
             return redirect(to=self.success_url)
         elif not form.verify_rateups():
             form.add_error('rateups', "This kind of banners requires exactly one 5 star and three 4 stars.")
@@ -85,7 +101,7 @@ class WeaponBannerCreateView(generic.CreateView):
         context ={}
         form  = self.form_class(request.POST)
         if form.is_valid():
-            form.save()
+            weapon_banner = form.save()
             return redirect(to=self.success_url)
         elif not form.verify_rateups():
             form.add_error('rateups', "This kind of banners requires exactly two 5 stars and five 4 stars.")
