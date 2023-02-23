@@ -29,33 +29,32 @@ class CharacterBannerView(generic.ListView):
     template_name = 'analyze/character_banner.html'
     context_object_name = 'character_banners'
 
-    
-    # def get(self, request,*args, **kwargs):
-    #     context = {}
-    #     if request.user.is_authenticated:
-    #         curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
-    #         context = self.get_context_data(curr_user_prof)
-    #         return render(request, self.template_name, context=context)
-    #     else:
-    #         return render(request, self.unauthenticated_template, context=context)
+    def get(self, request,*args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(to=reverse_lazy('analyze:index'))
+        context = {}
+        context[self.context_object_name] = self.get_queryset(request)
+        return render(request, self.template_name, context=context)
 
-    def get_queryset(self):
-        banners = models.CharacterBanner.objects.order_by()
+    def get_queryset(self,request):
+        curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
+        banners = curr_user_prof.banners.filter(banner_type="Character")
         return banners
 
 class WeaponBannerView(generic.ListView):
     template_name = 'analyze/weapon_banner.html'
     context_object_name = 'weapon_banners'
     
-    # def get_context_data(self):
-    #     context = super().get_context_data(**kwargs)
-    #     banners = user.banners
-    #     weapon_banners = []
-    #     context['weapon_banners'] = weapon_banners
-    #     return context
+    def get(self, request,*args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(to=reverse_lazy('analyze:index'))
+        context = {}
+        context[self.context_object_name] = self.get_queryset(request)
+        return render(request, self.template_name, context=context)
     
-    def get_queryset(self):
-        banners = models.WeaponBanner.objects.order_by()
+    def get_queryset(self,request):
+        curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
+        banners = curr_user_prof.banners.filter(banner_type="Weapon")
         return banners
 
 class CharacterBannerCreateView(generic.CreateView):

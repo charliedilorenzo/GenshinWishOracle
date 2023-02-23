@@ -4,10 +4,9 @@
 
 ## New Stuff
 
-- make banners only visible to the user that made them
-  - project primos
-  - weapon banner
-  - character banner
+- only display banner in index when logged in
+  - character
+  - weapon
 - banner detail view
 - make banner names unique per user
 - add ability to delete and edit banners  in the listview
