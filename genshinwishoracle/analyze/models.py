@@ -80,7 +80,7 @@ class WeaponBanner(Banner):
     # banner_ptr = Banner.objects.create().pk
     rateups = models.ManyToManyField(Weapon)
     def save(self, *args, **kwargs):
-        self.banner_type = "Character"
+        self.banner_type = "Weapon"
         if not self.id:
             newBanner = Banner(name=self.name, enddate=self.enddate,banner_type = self.banner_type)
             super(Banner, newBanner).save(*args, **kwargs)
