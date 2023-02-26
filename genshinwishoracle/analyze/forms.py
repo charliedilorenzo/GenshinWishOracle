@@ -50,7 +50,6 @@ class CreateCharacterBannerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.request= kwargs.pop('request', None)
         user_id = self.request.user.id
-        print("init user_id", user_id)
         super(CreateCharacterBannerForm, self).__init__(*args, **kwargs)
         self.fields['name'] = forms.CharField(max_length = 64,error_messages={'required': "Please add a banner name."})
         custom_widget = FilteredSelectMultiple('rateups', is_stacked=False)
@@ -132,7 +131,6 @@ class CreateWeaponBannerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.request= kwargs.pop('request', None)
         user_id = self.request.user.id
-        print("init user_id", user_id)
         super(CreateWeaponBannerForm, self).__init__(*args, **kwargs)
         self.fields['name'] = forms.CharField(max_length = 64,error_messages={'required': "Please add a banner name."})
         custom_widget = FilteredSelectMultiple('rateups', is_stacked=False)
@@ -310,6 +308,12 @@ class ProjectPrimosForm(forms.Form):
             user = User.objects.none()
         # check they actually exist
         if len(user) != 1:
+            self.fields['end_date_banner_select '] = forms.ModelChoiceField(label="End Date Select Through Banner",
+                queryset= models.Banner.objects.none(),
+                widget=forms.Select(attrs={'size': 30, 'hidden': True},),
+                initial=None,
+                required=False
+            )
             pass
         else:
             profile = Profile.objects.filter(user_id=user_id)
@@ -318,10 +322,9 @@ class ProjectPrimosForm(forms.Form):
             profile = profile[0]
             now = datetime.date.today()
             banners = profile.banners.filter(enddate__gte=now)
-            self.fields['end_date_banner_select '] = forms.ModelChoiceField(label="End Date Select Through Banner",
+            self.fields['end_date_banner_select'] = forms.ModelChoiceField(label="End Date Select Through Banner",
                 queryset= banners,
                 widget=forms.Select(attrs={'size': 30},),
-                initial=timezone.now(),
                 required=False
             )
 
@@ -337,6 +340,8 @@ class ProjectPrimosForm(forms.Form):
 
     def date_is_decidable(self):
         cleaned_data = super().clean()
+        if "end_date_banner_select" not in cleaned_data:
+            cleaned_data["end_date_banner_select"] = None
         # currently only works in an XOR fashion
         if cleaned_data["end_date_banner_select"] == None and self.manual_select_is_default():
             return False

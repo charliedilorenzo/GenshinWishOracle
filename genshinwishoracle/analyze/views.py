@@ -339,12 +339,16 @@ class ProjectPrimosView(generic.FormView):
 
     def post(self, request,*args, **kwargs):
         context ={}
+        kwargs = {}
+        if request.user.is_authenticated:
+            curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
+            kwargs.update({'user_id': request.user.id})
         if request.POST.get("import_user_data"):
             if request.user.is_authenticated:
                 request.session["import_data"] = True
                 return redirect(to=reverse_lazy('analyze:project_primos'))
         elif request.POST.get("reset_values"):
-            form  = forms.ProjectPrimosForm()
+            form  = forms.ProjectPrimosForm(**kwargs)
             context['form'] = form
             return render(request, 'analyze/project_primos.html', context=context)
         elif request.POST.get("analyze_with_future_primogems"):
@@ -352,7 +356,7 @@ class ProjectPrimosView(generic.FormView):
             banner_type = "character"
             statistics_type = "calcprobability"
             return redirect(to=reverse('analyze:statistics', kwargs={"banner_type":banner_type, "statistics_type":statistics_type}))
-        form  = forms.ProjectPrimosForm(request.POST)
+        form  = forms.ProjectPrimosForm(request.POST,**kwargs)
         if form.is_valid():
             # using sessions again to allow setiting 
             cleaned = form.cleaned_data
