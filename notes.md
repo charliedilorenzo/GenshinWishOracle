@@ -3,8 +3,6 @@ startup:
 cd genshinwishoracle
 python manage.py runserver
 
-<https://github.com/Goyet-Christopher/FilteredSelectMultiple>
-
 IF STATIC CSS ISNT IMPLEMENTED FIRST TRY SHIFT-RELOADING PAGE
 
 DROP TABLE analyze_banner;
@@ -68,9 +66,6 @@ python manage.py loaddata initial_data_users.json
 python manage.py loaddata initial_data_auth.json
 python manage.py loaddata initial_data_character_and_weapons.json
 
-# for a specific table
-
-<!-- from django.contrib.auth.models import User -->
 python manage.py dumpdata auth users.Profile > users.json
 python manage.py dumpdata analyze.character > characters.json
 python manage.py dumpdata analyze.weapon > weapons.json
@@ -80,12 +75,6 @@ python manage.py loaddata initial_data_content_types.json
 python manage.py loaddata initial_data_users.json
 python manage.py loaddata initial_data_auth.json
 python manage.py loaddata initial_data_character_and_weapons.json
-
-python manage.py shell
-
-from analyze import models
-models.CharacterBanner.objects.all().delete()
-models.WeaponBanner.objects.all().delete()
 
 python manage.py test analyze
 

@@ -4,17 +4,12 @@
 
 ## New Stuff
 
-- fix pressing back for banner update
-- add social apps login
-- add reset password
-- ?
+- add baizhu and kaveh
+- add tests
 - add options for over the max (1000 right now?)
 - for banners make the arrow in the many to many bigger
   - in widgets.css with classes: selector chooser, selector add, selector remove
-- add "custom characters" (for those that aren't added yet)
 - user setting for autoimport every time?
-- fix some of the users stuff
-- good container from boostrap for content block  class="container mb-3 mt-3"
 - find the most realistic pity distribution
 - get rid of hash table from analytical?
 - add extra data of percent extra wishes to analytical (search the TODO for note on idea of how)
@@ -22,6 +17,14 @@
 - fix date-decidable in project primos for jan 1
 - novalidate for forms for proj_primo and analysis
 - improve the accurary of four star distribution for wish sim
+
+Before making into website:
+
+- add social apps login
+- add reset password
+- ?
+- fix the user support account for the to genshinwishoracle@gmail.com in the google auth zone
+- change OAUTH here <https://github.com/settings/applications/new>
 
 - in settings SESSION_COOKIE_AGE = 60 *60* 24 * 30
 

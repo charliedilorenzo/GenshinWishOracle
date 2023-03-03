@@ -1240,5 +1240,59 @@
             "name": "Makhaira Aquamarine",
             "limited": true
         }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 74,
+        "fields": {
+            "rarity": 5,
+            "name": "Baizhu",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 75,
+        "fields": {
+            "rarity": 4,
+            "name": "Kaveh",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 76,
+        "fields": {
+            "rarity": 5,
+            "name": "Dehya",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 77,
+        "fields": {
+            "rarity": 4,
+            "name": "Mika",
+            "limited": false
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 90,
+        "fields": {
+            "rarity": 5,
+            "name": "Beacon of the Reed Sea",
+            "limited": true
+        }
+    },
+    {
+        "model": "analyze.weapon",
+        "pk": 91,
+        "fields": {
+            "rarity": 5,
+            "name": "Jadefall's Splendor",
+            "limited": true
+        }
     }
 ]
