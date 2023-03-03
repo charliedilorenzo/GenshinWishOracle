@@ -10,6 +10,9 @@ class Character(models.Model):
     name = models.CharField(max_length= 32)
     limited = models.BooleanField()
 
+    class Meta:
+        ordering = ['-rarity', 'name']
+
 class Weapon(models.Model):
     def __str__(self):
         return self.name
@@ -17,6 +20,8 @@ class Weapon(models.Model):
     rarity = models.IntegerField()
     name = models.CharField(max_length= 32)
     limited = models.BooleanField()
+    class Meta:
+        ordering = ['-rarity', 'name']
 
 CHARACTER = "Character"
 WEAPON = "Weapon"
@@ -40,7 +45,7 @@ class Banner(models.Model):
             else:
                 return None
         elif self.banner_type == WEAPON:
-            found = WeaponBanner.objects.filter(banner_ptr=self.id)
+            found = WeaponBanner.objects.filter(banner_ptr_id=self.id)
             if len(found) > 0:
                 return found[0]
             else:
@@ -70,10 +75,13 @@ class CharacterBanner(Banner):
     # TODO add alternative pity dist
     # pity_dist = []
 
+    @staticmethod
+    def get_banner_type_string() -> str:
+        return CHARACTER
 
 class WeaponBanner(Banner):
     # banner_ptr = Banner.objects.create().pk
-    rateups = models.ManyToManyField(Weapon)
+    rateups = models.ManyToManyField(Weapon,blank=True)
     def save(self, *args, **kwargs):
         self.banner_type = "Weapon"
         if not self.id:
@@ -91,5 +99,9 @@ class WeaponBanner(Banner):
     def get_base_banner_equivalent(self) -> Banner:
         return self.banner_ptr
         # return Banner.objects.filter(id = self.banner_ptr)[0]
+
+    @staticmethod
+    def get_banner_type_string() -> str:
+        return WEAPON
     # Need 2 Five Star and 5 Four Star
     # TODO same as character banner

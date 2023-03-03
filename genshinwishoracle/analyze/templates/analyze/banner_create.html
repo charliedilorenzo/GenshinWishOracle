@@ -5,13 +5,12 @@
 <link rel=" stylesheet" href="{% static 'analyze/css/widgets.css' %}">
 <script type="text/javascript" src="{% url 'jsi18n' %}"></script>
 {% block content %}
-<title>{% block title %} Character Banner Creation {% endblock title %} </title>
+<title>{% block title %} {{banner_type}} Banner Creation {% endblock title %} </title>
 <div>
-    <a href="{% url 'analyze:character_banner' %}"><button name='back' type="submit" class="back-button"><i
-                class="back-arrow"></i>
+    <a href="{{success_url }}"><button name='back' type="submit" class="back-button"><i class="back-arrow"></i>
             Back</button></a>
 </div>
-<h1 class="display-4"> Character Banner Creation </h1>
+<h1 class="display-4"> {{banner_type}} Banner Creation </h1>
 <div id='frame'>
     <form method="post" novalidate>
         {% for field in form %}

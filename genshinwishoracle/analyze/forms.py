@@ -48,8 +48,7 @@ class CreateCharacterBannerForm(forms.ModelForm):
         model = models.CharacterBanner
         fields = ['name', 'rateups', 'enddate']
     def __init__(self, *args, **kwargs):
-        self.request= kwargs.pop('request', None)
-        user_id = self.request.user.id
+        user_id = kwargs.pop('user_id', None)
         super(CreateCharacterBannerForm, self).__init__(*args, **kwargs)
         self.fields['name'] = forms.CharField(max_length = 64,error_messages={'required': "Please add a banner name."})
         custom_widget = FilteredSelectMultiple('rateups', is_stacked=False)
@@ -129,8 +128,7 @@ class CreateWeaponBannerForm(forms.ModelForm):
         model = models.WeaponBanner
         fields = ['name', 'rateups', 'enddate']
     def __init__(self, *args, **kwargs):
-        self.request= kwargs.pop('request', None)
-        user_id = self.request.user.id
+        user_id= kwargs.pop('user_id', None)
         super(CreateWeaponBannerForm, self).__init__(*args, **kwargs)
         self.fields['name'] = forms.CharField(max_length = 64,error_messages={'required': "Please add a banner name."})
         custom_widget = FilteredSelectMultiple('rateups', is_stacked=False)
@@ -199,8 +197,9 @@ class CreateWeaponBannerForm(forms.ModelForm):
         rateups = cleaned_data.get('rateups')
         kwargs = {'name': cleaned_data.get('name'), 'enddate': cleaned_data.get('enddate')}
         weapon_banner = self.Meta.model(**kwargs)
-        weapon_banner.save()    
+        weapon_banner.save()   
         weapon_banner.rateups.set(rateups)
+        weapon_banner.save()
         return weapon_banner
 
 class AnalyzeStatisticsCharacterToProbabilityForm(forms.Form):

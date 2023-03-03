@@ -4,8 +4,11 @@
 
 ## New Stuff
 
-- add ability to delete and edit banners  in the listview
+- fix delete reroute
+- add banner update
 - banner detail view
+- add options for over the max (1000 right now?)
+- add "custom characters" (for those that aren't added yet)
 - for banners make the arrow in the many to many bigger
 - add extra folders to templates and static if necessary (such as form)
 - user setting for autoimport every time?
