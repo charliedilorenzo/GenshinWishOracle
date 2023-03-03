@@ -80,6 +80,12 @@ class CharacterBannerUpdateView(generic.UpdateView):
     form_class = forms.CreateCharacterBannerForm
     banner_type = "Character"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['success_url'] = self.success_url
+        context['banner_type'] = self.banner_type
+        return context
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs["user_id"] = self.request.user.id
@@ -197,6 +203,12 @@ class WeaponBannerUpdateView(generic.UpdateView):
     success_url = reverse_lazy('analyze:weapon_banners')
     form_class = forms.CreateWeaponBannerForm
     banner_type = "Weapon"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['success_url'] = self.success_url
+        context['banner_type'] = self.banner_type
+        return context
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

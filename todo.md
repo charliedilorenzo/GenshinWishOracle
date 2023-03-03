@@ -4,15 +4,15 @@
 
 ## New Stuff
 
-- updating true/ fales
-- add banner update
-- banner detail view
-- add options for over the max (1000 right now?)
-- add "custom characters" (for those that aren't added yet)
-- for banners make the arrow in the many to many bigger
-- add extra folders to templates and static if necessary (such as form)
-- user setting for autoimport every time?
+- fix pressing back for banner update
 - add social apps login
+- add reset password
+- ?
+- add options for over the max (1000 right now?)
+- for banners make the arrow in the many to many bigger
+  - in widgets.css with classes: selector chooser, selector add, selector remove
+- add "custom characters" (for those that aren't added yet)
+- user setting for autoimport every time?
 - fix some of the users stuff
 - good container from boostrap for content block  class="container mb-3 mt-3"
 - find the most realistic pity distribution
