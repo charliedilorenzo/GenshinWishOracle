@@ -82,33 +82,12 @@ class CharacterBannerUpdateView(generic.UpdateView):
         kwargs["updating"] = True
         return kwargs
 
-    # def get_context_data(self, **kwargs):
-    #     queryset = super().get_queryset()
-    #     object = super().get_object(queryset)
-    #     context = {}
-    #     context['object'] = object
-    #     return context
-
-    # def get(self, request,*args, **kwargs):
-    #     if not request.user.is_authenticated:
-    #         return redirect(to=reverse_lazy('analyze:index'))
-    #     context = self.get_context_data()
-    #     kwargs = {}
-    #     kwargs.update({"user_id": request.user.id})
-    #     object =  context['object']
-    #     form = self.form_class(initial=object.__dict__, **kwargs)
-    #     context['form'] = form
-    #     context['banner_type'] = self.banner_type
-    #     context['success_url' ] = self.success_url
-    #     return render(request, self.template_name, context=context)
-
     def post(self, request,*args, **kwargs):
         if not request.user.is_authenticated:
             return redirect(to=reverse_lazy('analyze:index'))
         context ={}
         banner_before = self.model.objects.filter(id=kwargs['pk'])
         kwargs = self.get_form_kwargs()
-        # kwa
         form  = self.form_class(**kwargs)
         if form.is_valid():
             cleaned_data = form.cleaned_data
@@ -208,6 +187,31 @@ class WeaponBannerUpdateView(generic.UpdateView):
     template_name = 'analyze/banner_update.html'
     context_object_name = 'banner'
     success_url = reverse_lazy('analyze:weapon_banners')
+    form_class = forms.CreateWeaponBannerForm
+    banner_type = "Weapon"
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user_id"] = self.request.user.id
+        kwargs["updating"] = True
+        return kwargs
+
+    def post(self, request,*args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(to=reverse_lazy('analyze:index'))
+        context ={}
+        banner_before = self.model.objects.filter(id=kwargs['pk'])
+        kwargs = self.get_form_kwargs()
+        form  = self.form_class(**kwargs)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            rateups = cleaned_data.pop('rateups')
+            banner_before.update(**cleaned_data)
+            banner_before[0].rateups.set(rateups)
+            return redirect(to=self.success_url)
+        else:
+            context['form'] = form
+            return render(request, self.template_name, context=context)
 
 class WeaponBannerCreateView(generic.CreateView):
     model = models.WeaponBanner
