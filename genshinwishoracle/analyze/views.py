@@ -37,17 +37,21 @@ class CharacterBannerView(generic.ListView):
     # TODO see if I want this
     # paginate_by = 5
 
-    def get(self, request,*args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect(to=reverse_lazy('analyze:index'))
+    def get_context_data(self, **kwargs):
         context = {}
-        character_banners =self.get_queryset(request)
+        character_banners =self.get_queryset(self.request)
         context[self.context_object_name] = character_banners
         context['labels'] = ["Name", "Enddate", "5⭐ Rateup", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3", "Edit", "Delete"]
         context['back_url'] = self.back_url
         context['create_url'] = self.create_url
         context['update_url_front'] = "/analyze/character-banners"
         context['delete_url_front'] = "/analyze/character-banners"
+        return context
+
+    def get(self, request,*args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(to=reverse_lazy('analyze:index'))
+        context = self.get_context_data()
         return render(request, self.template_name, context=context)
 
     def get_queryset(self,request):
@@ -150,17 +154,21 @@ class WeaponBannerView(generic.ListView):
     update_url= reverse_lazy('analyze:weapon_banner_update')
     delete_url= reverse_lazy('analyze:weapon_banner_delete')
     
-    def get(self, request,*args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect(to=reverse_lazy('analyze:index'))
+    def get_context_data(self, **kwargs):
         context = {}
-        weaponbanners = self.get_queryset(request)
+        weaponbanners = self.get_queryset(self.request)
         context[self.context_object_name] = weaponbanners
         context['labels'] = ["Name", "Enddate", "5⭐ Rateup 1","5⭐ Rateup 2", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3", "4⭐ Rateup 4", "4⭐ Rateup 5", "Edit", "Delete"]
         context['back_url'] = self.back_url
         context['create_url'] = self.create_url
         context['update_url_front'] = "/analyze/weapon-banners"
         context['delete_url_front'] = "/analyze/weapon-banners"
+        return context 
+
+    def get(self, request,*args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(to=reverse_lazy('analyze:index'))
+        context = self.get_context_data()
         return render(request, self.template_name, context=context)
     
     def get_queryset(self,request):
@@ -258,15 +266,16 @@ class StatisticsAnalyzeOmniView(generic.View):
         if banner_type not in self.valid_banner_types or statistics_type not in self.valid_statistics_types:
             return redirect(to=self.default_url)
         context = {"banner_type":banner_type,"statistics_type": statistics_type }
-        first_form = self.get_first_form(request,banner_type=banner_type,statistics_type=statistics_type)
+        first_form = self.get_first_form(banner_type=banner_type,statistics_type=statistics_type)
         request.session['import_data'] = False
         context["first_form"] = first_form
-        second_form_names =  self.get_second_form_names(request,banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
+        second_form_names =  self.get_second_form_names(banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
         context["second_form_names"] = second_form_names
 
         return render(request, self.template_name, context=context)
 
-    def get_first_form(self, request, banner_type, statistics_type):
+    def get_first_form(self, banner_type, statistics_type):
+        request = self.request
         init = {}
         form = self.banner_statistics_combo_to_form_obj(banner_type, statistics_type)
         if request.POST:
@@ -287,7 +296,7 @@ class StatisticsAnalyzeOmniView(generic.View):
         form = form(initial=init)
         return form
     
-    def get_second_form_names(self, request, banner_type, statistics_type,first_form):
+    def get_second_form_names(self, banner_type, statistics_type,first_form):
         if statistics_type == "calcprobability" and banner_type == "character":
             form = forms.AnalyzeStatisticsCharacterToNumWishesForm()
         elif statistics_type == "calcprobability" and banner_type == "weapon":
@@ -331,9 +340,9 @@ class StatisticsAnalyzeOmniView(generic.View):
             request.session.pop('wishes')
             request.session['import_data'] = False
             context = {"banner_type":banner_type,"statistics_type": statistics_type }
-            first_form = self.get_first_form(request,banner_type=banner_type,statistics_type=statistics_type)
+            first_form = self.get_first_form(banner_type=banner_type,statistics_type=statistics_type)
             context["first_form"] = first_form
-            second_form_names =  self.get_second_form_names(request,banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
+            second_form_names =  self.get_second_form_names(banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
             context["second_form_names"] = second_form_names
             return render(request, self.template_name, context=context)
         if request.POST.get("reset"):
@@ -341,7 +350,7 @@ class StatisticsAnalyzeOmniView(generic.View):
                 request.session.pop('wishes')
         request.session['import_data'] = False
         # add request post to the correct type given by function
-        form = self.get_first_form(request,banner_type,statistics_type)
+        form = self.get_first_form(banner_type,statistics_type)
         if form.is_valid():
             cleaned = form.cleaned_data
             place_values = 3 
@@ -418,9 +427,9 @@ class StatisticsAnalyzeOmniView(generic.View):
         request.session.pop('wishes')
         request.session['import_data'] = False
         context = {"banner_type":banner_type,"statistics_type": statistics_type }
-        first_form = self.get_first_form(request,banner_type=banner_type,statistics_type=statistics_type)
+        first_form = self.get_first_form(banner_type=banner_type,statistics_type=statistics_type)
         context["first_form"] = first_form
-        second_form_names =  self.get_second_form_names(request,banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
+        second_form_names =  self.get_second_form_names(banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
         context["second_form_names"] = second_form_names
         return render(request, self.template_name, context)
 
