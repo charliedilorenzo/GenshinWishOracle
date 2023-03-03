@@ -4,7 +4,6 @@
 
 ## New Stuff
 
-- add baizhu and kaveh
 - add tests
 - add options for over the max (1000 right now?)
 - for banners make the arrow in the many to many bigger
@@ -20,6 +19,7 @@
 
 Before making into website:
 
+- change 'domain' in views.py for users for password reset
 - add social apps login
 - add reset password
 - ?

@@ -8,6 +8,49 @@ from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.contrib import messages
+
+#         success_message = "We've emailed you instructions for setting your password, \nif an account exists with the email you entered. You should receive them shortly.\n If you don't receive an email, \nplease make sure you've entered the address you registered with, and check your spam folder."
+
+def password_reset_request(request):
+    domain = '127.0.0.1:8000'
+    subject = "Password Reset Requested for Genshin Wish Oracle"
+    email_template_name = "users/password_reset_email.html"
+    if request.method == "POST":
+        password_reset_form = PasswordResetForm(request.POST)
+        if password_reset_form.is_valid():
+            data = password_reset_form.cleaned_data['email']
+            associated_users = User.objects.filter(Q(email=data))
+            if associated_users.exists():
+                for user in associated_users:
+                    c = {
+                         "email":user.email,
+                        'domain':domain,
+                        'site_name': 'Website',
+                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        "user": user,
+                        'token': default_token_generator.make_token(user),
+                        'protocol': 'http',
+                        }
+                    email = render_to_string(email_template_name, c)
+                    try:
+                        send_mail(subject, email, 'admin@example.com' , [user.email], fail_silently=False)
+                    except BadHeaderError:
+                        return HttpResponse('Invalid header found.')
+                    messages.success(request, 'A message with reset password instructions has been sent to your inbox.')
+                    return redirect (to=reverse_lazy("users:password_reset_complete"))
+            messages.error(request, 'An invalid email has been entered.')
+            password_reset_form = PasswordResetForm()
+            return render(request=request, template_name='users/password_reset.html', context={"password_reset_form":password_reset_form})
 
 def home(request):
     return render(request, 'users/home.html')
@@ -24,7 +67,7 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
                       "if an account exists with the email you entered. You should receive them shortly." \
                       " If you don't receive an email, " \
                       "please make sure you've entered the address you registered with, and check your spam folder."
-    success_url = reverse_lazy('users-home')
+    success_url = reverse_lazy('users:users-home')
 
 # Class based view that extends from the built in login view to add a remember me functionality
 class CustomLoginView(LoginView):

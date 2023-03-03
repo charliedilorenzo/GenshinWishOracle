@@ -1,15 +1,23 @@
 {% extends "genshinwishoracle/bootstrap_base.html" %}
 {% block title %} Home Page {% endblock title%}
 {% block content %}
-<div class="jumbotron">
+<div class="jumbotron text-center">
     <h1 class="display-4">Welcome</h1>
     <p class="lead">
         Please log in if you'd like to access more features.
     </p>
     <hr class="my-4">
+    <div class="container">
+        {% if user.is_authenticated %}
+        <a class="btn btn-primary btn-lg btn-block" href="{% url 'users:profile' %}" role="button">View Profile</a>
+        {% endif %}
+    </div>
     <p class="lead">
+        {% if user.is_authenticated %}
         <a class="btn btn-primary btn-lg" href="{% url 'logout' %}" role="button">Logout</a>
+        {% else %}
         <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Sign in</a>
+        {% endif %}
         <a class="btn btn-primary btn-lg" href="{% url 'analyze:index' %}" role="button">Analyze</a>
     </p>
 </div>
