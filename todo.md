@@ -4,7 +4,7 @@
 
 ## New Stuff
 
-- fix delete reroute
+- updating true/ fales
 - add banner update
 - banner detail view
 - add options for over the max (1000 right now?)

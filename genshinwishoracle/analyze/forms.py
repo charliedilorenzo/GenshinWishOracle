@@ -49,6 +49,7 @@ class CreateCharacterBannerForm(forms.ModelForm):
         fields = ['name', 'rateups', 'enddate']
     def __init__(self, *args, **kwargs):
         user_id = kwargs.pop('user_id', None)
+        self.updating = kwargs.pop('updating',None)
         super(CreateCharacterBannerForm, self).__init__(*args, **kwargs)
         self.fields['name'] = forms.CharField(max_length = 64,error_messages={'required': "Please add a banner name."})
         custom_widget = FilteredSelectMultiple('rateups', is_stacked=False)
@@ -97,7 +98,7 @@ class CreateCharacterBannerForm(forms.ModelForm):
         if not self.verify_rateups():
             self.add_error('rateups', "This kind of banners requires exactly one 5 star and three 4 stars.")
             return False
-        elif cleaned_data.get('name', None) is not None and not self.unique_name_for_user(cleaned_data.get('name', None)):
+        elif not self.updating and cleaned_data.get('name', None) is not None and not self.unique_name_for_user(cleaned_data.get('name', None)):
             self.add_error("name", "You have already created a banner with this name. Please choose another.")
             return False
         return valid
@@ -112,6 +113,7 @@ class CreateCharacterBannerForm(forms.ModelForm):
     
     def save(self, commit=True) -> models.CharacterBanner:
         cleaned_data = super().clean()
+        print(cleaned_data)
         # if not commit:
         #     raise NotImplementedError("Can't create object without database save")
         rateups = cleaned_data.get('rateups')
