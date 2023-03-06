@@ -1,9 +1,9 @@
 import pytest
 
 from analyze.helpers import *
+from django.test import TestCase
 
-
-class TestClass:
+class HelperTestCase(TestCase):
     # ADD DICTIONARIES
     def test_add_dictionary_entries_zero_length(self):
         dicts = [{}, {}]

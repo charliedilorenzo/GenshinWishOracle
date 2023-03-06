@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from .models import Character
+from ..models import Character
 
 
 # class CharacterSetTest(TestCase):

@@ -1,9 +1,10 @@
 import pytest
 import os
 from analyze.analytical import AnalyticalCharacter, AnalyticalWeapon
+from django.test import TestCase
 
 
-class TestClass:
+class AnalyticalTestClass(TestCase):
     # normally bad practice but this is fine for using the lookup functions
     analytical_weapon = AnalyticalWeapon({})
     analytical_character = AnalyticalCharacter({})
