@@ -1,17 +1,44 @@
 from django.test import TestCase
 from ..models import Character, CharacterBanner, Weapon, WeaponBanner
 from django.core.management import call_command
+from genshinwishoracle import settings
+from django.contrib.auth.models import User
+from users.models import Profile
+from django.utils import timezone
 
 class ModelsTestCase(TestCase):
+    # fixtures = [settings.BASE_DIR / 'analyze/fixtures/initial_data_characters_and_weapons.json',]
+    fixtures = ['initial_data_characters_and_weapons.json',]
+    test_username = "testuser"
+    test_user_pk = None
+
+    def get_test_user(self):
+        user = User.objects.filter(username=self.test_username)[0]
+        return user
+
+    def get_test_user_profile(self):
+        user = self.get_test_user()
+        profile = Profile.objects.filter(user_id=user.pk)
+        return profile
+
     @classmethod
     def setUpTestData(cls):
-        # call_command('loaddata', "analyze/initial_data_character_and_weapons.json", verbosity=0)
         # TODO add a profile with some banners on it maybe? though this mgiht be better to do for the form
-        # TODO
-        pass
+        testuser = User.objects.create_user("testuser", "testemail@gmail.com","verysecurepassword")
+        now = timezone.now()
+        testcharacterbanner = CharacterBanner.objects.create(name="testbannercharacter", enddate=now, banner_type="Character")
+        four_stars = Character.objects.filter(rarity=4)[0:3]
+        five_stars = Character.objects.filter(rarity=5)
+        testcharacterbanner.rateups.add(*four_stars)
+        testcharacterbanner.rateups.add(*five_stars)
+
+        testweaponbanner =WeaponBanner.objects.create(name="testbannerweapon", enddate=now, banner_type="Weapon")
+        four_stars = Weapon.objects.filter(rarity=4)[0:3]
+        five_stars = Weapon.objects.filter(rarity=5)
+        testweaponbanner.rateups.add(*four_stars)
+        testweaponbanner.rateups.add(*five_stars)
 
     def setUp(self):
-        # TODO
         pass
 
     
@@ -19,16 +46,31 @@ class ModelsTestCase(TestCase):
 
     def test_character_fixture_rationalcontent(self):
         # three limited 4 stars (as of 3.5)
+        standard_four_stars = ["Amber","Kaeya","Lisa"]
         # 7 non-limited 5 stars (as of 3.5)
-        # TODO
-        pass
+        standard_five_stars = ["Dehya","Diluc","Keqing","Jean","Mona","Qiqi", "Tighnari"]
+
+        four_star_check = Character.objects.filter(rarity=4,limited=True)
+        for character in four_star_check:
+            self.assertIn(character.name,standard_four_stars)
+        self.assertEqual(len(four_star_check), len(standard_four_stars))
+        self.assertEqual(len(four_star_check),3)
+        five_star_check = Character.objects.filter(rarity=5,limited=False)
+        for character in five_star_check:
+            self.assertIn(character.name,standard_five_stars)
+        self.assertEqual(len(five_star_check), len(standard_five_stars))
+        self.assertEqual(len(five_star_check), 7)
 
     # -------------------------- WEAPONS --------------------------
 
     def test_weapon_fixture_rational_content(self):
-        # 10 non-limited 5 stars (as of 3.5)
-        # TODO
-        pass
+        # 7 non-limited 5 stars (as of 3.5)
+        standard_five_stars = ["Amos' Bow","Aquila Favonia","Lost Prayer to the Sacred Winds","Primordial Jade Winged-Spear","Skyward Atlas","Skyward Blade","Skyward Harp","Skyward Pride","Skyward Spine","Wolf's Gravestone"]
+        five_star_check = Weapon.objects.filter(rarity=5,limited=False)
+        for weapon in five_star_check:
+            self.assertIn(weapon.name,standard_five_stars)
+        self.assertEqual(len(five_star_check), len(standard_five_stars))
+        self.assertEqual(len(five_star_check), 10)
 
     # -------------------------- BANNERS --------------------------
 

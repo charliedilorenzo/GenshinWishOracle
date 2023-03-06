@@ -12,7 +12,7 @@ class DatebaseTestCase(TestCase):
     main_dir = main_dir / "analyze"
     test_db_name = main_dir / "tests/testing.db"
     # schema_filepath = cwd.replace("\\tests", "")
-    schema_filepath = main_dir+ "\\schema.sql"
+    schema_filepath = main_dir / "schema.sql"
 
     def get_test_db_name(self):
         return self.test_db_name
@@ -127,7 +127,7 @@ class DatebaseTestCase(TestCase):
                            'analytical_solutions_weapon', 'character_banners', 'weapon_banners']
         self.reset_database()
 
-        special_test_db = self.main_dir + "\\tests\\tablesexisttest.db"
+        special_test_db = self.main_dir / "tests/tablesexisttest.db"
         if database.check_db(special_test_db):
             os.remove(special_test_db)
         Path(special_test_db).touch()

@@ -1,11 +1,12 @@
 from django.test import TestCase
 from .. import forms
 from django.core.management import call_command
+from django.utils import timezone
 
 class FormsTestCase(TestCase):
+    fixtures = ['initial_data_characters_and_weapons.json',]
     @classmethod
     def setUpTestData(cls):
-        # call_command('loaddata', "analyze/initial_data_character_and_weapons.json", verbosity=0)
         # TODO add a profile with some banners on it maybe? though this mgiht be better to do for the form
         # TODO
         pass

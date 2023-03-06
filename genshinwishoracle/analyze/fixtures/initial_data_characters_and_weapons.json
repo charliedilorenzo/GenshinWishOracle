@@ -1294,5 +1294,14 @@
             "name": "Jadefall's Splendor",
             "limited": true
         }
+    },
+    {
+        "model": "analyze.character",
+        "pk": 78,
+        "fields": {
+            "rarity": 5,
+            "name": "Jean",
+            "limited": false
+        }
     }
 ]
