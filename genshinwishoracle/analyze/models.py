@@ -5,7 +5,6 @@ from django.utils import timezone
 class Character(models.Model):
     def __str__(self):
         return self.name
-    # TODO PositiveIntegerField
     rarity = models.IntegerField()
     name = models.CharField(max_length= 32)
     limited = models.BooleanField()
@@ -16,7 +15,6 @@ class Character(models.Model):
 class Weapon(models.Model):
     def __str__(self):
         return self.name
-    # TODO PositiveIntegerField
     rarity = models.IntegerField()
     name = models.CharField(max_length= 32)
     limited = models.BooleanField()
@@ -50,6 +48,10 @@ class Banner(models.Model):
                 return found[0]
             else:
                 return None
+            
+    def get_all_before_current_date(self):
+        now = datetime.date.today()
+        pass
 
 class CharacterBanner(Banner):
     rateups = models.ManyToManyField(Character,blank=True)

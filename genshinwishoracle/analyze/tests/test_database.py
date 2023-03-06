@@ -4,13 +4,13 @@ from analyze import database
 import os
 from pathlib import Path
 from django.test import TestCase
-
+from genshinwishoracle import settings
 
 class DatebaseTestCase(TestCase):
     cwd = os.getcwd()
-    main_dir = cwd.replace("\\tests", "")
-    main_dir = "C:\\Users\\carol\\Code\\Personal\\GenshinWishOracle\\genshinwishoracle\\analyze"
-    test_db_name = main_dir+"\\tests\\testing.db"
+    main_dir = settings.BASE_DIR 
+    main_dir = main_dir / "analyze"
+    test_db_name = main_dir / "tests/testing.db"
     # schema_filepath = cwd.replace("\\tests", "")
     schema_filepath = main_dir+ "\\schema.sql"
 
