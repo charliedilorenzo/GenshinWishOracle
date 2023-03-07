@@ -4,8 +4,15 @@
 
 ## New Stuff
 
-- add tests
+- search TODO for all tests in analyze
+- add tests for users
+- put all of analyze in genshinwishoracle
+- make dropdown favicon href
+- make dropdown app name href
 - add options for over the max (1000 right now?)
+- fix date-decidable in project primos for jan 1
+  - make a bool field for choosing via banner or manually?
+
 - for banners make the arrow in the many to many bigger
   - in widgets.css with classes: selector chooser, selector add, selector remove
 - user setting for autoimport every time?
@@ -13,8 +20,6 @@
 - get rid of hash table from analytical?
 - add extra data of percent extra wishes to analytical (search the TODO for note on idea of how)
 - import analytical database
-- fix date-decidable in project primos for jan 1
-- novalidate for forms for proj_primo and analysis
 - improve the accurary of four star distribution for wish sim
 
 Before making into website:

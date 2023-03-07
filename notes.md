@@ -1,4 +1,5 @@
-startup:
+# startup
+
 .\venv\Scripts\activate
 cd genshinwishoracle
 python manage.py runserver
