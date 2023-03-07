@@ -48,6 +48,7 @@ class Banner(models.Model):
                 return found[0]
             else:
                 return None
+        return None
             
     def get_all_before_current_date(self):
         now = datetime.date.today()

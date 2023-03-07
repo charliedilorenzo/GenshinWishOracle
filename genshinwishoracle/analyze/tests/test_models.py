@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ..models import Character, CharacterBanner, Weapon, WeaponBanner
+from ..models import Character, CharacterBanner, Weapon, WeaponBanner, Banner
 from django.core.management import call_command
 from genshinwishoracle import settings
 from django.contrib.auth.models import User
@@ -11,6 +11,8 @@ class ModelsTestCase(TestCase):
     fixtures = ['initial_data_characters_and_weapons.json',]
     test_username = "testuser"
     test_user_pk = None
+    characterbannername = "testbannercharacter"
+    weaponbannername = "testbannerweapon"
 
     def get_test_user(self):
         user = User.objects.filter(username=self.test_username)[0]
@@ -28,13 +30,13 @@ class ModelsTestCase(TestCase):
         now = timezone.now()
         testcharacterbanner = CharacterBanner.objects.create(name="testbannercharacter", enddate=now, banner_type="Character")
         four_stars = Character.objects.filter(rarity=4)[0:3]
-        five_stars = Character.objects.filter(rarity=5)
+        five_stars = [Character.objects.filter(rarity=5)[0]]
         testcharacterbanner.rateups.add(*four_stars)
         testcharacterbanner.rateups.add(*five_stars)
 
         testweaponbanner =WeaponBanner.objects.create(name="testbannerweapon", enddate=now, banner_type="Weapon")
-        four_stars = Weapon.objects.filter(rarity=4)[0:3]
-        five_stars = Weapon.objects.filter(rarity=5)
+        four_stars = Weapon.objects.filter(rarity=4)[0:5]
+        five_stars = Weapon.objects.filter(rarity=5)[0:1]
         testweaponbanner.rateups.add(*four_stars)
         testweaponbanner.rateups.add(*five_stars)
 
@@ -74,43 +76,98 @@ class ModelsTestCase(TestCase):
 
     # -------------------------- BANNERS --------------------------
 
-    def test_banner_get_specified_banner_equivalent(self):
-        # TODO
-        pass
+    def test_banner_get_specified_banner_equivalent_character(self):
+        testbanner = Banner.objects.filter(name=self.characterbannername)[0]
+        specifiedbanner= testbanner.get_specified_banner_equivalent()
+        self.assertEqual(type(specifiedbanner), CharacterBanner)
+        self.assertEqual(testbanner.name, specifiedbanner.name)
+        self.assertEqual(testbanner.enddate, specifiedbanner.enddate)
+        self.assertEqual(testbanner.banner_type, specifiedbanner.banner_type)
+
+    def test_banner_get_specified_banner_equivalent_weapon(self):
+        testbanner = Banner.objects.filter(name=self.weaponbannername)[0]
+        specifiedbanner= testbanner.get_specified_banner_equivalent()
+        self.assertEqual(type(specifiedbanner), WeaponBanner)
+        self.assertEqual(testbanner.name, specifiedbanner.name)
+        self.assertEqual(testbanner.enddate, specifiedbanner.enddate)
+        self.assertEqual(testbanner.banner_type, specifiedbanner.banner_type)
+
+    def test_banner_get_specified_banner_equivalent_no_type(self):
+        now = timezone.now()
+        broken_banner = Banner.objects.create(name="brokenbanner", enddate = now, banner_type = "")
+        equiv = broken_banner.get_specified_banner_equivalent()
+        self.assertEqual(equiv, None)
+        broken_banner.delete()
+    
+    def test_banner_get_specified_banner_equivalent_typed_character_fail(self):
+        now = timezone.now()
+        broken_banner = Banner.objects.create(name="brokenbanner", enddate = now, banner_type = "Character")
+        equiv = broken_banner.get_specified_banner_equivalent()
+        self.assertEqual(equiv, None)
+        broken_banner.delete()
+
+    def test_banner_get_specified_banner_equivalent_typed_weapon_fail(self):
+        now = timezone.now()
+        broken_banner = Banner.objects.create(name="brokenbanner", enddate = now, banner_type = "Weapon")
+        equiv = broken_banner.get_specified_banner_equivalent()
+        self.assertEqual(equiv, None)
+        broken_banner.delete()
 
     def test_banner_get_all_before_current_date(self):
         # TODO
         pass
 
     def test_banner_string(self):
-        # TODO
-        pass
+        testbanner = Banner.objects.filter(name=self.characterbannername)[0]
+        rateup = testbanner.get_specified_banner_equivalent().rateups.filter(rarity=5)[0]
+        banner_string = str(testbanner)
+        self.assertIn(testbanner.name, banner_string)
+        self.assertIn(str(rateup), banner_string)
+        self.assertIn(str(testbanner.enddate), banner_string)
+        
 
     # -------------------------- CHARACTER BANNERS --------------------------
 
     def test_characterbanner_get_base_banner_equivalent(self):
-        # TODO
-        pass
+        testbanner = CharacterBanner.objects.filter(name=self.characterbannername)[0]
+        basebanner = testbanner.get_base_banner_equivalent()
+        self.assertEqual(type(basebanner), Banner)
+        self.assertEqual(testbanner.name, basebanner.name)
+        self.assertEqual(testbanner.enddate, basebanner.enddate)
+        self.assertEqual(testbanner.banner_type, basebanner.banner_type)
 
     def test_characterbanner_save(self):
         # TODO
         pass
 
     def test_characterbanner_string(self):
-        # TODO
-        pass
+        testbanner = CharacterBanner.objects.filter(name=self.characterbannername)[0]
+        rateup = testbanner.rateups.filter(rarity=5)[0]
+        banner_string = str(testbanner)
+        self.assertIn(testbanner.name, banner_string)
+        self.assertIn(str(rateup), banner_string)
+        self.assertIn(str(testbanner.enddate), banner_string)
 
     # -------------------------- WEAPON BANNERS --------------------------
 
     def test_weaponbanner_get_base_banner_equivalent(self):
-        # TODO
-        pass
+        testbanner = WeaponBanner.objects.filter(name=self.characterbannername)[0]
+        basebanner = testbanner.get_base_banner_equivalent()
+        self.assertEqual(type(basebanner), Banner)
+        self.assertEqual(testbanner.name, basebanner.name)
+        self.assertEqual(testbanner.enddate, basebanner.enddate)
+        self.assertEqual(testbanner.banner_type, basebanner.banner_type)
 
     def test_weaponbanner_save(self):
         # TODO
         pass
 
     def test_weaponbanner_string(self):
-        # TODO
-        pass
+        testbanner = CharacterBanner.objects.filter(name=self.characterbannername)[0]
+        rateups = testbanner.rateups.filter(rarity=5)
+        banner_string = str(testbanner)
+        self.assertIn(testbanner.name, banner_string)
+        self.assertIn(str(testbanner.enddate), banner_string)
+        for rateup in rateups:
+            self.assertIn(str(rateup), banner_string)
     

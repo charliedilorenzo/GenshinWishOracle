@@ -6,6 +6,72 @@ python manage.py runserver
 
 IF STATIC CSS ISNT IMPLEMENTED FIRST TRY SHIFT-RELOADING PAGE
 
+# hopefully surefire process if redoing tables manually doesnt work
+
+delete all migrations except folder and init
+delete the db
+comment out import views and all the urls
+python manage.py makemigrations
+<!-- python manage.py migrate --fake -->
+python manage.py migrate
+python manage.py migrate --run-syncdb
+
+# load fixtures
+
+python manage.py loaddata initial_data_content_types.json
+python manage.py loaddata initial_data_users.json
+python manage.py loaddata initial_data_auth.json
+python manage.py loaddata initial_data_character_and_weapons.json
+
+# dump data for models
+
+python manage.py dumpdata auth users.Profile > users.json
+python manage.py dumpdata analyze.character > characters.json
+python manage.py dumpdata analyze.weapon > weapons.json
+python manage.py dumpdata analyze.banner analyze.characterbanner analyze.weaponbanner > banners.json
+
+# Testing notes
+
+python manage.py test
+python manage.py test app.tests.test_name
+
+coverage run -m pytest
+coverage report -m
+pytest -k database_test.py
+
+# REQUIREMENTS.TXT NOTES
+
+<<<< pip freeze > requirements.txt >>>>
+
+pip install pipreqs
+pipreqs
+
+python -m  pipreqs.pipreqs
+
+# GIT NOTES
+
+git rm --cached .gitignore
+
+# VirtualEnv NOTES
+
+C:\Users\carol\AppData\Local\Programs\Python\Python39\python.exe
+virtualenv --python C:\Users\carol\AppData\Local\Programs\Python\Python39\python.exe venv
+<!-- virtualenv --python  venv -->
+
+.\venv\Scripts\activate
+
+deactivate
+
+pip freeze > requirements.txt
+
+pip install -r requirements.txt
+
+# WEAPONS AVAILABILITY
+
+<https://genshin-impact.fandom.com/wiki/Weapon/List/By_Availability>
+
+# Manually make tables
+
 DROP TABLE analyze_banner;
 DROP TABLE analyze_weaponbanner;
 DROP TABLE analyze_characterbanner;
@@ -52,66 +118,3 @@ CREATE TABLE IF NOT EXISTS users_profile_banners(
     profile_id INT,
     banner_id INT
 );
-
-# hopefully surefire process if redoing tables manually doesnt work
-
-delete all migrations except folder and init
-delete the db
-comment out import views and all the urls
-python manage.py makemigrations
-<!-- python manage.py migrate --fake -->
-python manage.py migrate
-python manage.py migrate --run-syncdb
-python manage.py loaddata initial_data_content_types.json
-python manage.py loaddata initial_data_users.json
-python manage.py loaddata initial_data_auth.json
-python manage.py loaddata initial_data_character_and_weapons.json
-
-python manage.py dumpdata auth users.Profile > users.json
-python manage.py dumpdata analyze.character > characters.json
-python manage.py dumpdata analyze.weapon > weapons.json
-python manage.py dumpdata analyze.banner analyze.characterbanner analyze.weaponbanner > banners.json
-
-python manage.py loaddata initial_data_content_types.json
-python manage.py loaddata initial_data_users.json
-python manage.py loaddata initial_data_auth.json
-python manage.py loaddata initial_data_character_and_weapons.json
-
-python manage.py test analyze
-
-# PYTEST NOTES
-
-coverage run -m pytest
-coverage report -m
-pytest -k database_test.py
-
-# REQUIREMENTS.TXT NOTES
-
-<<<< pip freeze > requirements.txt >>>>
-
-pip install pipreqs
-pipreqs
-
-python -m  pipreqs.pipreqs
-
-# GIT NOTES
-
-git rm --cached .gitignore
-
-# VirtualEnv NOTES
-
-C:\Users\carol\AppData\Local\Programs\Python\Python39\python.exe
-virtualenv --python C:\Users\carol\AppData\Local\Programs\Python\Python39\python.exe venv
-<!-- virtualenv --python  venv -->
-
-.\venv\Scripts\activate
-
-deactivate
-
-pip freeze > requirements.txt
-
-pip install -r requirements.txt
-
-# WEAPONS AVAILABILITY
-
-<https://genshin-impact.fandom.com/wiki/Weapon/List/By_Availability>
