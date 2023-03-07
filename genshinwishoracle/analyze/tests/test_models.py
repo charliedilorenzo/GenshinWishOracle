@@ -5,6 +5,7 @@ from genshinwishoracle import settings
 from django.contrib.auth.models import User
 from users.models import Profile
 from django.utils import timezone
+from datetime import date
 
 class ModelsTestCase(TestCase):
     # fixtures = [settings.BASE_DIR / 'analyze/fixtures/initial_data_characters_and_weapons.json',]
@@ -113,9 +114,24 @@ class ModelsTestCase(TestCase):
         self.assertEqual(equiv, None)
         broken_banner.delete()
 
-    def test_banner_get_all_before_current_date(self):
-        # TODO
-        pass
+    def test_banner_get_all_after_current_date_not_found(self):
+        pasttime = date(1900, 1,1)
+        superfuturebanner = Banner.objects.create(name="brokenbanner", enddate = pasttime , banner_type = "Character")
+        all_after = Banner.get_all_after_current_date()
+        self.assertEqual(len(all_after), 2 )
+        self.assertIn(Banner.objects.filter(name=self.characterbannername)[0], all_after)
+        self.assertIn(Banner.objects.filter(name=self.weaponbannername)[0], all_after)
+
+    def test_banner_get_all_after_current_date_found(self):
+        futuretime = date(3000, 1,1)
+        superfuturebanner = Banner.objects.create(name="brokenbanner", enddate = futuretime , banner_type = "Character")
+        all_after = Banner.get_all_after_current_date()
+        self.assertEqual(len(all_after), 3 )
+        self.assertIn(Banner.objects.filter(name=self.characterbannername)[0], all_after)
+        self.assertIn(Banner.objects.filter(name=self.weaponbannername)[0], all_after)
+        self.assertIn(superfuturebanner, all_after)
+
+
 
     def test_banner_string(self):
         testbanner = Banner.objects.filter(name=self.characterbannername)[0]
@@ -151,7 +167,7 @@ class ModelsTestCase(TestCase):
     # -------------------------- WEAPON BANNERS --------------------------
 
     def test_weaponbanner_get_base_banner_equivalent(self):
-        testbanner = WeaponBanner.objects.filter(name=self.characterbannername)[0]
+        testbanner = WeaponBanner.objects.filter(name=self.weaponbannername)[0]
         basebanner = testbanner.get_base_banner_equivalent()
         self.assertEqual(type(basebanner), Banner)
         self.assertEqual(testbanner.name, basebanner.name)
@@ -163,7 +179,7 @@ class ModelsTestCase(TestCase):
         pass
 
     def test_weaponbanner_string(self):
-        testbanner = CharacterBanner.objects.filter(name=self.characterbannername)[0]
+        testbanner = WeaponBanner.objects.filter(name=self.weaponbannername)[0]
         rateups = testbanner.rateups.filter(rarity=5)
         banner_string = str(testbanner)
         self.assertIn(testbanner.name, banner_string)

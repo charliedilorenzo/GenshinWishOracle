@@ -49,10 +49,12 @@ class Banner(models.Model):
             else:
                 return None
         return None
-            
-    def get_all_before_current_date(self):
+
+    @staticmethod     
+    def get_all_after_current_date():
         now = datetime.date.today()
-        pass
+        banners = Banner.objects.filter(enddate__gte=now)
+        return banners
 
 class CharacterBanner(Banner):
     rateups = models.ManyToManyField(Character,blank=True)
