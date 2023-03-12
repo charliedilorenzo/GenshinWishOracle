@@ -132,8 +132,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [
-    "C:\\Users\\carol\\Code\\Personal\\GenshinWishOracle\\genshinwishoracle\\analyze\\static\\analyze",
-    "C:/Users/carol/Code/Personal/GenshinWishOracle/genshinwishoracle/analyze/static/analyze",
+    BASE_DIR / "analyze/static/analyze",
 ]
 
 AUTHENTICATION_BACKENDS = (

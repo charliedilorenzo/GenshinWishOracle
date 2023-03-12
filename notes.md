@@ -1,8 +1,14 @@
 # startup
 
+WINDOWS
 .\venv\Scripts\activate
 cd genshinwishoracle
 python manage.py runserver
+
+MAC
+source venv/bin/activate
+cd genshinwishoracle
+python3 manage.py runserver
 
 IF STATIC CSS ISNT IMPLEMENTED FIRST TRY SHIFT-RELOADING PAGE
 
@@ -58,7 +64,11 @@ C:\Users\carol\AppData\Local\Programs\Python\Python39\python.exe
 virtualenv --python C:\Users\carol\AppData\Local\Programs\Python\Python39\python.exe venv
 <!-- virtualenv --python  venv -->
 
+WINDOWS
 .\venv\Scripts\activate
+
+MAC
+source venv/bin/activate
 
 deactivate
 

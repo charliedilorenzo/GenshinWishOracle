@@ -26,7 +26,6 @@ class ModelsTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        # TODO add a profile with some banners on it maybe? though this mgiht be better to do for the form
         testuser = User.objects.create_user("testuser", "testemail@gmail.com","verysecurepassword")
         now = timezone.now()
         testcharacterbanner = CharacterBanner.objects.create(name="testbannercharacter", enddate=now, banner_type="Character")

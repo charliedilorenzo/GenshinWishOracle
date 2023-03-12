@@ -73,11 +73,14 @@ class CreateCharacterBannerForm(forms.ModelForm):
             self.user_id = user_id
 
     def unique_name_for_user(self, current_name):
-        profile = Profile.objects.filter(user_id = self.user_id)[0]
-        banners = profile.banners.filter(name=current_name)
-        if len(banners) == 0:
-            return True
-        return False
+        if self.user_id is not None:
+            profile = Profile.objects.filter(user_id = self.user_id).first()
+            banners = profile.banners.filter(name=current_name)
+            if len(banners) == 0:
+                return True
+            return False
+        else:
+            return False
 
     def verify_rateups(self):
         cleaned_data = super().clean()
@@ -154,11 +157,14 @@ class CreateWeaponBannerForm(forms.ModelForm):
             self.user_id = user_id
 
     def unique_name_for_user(self, current_name):
-        profile = Profile.objects.filter(user_id = self.user_id)[0]
-        banners = profile.banners.filter(name=current_name)
-        if len(banners) == 0:
-            return True
-        return False
+        if self.user_id is not None:
+            profile = Profile.objects.filter(user_id = self.user_id).first()
+            banners = profile.banners.filter(name=current_name)
+            if len(banners) == 0:
+                return True
+            return False
+        else:
+            return False
 
     def verify_rateups(self):
         cleaned_data = super().clean()
