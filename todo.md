@@ -3,8 +3,7 @@
 - checkout installed apps <https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-INSTALLED_APPS>
 
 ## New Stuff
-
-- search TODO for all tests in analyze
+- views tests
 - add tests for users
 - put all of analyze in genshinwishoracle
 - make dropdown favicon href
@@ -12,6 +11,12 @@
 - add options for over the max (1000 right now?)
 - fix date-decidable in project primos for jan 1
   - make a bool field for choosing via banner or manually?
+- additional tests
+  - database tests
+  - analystical tests
+  - forms tests
+  - views tests
+  - forms tests
 
 - for banners make the arrow in the many to many bigger
   - in widgets.css with classes: selector chooser, selector add, selector remove

@@ -439,57 +439,202 @@ class FormsTestCase(TestCase):
     # -------------------------- STATISTICS TO NUM OF WISHES WEAPON  --------------------------
 
     # -------------------------- PROJECT PRIMOS  --------------------------
+    def test_projectprimos_is_valid_true(self):
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        now = date.today()
+        data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(now)
+        data['end_date_banner_select'] = None
 
+
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        form.is_valid()
+        self.assertEqual(form.user_id, testuser.pk)
+    
     def test_projectprimos_init_userid(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        now = date.today()
+        data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(now)
+        data['end_date_banner_select'] = None
+
+
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        form.is_valid()
+        self.assertEqual(form.user_id, testuser.pk)
 
     def test_projectprimos_init_no_userid(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        now = date.today()
+        data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(now)
+        # data['end_date_banner_select'] = None
+
+        form  = forms.ProjectPrimosForm(data)
+        form.is_valid()
+        self.assertEqual(form.user_id, None)
 
     def test_projectprimos_manual_date_is_default_true(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        rateups = self.get_characters()
+        now = date.today()
+        data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(date(now.year,1,1))
+        data['end_date_banner_select'] = None
+
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        form.is_valid()
+        default = form.manual_select_is_default()
+        self.assertTrue(default)
+
+
     def test_projectprimos_manual_date_is_default_false(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        rateups = self.get_characters()
+        now = date.today()
+        data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(date(now.year,2,1))
+        data['end_date_banner_select'] = None
+
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        form.is_valid()
+        default = form.manual_select_is_default()
+        self.assertTrue(not default)
     
     def test_projectprimos_date_is_decidable_true_manual(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        now = date.today()
+        data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(date(now.year,2,1))
+        data['end_date_banner_select'] = None
+
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        form.is_valid()
+        decidable = form.date_is_decidable()
+        self.assertTrue(decidable)
 
     def test_projectprimos_date_is_decidable_true_banner(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        now = date.today()
+        data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(date(now.year,1,1))
+        testprofile = Profile.objects.filter(user_id = testuser.pk).first()
+        data['end_date_banner_select'] = testprofile.banners.filter(enddate__gte=now).first()
+
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        form.is_valid()
+        decidable = form.date_is_decidable()
+        self.assertTrue(decidable)
 
     def test_projectprimos_date_is_decidable_false_both_changed(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        now = date.today()
+        data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(date(now.year+1,2,1))
+        testprofile = Profile.objects.filter(user_id = testuser.pk).first()
+        data['end_date_banner_select'] = testprofile.banners.filter(enddate__gte=now).first()
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        form.is_valid()
+        decidable = form.date_is_decidable()
+        self.assertTrue(not decidable)
 
     def test_projectprimos_date_is_decidable_false_neither_changed(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        now = date.today()
+        data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(date(now.year,1,1))
+        data['end_date_banner_select'] = None
+
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        form.is_valid()
+        decidable = form.date_is_decidable()
+        self.assertTrue(not decidable)
 
     def test_projectprimos_decide_date_manual(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        now = date.today()
+        data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        testdate = date(now.year,2,1)
+        data['end_date_manual_select'] = str(testdate)
+        data['end_date_banner_select'] = None
+
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        form.is_valid()
+        decision = form.decide_date()
+        self.assertEqual(testdate, decision)
+
     def test_projectprimos_decide_date_banner(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        now = date.today()
+        data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(date(now.year,1,1))
+        testprofile = Profile.objects.filter(user_id = testuser.pk).first()
+        data['end_date_banner_select'] = testprofile.banners.filter(enddate__gte=now).first()
+
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        form.is_valid()
+        decision = form.decide_date()
+        self.assertEqual(data['end_date_banner_select'].enddate, decision)
+
     def test_projectprimos_decide_date_none(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        now = date.today()
+        data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(date(now.year+1,2,1))
+        testprofile = Profile.objects.filter(user_id = testuser.pk).first()
+        data['end_date_banner_select'] = testprofile.banners.filter(enddate__gte=now).first()
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        form.is_valid()
+        decision = form.decide_date()
+        self.assertEqual(None, decision)
     
     def test_projectprimos_is_valid_true(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        now = date.today()
+        data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(date(now.year,2,1))
+        data['end_date_banner_select'] = None
+
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        valid = form.is_valid()
+        self.assertTrue(valid)
+
+
     def test_projectprimos_is_valid_false(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        now = date.today()
+        data = {'numprimos': -3, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(date(now.year,2,1))
+        data['end_date_banner_select'] = None
+
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        valid = form.is_valid()
+        self.assertTrue(not valid)
 
     def test_projectprimos_clean(self):
-        # TODO
-        pass
+        testuser = User.objects.filter(username=self.test_username).first()
+        kwargs = {'user_id': testuser.pk}
+        now = date.today()
+        data = {'numprimos': -3, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
+        data['end_date_manual_select'] = str(date(now.year,2,1))
+        data['end_date_banner_select'] = None
+
+        form  = forms.ProjectPrimosForm(data, **kwargs)
+        form.is_valid()
+        cleaned = form.clean()
+        self.assertTrue(data, cleaned)
 
     # -------------------------- WISH SIMULATOR --------------------------

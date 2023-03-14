@@ -1,9 +1,10 @@
 import os
 import sqlite3
+from genshinwishoracle import settings
 
 global schema_file, path
-path = 'C:\\Users\\carol\\Code\\Personal\\GenshinWishOracle\\genshinwishoracle\\analyze'
-schema_file = path+"\\schema.sql"
+path = settings.BASE_DIR / "analyze"
+schema_file = path / "schema.sql"
 
 
 def check_db(filename: str) -> bool:
@@ -48,9 +49,7 @@ def init_db(conn: sqlite3.Connection) -> int:
 
 
 def get_default_db() -> str:
-    return "C:\\Users\\carol\\Code\\Personal\\GenshinWishOracle\\genshinwishoracle\\analyze\\database.db"
-    # return "database.db"
-    # return path + "\\database.db"
+    return path / "database.db"
 
 
 def update_data_in_table(data: list[tuple], table: str, conn: sqlite3.Connection) -> int:

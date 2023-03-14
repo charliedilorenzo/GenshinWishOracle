@@ -298,7 +298,7 @@ class ProjectPrimosForm(forms.Form):
         fields = ['numprimos', 'numgenesis', 'numfates', 'numstarglitter', 'end_date_manual_select', 'end_date_banner_select', 'welkin_moon', 'battlepass', 'average_abyss_stars']
 
     def __init__(self, *args, **kwargs):
-        user_id = kwargs.pop('user_id', None)
+        self.user_id = kwargs.pop('user_id', None)
         super(ProjectPrimosForm, self).__init__(*args, **kwargs)
         self.fields['numprimos'] = forms.IntegerField(label="Number of Wishes",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of primogems."} )
         self.fields['numgenesis'] = forms.IntegerField(label="Number of Genesis Crystal",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of genesis crystals."})
@@ -307,10 +307,10 @@ class ProjectPrimosForm(forms.Form):
         self.fields['end_date_manual_select'] = forms.DateField(label="End Date Manual Select",widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
 
         self.fields['welkin_moon'] = forms.BooleanField(label="Welkin Moon",initial=False, required=False)
-        self.fields['battlepass '] = forms.BooleanField(label="Battlepass",initial=False, required=False)
+        self.fields['battlepass'] = forms.BooleanField(label="Battlepass",initial=False, required=False)
         self.fields['average_abyss_stars'] = forms.IntegerField(label="Average Abyss Stars",initial=27, required=False)
-        if user_id is not None:
-            user = User.objects.filter(id=user_id)
+        if self.user_id is not None:
+            user = User.objects.filter(id=self.user_id)
         else:
             user = User.objects.none()
         # check they actually exist
@@ -323,7 +323,7 @@ class ProjectPrimosForm(forms.Form):
             )
             pass
         else:
-            profile = Profile.objects.filter(user_id=user_id)
+            profile = Profile.objects.filter(user_id=self.user_id)
             if len(profile) != 1:
                 return 
             profile = profile[0]

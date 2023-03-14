@@ -50,7 +50,6 @@ class DatebaseTestCase(TestCase):
         self.reset_database()
 
     def test_reset_database_clears_data(self):
-        # TODO
         self.reset_database()
         conn = self.get_test_db_conn()
         tables = database.get_tables(conn)
@@ -68,7 +67,6 @@ class DatebaseTestCase(TestCase):
         self.reset_database()
 
     def test_get_primary_keys(self):
-        # TODO
         self.reset_database()
         self.add_example_data_to_all_tables()
         conn = self.get_test_db_conn()
@@ -304,8 +302,7 @@ class DatebaseTestCase(TestCase):
         self.reset_database()
 
     def test_table_to_hashtable(self):
-        # TODO
+        #TODO 
         self.reset_database()
         conn = self.get_test_db_conn
         self.reset_database()
-        pass
