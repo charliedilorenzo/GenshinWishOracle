@@ -8,6 +8,7 @@ genshinwishoracle/static
 .env
 genshinwishoracle/db.sqlite3
 userinput.py
+/lib/*
 
 __pycache__/
 *.py[cod]
