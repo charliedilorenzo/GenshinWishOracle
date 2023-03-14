@@ -1,12 +1,12 @@
 {% extends "genshinwishoracle/bootstrap_base.html" %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+<link rel="stylesheet" href="{% static 'genshinwishoracle/style.css' %}">
 {% block content %}
 
 <body>
     {% csrf_token %}
     <div>
-        <a href="{% url 'analyze:index' %}"><button name='back' type="submit" class="back-button"><i
+        <a href="{% url 'main-home' %}"><button name='back' type="submit" class="back-button"><i
                     class="back-arrow"></i>
                 Analyze Home </button></a>
     </div>
@@ -114,7 +114,7 @@
         <img src="data:image/png;base64, {{chart|safe}}" alt="" id="img">
     </div>
     <div>
-        <a href="{% url 'analyze:statistics' 'character' 'calcprobability' %}"><button name='redirect' type="submit"
+        <a href="{% url 'statistics' 'character' 'calcprobability' %}"><button name='redirect' type="submit"
                 class="back-button"><i class="back-arrow"></i>
                 More Statistics</button></a>
     </div>

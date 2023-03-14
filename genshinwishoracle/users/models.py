@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 import math
 from django.conf import settings
-from analyze.models import Banner
+from genshinwishoracle.models import Banner
 
 # Extending User Model Using a One-To-One Link
 class Profile(models.Model):

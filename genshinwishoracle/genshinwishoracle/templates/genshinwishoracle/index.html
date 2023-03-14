@@ -1,16 +1,21 @@
 {% extends "genshinwishoracle/bootstrap_base.html" %}
-{% block content%}
-<title>{% block title %} Home {% endblock %} </title>
-<div>
-    <h1 class="display-4"></h1> Home </h1>
-</div>
+{% load static %}
+<link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+{% block content %}
+<title>{% block title %} Analyze Options {% endblock title %} </title>
+<h1 class="display-4"> Home </h1>
 <ul>
-    <li>
-        <a href="{% url 'analyze:index' %}">Analyze!</a>
+    <li><a href="{% url 'statistics' 'character' 'calcprobability' %}"> TESTING Banner Statistics
+            Analysis</a>
     </li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'character_banners' %}">Character Banners</a></li>
+    <li><a href="{% url 'weapon_banners' %}">Weapon Banners</a></li>
+    {% endif %}
+    <li><a href="{% url 'project_primos' %}"> Project Future Primogems</a></li>
+    <li><a href="{% url 'wish_simulator' %}"> Wish Simulator </a></li>
     <li>
         <a href="{% url 'users:users-home' %}">User Stuff!</a>
     </li>
 </ul>
-
-{% endblock %}
+{% endblock content %}

@@ -1,5 +1,5 @@
 from django import forms
-from . import models
+from ..analyze import models
 from .validators import validate_character_rateups
 from django.utils import timezone
 import datetime

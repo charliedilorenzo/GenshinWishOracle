@@ -1,11 +1,11 @@
 {% extends "genshinwishoracle/bootstrap_base.html" %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+<link rel="stylesheet" href="{% static 'genshinwishoracle/style.css' %}">
 {% block content %}
 <title>{% block title %} Primogem Projection Results {% endblock title %} </title>
 
 <div>
-    <a href="{% url 'analyze:project_primos' %}"><button name='back' type="submit" class="back-button"><i
+    <a href="{% url 'project_primos' %}"><button name='back' type="submit" class="back-button"><i
                 class="back-arrow"></i>
             Back</button></a>
 </div>
@@ -30,7 +30,7 @@
         <div>
             <h6>Use results?</h6>
         </div>
-        <form action="{% url 'analyze:project_primos' %}" method="post">
+        <form action="{% url 'project_primos' %}" method="post">
             {% csrf_token %}
             <button type="submit" name='analyze_with_future_primogems' value={{future_wishes}}>Analyze
                 with Future
