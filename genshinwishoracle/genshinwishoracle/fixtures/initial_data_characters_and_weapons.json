@@ -1,6 +1,6 @@
 [
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 1,
         "fields": {
             "rarity": 4,
@@ -9,7 +9,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 3,
         "fields": {
             "rarity": 5,
@@ -18,7 +18,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 5,
         "fields": {
             "rarity": 5,
@@ -27,7 +27,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 6,
         "fields": {
             "rarity": 5,
@@ -36,7 +36,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 7,
         "fields": {
             "rarity": 5,
@@ -45,7 +45,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 8,
         "fields": {
             "rarity": 5,
@@ -54,7 +54,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 9,
         "fields": {
             "rarity": 4,
@@ -63,7 +63,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 10,
         "fields": {
             "rarity": 4,
@@ -72,7 +72,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 11,
         "fields": {
             "rarity": 4,
@@ -81,7 +81,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 12,
         "fields": {
             "rarity": 4,
@@ -90,7 +90,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 13,
         "fields": {
             "rarity": 5,
@@ -99,7 +99,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 14,
         "fields": {
             "rarity": 4,
@@ -108,7 +108,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 1,
         "fields": {
             "rarity": 5,
@@ -117,7 +117,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 2,
         "fields": {
             "rarity": 5,
@@ -126,7 +126,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 3,
         "fields": {
             "rarity": 5,
@@ -135,7 +135,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 4,
         "fields": {
             "rarity": 5,
@@ -144,7 +144,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 5,
         "fields": {
             "rarity": 5,
@@ -153,7 +153,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 6,
         "fields": {
             "rarity": 5,
@@ -162,7 +162,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 7,
         "fields": {
             "rarity": 5,
@@ -171,7 +171,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 8,
         "fields": {
             "rarity": 5,
@@ -180,7 +180,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 9,
         "fields": {
             "rarity": 5,
@@ -189,7 +189,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 10,
         "fields": {
             "rarity": 5,
@@ -198,7 +198,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 11,
         "fields": {
             "rarity": 4,
@@ -207,7 +207,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 12,
         "fields": {
             "rarity": 4,
@@ -216,7 +216,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 13,
         "fields": {
             "rarity": 4,
@@ -225,7 +225,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 14,
         "fields": {
             "rarity": 4,
@@ -234,7 +234,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 15,
         "fields": {
             "rarity": 4,
@@ -243,7 +243,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 15,
         "fields": {
             "rarity": 5,
@@ -252,7 +252,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 16,
         "fields": {
             "rarity": 5,
@@ -261,7 +261,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 17,
         "fields": {
             "rarity": 5,
@@ -270,7 +270,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 18,
         "fields": {
             "rarity": 4,
@@ -279,7 +279,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 19,
         "fields": {
             "rarity": 4,
@@ -288,7 +288,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 21,
         "fields": {
             "rarity": 4,
@@ -297,7 +297,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 22,
         "fields": {
             "rarity": 4,
@@ -306,7 +306,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 23,
         "fields": {
             "rarity": 4,
@@ -315,7 +315,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 24,
         "fields": {
             "rarity": 5,
@@ -324,7 +324,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 26,
         "fields": {
             "rarity": 4,
@@ -333,7 +333,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 27,
         "fields": {
             "rarity": 4,
@@ -342,7 +342,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 28,
         "fields": {
             "rarity": 5,
@@ -351,7 +351,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 29,
         "fields": {
             "rarity": 4,
@@ -360,7 +360,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 30,
         "fields": {
             "rarity": 4,
@@ -369,7 +369,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 31,
         "fields": {
             "rarity": 5,
@@ -378,7 +378,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 32,
         "fields": {
             "rarity": 4,
@@ -387,7 +387,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 33,
         "fields": {
             "rarity": 5,
@@ -396,7 +396,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 35,
         "fields": {
             "rarity": 5,
@@ -405,7 +405,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 37,
         "fields": {
             "rarity": 5,
@@ -414,7 +414,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 38,
         "fields": {
             "rarity": 5,
@@ -423,7 +423,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 40,
         "fields": {
             "rarity": 5,
@@ -432,7 +432,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 41,
         "fields": {
             "rarity": 4,
@@ -441,7 +441,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 43,
         "fields": {
             "rarity": 4,
@@ -450,7 +450,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 46,
         "fields": {
             "rarity": 5,
@@ -459,7 +459,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 47,
         "fields": {
             "rarity": 5,
@@ -468,7 +468,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 48,
         "fields": {
             "rarity": 4,
@@ -477,7 +477,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 49,
         "fields": {
             "rarity": 4,
@@ -486,7 +486,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 51,
         "fields": {
             "rarity": 5,
@@ -495,7 +495,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 52,
         "fields": {
             "rarity": 4,
@@ -504,7 +504,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 53,
         "fields": {
             "rarity": 4,
@@ -513,7 +513,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 54,
         "fields": {
             "rarity": 5,
@@ -522,7 +522,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 55,
         "fields": {
             "rarity": 4,
@@ -531,7 +531,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 56,
         "fields": {
             "rarity": 5,
@@ -540,7 +540,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 57,
         "fields": {
             "rarity": 4,
@@ -549,7 +549,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 58,
         "fields": {
             "rarity": 4,
@@ -558,7 +558,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 59,
         "fields": {
             "rarity": 5,
@@ -567,7 +567,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 60,
         "fields": {
             "rarity": 4,
@@ -576,7 +576,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 61,
         "fields": {
             "rarity": 5,
@@ -585,7 +585,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 62,
         "fields": {
             "rarity": 5,
@@ -594,7 +594,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 63,
         "fields": {
             "rarity": 5,
@@ -603,7 +603,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 64,
         "fields": {
             "rarity": 4,
@@ -612,7 +612,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 66,
         "fields": {
             "rarity": 4,
@@ -621,7 +621,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 67,
         "fields": {
             "rarity": 4,
@@ -630,7 +630,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 68,
         "fields": {
             "rarity": 5,
@@ -639,7 +639,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 69,
         "fields": {
             "rarity": 4,
@@ -648,7 +648,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 71,
         "fields": {
             "rarity": 5,
@@ -657,7 +657,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 72,
         "fields": {
             "rarity": 5,
@@ -666,7 +666,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 73,
         "fields": {
             "rarity": 4,
@@ -675,7 +675,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 17,
         "fields": {
             "rarity": 5,
@@ -684,7 +684,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 18,
         "fields": {
             "rarity": 5,
@@ -693,7 +693,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 19,
         "fields": {
             "rarity": 5,
@@ -702,7 +702,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 20,
         "fields": {
             "rarity": 5,
@@ -711,7 +711,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 21,
         "fields": {
             "rarity": 5,
@@ -720,7 +720,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 22,
         "fields": {
             "rarity": 4,
@@ -729,7 +729,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 23,
         "fields": {
             "rarity": 4,
@@ -738,7 +738,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 24,
         "fields": {
             "rarity": 4,
@@ -747,7 +747,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 25,
         "fields": {
             "rarity": 4,
@@ -756,7 +756,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 26,
         "fields": {
             "rarity": 3,
@@ -765,7 +765,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 27,
         "fields": {
             "rarity": 3,
@@ -774,7 +774,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 29,
         "fields": {
             "rarity": 3,
@@ -783,7 +783,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 31,
         "fields": {
             "rarity": 5,
@@ -792,7 +792,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 32,
         "fields": {
             "rarity": 5,
@@ -801,7 +801,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 33,
         "fields": {
             "rarity": 5,
@@ -810,7 +810,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 34,
         "fields": {
             "rarity": 5,
@@ -819,7 +819,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 35,
         "fields": {
             "rarity": 5,
@@ -828,7 +828,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 36,
         "fields": {
             "rarity": 5,
@@ -837,7 +837,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 37,
         "fields": {
             "rarity": 5,
@@ -846,7 +846,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 38,
         "fields": {
             "rarity": 4,
@@ -855,7 +855,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 39,
         "fields": {
             "rarity": 4,
@@ -864,7 +864,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 40,
         "fields": {
             "rarity": 4,
@@ -873,7 +873,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 41,
         "fields": {
             "rarity": 4,
@@ -882,7 +882,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 42,
         "fields": {
             "rarity": 4,
@@ -891,7 +891,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 43,
         "fields": {
             "rarity": 3,
@@ -900,7 +900,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 45,
         "fields": {
             "rarity": 3,
@@ -909,7 +909,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 46,
         "fields": {
             "rarity": 3,
@@ -918,7 +918,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 48,
         "fields": {
             "rarity": 5,
@@ -927,7 +927,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 49,
         "fields": {
             "rarity": 5,
@@ -936,7 +936,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 50,
         "fields": {
             "rarity": 5,
@@ -945,7 +945,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 51,
         "fields": {
             "rarity": 4,
@@ -954,7 +954,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 52,
         "fields": {
             "rarity": 4,
@@ -963,7 +963,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 53,
         "fields": {
             "rarity": 4,
@@ -972,7 +972,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 54,
         "fields": {
             "rarity": 4,
@@ -981,7 +981,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 55,
         "fields": {
             "rarity": 4,
@@ -990,7 +990,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 56,
         "fields": {
             "rarity": 3,
@@ -999,7 +999,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 57,
         "fields": {
             "rarity": 3,
@@ -1008,7 +1008,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 58,
         "fields": {
             "rarity": 3,
@@ -1017,7 +1017,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 61,
         "fields": {
             "rarity": 5,
@@ -1026,7 +1026,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 62,
         "fields": {
             "rarity": 5,
@@ -1035,7 +1035,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 63,
         "fields": {
             "rarity": 5,
@@ -1044,7 +1044,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 64,
         "fields": {
             "rarity": 5,
@@ -1053,7 +1053,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 65,
         "fields": {
             "rarity": 5,
@@ -1062,7 +1062,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 66,
         "fields": {
             "rarity": 4,
@@ -1071,7 +1071,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 67,
         "fields": {
             "rarity": 4,
@@ -1080,7 +1080,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 68,
         "fields": {
             "rarity": 4,
@@ -1089,7 +1089,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 69,
         "fields": {
             "rarity": 4,
@@ -1098,7 +1098,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 70,
         "fields": {
             "rarity": 3,
@@ -1107,7 +1107,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 73,
         "fields": {
             "rarity": 5,
@@ -1116,7 +1116,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 74,
         "fields": {
             "rarity": 5,
@@ -1125,7 +1125,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 75,
         "fields": {
             "rarity": 5,
@@ -1134,7 +1134,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 76,
         "fields": {
             "rarity": 5,
@@ -1143,7 +1143,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 77,
         "fields": {
             "rarity": 5,
@@ -1152,7 +1152,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 78,
         "fields": {
             "rarity": 4,
@@ -1161,7 +1161,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 79,
         "fields": {
             "rarity": 4,
@@ -1170,7 +1170,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 80,
         "fields": {
             "rarity": 4,
@@ -1179,7 +1179,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 81,
         "fields": {
             "rarity": 4,
@@ -1188,7 +1188,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 82,
         "fields": {
             "rarity": 4,
@@ -1197,7 +1197,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 83,
         "fields": {
             "rarity": 4,
@@ -1206,7 +1206,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 85,
         "fields": {
             "rarity": 3,
@@ -1215,7 +1215,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 87,
         "fields": {
             "rarity": 3,
@@ -1224,7 +1224,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 88,
         "fields": {
             "rarity": 3,
@@ -1233,7 +1233,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 89,
         "fields": {
             "rarity": 4,
@@ -1242,7 +1242,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 74,
         "fields": {
             "rarity": 5,
@@ -1251,7 +1251,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 75,
         "fields": {
             "rarity": 4,
@@ -1260,7 +1260,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 76,
         "fields": {
             "rarity": 5,
@@ -1269,7 +1269,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 77,
         "fields": {
             "rarity": 4,
@@ -1278,7 +1278,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 90,
         "fields": {
             "rarity": 5,
@@ -1287,7 +1287,7 @@
         }
     },
     {
-        "model": "analyze.weapon",
+        "model": "genshinwishoracle.weapon",
         "pk": 91,
         "fields": {
             "rarity": 5,
@@ -1296,7 +1296,7 @@
         }
     },
     {
-        "model": "analyze.character",
+        "model": "genshinwishoracle.character",
         "pk": 78,
         "fields": {
             "rarity": 5,

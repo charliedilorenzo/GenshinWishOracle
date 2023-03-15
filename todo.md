@@ -5,9 +5,14 @@
 ## New Stuff
 - views tests
 - add tests for users
+- login required decorator
 - put all of analyze in genshinwishoracle
 - make dropdown favicon href
 - make dropdown app name href
+- change "view Profile" to "Edit Profile"
+- custom viewpage if there are no banners
+- make the banner creation / update selector not have the choose all and the remove all
+- make the banner creation / update selectors in the middle for move betweens
 - add options for over the max (1000 right now?)
 - fix date-decidable in project primos for jan 1
   - make a bool field for choosing via banner or manually?

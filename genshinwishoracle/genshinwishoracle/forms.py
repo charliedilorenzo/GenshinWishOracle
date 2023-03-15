@@ -1,5 +1,5 @@
 from django import forms
-from ..analyze import models
+from genshinwishoracle import models
 from .validators import validate_character_rateups
 from django.utils import timezone
 import datetime

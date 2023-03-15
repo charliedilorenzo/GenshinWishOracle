@@ -3,7 +3,7 @@
         "model": "contenttypes.contenttype",
         "id": 2,
         "fields": {
-            "app_label": "analyze",
+            "app_label": "genshinwishoracle",
             "model": "character"
         }
     },
@@ -11,7 +11,7 @@
         "model": "contenttypes.contenttype",
         "id": 3,
         "fields": {
-            "app_label": "analyze",
+            "app_label": "genshinwishoracle",
             "model": "weapon"
         }
     },
@@ -19,7 +19,7 @@
         "model": "contenttypes.contenttype",
         "id": 4,
         "fields": {
-            "app_label": "analyze",
+            "app_label": "genshinwishoracle",
             "model": "weaponbanner"
         }
     },
@@ -27,7 +27,7 @@
         "model": "contenttypes.contenttype",
         "id": 5,
         "fields": {
-            "app_label": "analyze",
+            "app_label": "genshinwishoracle",
             "model": "characterbanner"
         }
     },

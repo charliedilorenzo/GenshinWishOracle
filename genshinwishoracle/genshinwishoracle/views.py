@@ -36,6 +36,7 @@ class CharacterBannerView(generic.ListView):
     update_url= reverse_lazy('character_banner_update')
     delete_url= reverse_lazy('character_banner_delete')
     base_url = "analyze"
+    banner_type = "Character"
     # TODO see if I want this
     # paginate_by = 5
 
@@ -48,6 +49,7 @@ class CharacterBannerView(generic.ListView):
         context['create_url'] = self.create_url
         context['update_url_front'] = "/analyze/character-banners"
         context['delete_url_front'] = "/analyze/character-banners"
+        context['banner_type'] = self.banner_type
         return context
 
     def get(self, request,*args, **kwargs):
@@ -100,6 +102,7 @@ class CharacterBannerUpdateView(generic.UpdateView):
         context ={}
         banner_before = self.model.objects.filter(id=kwargs['pk'])
         kwargs = self.get_form_kwargs()
+        kwargs["data"] = self.request.POST
         form  = self.form_class(**kwargs)
         if form.is_valid():
             cleaned_data = form.cleaned_data
@@ -142,10 +145,11 @@ class CharacterBannerCreateView(generic.CreateView):
             return redirect(to=reverse_lazy('main-home'))
         context ={}
         kwargs = self.get_form_kwargs()
-        form  = self.form_class(request.POST, **kwargs)
+        kwargs["data"] = self.request.POST
+        form  = self.form_class(**kwargs)
         if form.is_valid():
             character_banner = form.save()
-            profile = Profile.objects.filter(user_id= request.user.id)[0]
+            profile = Profile.objects.filter(user_id= request.user.id).first()
             profile.banners.add(character_banner)
             return redirect(to=self.success_url)
         else:
@@ -161,6 +165,7 @@ class WeaponBannerView(generic.ListView):
     create_url = reverse_lazy('weapon_banner_create')
     update_url= reverse_lazy('weapon_banner_update')
     delete_url= reverse_lazy('weapon_banner_delete')
+    banner_type = "Weapon"
     
     def get_context_data(self, **kwargs):
         context = {}
@@ -171,6 +176,7 @@ class WeaponBannerView(generic.ListView):
         context['create_url'] = self.create_url
         context['update_url_front'] = "/analyze/weapon-banners"
         context['delete_url_front'] = "/analyze/weapon-banners"
+        context['banner_type'] = self.banner_type
         return context 
 
     def get(self, request,*args, **kwargs):
@@ -224,6 +230,7 @@ class WeaponBannerUpdateView(generic.UpdateView):
         context ={}
         banner_before = self.model.objects.filter(id=kwargs['pk'])
         kwargs = self.get_form_kwargs()
+        kwargs["data"] = self.request.POST
         form  = self.form_class(**kwargs)
         if form.is_valid():
             cleaned_data = form.cleaned_data
@@ -242,12 +249,17 @@ class WeaponBannerCreateView(generic.CreateView):
     template_name = 'analyze/banner_create.html'
     success_url = reverse_lazy('weapon_banners')
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user_id"] = self.request.user.id
+        kwargs["updating"] = False
+        return kwargs
+
     def get(self, request,*args, **kwargs):
         if not request.user.is_authenticated:
             return redirect(to=reverse_lazy('main-home'))
         context = {}
-        kwargs = {}
-        kwargs.update({"user_id": request.user.id})
+        kwargs = self.get_form_kwargs()
         form = self.form_class(**kwargs)
         context['form'] = form
         context['banner_type'] = self.banner_type
@@ -258,11 +270,13 @@ class WeaponBannerCreateView(generic.CreateView):
         if not request.user.is_authenticated:
             return redirect(to=reverse_lazy('main-home'))
         context ={}
-        kwargs.update({"user_id": request.user.id})
-        form  = self.form_class(request.POST, **kwargs)
+        kwargs = self.get_form_kwargs()
+        kwargs['data'] = self.request.POST
+        form  = self.form_class(**kwargs)
         if form.is_valid():
             weapon_banner = form.save()
-            profile = Profile.objects.filter(user_id= request.user.id)[0]
+            print(request.user.id)
+            profile = Profile.objects.get(user_id= request.user.id)
             profile.banners.add(weapon_banner)
             return redirect(to=self.success_url)
         else:
