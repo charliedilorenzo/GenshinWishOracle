@@ -6,19 +6,20 @@
 - views tests
 - add tests for users
 - login required decorator
-- put all of analyze in genshinwishoracle
+- importing might not work for welkin moon in project primos
 - make dropdown favicon href
 - make dropdown app name href
 - change "view Profile" to "Edit Profile"
 - custom viewpage if there are no banners
-- add number of wishes to the sidebar?
-- importing might not work for welkin moon?
+- add number of wishes to the sidebar per profile?
 - add desired five star for weapon banner wish simulator
 - make the banner creation / update selector not have the choose all and the remove all
-- make the banner creation / update selectors in the middle for move betweens
+- for banners make the arrow in the many to many bigger
+  - in widgets.css with classes: selector chooser, selector add, selector remove
 - add options for over the max (1000 right now?)
 - fix date-decidable in project primos for jan 1
   - make a bool field for choosing via banner or manually?
+- login required entries in index
 - additional tests
   - database tests
   - analystical tests
@@ -26,8 +27,6 @@
   - views tests
   - forms tests
 
-- for banners make the arrow in the many to many bigger
-  - in widgets.css with classes: selector chooser, selector add, selector remove
 - user setting for autoimport every time?
 - find the most realistic pity distribution
 - get rid of hash table from analytical?
