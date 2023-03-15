@@ -563,12 +563,20 @@ class WishSimulatorView(generic.View):
     success_url = reverse_lazy('main-home')
     form_class = forms.WishSimulatorForm
     
+    def get_form_kwargs(self):
+        kwargs = {}
+        kwargs["user_id"] = self.request.user.id
+        return kwargs
+
     def get(self, request,*args, **kwargs):
         context = {}
-        context['form'] = self.form_class
+        kwargs = self.get_form_kwargs()
+        context['form'] = self.form_class(**kwargs)
         return render(request, self.template_name,context=context)
     def post(self, request,*args, **kwargs):
-        form = self.form_class(request.POST)
+        kwargs = self.get_form_kwargs()
+        kwargs['data'] = request.POST
+        form = self.form_class(**kwargs)
         if form.is_valid():
             number_of_pulls = request.POST['number_of_pulls']
             banner_id = request.POST['banner']
@@ -581,6 +589,7 @@ class WishSimulatorView(generic.View):
 class WishSimulatorResultsView(generic.ListView):
     template_name = 'analyze/wish_simulator_result.html'
     success_url = reverse_lazy('main-home')
+
     def get(self, request,banner_id, number_of_pulls,*args, **kwargs):
         context ={}
         context['number_of_pulls'] = number_of_pulls
@@ -614,9 +623,9 @@ class WishSimulatorResultsView(generic.ListView):
         four_star_pity = 0 
         four_star_guaranteed = False
         fate_points = 0
-        banner = models.Banner.objects.filter(id=banner)[0]
+        banner = models.Banner.objects.filter(id=banner).first()
         rateups= banner.get_specified_banner_equivalent().rateups.all()
-        simulator = wish_simulator.WishSim(banner,rateups[0])
+        simulator = wish_simulator.WishSim(banner,rateups.filter(rarity=5).first())
         pulls = simulator.roll(number_of_pulls,five_star_pity,five_star_guaranteed,four_star_pity,four_star_guaranteed, fate_points)
         return pulls
 

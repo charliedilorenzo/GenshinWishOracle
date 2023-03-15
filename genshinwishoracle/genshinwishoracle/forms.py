@@ -388,16 +388,35 @@ class ProjectPrimosForm(forms.Form):
 class WishSimulatorForm(forms.Form):
     class Meta:
         fields = ['number_of_pulls', 'banner']
-    number_of_pulls = forms.IntegerField(label="Number of Pulls",min_value=1, initial=1)
-     # TODO fix it 
-    banners = models.Banner.objects.all()
 
-    banner = forms.ModelChoiceField(label="Banner:",
-        queryset= banners,
-        widget=forms.Select(attrs={'size': 30},),
-        initial=timezone.now(),
-         required=True
-    )
+    def __init__(self, *args, **kwargs):
+        self.user_id = kwargs.pop('user_id', None)
+        super(WishSimulatorForm, self).__init__(*args, **kwargs)
+        self.fields['number_of_pulls'] = forms.IntegerField(label="Number of Pulls",min_value=1, initial=1)
+        if self.user_id is not None:
+            user = User.objects.filter(id=self.user_id)
+        else:
+            user = User.objects.none()
+        # check they actually exist
+        if len(user) != 1:
+            self.fields['banner'] = forms.ModelChoiceField(label="Banner:",
+                queryset= models.Banner.objects.none(),
+                widget=forms.Select(attrs={'size': 30, 'hidden': True},),
+                initial=timezone.now(),
+                required=True
+            )
+        else:
+            profile = Profile.objects.filter(user_id=self.user_id)
+            if len(profile) != 1:
+                return 
+            profile = profile.first()
+            banners = profile.banners.all()
+            self.fields['banner'] = forms.ModelChoiceField(label="Banner:",
+                queryset= banners,
+                widget=forms.Select(attrs={'size': 30},),
+                initial=timezone.now(),
+                required=True
+            )
 
     def is_valid(self) -> bool:
         valid = super().is_valid()

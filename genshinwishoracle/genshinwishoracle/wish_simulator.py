@@ -37,10 +37,10 @@ class WishSim:
     self.ru_four_stars = list(rateups.filter(rarity=4))
     four_characters = models.Character.objects.filter(rarity=4, limited=False)
     four_weapons = models.Weapon.objects.filter(rarity=4, limited=False)
-    self.non_ru_four_stars = list(four_characters.union(four_weapons))
+    self.non_ru_four_stars = list(four_characters)+ list(four_weapons)
     three_star_characters = models.Character.objects.filter(rarity=3, limited=False)
     three_star_weapons = models.Weapon.objects.filter(rarity=3, limited=False)
-    self.three_stars = list(three_star_characters.union(three_star_weapons))
+    self.three_stars = list(three_star_characters) + list(three_star_weapons)
     self.desired_five_star = desired_five_star
 
     # these can be reassigned with roll()

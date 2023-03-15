@@ -3,7 +3,6 @@
 - checkout installed apps <https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-INSTALLED_APPS>
 
 ## New Stuff
-- make wish simulator only personal banners
 - views tests
 - add tests for users
 - login required decorator
@@ -14,6 +13,7 @@
 - custom viewpage if there are no banners
 - add number of wishes to the sidebar?
 - importing might not work for welkin moon?
+- add desired five star for weapon banner wish simulator
 - make the banner creation / update selector not have the choose all and the remove all
 - make the banner creation / update selectors in the middle for move betweens
 - add options for over the max (1000 right now?)
