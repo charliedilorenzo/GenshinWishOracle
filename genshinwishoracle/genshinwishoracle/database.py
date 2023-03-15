@@ -3,7 +3,7 @@ import sqlite3
 from genshinwishoracle import settings
 
 global schema_file, path
-path = settings.BASE_DIR / "analyze"
+path = settings.BASE_DIR / "genshinwishoracle"
 schema_file = path / "schema.sql"
 
 
