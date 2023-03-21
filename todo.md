@@ -3,6 +3,7 @@
 - checkout installed apps <https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-INSTALLED_APPS>
 
 ## New Stuff
+- add the user to the URI for the character banners
 - views tests
 - add tests for users
 - login required decorator

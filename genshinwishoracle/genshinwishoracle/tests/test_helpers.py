@@ -1,6 +1,4 @@
-import pytest
-
-from analyze.helpers import *
+from genshinwishoracle.helpers import *
 from django.test import TestCase
 
 class HelperTestCase(TestCase):

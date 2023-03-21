@@ -1,6 +1,5 @@
-import pytest
 import os
-from analyze.analytical import AnalyticalCharacter, AnalyticalWeapon
+from genshinwishoracle.analytical import AnalyticalCharacter, AnalyticalWeapon
 from django.test import TestCase
 
 

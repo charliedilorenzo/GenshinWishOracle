@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ..models import Character, CharacterBanner, Weapon, WeaponBanner, Banner
+from genshinwishoracle.models import Character, CharacterBanner, Weapon, WeaponBanner, Banner
 from django.core.management import call_command
 from genshinwishoracle import settings
 from django.contrib.auth.models import User

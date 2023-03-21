@@ -1,6 +1,6 @@
 from django.test import TestCase
-from .. import forms
-from ..models import Character, CharacterBanner, Weapon, WeaponBanner, Banner
+from genshinwishoracle import forms
+from genshinwishoracle.models import Character, CharacterBanner, Weapon, WeaponBanner, Banner
 from django.core.management import call_command
 from django.utils import timezone
 from users.models import Profile

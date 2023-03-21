@@ -42,6 +42,7 @@ python manage.py dumpdata auth.user users.Profile > initial_data_users.json
 
 python manage.py test
 python manage.py test app.tests.test_name
+python manage.py test genshinwishoracle.tests.test_views
 
 coverage run -m pytest
 coverage report -m

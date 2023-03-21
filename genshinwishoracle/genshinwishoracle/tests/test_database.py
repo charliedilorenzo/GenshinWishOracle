@@ -1,10 +1,8 @@
-import pytest
 import sqlite3
-from analyze import database
 import os
 from pathlib import Path
 from django.test import TestCase
-from genshinwishoracle import settings
+from genshinwishoracle import settings, database
 
 class DatebaseTestCase(TestCase):
     cwd = os.getcwd()

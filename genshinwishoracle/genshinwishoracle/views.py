@@ -1,31 +1,35 @@
-from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.shortcuts import render, redirect
+from django.urls import reverse, reverse_lazy
+import math
 import datetime
 
-# from django.urls import reverse
-from django.views import generic
-from django.urls import reverse_lazy
-from . import forms
-from django.urls import reverse
-from django.utils import timezone
-import math
-from . import models
-
-from . import analytical
-from .project_primos import project_future_primos, project_primos_chart
+from genshinwishoracle import analytical, wish_simulator, models, forms
+from genshinwishoracle.project_primos import project_future_primos, project_primos_chart
 from users.models import Profile
-from . import wish_simulator
+
+class Address():
+    def __init__(self, url:str, name:str) -> None:
+        self.url = url
+        self.name = name
 
 class IndexView(generic.ListView):
-    template_name = 'index.html'
-    context_object_name = 'main-home'
-    success_url = reverse_lazy('home')
+    context_object_name = 'urls'
+    template_name = 'genshinwishoracle/index.html'
+    url_names = [['statistics', {"banner_type": "character", "statistics_type": "calcprobability" }, "Wishing Statistics"], ['character_banners',{}, "Character Banners"], ['weapon_banners',{}, "Weapon Banners"], ['project_primos',{}, "Project Future Primogems"],['wish_simulator',{}, "Wishing Simulator"], ['users:users-home',{}, "User Login and Settings"]]
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        context[self.context_object_name] = self.get_queryset()
+        return context
 
     def get_queryset(self):
-        list = []
-        return list
+        urls = []
+        for item in self.url_names:
+            urls.append(Address(str(reverse(item[0], kwargs = item[1])), item[2]))
+        return urls
+
 
 class CharacterBannerView(generic.ListView):
     model = models.CharacterBanner
@@ -642,10 +646,3 @@ def context_from_request(request):
 
 def update_session_data(request):
     pass
-
-class IndexView(generic.TemplateView):
-    template_name = 'genshinwishoracle/index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
