@@ -18,6 +18,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.contrib import messages
+from . import models
 
 #         success_message = "We've emailed you instructions for setting your password, \nif an account exists with the email you entered. You should receive them shortly.\n If you don't receive an email, \nplease make sure you've entered the address you registered with, and check your spam folder."
 

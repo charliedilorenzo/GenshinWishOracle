@@ -1,0 +1,122 @@
+{% extends "genshinwishoracle/bootstrap_base.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'base/style.css' %}">
+{% block content %}
+
+<body>
+    {% csrf_token %}
+    <div>
+        <a href="{% url 'main-home' %}"><button name='back' type="submit" class="back-button"><i
+                    class="back-arrow"></i>
+                Analyze Home </button></a>
+    </div>
+    <title>{% block title %} Analyze Results {% endblock title %} </title>
+    <div>
+        <div>
+            <h1 class="display-4"> Input info: </h1>
+        </div>
+        <div>
+            <label class="small mb-1">Banner Type:</label>
+            {{ banner_type}}
+        </div>
+        {% if statistics_type == "calcprobability" %}
+        <div>
+            <label class="small mb-1">Statistics Type:</label>
+            Wish Info to Probability
+        </div>
+        {% elif statistics_type == "calcnumwishes" %}
+        <div>
+            <label class="small mb-1">Statistics Type:</label>
+            Probability to Wish Info
+        </div>
+        {% endif %}
+        <div>
+            {% if statistics_type == "calcprobability" %}
+            <label class="small mb-1">Number of Wishes: </label>
+            {{ numwishes }}
+            {% elif statistics_type == "calcnumwishes" %}
+            <label class="small mb-1">Number of Copies: </label>
+            {{ num_copies }}
+            <label class="small mb-1">Mininum Probability: </label>
+            {{ minimum_probability }}
+            {% endif %}
+        </div>
+        <div>
+            <label class="small mb-1">Pity: </label>
+            {{ pity }}
+        </div>
+        <div>
+            <label class="small mb-1">Guaranteed: </label>
+            {{ guaranteed }}
+        </div>
+        {% if banner_type == "Weapon" %}
+        <div>
+            <label class="small mb-1">Fate Points: </label>
+            {{ fate_points }}
+        </div>
+        {% endif %}
+    </div>
+    <div>
+        {% if statistics_type == "calcprobability" %}
+        {% if banner_type == "Character" %}
+        <h1 class="display-4"> Character Banner Analysis Results </h1>
+        <table class="analysis-table">
+            <tr>
+                <td class="analysis-td">X:</td>
+                <td class="analysis-td">C0:</td>
+                <td class="analysis-td">C1:</td>
+                <td class="analysis-td">C2:</td>
+                <td class="analysis-td">C3:</td>
+                <td class="analysis-td">C4:</td>
+                <td class="analysis-td">C5:</td>
+                <td class="analysis-td">C6:</td>
+            </tr>
+            <tr>
+                <td class="analysis-td">{{X}}</td>
+                <td class="analysis-td">{{C0}}</td>
+                <td class="analysis-td">{{C1}}</td>
+                <td class="analysis-td">{{C2}}</td>
+                <td class="analysis-td">{{C3}}</td>
+                <td class="analysis-td">{{C4}}</td>
+                <td class="analysis-td">{{C5}}</td>
+                <td class="analysis-td">{{C6}}</td>
+            </tr>
+        </table>
+        {% elif banner_type == "Weapon" %}
+        <h1 class="display-4"> Weapon Banner Analysis Results </h1>
+        <table class="analysis-table">
+            <tr>
+                <td class="analysis-td">X:</td>
+                <td class="analysis-td">R1:</td>
+                <td class="analysis-td">R2:</td>
+                <td class="analysis-td">R3:</td>
+                <td class="analysis-td">R4:</td>
+                <td class="analysis-td">R5:</td>
+            </tr>
+            <tr>
+                <td class="analysis-td">{{X}}</td>
+                <td class="analysis-td">{{R1}}</td>
+                <td class="analysis-td">{{R2}}</td>
+                <td class="analysis-td">{{R3}}</td>
+                <td class="analysis-td">{{R4}}</td>
+                <td class="analysis-td">{{R5}}</td>
+            </tr>
+        </table>
+        {% endif %}
+        {% elif statistics_type == "calcnumwishes" %}
+        <div>
+            <h2>Number of Wishes: </h2>
+        </div>
+        <div>
+            <h3>{{ numwishes }}</h3>
+        </div>
+        {% endif %}
+        <img src="data:image/png;base64, {{chart|safe}}" alt="" id="img">
+    </div>
+    <div>
+        <a href="{% url 'statistics' 'character' 'calcprobability' %}"><button name='redirect' type="submit"
+                class="back-button"><i class="back-arrow"></i>
+                More Statistics</button></a>
+    </div>
+</body>
+{% endblock content %}

@@ -66,16 +66,13 @@
                         Home </a>
                     <ul class="collapse list-unstyled" id="analyzeSubmenu">
                         <li>
-                            <a href="{% url 'analyze:index' %}"> Analyze Home </a>
+                            <a href="{% url 'statistics' 'character' 'calcprobability' %}"> Statistics </a>
                         </li>
                         <li>
-                            <a href="{% url 'analyze:statistics' 'character' 'calcprobability' %}"> Statistics </a>
+                            <a href="{% url 'project_primos' %}"> Projection of Primogems </a>
                         </li>
                         <li>
-                            <a href="{% url 'analyze:project_primos' %}"> Projection of Primogems </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'analyze:wish_simulator'  %}"> Wish Simulator</a>
+                            <a href="{% url 'wish_simulator'  %}"> Wish Simulator</a>
                         </li>
                     </ul>
                 </li>
@@ -110,9 +107,6 @@
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item active">
                                 <a class="nav-link" href="{% url 'main-home'  %}">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'analyze:index' %}">Analyze</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarAdmin" role="button"

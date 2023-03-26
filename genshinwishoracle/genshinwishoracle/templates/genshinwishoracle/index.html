@@ -1,16 +1,12 @@
 {% extends "genshinwishoracle/bootstrap_base.html" %}
-{% block content%}
-<title>{% block title %} Home {% endblock %} </title>
-<div>
-    <h1 class="display-4"></h1> Home </h1>
-</div>
+{% load static %}
+<link rel="stylesheet" href="{% static 'analyze/style.css' %}">
+{% block content %}
+<title>{% block title %} Analyze Options {% endblock title %} </title>
+<h1 class="display-4"> Home </h1>
 <ul>
-    <li>
-        <a href="{% url 'analyze:index' %}">Analyze!</a>
-    </li>
-    <li>
-        <a href="{% url 'users:users-home' %}">User Stuff!</a>
-    </li>
+    {% for address in urls %}
+        <li> <a href="{{address.url}}">{{address.name}} </a></li>
+    {% endfor %}
 </ul>
-
-{% endblock %}
+{% endblock content %}
