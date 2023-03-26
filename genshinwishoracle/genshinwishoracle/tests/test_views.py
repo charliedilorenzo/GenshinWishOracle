@@ -8,6 +8,7 @@ from users.models import Profile
 from django.urls import reverse, reverse_lazy, resolve
 from genshinwishoracle.urls import urlpatterns
 import math
+from django.db.models import Q
 
 
 class ViewsTestClass(TestCase):
@@ -25,9 +26,10 @@ class ViewsTestClass(TestCase):
         user = self.get_test_user()
         profile = Profile.objects.filter(user_id=user.pk)
         return profile
-
+    
     @classmethod
     def setUpTestData(cls):
+        # USER 1
         testuser = User.objects.create_user("testuser", "testemail@gmail.com","verysecurepassword")
         now = timezone.now()
         testcharacterbanner = CharacterBanner.objects.create(name="testbannercharacter", enddate=now, banner_type="Character")
@@ -46,18 +48,36 @@ class ViewsTestClass(TestCase):
         testprofile.banners.add(testcharacterbanner)
         testprofile.banners.add(testweaponbanner)
 
+        # USER 2
+        seconduser = User.objects.create_user("testusertwo", "testemailtwo@gmail.com","verysecurepassword")
+        testprofile = Profile.objects.filter(user_id=testuser.pk).first()
+
+        testcharacterbannertwo = CharacterBanner.objects.create(name="secondbannercharacter", enddate=now, banner_type="Character")
+        four_stars = Character.objects.filter(rarity=4)[0:3]
+        five_stars = [Character.objects.filter(rarity=5)[0]]
+        testcharacterbannertwo.rateups.add(*four_stars)
+        testcharacterbannertwo.rateups.add(*five_stars)
+
+        testweaponbannertwo =WeaponBanner.objects.create(name="secondbannerweapon", enddate=now, banner_type="Weapon")
+        four_stars = Weapon.objects.filter(rarity=4)[0:5]
+        five_stars = Weapon.objects.filter(rarity=5)[0:1]
+        testweaponbannertwo.rateups.add(*four_stars)
+        testweaponbannertwo.rateups.add(*five_stars)
+
+        testprofile.banners.add(testcharacterbannertwo)
+        testprofile.banners.add(testweaponbannertwo)
+
     def setUp(self):
         pass
 
     # -------------------------- INDEX --------------------------
 
     def test_IndexView_gives_response(self):
-        client = Client()
-        response = client.get(reverse('main-home'))
+        response = self.client.get(reverse('main-home'))
         self.assertEqual(200, response.status_code)
     
     def test_IndexView_context_contains_only_urls_with_views(self):
-        client = Client()
+        client = self.client
         response = client.get(reverse('main-home'))
         context = response.context
         context_object_name = views.IndexView.context_object_name
@@ -70,16 +90,24 @@ class ViewsTestClass(TestCase):
 
     # -------------------------- CHARACTER BANNER --------------------------
 
-    def test_CharacterBannerView_gives_response(self):
-        client = Client()
-        user = User.objects.filter(username=self.test_username).first()
+    def test_CharacterBannerView_redirect_not_logged_in(self):
+        client = self.client
+        response = client.get(reverse('character_banners'))
+        self.assertRedirects(response, reverse_lazy('main-home'))
+        # TODO add this?
+        # response = client.post(reverse('character_banners'))
+        # self.assertRedirects(response, reverse_lazy('main-home'))
+
+    def test_CharacterBannerView_login_gives_response(self):
+        client = self.client
+        user = User.objects.filter(username = self.test_username).first()
         client.force_login(user)
         response = client.get(reverse('character_banners'), )
         self.assertTrue(math.floor(response.status_code / 100 ) != 4)
         self.assertEqual(200, response.status_code)
     
     def test_CharacterBannerView_correct_context(self):
-        client = Client()
+        client = self.client
         user = User.objects.filter(username=self.test_username).first()
         client.force_login(user)
         response = client.get(reverse('character_banners'))
@@ -90,23 +118,84 @@ class ViewsTestClass(TestCase):
 
         self.assertEqual("Character", context['banner_type'])
 
+    def test_CharacterBannerDeleteView_redirect_non_existent_banner(self):
+        client = self.client
+        user = User.objects.filter(username=self.test_username).first()
+        client.force_login(user)
+        
+        # create and delete to have an invalid pk
+        now = timezone.now()
+        testcharacterbanner = CharacterBanner.objects.create(name="testbannercharacter", enddate=now, banner_type="Character")
+        four_stars = Character.objects.filter(rarity=4)[0:3]
+        five_stars = [Character.objects.filter(rarity=5)[0]]
+        testcharacterbanner.rateups.add(*four_stars)
+        testcharacterbanner.rateups.add(*five_stars)
+        pk = testcharacterbanner.pk
+        testcharacterbanner.delete()
+
+        response = client.get(reverse('character_banner_delete', kwargs={'pk': pk}))
+        # TODO what should the response code be?
+        # self.assertTrue(math.floor(response.status_code / 100 ) != 4)
+        self.assertEqual(404, response.status_code)
+
+    def test_CharacterBannerDeleteView_not_users_banner(self):
+        client = self.client
+        user = User.objects.filter(username=self.test_username).first()
+        client.force_login(user)
+        banner = CharacterBanner.objects.filter(~Q(name=self.characterbannername )).first()
+        response = client.get(reverse('character_banner_delete', kwargs={'pk': banner.pk}))\
+        # TODO  MAKE THIS ACTUALLY WORK IN THE VIEWS
+        self.assertTrue(math.floor(response.status_code / 100 ) != 4)
+        self.assertEqual(200, response.status_code)
 
     def test_CharacterBannerDeleteView_gives_response(self):
-        client = Client()
+        client = self.client
+        user = User.objects.filter(username=self.test_username).first()
+        client.force_login(user)
         banner = CharacterBanner.objects.filter(name=self.characterbannername).first()
         response = client.get(reverse('character_banner_delete', kwargs={'pk': banner.pk}))
         self.assertTrue(math.floor(response.status_code / 100 ) != 4)
         self.assertEqual(200, response.status_code)
 
+    def test_CharacterBannerUpdateView_redirect_non_existent_banner(self):
+        client = self.client
+        user = User.objects.filter(username=self.test_username).first()
+        client.force_login(user)
+        
+        # create and delete to have an invalid pk
+        now = timezone.now()
+        testcharacterbanner = CharacterBanner.objects.create(name="testbannercharacter", enddate=now, banner_type="Character")
+        four_stars = Character.objects.filter(rarity=4)[0:3]
+        five_stars = [Character.objects.filter(rarity=5)[0]]
+        testcharacterbanner.rateups.add(*four_stars)
+        testcharacterbanner.rateups.add(*five_stars)
+        pk = testcharacterbanner.pk
+        testcharacterbanner.delete()
+
+        response = client.get(reverse('character_banner_update', kwargs={'pk': pk}))
+        # TODO what should the response code be?
+        # self.assertTrue(math.floor(response.status_code / 100 ) != 4)
+        self.assertEqual(404, response.status_code)
+
+    def test_CharacterBannerUpdateView_not_users_banner(self):
+        client = self.client
+        user = User.objects.filter(username=self.test_username).first()
+        client.force_login(user)
+        banner = CharacterBanner.objects.filter(~Q(name=self.characterbannername )).first()
+        response = client.get(reverse('character_banner_update', kwargs={'pk': banner.pk}))\
+        # TODO  MAKE THIS ACTUALLY WORK IN THE VIEWS
+        self.assertTrue(math.floor(response.status_code / 100 ) != 4)
+        self.assertEqual(200, response.status_code)
+
     def test_CharacterBannerUpdateView_gives_response(self):
-        client = Client()
+        client = self.client
         banner = CharacterBanner.objects.filter(name=self.characterbannername).first()
         response = client.get(reverse('character_banner_update', kwargs={'pk': banner.pk}))
         self.assertTrue(math.floor(response.status_code / 100 ) != 4)
         self.assertEqual(200, response.status_code)
 
     def test_CharacterCreateView_gives_response(self):
-        client = Client()
+        client = self.client
         banner = CharacterBanner.objects.filter(name=self.characterbannername).first()
         response = client.get(reverse('character_banner_create'))
         self.assertEqual(302, response.status_code)

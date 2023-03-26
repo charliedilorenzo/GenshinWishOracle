@@ -51,7 +51,7 @@ pytest -k database_test.py
 # REQUIREMENTS.TXT NOTES
 
 <<<< pip freeze > requirements.txt >>>>
-
+pip install -r requirements.txt
 pip install pipreqs
 pipreqs
 
