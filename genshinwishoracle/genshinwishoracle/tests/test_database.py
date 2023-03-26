@@ -7,7 +7,7 @@ from genshinwishoracle import settings, database
 class DatebaseTestCase(TestCase):
     cwd = os.getcwd()
     main_dir = settings.BASE_DIR 
-    main_dir = main_dir / "analyze"
+    main_dir = main_dir / "genshinwishoracle"
     test_db_name = main_dir / "tests/testing.db"
     # schema_filepath = cwd.replace("\\tests", "")
     schema_filepath = main_dir / "schema.sql"

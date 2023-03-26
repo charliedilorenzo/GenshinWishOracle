@@ -134,7 +134,6 @@ def get_db_connection(db_file: str) -> sqlite3.Connection:
 
 
 def reset_database(db_file: str) -> int:
-
     if check_db(db_file):
         with sqlite3.connect(db_file) as conn:
             tables = get_tables(conn)
@@ -148,7 +147,6 @@ def reset_database(db_file: str) -> int:
 
 def main():
     global schema_file
-    schema_file = 'schema.sql'
     db_file = get_default_db()
     conn = sqlite3.connect(db_file)
     with conn:
