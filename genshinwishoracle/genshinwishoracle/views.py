@@ -77,6 +77,8 @@ class CharacterBannerDeleteView(generic.DeleteView):
         context['banner'] = context['object']
         context['labels'] = ["Name", "Enddate", "5⭐ Rateup", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3"]
         return context
+    
+    
 class CharacterBannerUpdateView(generic.UpdateView):
     model = models.CharacterBanner
     template_name = 'analyze/banner_update.html'
