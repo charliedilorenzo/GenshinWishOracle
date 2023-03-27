@@ -1,5 +1,28 @@
 # Genshin Wish Oracle
 
+## Instructions to get working on computer
+- have a python installation and pip installed
+- get to directory with /GenshinWishOracle
+- MAC
+```
+pip install virtualenv
+virtualenv --python PYTHON/PATH venv
+source venv/bin/activate
+cd genshinwishoracle
+pip install -r requirements.txt
+python manage.py runserver
+```
+- WINDOWS
+```
+pip install virtualenv
+virtualenv --python PYTHON/PATH venv
+.\venv\Scripts\activate
+cd genshinwishoracle
+pip install -r requirements.txt
+python manage.py runserver
+```
+- Go to http://127.0.0.1:8000/ in brower (unless you change the port)
+
 ## Index
 
 - [What is this project?](/README.md#what-is-this-project?)
