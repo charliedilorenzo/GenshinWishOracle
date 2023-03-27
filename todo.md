@@ -4,6 +4,8 @@
 
 ## New Stuff
 
+- add warning to redirect for banners
+- add redirect back for when you try action that redirects to login
 - add the user to the URI for the character banners
 - only able to delete own banners
 - views tests
@@ -20,6 +22,7 @@
 - for banners make the arrow in the many to many bigger
   - in widgets.css with classes: selector chooser, selector add, selector remove
 - add options for over the max (1000 right now?)
+- get rid of analyze app once you are sure that genshinwishoracle works well enough
 - fix date-decidable in project primos for jan 1
   - make a bool field for choosing via banner or manually?
 - login required entries in index
@@ -62,6 +65,7 @@ Before making into website:
   - analysis input character / weapon
 - fix organization for css stuff
 - find proper icon for genshin wish oracle
+- turn DEBUG off in settings
 
 - allow change of pity distribution:
   - when changing pity need to wipe the database of analytical entries relevant
