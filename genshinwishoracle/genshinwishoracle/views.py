@@ -36,9 +36,6 @@ class CharacterBannerView(generic.ListView):
     template_name = 'analyze/banners_list.html'
     context_object_name = 'banners'
     back_url = reverse_lazy('main-home')
-    create_url = reverse_lazy('character_banner_create')
-    update_url= reverse_lazy('character_banner_update')
-    delete_url= reverse_lazy('character_banner_delete')
     base_url = "analyze"
     banner_type = "Character"
     # TODO see if I want this
@@ -50,9 +47,7 @@ class CharacterBannerView(generic.ListView):
         context[self.context_object_name] = character_banners
         context['labels'] = ["Name", "Enddate", "5⭐ Rateup", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3", "Edit", "Delete"]
         context['back_url'] = self.back_url
-        context['create_url'] = self.create_url
-        context['update_url_front'] = "/analyze/character-banners"
-        context['delete_url_front'] = "/analyze/character-banners"
+        context['url_front'] = "/character-banners"
         context['banner_type'] = self.banner_type
         return context
 
@@ -166,9 +161,6 @@ class WeaponBannerView(generic.ListView):
     template_name = 'analyze/banners_list.html'
     context_object_name = 'banners'
     back_url = reverse_lazy('main-home')
-    create_url = reverse_lazy('weapon_banner_create')
-    update_url= reverse_lazy('weapon_banner_update')
-    delete_url= reverse_lazy('weapon_banner_delete')
     banner_type = "Weapon"
     
     def get_context_data(self, **kwargs):
@@ -177,9 +169,7 @@ class WeaponBannerView(generic.ListView):
         context[self.context_object_name] = weaponbanners
         context['labels'] = ["Name", "Enddate", "5⭐ Rateup 1","5⭐ Rateup 2", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3", "4⭐ Rateup 4", "4⭐ Rateup 5", "Edit", "Delete"]
         context['back_url'] = self.back_url
-        context['create_url'] = self.create_url
-        context['update_url_front'] = "/analyze/weapon-banners"
-        context['delete_url_front'] = "/analyze/weapon-banners"
+        context['url_front'] = "/weapon-banners"
         context['banner_type'] = self.banner_type
         return context 
 
