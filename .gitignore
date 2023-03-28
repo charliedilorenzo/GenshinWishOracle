@@ -4,6 +4,11 @@ tests/tablesexisttest.db
 tests/testing.db
 superuser.txt
 genshinwishoracle/db.sqlite3
+genshinwishoracle/genshinwishoracle/secret_key_from_settings.py
+genshinwishoracle/static
+.env
+userinput.py
+/lib/*
 
 __pycache__/
 *.py[cod]

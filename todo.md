@@ -1,64 +1,77 @@
 #### TODO
 
-### CURRENT
-
-- django
-  - gui
-  - checkout installed apps <https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-INSTALLED_APPS>
-
-## Refactoring
-
-- proj_future_wishes
+- checkout installed apps <https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-INSTALLED_APPS>
 
 ## New Stuff
 
+- add the user to the URI for the character banners
+- only able to delete own banners
+- views tests
+- add tests for users
+- login required decorator
+- importing might not work for welkin moon in project primos
+- make dropdown favicon href
+- make dropdown app name href
+- change "view Profile" to "Edit Profile"
+- custom viewpage if there are no banners
+- add number of wishes to the sidebar per profile?
+- add desired five star for weapon banner wish simulator
+- make the banner creation / update selector not have the choose all and the remove all
+- for banners make the arrow in the many to many bigger
+  - in widgets.css with classes: selector chooser, selector add, selector remove
+- add options for over the max (1000 right now?)
+- fix date-decidable in project primos for jan 1
+  - make a bool field for choosing via banner or manually?
+- login required entries in index
+- additional tests
+  - database tests
+  - analystical tests
+  - forms tests
+  - views tests
+  - forms tests
+
+- user setting for autoimport every time?
+- find the most realistic pity distribution
+- get rid of hash table from analytical?
+- add extra data of percent extra wishes to analytical (search the TODO for note on idea of how)
+- import analytical database
+- improve the accurary of four star distribution for wish sim
+
+Before making into website:
+
+- change 'domain' in views.py for users for password reset
+- add social apps login
+- add reset password
+- ?
+- fix the user support account for the to genshinwishoracle@gmail.com in the google auth zone
+- change OAUTH here <https://github.com/settings/applications/new>
+
+- in settings SESSION_COOKIE_AGE = 60 *60* 24 * 30
+
+- starglitter back setting for calculating additional wishes
+- banner creator: - make sure to check proper amount of 5 stars and 4 stars
+
+- pytest better analytical.py coverage
 - figure out why there are two databases: one in mainstuff and one in the main dir
-- add constants for main dir or something?
-- readd proj future wishes
+- add constants for main dir or something? for database i assume?
 - add tests to proj future wishes
-- add user settings to db
-- when changing pity need to wipe the database of analytical entries relevant
+
+- improve looks:
+  - character banner / weapon banner (can probably reuse)
+  - character banner creators / weapon banner creators (can probably reuse)
+  - analysis input character / weapon
+- fix organization for css stuff
+- find proper icon for genshin wish oracle
+
+- allow change of pity distribution:
+  - when changing pity need to wipe the database of analytical entries relevant
+  -
+- logrithmically seeking for probability to num wishes is likely useless since the space is only ~2000 big so it will reduce from 2000 operations to 10 operations (maybe) which probably isnt that big a deal in this case
+- project primos UPDATE_IDENTIFIER for last update
 
 ## structure
 
-- input user data
-  - number of wishes
-    - num primogems
-    - num fates
-    - num starglitter
-    - num genesis
-  - pity
-    - for character banner
-    - for weapon banner
-  - guaranteed
-    - for character banner
-    - for weapon banner
-  - welkin user
-  - bp user
-
-- banner creator
-  - store and make your own banners
-  - ru four stars
-  - ru five stars
-  - add when the banner starts and ends
-    - when it ends is important
-
-- starglitter back setting
-
-- wishing probabilities calculator
-  - allow to select created banner
-  - character banner
-  - weapon banner
-
-- get amount of wishes required for at least n probability p amount of times
-
-- primogem projector
-  - allow to select created banner
-  - possibly add weird welkin / bp settings
-
-- wishing simulator
-  - allow to select created banner
-  - this will be shit and low priority
+For testing:
 
 extra pity important properties:
 

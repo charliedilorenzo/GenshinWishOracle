@@ -1,7 +1,61 @@
-# PYTEST NOTES
+# startup
+
+WINDOWS
+.\venv\Scripts\activate
+cd genshinwishoracle
+python manage.py runserver
+
+MAC
+source venv/bin/activate
+cd genshinwishoracle
+python3 manage.py runserver
+
+IF STATIC CSS ISNT IMPLEMENTED FIRST TRY SHIFT-RELOADING PAGE
+
+# hopefully surefire process if redoing tables manually doesnt work
+
+delete all migrations except folder and init
+delete the db
+comment out import views and all the urls
+python manage.py makemigrations
+<!-- python manage.py migrate --fake -->
+python manage.py migrate
+python manage.py migrate --run-syncdb
+
+# load fixtures
+
+python manage.py loaddata initial_data_content_types.json
+python manage.py loaddata initial_data_users.json
+python manage.py loaddata initial_data_auth.json
+python manage.py loaddata initial_data_characters_and_weapons.json
+
+# dump data for models
+
+python manage.py dumpdata auth.user users.Profile > users.json
+python manage.py dumpdata genshinwishoracle.character > characters.json
+python manage.py dumpdata genshinwishoracle.weapon > weapons.json
+python manage.py dumpdata genshinwishoracle.banner genshinwishoracle.characterbanner genshinwishoracle.weaponbanner > banners.json
+
+python manage.py dumpdata auth.user users.Profile > initial_data_users.json
+
+# Testing notes
+
+python manage.py test
+python manage.py test app.tests.test_name
+python manage.py test genshinwishoracle.tests.test_views
 
 coverage run -m pytest
 coverage report -m
+pytest -k database_test.py
+
+# REQUIREMENTS.TXT NOTES
+
+<<<< pip freeze > requirements.txt >>>>
+pip install -r requirements.txt
+pip install pipreqs
+pipreqs
+
+python -m  pipreqs.pipreqs
 
 # GIT NOTES
 
@@ -10,10 +64,14 @@ git rm --cached .gitignore
 # VirtualEnv NOTES
 
 C:\Users\carol\AppData\Local\Programs\Python\Python39\python.exe
+virtualenv --python C:\Users\carol\AppData\Local\Programs\Python\Python39\python.exe venv
+<!-- virtualenv --python  venv -->
 
-virtualenv --python  venv
-
+WINDOWS
 .\venv\Scripts\activate
+
+MAC
+source venv/bin/activate
 
 deactivate
 
@@ -21,43 +79,85 @@ pip freeze > requirements.txt
 
 pip install -r requirements.txt
 
-# DJANGO
+# WEAPONS AVAILABILITY
 
-<https://docs.djangoproject.com/en/4.1/intro/tutorial02/>
-\ to run it in browser
-python manage.py runserver 8080
+<https://genshin-impact.fandom.com/wiki/Weapon/List/By_Availability>
 
-\ apps are like analytical vs wish proj vs wish sim
-python manage.py startapp appnamehere
+# Manually make tables
 
-\ updates the databse or something, use when you change models for sure
-python manage.py migrate
-\ when altering models?
-python manage.py makemigrations polls
-\ takes migration and returns sql
-python manage.py sqlmigrate polls 0001
+python manage.py dbshell
 
-\ add apps to installed apps from your made ones:
-INSTALLED_APPS  = ['myapp.apps.myappConfig', ...]
+DROP TABLE analyze_character;
+DROP TABLE analyze_weapon;
+DROP TABLE analyze_banner;
+DROP TABLE analyze_weaponbanner;
+DROP TABLE analyze_characterbanner;
+DROP TABLE analyze_weaponbanner_rateups;
+DROP TABLE analyze_characterbanner_rateups;
+DROP TABLE users_profile_banners;
+DROP TABLE users_profile;
+DROP TABLE users_profile_characterbanners;
+DROP TABLE users_profile_weaponbanners;
 
-\ use admin.py to make the models modifiable in the admin website
-\ use <http://127.0.0.1:8000/admin/> to access the admin website
+DROP TABLE analyze_banner;
+DROP TABLE analyze_weaponbanner;
+DROP TABLE analyze_characterbanner;
+DROP TABLE analyze_weaponbanner_rateups;
+DROP TABLE analyze_characterbanner_rateups;
+DROP TABLE users_profile_banners;
 
-"The default settings file configures a DjangoTemplates backend whose APP_DIRS option is set to True
-By convention DjangoTemplates looks for a “templates” subdirectory in each of the INSTALLED_APPS."
+CREATE TABLE IF NOT EXISTS analyze_characterbanner(
+    banner_ptr_id INT
+);
 
-- idk what this means
+CREATE TABLE IF NOT EXISTS analyze_weaponbanner (
+    banner_ptr_id INT
+);
 
-template:
-polls/templates/polls/index.html -> polls/index.html
-can be referred to as the latter if the filepath is the former
+CREATE TABLE IF NOT EXISTS analyze_banner (
+    id INT PRIMARY KEY,
+    name TEXT,
+    enddate DATE,
+    banner_type TEXT
+);
+CREATE TABLE IF NOT EXISTS analyze_weaponbanner_rateups(
+    id INT PRIMARY KEY,
+    weaponbanner INT,
+    weapon_id INT
+);
+CREATE TABLE IF NOT EXISTS analyze_characterbanner_rateups(
+    id INT PRIMARY KEY,
+    characterbanner INT,
+    character_id INT
+);
 
-"However, since you defined the name argument in the path() functions in the polls.urls module, you can remove a reliance on specific URL paths defined in your url configurations by using the {% url %} template tag"
-this:
-<li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li>
-better than this for some reason:
-<li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
-and then this is even better:
-<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+DROP TABLE users_profile_banners;
+DROP TABLE users_profile;
 
-but you have to add the app name (in this case 'polls')
+CREATE TABLE IF NOT EXISTS users_profile(
+    id INT PRIMARY KEY,
+    numprimos INT,
+    numgenesis INT,
+    numstarglitter INT,
+    numfates INT,
+    character_pity INT,
+    character_guaranteed BOOL,
+    weapon_pity INT,
+    weapon_guaranteed INT,
+    weapon_fate_points INT,
+    welkin_user BOOL,
+    battlepass_user BOOL,
+    user_id INT
+);
+
+CREATE TABLE IF NOT EXISTS users_profile_banners(
+    id INT PRIMARY KEY,
+    profile_id INT,
+    banner_id INT
+);
+
+INSERT INTO users_profile (id, numprimos,numgenesis, numgenesis, numfates, numstarglitter, character_pity, character_guaranteed, weapon_pity, weapon_guaranteed, weapon_fate_points, welkin_user, battlepass_user, user_id) VALUES (4, 0, 0 , 0, 0, 0, 0, false, 0, false, 0, false, false, 9);
+
+INSERT INTO users_profile (id, numprimos,numgenesis, numgenesis, numfates, numstarglitter, character_pity, character_guaranteed, weapon_pity, weapon_guaranteed, weapon_fate_points, welkin_user, battlepass_user, user_id) VALUES (3, 0, 0 , 0, 0, 0, 0, false, 0, false, 0, false, false, 8);
+
+INSERT INTO users_profile_banner (id, profile_id, banner_id) VALUES () ;

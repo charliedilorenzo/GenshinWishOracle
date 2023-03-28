@@ -1,0 +1,17 @@
+{% extends "genshinwishoracle/bootstrap_base.html" %}
+{% block title %}Logout{% endblock title %}
+{% block content %}
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">You have been logged out</h5>
+        <p class="card-text">
+            Certain features have been disabled. Please login again if you'd like to enable them again.
+        </p>
+        <br>
+        <hr><a href="{% url 'login' %}" class="btn btn-primary">Sign in again</a>
+    </div>
+</div>
+<div></div>
+
+
+{% endblock content %}

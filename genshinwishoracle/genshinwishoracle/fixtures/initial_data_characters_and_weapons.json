@@ -1,0 +1,1307 @@
+[
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 1,
+        "fields": {
+            "rarity": 4,
+            "name": "Amber",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 3,
+        "fields": {
+            "rarity": 5,
+            "name": "Xiao",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 5,
+        "fields": {
+            "rarity": 5,
+            "name": "Diluc",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 6,
+        "fields": {
+            "rarity": 5,
+            "name": "Qiqi",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 7,
+        "fields": {
+            "rarity": 5,
+            "name": "Mona",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 8,
+        "fields": {
+            "rarity": 5,
+            "name": "Keqing",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 9,
+        "fields": {
+            "rarity": 4,
+            "name": "Kaeya",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 10,
+        "fields": {
+            "rarity": 4,
+            "name": "Lisa",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 11,
+        "fields": {
+            "rarity": 4,
+            "name": "Yaoyao",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 12,
+        "fields": {
+            "rarity": 4,
+            "name": "Kuki Shinobu",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 13,
+        "fields": {
+            "rarity": 5,
+            "name": "Zhongli",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 14,
+        "fields": {
+            "rarity": 4,
+            "name": "Bennett",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 1,
+        "fields": {
+            "rarity": 5,
+            "name": "Amos' Bow",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 2,
+        "fields": {
+            "rarity": 5,
+            "name": "Aquila Favonia",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 3,
+        "fields": {
+            "rarity": 5,
+            "name": "Lost Prayer to the Sacred Winds",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 4,
+        "fields": {
+            "rarity": 5,
+            "name": "Primordial Jade Winged-Spear",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 5,
+        "fields": {
+            "rarity": 5,
+            "name": "Skyward Atlas",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 6,
+        "fields": {
+            "rarity": 5,
+            "name": "Skyward Blade",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 7,
+        "fields": {
+            "rarity": 5,
+            "name": "Skyward Harp",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 8,
+        "fields": {
+            "rarity": 5,
+            "name": "Skyward Pride",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 9,
+        "fields": {
+            "rarity": 5,
+            "name": "Skyward Spine",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 10,
+        "fields": {
+            "rarity": 5,
+            "name": "Wolf's Gravestone",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 11,
+        "fields": {
+            "rarity": 4,
+            "name": "Sacrificial Sword",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 12,
+        "fields": {
+            "rarity": 4,
+            "name": "Sacrificial Bow",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 13,
+        "fields": {
+            "rarity": 4,
+            "name": "Sacrificial Fragments",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 14,
+        "fields": {
+            "rarity": 4,
+            "name": "Sacrificial Greatsword",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 15,
+        "fields": {
+            "rarity": 4,
+            "name": "Eye Of Perception",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 15,
+        "fields": {
+            "rarity": 5,
+            "name": "Albedo",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 16,
+        "fields": {
+            "rarity": 5,
+            "name": "Alhaitham",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 17,
+        "fields": {
+            "rarity": 5,
+            "name": "Arataki Itto",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 18,
+        "fields": {
+            "rarity": 4,
+            "name": "Barbara",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 19,
+        "fields": {
+            "rarity": 4,
+            "name": "Beidou",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 21,
+        "fields": {
+            "rarity": 4,
+            "name": "Candace",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 22,
+        "fields": {
+            "rarity": 4,
+            "name": "Chongyun",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 23,
+        "fields": {
+            "rarity": 4,
+            "name": "Collei",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 24,
+        "fields": {
+            "rarity": 5,
+            "name": "Cyno",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 26,
+        "fields": {
+            "rarity": 4,
+            "name": "Diona",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 27,
+        "fields": {
+            "rarity": 4,
+            "name": "Dori",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 28,
+        "fields": {
+            "rarity": 5,
+            "name": "Eula",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 29,
+        "fields": {
+            "rarity": 4,
+            "name": "Faruzan",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 30,
+        "fields": {
+            "rarity": 4,
+            "name": "Fischl",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 31,
+        "fields": {
+            "rarity": 5,
+            "name": "Ganyu",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 32,
+        "fields": {
+            "rarity": 4,
+            "name": "Gorou",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 33,
+        "fields": {
+            "rarity": 5,
+            "name": "Hu Tao",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 35,
+        "fields": {
+            "rarity": 5,
+            "name": "Kaedehara Kazuha",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 37,
+        "fields": {
+            "rarity": 5,
+            "name": "Kamisato Ayaka",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 38,
+        "fields": {
+            "rarity": 5,
+            "name": "Kamisato Ayato",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 40,
+        "fields": {
+            "rarity": 5,
+            "name": "Klee",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 41,
+        "fields": {
+            "rarity": 4,
+            "name": "Kujou Sara",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 43,
+        "fields": {
+            "rarity": 4,
+            "name": "Layla",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 46,
+        "fields": {
+            "rarity": 5,
+            "name": "Nahida",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 47,
+        "fields": {
+            "rarity": 5,
+            "name": "Nilou",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 48,
+        "fields": {
+            "rarity": 4,
+            "name": "Ningguang",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 49,
+        "fields": {
+            "rarity": 4,
+            "name": "Noelle",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 51,
+        "fields": {
+            "rarity": 5,
+            "name": "Raiden Shogun",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 52,
+        "fields": {
+            "rarity": 4,
+            "name": "Razor",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 53,
+        "fields": {
+            "rarity": 4,
+            "name": "Rosaria",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 54,
+        "fields": {
+            "rarity": 5,
+            "name": "Sangonomiya Kokomi",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 55,
+        "fields": {
+            "rarity": 4,
+            "name": "Sayu",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 56,
+        "fields": {
+            "rarity": 5,
+            "name": "Shenhe",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 57,
+        "fields": {
+            "rarity": 4,
+            "name": "Shikanoin Heizou",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 58,
+        "fields": {
+            "rarity": 4,
+            "name": "Sucrose",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 59,
+        "fields": {
+            "rarity": 5,
+            "name": "Tartaglia",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 60,
+        "fields": {
+            "rarity": 4,
+            "name": "Thoma",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 61,
+        "fields": {
+            "rarity": 5,
+            "name": "Tighnari",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 62,
+        "fields": {
+            "rarity": 5,
+            "name": "Venti",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 63,
+        "fields": {
+            "rarity": 5,
+            "name": "Wanderer",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 64,
+        "fields": {
+            "rarity": 4,
+            "name": "Xiangling",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 66,
+        "fields": {
+            "rarity": 4,
+            "name": "Xingqiu",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 67,
+        "fields": {
+            "rarity": 4,
+            "name": "Xinyan",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 68,
+        "fields": {
+            "rarity": 5,
+            "name": "Yae Miko",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 69,
+        "fields": {
+            "rarity": 4,
+            "name": "Yanfei",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 71,
+        "fields": {
+            "rarity": 5,
+            "name": "Yelan",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 72,
+        "fields": {
+            "rarity": 5,
+            "name": "Yoimiya",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 73,
+        "fields": {
+            "rarity": 4,
+            "name": "Yun Jin",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 17,
+        "fields": {
+            "rarity": 5,
+            "name": "A Thousand Floating Dreams",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 18,
+        "fields": {
+            "rarity": 5,
+            "name": "Everlasting Moonglow",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 19,
+        "fields": {
+            "rarity": 5,
+            "name": "Kagura's Verity",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 20,
+        "fields": {
+            "rarity": 5,
+            "name": "Memory of Dust",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 21,
+        "fields": {
+            "rarity": 5,
+            "name": "Tulaytullah's Remembrance",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 22,
+        "fields": {
+            "rarity": 4,
+            "name": "Favonius Codex",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 23,
+        "fields": {
+            "rarity": 4,
+            "name": "The Widsith",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 24,
+        "fields": {
+            "rarity": 4,
+            "name": "Wandering Evenstar",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 25,
+        "fields": {
+            "rarity": 4,
+            "name": "Wine and Song",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 26,
+        "fields": {
+            "rarity": 3,
+            "name": "Emerald Orb",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 27,
+        "fields": {
+            "rarity": 3,
+            "name": "Magic Guide",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 29,
+        "fields": {
+            "rarity": 3,
+            "name": "Thrilling Tales of Dragon Slayer",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 31,
+        "fields": {
+            "rarity": 5,
+            "name": "Freedom-Sworn",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 32,
+        "fields": {
+            "rarity": 5,
+            "name": "Haran Geppaku Futsu",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 33,
+        "fields": {
+            "rarity": 5,
+            "name": "Key of Khaj-Nisut",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 34,
+        "fields": {
+            "rarity": 5,
+            "name": "Light of Foliar Incision",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 35,
+        "fields": {
+            "rarity": 5,
+            "name": "Mistsplitter Reforged",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 36,
+        "fields": {
+            "rarity": 5,
+            "name": "Primordial Jade Cutter",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 37,
+        "fields": {
+            "rarity": 5,
+            "name": "Summit Shaper",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 38,
+        "fields": {
+            "rarity": 4,
+            "name": "Favonius Sword",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 39,
+        "fields": {
+            "rarity": 4,
+            "name": "Lion's Roar",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 40,
+        "fields": {
+            "rarity": 4,
+            "name": "The Alley Flash",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 41,
+        "fields": {
+            "rarity": 4,
+            "name": "The Flute",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 42,
+        "fields": {
+            "rarity": 4,
+            "name": "Xiphos' Moonlight",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 43,
+        "fields": {
+            "rarity": 3,
+            "name": "Cool Steel",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 45,
+        "fields": {
+            "rarity": 3,
+            "name": "Harbinger of Dawn",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 46,
+        "fields": {
+            "rarity": 3,
+            "name": "Skyrider Sword",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 48,
+        "fields": {
+            "rarity": 5,
+            "name": "Redhorn Stonethresher",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 49,
+        "fields": {
+            "rarity": 5,
+            "name": "Song of Broken Pines",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 50,
+        "fields": {
+            "rarity": 5,
+            "name": "The Unforged",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 51,
+        "fields": {
+            "rarity": 4,
+            "name": "Akuoumaru",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 52,
+        "fields": {
+            "rarity": 4,
+            "name": "Favonius Greatsword",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 53,
+        "fields": {
+            "rarity": 4,
+            "name": "Lithic Blade",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 54,
+        "fields": {
+            "rarity": 4,
+            "name": "Rainslasher",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 55,
+        "fields": {
+            "rarity": 4,
+            "name": "The Bell",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 56,
+        "fields": {
+            "rarity": 3,
+            "name": "Bloodtainted Greatsword",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 57,
+        "fields": {
+            "rarity": 3,
+            "name": "Debate Club",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 58,
+        "fields": {
+            "rarity": 3,
+            "name": "Ferrous Shadow",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 61,
+        "fields": {
+            "rarity": 5,
+            "name": "Calamity Queller",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 62,
+        "fields": {
+            "rarity": 5,
+            "name": "Engulfing Lightning",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 63,
+        "fields": {
+            "rarity": 5,
+            "name": "Staff of Homa",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 64,
+        "fields": {
+            "rarity": 5,
+            "name": "Staff of the Scarlet Sands",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 65,
+        "fields": {
+            "rarity": 5,
+            "name": "Vortex Vanquisher",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 66,
+        "fields": {
+            "rarity": 4,
+            "name": "Dragon's Bane",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 67,
+        "fields": {
+            "rarity": 4,
+            "name": "Favonius Lance",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 68,
+        "fields": {
+            "rarity": 4,
+            "name": "Lithic Spear",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 69,
+        "fields": {
+            "rarity": 4,
+            "name": "Wavebreaker's Fin",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 70,
+        "fields": {
+            "rarity": 3,
+            "name": "Black Tassel",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 73,
+        "fields": {
+            "rarity": 5,
+            "name": "Aqua Simulacra",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 74,
+        "fields": {
+            "rarity": 5,
+            "name": "Elegy for the End",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 75,
+        "fields": {
+            "rarity": 5,
+            "name": "Hunter's Path",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 76,
+        "fields": {
+            "rarity": 5,
+            "name": "Polar Star",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 77,
+        "fields": {
+            "rarity": 5,
+            "name": "Thundering Pulse",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 78,
+        "fields": {
+            "rarity": 4,
+            "name": "Alley Hunter",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 79,
+        "fields": {
+            "rarity": 4,
+            "name": "Favonius Warbow",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 80,
+        "fields": {
+            "rarity": 4,
+            "name": "Mitternachts Waltz",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 81,
+        "fields": {
+            "rarity": 4,
+            "name": "Mouun's Moon",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 82,
+        "fields": {
+            "rarity": 4,
+            "name": "Rust",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 83,
+        "fields": {
+            "rarity": 4,
+            "name": "The Stringless",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 85,
+        "fields": {
+            "rarity": 3,
+            "name": "Raven Bow",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 87,
+        "fields": {
+            "rarity": 3,
+            "name": "Sharpshooter's Oath",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 88,
+        "fields": {
+            "rarity": 3,
+            "name": "Slingshot",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 89,
+        "fields": {
+            "rarity": 4,
+            "name": "Makhaira Aquamarine",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 74,
+        "fields": {
+            "rarity": 5,
+            "name": "Baizhu",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 75,
+        "fields": {
+            "rarity": 4,
+            "name": "Kaveh",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 76,
+        "fields": {
+            "rarity": 5,
+            "name": "Dehya",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 77,
+        "fields": {
+            "rarity": 4,
+            "name": "Mika",
+            "limited": false
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 90,
+        "fields": {
+            "rarity": 5,
+            "name": "Beacon of the Reed Sea",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.weapon",
+        "pk": 91,
+        "fields": {
+            "rarity": 5,
+            "name": "Jadefall's Splendor",
+            "limited": true
+        }
+    },
+    {
+        "model": "genshinwishoracle.character",
+        "pk": 78,
+        "fields": {
+            "rarity": 5,
+            "name": "Jean",
+            "limited": false
+        }
+    }
+]
