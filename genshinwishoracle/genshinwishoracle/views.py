@@ -82,18 +82,62 @@ class WeaponBannerView(BannerView):
 # DELETE VIEW
 
 class BannerDeleteView(generic.DeleteView):
-    model = models.CharacterBanner
+    banner_type = ""
     template_name = 'analyze/banner_delete.html'
-    success_url = reverse_lazy('character_banners')
-    banner_type = "Character"
+    success_url = reverse_lazy(banner_type.lower()+'_banners')
+    labels = []
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         context['success_url'] = self.success_url
         context['banner_type'] = self.banner_type
         context['banner'] = context['object']
-        context['labels'] = ["Name", "Enddate", "5⭐ Rateup", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3"]
+        context['labels'] = self.labels
         return context
+
+class CharacterBannerDeleteView(BannerDeleteView):
+    model = models.CharacterBanner
+    banner_type = "Character"
+    success_url = reverse_lazy(banner_type.lower()+'_banners')
+    labels = ["Name", "Enddate", "5⭐ Rateup", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3"] 
+
+class WeaponBannerDeleteView(BannerDeleteView):
+    model = models.WeaponBanner
+    banner_type = "Weapon"
+    success_url = reverse_lazy(banner_type.lower()+'_banners')
+    labels = ["Name", "Enddate", "5⭐ Rateup 1","5⭐ Rateup 2", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3", "4⭐ Rateup 4", "4⭐ Rateup 5"]
+
+
+# class CharacterBannerDeleteView(generic.DeleteView):
+#     model = models.CharacterBanner
+#     template_name = 'analyze/banner_delete.html'
+#     success_url = reverse_lazy('character_banners')
+#     banner_type = "Character"
+
+#     def get_context_data(self, **kwargs):
+#         context =  super().get_context_data(**kwargs)
+#         context['success_url'] = self.success_url
+#         context['banner_type'] = self.banner_type
+#         context['banner'] = context['object']
+#         context['labels'] = ["Name", "Enddate", "5⭐ Rateup", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3"]
+#         return context
+    
+
+# class WeaponBannerDeleteView(generic.DeleteView):
+#     model = models.WeaponBanner
+#     template_name = 'analyze/banner_delete.html'
+#     success_url = reverse_lazy('weapon_banners')
+#     banner_type = "Weapon"
+
+#     def get_context_data(self, **kwargs):
+#         context =  super().get_context_data(**kwargs)
+#         context['success_url'] = self.success_url
+#         context['banner_type'] = self.banner_type
+#         context['banner'] = context['object']
+#         context['labels'] = ["Name", "Enddate", "5⭐ Rateup 1","5⭐ Rateup 2", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3", "4⭐ Rateup 4", "4⭐ Rateup 5"]
+#         return context
+
+# UPDATE VIEW
 class BannerUpdateView(generic.UpdateView):
     model = models.CharacterBanner
     template_name = 'analyze/banner_update.html'
@@ -131,6 +175,85 @@ class BannerUpdateView(generic.UpdateView):
         else:
             context['form'] = form
             return render(request, self.template_name, context=context)
+    
+class CharacterBannerUpdateView(generic.UpdateView):
+    model = models.CharacterBanner
+    template_name = 'analyze/banner_update.html'
+    context_object_name = 'banner'
+    success_url = reverse_lazy('character_banners')
+    form_class = forms.CreateCharacterBannerForm
+    banner_type = "Character"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['success_url'] = self.success_url
+        context['banner_type'] = self.banner_type
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user_id"] = self.request.user.id
+        kwargs["updating"] = True
+        return kwargs
+
+    def post(self, request,*args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(to=reverse_lazy('main-home'))
+        context ={}
+        banner_before = self.model.objects.filter(id=kwargs['pk'])
+        kwargs = self.get_form_kwargs()
+        kwargs["data"] = self.request.POST
+        form  = self.form_class(**kwargs)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            rateups = cleaned_data.pop('rateups')
+            banner_before.update(**cleaned_data)
+            banner_before[0].rateups.set(rateups)
+            return redirect(to=self.success_url)
+        else:
+            context['form'] = form
+            return render(request, self.template_name, context=context)
+    
+class WeaponBannerUpdateView(generic.UpdateView):
+    model = models.WeaponBanner
+    template_name = 'analyze/banner_update.html'
+    context_object_name = 'banner'
+    success_url = reverse_lazy('weapon_banners')
+    form_class = forms.CreateWeaponBannerForm
+    banner_type = "Weapon"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['success_url'] = self.success_url
+        context['banner_type'] = self.banner_type
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user_id"] = self.request.user.id
+        kwargs["updating"] = True
+        return kwargs
+
+    def post(self, request,*args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(to=reverse_lazy('main-home'))
+        context ={}
+        banner_before = self.model.objects.filter(id=kwargs['pk'])
+        kwargs = self.get_form_kwargs()
+        kwargs["data"] = self.request.POST
+        form  = self.form_class(**kwargs)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            rateups = cleaned_data.pop('rateups')
+            banner_before.update(**cleaned_data)
+            banner_before[0].rateups.set(rateups)
+            return redirect(to=self.success_url)
+        else:
+            context['form'] = form
+            return render(request, self.template_name, context=context)
+
+
+# CREATE VIEW
 
 class BannerCreateView(generic.CreateView):
     model = models.CharacterBanner
@@ -169,91 +292,6 @@ class BannerCreateView(generic.CreateView):
             character_banner = form.save()
             profile = Profile.objects.filter(user_id= request.user.id).first()
             profile.banners.add(character_banner)
-            return redirect(to=self.success_url)
-        else:
-            context['form'] = form
-            return render(request, self.template_name, context=context)
-
-
-# class CharacterBannerView(generic.ListView):
-#     model = models.CharacterBanner
-#     template_name = 'analyze/banners_list.html'
-#     context_object_name = 'banners'
-#     back_url = reverse_lazy('main-home')
-#     create_url = reverse_lazy('character_banner_create')
-#     base_url = "analyze"
-#     banner_type = "Character"
-#     # TODO see if I want this
-#     # paginate_by = 5
-
-#     def get_context_data(self, **kwargs):
-#         context = {}
-#         character_banners =self.get_queryset(self.request)
-#         context[self.context_object_name] = character_banners
-#         context['labels'] = ["Name", "Enddate", "5⭐ Rateup", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3", "Edit", "Delete"]
-#         context['back_url'] = self.back_url
-#         context['create_url'] = self.create_url
-#         context['url_front'] = "/character-banners"
-#         context['banner_type'] = self.banner_type
-#         return context
-
-#     def get(self, request,*args, **kwargs):
-#         if not request.user.is_authenticated:
-#             return redirect(to=reverse_lazy('main-home'))
-#         context = self.get_context_data()
-#         return render(request, self.template_name, context=context)
-
-#     def get_queryset(self,request):
-#         curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
-#         banners = curr_user_prof.banners.filter(banner_type=self.model.get_banner_type_string())
-#         banners = [banner.get_specified_banner_equivalent() for banner in banners]
-#         return banners
-class CharacterBannerDeleteView(generic.DeleteView):
-    model = models.CharacterBanner
-    template_name = 'analyze/banner_delete.html'
-    success_url = reverse_lazy('character_banners')
-    banner_type = "Character"
-
-    def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
-        context['success_url'] = self.success_url
-        context['banner_type'] = self.banner_type
-        context['banner'] = context['object']
-        context['labels'] = ["Name", "Enddate", "5⭐ Rateup", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3"]
-        return context
-class CharacterBannerUpdateView(generic.UpdateView):
-    model = models.CharacterBanner
-    template_name = 'analyze/banner_update.html'
-    context_object_name = 'banner'
-    success_url = reverse_lazy('character_banners')
-    form_class = forms.CreateCharacterBannerForm
-    banner_type = "Character"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['success_url'] = self.success_url
-        context['banner_type'] = self.banner_type
-        return context
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["user_id"] = self.request.user.id
-        kwargs["updating"] = True
-        return kwargs
-
-    def post(self, request,*args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect(to=reverse_lazy('main-home'))
-        context ={}
-        banner_before = self.model.objects.filter(id=kwargs['pk'])
-        kwargs = self.get_form_kwargs()
-        kwargs["data"] = self.request.POST
-        form  = self.form_class(**kwargs)
-        if form.is_valid():
-            cleaned_data = form.cleaned_data
-            rateups = cleaned_data.pop('rateups')
-            banner_before.update(**cleaned_data)
-            banner_before[0].rateups.set(rateups)
             return redirect(to=self.success_url)
         else:
             context['form'] = form
@@ -301,88 +339,6 @@ class CharacterBannerCreateView(generic.CreateView):
             context['form'] = form
             return render(request, self.template_name, context=context)
 
-# class WeaponBannerView(generic.ListView):
-#     model = models.WeaponBanner
-#     # template_name = 'analyze/weapon_banner.html'
-#     template_name = 'analyze/banners_list.html'
-#     context_object_name = 'banners'
-#     back_url = reverse_lazy('main-home')
-#     create_url = reverse_lazy('weapon_banner_create')
-#     banner_type = "Weapon"
-    
-#     def get_context_data(self, **kwargs):
-#         context = {}
-#         weaponbanners = self.get_queryset(self.request)
-#         context[self.context_object_name] = weaponbanners
-#         context['labels'] = ["Name", "Enddate", "5⭐ Rateup 1","5⭐ Rateup 2", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3", "4⭐ Rateup 4", "4⭐ Rateup 5", "Edit", "Delete"]
-#         context['back_url'] = self.back_url
-#         context['create_url'] = self.create_url
-#         context['url_front'] = "/weapon-banners"
-#         context['banner_type'] = self.banner_type
-#         return context 
-
-#     def get(self, request,*args, **kwargs):
-#         if not request.user.is_authenticated:
-#             return redirect(to=reverse_lazy('main-home'))
-#         context = self.get_context_data()
-#         return render(request, self.template_name, context=context)
-    
-#     def get_queryset(self,request):
-#         curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
-#         banners = curr_user_prof.banners.filter(banner_type=self.model.get_banner_type_string())
-#         banners = [banner.get_specified_banner_equivalent() for banner in banners]
-#         return banners
-class WeaponBannerDeleteView(generic.DeleteView):
-    model = models.WeaponBanner
-    template_name = 'analyze/banner_delete.html'
-    success_url = reverse_lazy('weapon_banners')
-    banner_type = "Weapon"
-
-    def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
-        context['success_url'] = self.success_url
-        context['banner_type'] = self.banner_type
-        context['banner'] = context['object']
-        context['labels'] = ["Name", "Enddate", "5⭐ Rateup 1","5⭐ Rateup 2", "4⭐ Rateup 1", "4⭐ Rateup 2", "4⭐ Rateup 3", "4⭐ Rateup 4", "4⭐ Rateup 5"]
-        return context
-
-class WeaponBannerUpdateView(generic.UpdateView):
-    model = models.WeaponBanner
-    template_name = 'analyze/banner_update.html'
-    context_object_name = 'banner'
-    success_url = reverse_lazy('weapon_banners')
-    form_class = forms.CreateWeaponBannerForm
-    banner_type = "Weapon"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['success_url'] = self.success_url
-        context['banner_type'] = self.banner_type
-        return context
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["user_id"] = self.request.user.id
-        kwargs["updating"] = True
-        return kwargs
-
-    def post(self, request,*args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect(to=reverse_lazy('main-home'))
-        context ={}
-        banner_before = self.model.objects.filter(id=kwargs['pk'])
-        kwargs = self.get_form_kwargs()
-        kwargs["data"] = self.request.POST
-        form  = self.form_class(**kwargs)
-        if form.is_valid():
-            cleaned_data = form.cleaned_data
-            rateups = cleaned_data.pop('rateups')
-            banner_before.update(**cleaned_data)
-            banner_before[0].rateups.set(rateups)
-            return redirect(to=self.success_url)
-        else:
-            context['form'] = form
-            return render(request, self.template_name, context=context)
 
 class WeaponBannerCreateView(generic.CreateView):
     model = models.WeaponBanner
