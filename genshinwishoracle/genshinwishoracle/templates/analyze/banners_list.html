@@ -31,11 +31,10 @@
             {% for rateup in banner.rateups.all %}
             <td class="banner-list-td"> {{rateup}} </td>
             {% endfor %}
-            <td class="banner-list-td"> <button><a
-                        href="{{update_url_front}}/{{banner.banner_ptr_id}}">Edit</a></button>
+            <td class="banner-list-td"> <button><a href="{{url_front}}/{{banner.banner_ptr_id}}">Edit</a></button>
             </td>
             <td class="banner-list-td"> <button><a
-                        href="{{update_url_front}}/{{banner.banner_ptr_id}}/delete">Delete</a></button>
+                        href="{{url_front}}/{{banner.banner_ptr_id}}/delete">Delete</a></button>
             </td>
         </tr>
         {% endfor %}
