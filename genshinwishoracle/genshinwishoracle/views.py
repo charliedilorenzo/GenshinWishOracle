@@ -98,6 +98,18 @@ class BannerDeleteView(generic.DeleteView):
         context['labels'] = self.labels
         return context
 
+    def get(self, request, *args, **kwargs):
+        parent_get = super().get(request, *args, **kwargs)
+        context = self.get_context_data()
+        banner = context['banner']
+        profile = Profile.objects.filter(user_id=request.user).first()
+        user_banner_ids = profile.banners.values_list('pk',flat=True)
+        # REDIRECT WRONG USER
+        if banner.id not in user_banner_ids:
+            return redirect(to=self.success_url)
+
+        return render(request, self.template_name, context=context)
+
 class CharacterBannerDeleteView(BannerDeleteView):
     model = models.CharacterBanner
     banner_type = "Character"
@@ -118,6 +130,18 @@ class BannerUpdateView(generic.UpdateView):
     context_object_name = 'banner'
     success_url = reverse_lazy(banner_type.lower()+'_banners')
     form_class = forms.forms.BaseForm
+
+    def get(self, request, *args, **kwargs):
+        parent_get = super().get(request, *args, **kwargs)
+        context = self.get_context_data()
+        banner = context['banner']
+        profile = Profile.objects.filter(user_id=request.user).first()
+        user_banner_ids = profile.banners.values_list('pk',flat=True)
+        # REDIRECT WRONG USER
+        if banner.id not in user_banner_ids:
+            return redirect(to=self.success_url)
+
+        return render(request, self.template_name, context=context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -566,8 +590,6 @@ class WishSimulatorResultsView(generic.ListView):
         simulator = wish_simulator.WishSim(banner,rateups.filter(rarity=5).first())
         pulls = simulator.roll(number_of_pulls,five_star_pity,five_star_guaranteed,four_star_pity,four_star_guaranteed, fate_points)
         return pulls
-
-    
 
 def context_from_request(request):
     # i couldnt seem to find if there already existed a function for this online 

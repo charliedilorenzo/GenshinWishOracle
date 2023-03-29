@@ -4,15 +4,9 @@
 
 ## New Stuff
 
-- consolidate
-  - delete view
-  - update view
-  - create view
-- add the user to the URI for the character banners
-- only able to delete own banners
 - views tests
 - add tests for users
-- login required decorator
+- add the user to the URI for the character banners
 - importing might not work for welkin moon in project primos
 - make dropdown favicon href
 - make dropdown app name href
@@ -21,6 +15,8 @@
 - add number of wishes to the sidebar per profile?
 - add desired five star for weapon banner wish simulator
 - make the banner creation / update selector not have the choose all and the remove all
+- trash icon for delete button
+- little write note with pen for edit button
 - for banners make the arrow in the many to many bigger
   - in widgets.css with classes: selector chooser, selector add, selector remove
 - add options for over the max (1000 right now?)
