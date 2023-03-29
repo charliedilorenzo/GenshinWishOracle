@@ -29,3 +29,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+    def add_banner(self):
+        # TODO
+        pass

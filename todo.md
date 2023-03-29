@@ -4,6 +4,7 @@
 
 ## New Stuff
 
+- add an "add_banner" method to Profile
 - views tests
 - add tests for users
 - add the user to the URI for the character banners
