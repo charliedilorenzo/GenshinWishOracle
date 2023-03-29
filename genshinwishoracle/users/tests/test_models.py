@@ -124,7 +124,39 @@ class ModelsTestCase(TestCase):
         newprofile.banners.add(weapon_banner)
         self.assertEqual(len(testprofile.banners.all()),2)
 
-    def test_add_banner_method(self):
-        # TODO
-        pass
+    def test_add_banner_method_in_queryset(self):
+        testprofile = Profile.objects.filter(user_id=User.objects.filter(username=self.test_username).first().pk).first()
+        char_banner = CharacterBanner.objects.filter(name=self.characterbannername)
+        self.assertEqual(len(testprofile.banners.all()),0)
+        testprofile.add_banners(char_banner)
+        self.assertEqual(len(testprofile.banners.all()),1)
+    
+    def test_add_banner_method_in_list(self):
+        testprofile = Profile.objects.filter(user_id=User.objects.filter(username=self.test_username).first().pk).first()
+        char_banner = [CharacterBanner.objects.filter(name=self.characterbannername).first()]
+        self.assertEqual(len(testprofile.banners.all()),0)
+        testprofile.add_banners(char_banner)
+        self.assertEqual(len(testprofile.banners.all()),1)
+
+    def test_add_banner_method_banner(self):
+        testprofile = Profile.objects.filter(user_id=User.objects.filter(username=self.test_username).first().pk).first()
+        char_banner = Banner.objects.filter(name=self.characterbannername).first()
+        self.assertEqual(len(testprofile.banners.all()),0)
+        testprofile.add_banners(char_banner)
+        self.assertEqual(len(testprofile.banners.all()),1)
+
+    def test_add_banner_method_characterbanner(self):
+        testprofile = Profile.objects.filter(user_id=User.objects.filter(username=self.test_username).first().pk).first()
+        char_banner = CharacterBanner.objects.filter(name=self.characterbannername).first()
+        self.assertEqual(len(testprofile.banners.all()),0)
+        testprofile.add_banners(char_banner)
+        self.assertEqual(len(testprofile.banners.all()),1)
+
+    def test_add_banner_method_weaponbanner(self):
+        testprofile = Profile.objects.filter(user_id=User.objects.filter(username=self.test_username).first().pk).first()
+        weapon_banner = WeaponBanner.objects.filter(name=self.weaponbannername).first()
+        self.assertEqual(len(testprofile.banners.all()),0)
+        testprofile.add_banners(weapon_banner)
+        self.assertEqual(len(testprofile.banners.all()),1)
+        
         

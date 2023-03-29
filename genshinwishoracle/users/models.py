@@ -2,7 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 import math
 from django.conf import settings
-from genshinwishoracle.models import Banner
+from genshinwishoracle.models import Banner, CharacterBanner, WeaponBanner
+from django.db.models.manager import BaseManager
+from django.db.models.query import QuerySet
+
 
 # Extending User Model Using a One-To-One Link
 class Profile(models.Model):
@@ -30,6 +33,20 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
     
-    def add_banner(self):
-        # TODO
-        pass
+    def add_banners(self,banner):
+        # self.banners.add(banner)
+        # with queryset 
+        if isinstance(banner, QuerySet) and len(banner) > 0:
+            banner = list(banner)
+            for each in banner:
+                self.banners.add(each)
+        # in list
+        elif isinstance(banner, list) and len(banner) > 0:
+            for each in banner:
+                self.banners.add(each)
+        # alone
+        elif isinstance(banner,Banner) or isinstance(banner,CharacterBanner) or isinstance(banner, WeaponBanner):
+            self.banners.add(banner)
+        else:
+            raise(Exception)
+        
