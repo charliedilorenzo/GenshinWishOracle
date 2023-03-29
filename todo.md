@@ -4,6 +4,10 @@
 
 ## New Stuff
 
+- consolidate
+  - delete view
+  - update view
+  - create view
 - add the user to the URI for the character banners
 - only able to delete own banners
 - views tests
