@@ -116,7 +116,7 @@ class BannerUpdateView(generic.UpdateView):
     template_name = 'analyze/banner_update.html'
     banner_type = ""
     context_object_name = 'banner'
-    success_url = reverse_lazy('character_banners')
+    success_url = reverse_lazy(banner_type.lower()+'_banners')
     form_class = forms.forms.BaseForm
 
     def get_context_data(self, **kwargs):
@@ -164,10 +164,10 @@ class WeaponBannerUpdateView(BannerUpdateView):
 
 class BannerCreateView(generic.CreateView):
     model = models.CharacterBanner
-    form_class = forms.CreateCharacterBannerForm
+    banner_type = ""
+    form_class = forms.forms.BaseForm
     template_name = 'analyze/banner_create.html'
-    success_url = reverse_lazy('character_banners')
-    banner_type = "Character"
+    success_url = reverse_lazy(banner_type.lower()+'_banners')
     
 
     def get_form_kwargs(self):
@@ -204,89 +204,18 @@ class BannerCreateView(generic.CreateView):
             context['form'] = form
             return render(request, self.template_name, context=context)
 
-class CharacterBannerCreateView(generic.CreateView):
+class CharacterBannerCreateView(BannerCreateView):
     model = models.CharacterBanner
     form_class = forms.CreateCharacterBannerForm
-    template_name = 'analyze/banner_create.html'
-    success_url = reverse_lazy('character_banners')
     banner_type = "Character"
-    
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["user_id"] = self.request.user.id
-        kwargs["updating"] = False
-        return kwargs
-
-    def get(self, request,*args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect(to=reverse_lazy('main-home'))
-        context = {}
-        kwargs = {}
-        kwargs.update({"user_id": request.user.id})
-        form = self.form_class(**kwargs)
-        context['form'] = form
-        context['banner_type'] = self.banner_type
-        context['success_url' ] = self.success_url
-        return render(request, self.template_name, context=context)
-
-    def post(self, request,*args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect(to=reverse_lazy('main-home'))
-        context ={}
-        kwargs = self.get_form_kwargs()
-        kwargs["data"] = self.request.POST
-        form  = self.form_class(**kwargs)
-        if form.is_valid():
-            character_banner = form.save()
-            profile = Profile.objects.filter(user_id= request.user.id).first()
-            profile.banners.add(character_banner)
-            return redirect(to=self.success_url)
-        else:
-            context['form'] = form
-            return render(request, self.template_name, context=context)
-
-
-class WeaponBannerCreateView(generic.CreateView):
+    success_url = reverse_lazy(banner_type.lower()+'_banners')
+class WeaponBannerCreateView(BannerCreateView):
     model = models.WeaponBanner
     form_class = forms.CreateWeaponBannerForm
     banner_type = "Weapon"
-    template_name = 'analyze/banner_create.html'
-    success_url = reverse_lazy('weapon_banners')
+    success_url = reverse_lazy(banner_type.lower()+'_banners')
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["user_id"] = self.request.user.id
-        kwargs["updating"] = False
-        return kwargs
-
-    def get(self, request,*args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect(to=reverse_lazy('main-home'))
-        context = {}
-        kwargs = self.get_form_kwargs()
-        form = self.form_class(**kwargs)
-        context['form'] = form
-        context['banner_type'] = self.banner_type
-        context['success_url' ] = self.success_url
-        return render(request, self.template_name, context=context)
-
-    def post(self, request,*args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect(to=reverse_lazy('main-home'))
-        context ={}
-        kwargs = self.get_form_kwargs()
-        kwargs['data'] = self.request.POST
-        form  = self.form_class(**kwargs)
-        if form.is_valid():
-            weapon_banner = form.save()
-            print(request.user.id)
-            profile = Profile.objects.get(user_id= request.user.id)
-            profile.banners.add(weapon_banner)
-            return redirect(to=self.success_url)
-        else:
-            context['form'] = form
-            return render(request, self.template_name, context=context)
+# ANALYZE
 
 class StatisticsAnalyzeOmniView(generic.View):
     template_name = 'analyze/analyze_omni.html'
@@ -484,7 +413,9 @@ class StatisticsResultView(generic.View):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         return data
-        
+
+# PROJECT PRIMOS
+
 class ProjectPrimosView(generic.FormView):
     template_name = 'analyze/project_primos.html'
     result_template = 'analyze/project_primos_result.html'
@@ -563,6 +494,8 @@ class ProjectPrimosView(generic.FormView):
         else:
             context['form'] = form
             return render(request, self.template_name, context=context)
+        
+# WISH SIMULATOR
 class WishSimulatorView(generic.View):
     template_name = 'analyze/wish_simulator.html'
     success_url = reverse_lazy('main-home')
