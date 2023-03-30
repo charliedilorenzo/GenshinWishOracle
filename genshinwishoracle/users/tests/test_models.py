@@ -15,6 +15,7 @@ class ModelsTestCase(TestCase):
     test_user_pk = None
     characterbannername = "testbannercharacter"
     weaponbannername = "testbannerweapon"
+    secondusername = "seconduser"
 
     def get_test_user(self):
         user = User.objects.filter(username=self.test_username)[0]
@@ -40,6 +41,8 @@ class ModelsTestCase(TestCase):
         five_stars = Weapon.objects.filter(rarity=5)[0:1]
         testweaponbanner.rateups.add(*four_stars)
         testweaponbanner.rateups.add(*five_stars)
+
+        seconduser = User.objects.create_user("seconduser", "secondemail@gmail.com","verysecurepassword")
 
     def setUp(self):
         pass
@@ -158,5 +161,29 @@ class ModelsTestCase(TestCase):
         self.assertEqual(len(testprofile.banners.all()),0)
         testprofile.add_banners(weapon_banner)
         self.assertEqual(len(testprofile.banners.all()),1)
+
+    def test_user_has_character_banners_true(self):
+        testprofile = Profile.objects.filter(user_id=User.objects.filter(username=self.test_username).first().pk).first()
+        testprofile.banners.add(CharacterBanner.objects.filter(name=self.characterbannername).first())
+        testprofile.banners.add(WeaponBanner.objects.filter(name=self.weaponbannername).first())
+
+        self.assertTrue(testprofile.user_has_character_banners())
+
+    def test_user_has_character_banners_false(self):
+        seconduser = User.objects.filter(username=self.secondusername).first()
+        secondprofile = Profile.objects.filter(user_id= seconduser.pk).first()
         
+        self.assertTrue(not secondprofile.user_has_character_banners())
+
+    def test_user_has_weapon_banners_true(self):
+        testprofile = Profile.objects.filter(user_id=User.objects.filter(username=self.test_username).first().pk).first() 
+        testprofile.banners.add(CharacterBanner.objects.filter(name=self.characterbannername).first())
+        testprofile.banners.add(WeaponBanner.objects.filter(name=self.weaponbannername).first())
+
+        self.assertTrue(testprofile.user_has_weapon_banners())
+
+    def test_user_has_weapon_banners_false(self):
+        seconduser = User.objects.filter(username=self.secondusername).first()
+        secondprofile = Profile.objects.filter(user_id= seconduser.pk).first()
         
+        self.assertTrue(not secondprofile.user_has_weapon_banners())

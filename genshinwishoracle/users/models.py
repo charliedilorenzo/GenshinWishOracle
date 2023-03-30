@@ -6,6 +6,9 @@ from genshinwishoracle.models import Banner, CharacterBanner, WeaponBanner
 from django.db.models.manager import BaseManager
 from django.db.models.query import QuerySet
 
+import genshinwishoracle.models as genshinmodels
+
+
 
 # Extending User Model Using a One-To-One Link
 class Profile(models.Model):
@@ -49,4 +52,21 @@ class Profile(models.Model):
             self.banners.add(banner)
         else:
             raise(Exception)
-        
+    
+    def user_has_character_banners(self) -> bool: 
+        banners = self.banners.all().values_list("banner_type")
+        # banners = self.banners.all()
+        # print(banners)
+        charstring = genshinmodels.CHARACTER
+        for banner in banners:
+            if banner[0] == charstring:
+                return True
+        return False
+
+    def user_has_weapon_banners(self) -> bool: 
+        banners = self.banners.all().values_list("banner_type")
+        weaponstring = genshinmodels.WEAPON
+        for banner in banners:
+            if banner[0] == weaponstring:
+                return True
+        return False
