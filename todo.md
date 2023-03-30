@@ -4,9 +4,12 @@
 
 ## New Stuff
 
-- add an "add_banner" method to Profile
+- test for user updating or delete another users banner
 - views tests
 - add tests for users
+- require login for all banner functions
+  - login mixin
+- use add_banner method of Profile places
 - add the user to the URI for the character banners
 - importing might not work for welkin moon in project primos
 - make dropdown favicon href

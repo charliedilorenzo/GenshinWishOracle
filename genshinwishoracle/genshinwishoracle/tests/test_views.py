@@ -50,7 +50,7 @@ class ViewsTestClass(TestCase):
 
         # USER 2
         seconduser = User.objects.create_user("testusertwo", "testemailtwo@gmail.com","verysecurepassword")
-        testprofile = Profile.objects.filter(user_id=testuser.pk).first()
+        secondprofile = Profile.objects.filter(user_id=seconduser.pk).first()
 
         testcharacterbannertwo = CharacterBanner.objects.create(name="secondbannercharacter", enddate=now, banner_type="Character")
         four_stars = Character.objects.filter(rarity=4)[0:3]
@@ -64,8 +64,8 @@ class ViewsTestClass(TestCase):
         testweaponbannertwo.rateups.add(*four_stars)
         testweaponbannertwo.rateups.add(*five_stars)
 
-        testprofile.banners.add(testcharacterbannertwo)
-        testprofile.banners.add(testweaponbannertwo)
+        secondprofile.banners.add(testcharacterbannertwo)
+        secondprofile.banners.add(testweaponbannertwo)
 
     def setUp(self):
         pass
@@ -112,7 +112,7 @@ class ViewsTestClass(TestCase):
         client.force_login(user)
         response = client.get(reverse('character_banners'))
         context = response.context
-        check_keys = ['labels', 'back_url', 'create_url', 'update_url_front', 'delete_url_front', 'banner_type']
+        check_keys = ['labels', 'back_url', 'create_url', 'url_front', 'banner_type']
         for item in check_keys:
             self.assertIn(item, context.keys())
 
@@ -143,10 +143,16 @@ class ViewsTestClass(TestCase):
         user = User.objects.filter(username=self.test_username).first()
         client.force_login(user)
         banner = CharacterBanner.objects.filter(~Q(name=self.characterbannername )).first()
-        response = client.get(reverse('character_banner_delete', kwargs={'pk': banner.pk}))\
-        # TODO  MAKE THIS ACTUALLY WORK IN THE VIEWS
+        response = client.get(reverse('character_banner_delete', kwargs={'pk': banner.pk}))
         self.assertTrue(math.floor(response.status_code / 100 ) != 4)
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(302, response.status_code)
+        self.assertRedirects(response, reverse_lazy('character_banners'))
+
+        response = client.post(reverse('character_banner_delete', kwargs={'pk': banner.pk}))
+        self.assertTrue(math.floor(response.status_code / 100 ) != 4)
+        self.assertEqual(302, response.status_code)
+        self.assertRedirects(response, reverse_lazy('character_banners'))
+       
 
     def test_CharacterBannerDeleteView_gives_response(self):
         client = self.client
@@ -182,13 +188,20 @@ class ViewsTestClass(TestCase):
         user = User.objects.filter(username=self.test_username).first()
         client.force_login(user)
         banner = CharacterBanner.objects.filter(~Q(name=self.characterbannername )).first()
-        response = client.get(reverse('character_banner_update', kwargs={'pk': banner.pk}))\
-        # TODO  MAKE THIS ACTUALLY WORK IN THE VIEWS
+        response = client.get(reverse('character_banner_update', kwargs={'pk': banner.pk}))
         self.assertTrue(math.floor(response.status_code / 100 ) != 4)
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(302, response.status_code)
+        self.assertRedirects(response, reverse_lazy('character_banners'))
+
+        response = client.post(reverse('character_banner_update', kwargs={'pk': banner.pk}))
+        self.assertTrue(math.floor(response.status_code / 100 ) != 4)
+        self.assertEqual(302, response.status_code)
+        self.assertRedirects(response, reverse_lazy('character_banners'))
 
     def test_CharacterBannerUpdateView_gives_response(self):
         client = self.client
+        user = User.objects.filter(username=self.test_username).first()
+        client.force_login(user)
         banner = CharacterBanner.objects.filter(name=self.characterbannername).first()
         response = client.get(reverse('character_banner_update', kwargs={'pk': banner.pk}))
         self.assertTrue(math.floor(response.status_code / 100 ) != 4)
@@ -196,9 +209,11 @@ class ViewsTestClass(TestCase):
 
     def test_CharacterCreateView_gives_response(self):
         client = self.client
+        user = User.objects.filter(username=self.test_username).first()
+        client.force_login(user)
         banner = CharacterBanner.objects.filter(name=self.characterbannername).first()
         response = client.get(reverse('character_banner_create'))
-        self.assertEqual(302, response.status_code)
+        self.assertEqual(200, response.status_code)
 
     # -------------------------- WEAPON BANNER --------------------------
 

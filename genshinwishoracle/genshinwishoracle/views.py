@@ -110,6 +110,15 @@ class BannerDeleteView(generic.DeleteView):
 
         return render(request, self.template_name, context=context)
 
+    def post(self, request, *args, **kwargs):
+        parent_post = super().post(request, *args, **kwargs)
+        profile = Profile.objects.filter(user_id=request.user).first()
+        user_banner_ids = profile.banners.values_list('pk',flat=True)
+        # REDIRECT WRONG USER
+        if kwargs['pk'] not in user_banner_ids:
+            return redirect(to=self.success_url)
+        return parent_post
+
 class CharacterBannerDeleteView(BannerDeleteView):
     model = models.CharacterBanner
     banner_type = "Character"
@@ -158,6 +167,13 @@ class BannerUpdateView(generic.UpdateView):
     def post(self, request,*args, **kwargs):
         if not request.user.is_authenticated:
             return redirect(to=reverse_lazy('main-home'))
+        
+        profile = Profile.objects.filter(user_id=request.user).first()
+        user_banner_ids = profile.banners.values_list('pk',flat=True)
+        # REDIRECT WRONG USER
+        if kwargs['pk']  not in user_banner_ids:
+            return redirect(to=self.success_url)
+
         context ={}
         banner_before = self.model.objects.filter(id=kwargs['pk'])
         kwargs = self.get_form_kwargs()
