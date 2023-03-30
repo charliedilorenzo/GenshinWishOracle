@@ -10,7 +10,6 @@
 - add the user to the URI for the character banners
 - make dropdown favicon href
 - make dropdown app name href
-- custom viewpage if there are no banners
 - add number of wishes to the sidebar per profile?
 - make redirect from loginrequiredmixin work
 - add desired five star for weapon banner wish simulator
@@ -23,6 +22,7 @@
 - fix date-decidable in project primos for jan 1
   - make a bool field for choosing via banner or manually?
 - fix register view
+- improve no banner page
 - additional tests
   - database tests
   - analystical tests

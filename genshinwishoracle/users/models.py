@@ -3,10 +3,7 @@ from django.contrib.auth.models import User
 import math
 from django.conf import settings
 from genshinwishoracle.models import Banner, CharacterBanner, WeaponBanner
-from django.db.models.manager import BaseManager
 from django.db.models.query import QuerySet
-
-import genshinwishoracle.models as genshinmodels
 
 
 
@@ -53,20 +50,9 @@ class Profile(models.Model):
         else:
             raise(Exception)
     
-    def user_has_character_banners(self) -> bool: 
+    def user_has_any_banner_type(self,banner_type) -> bool: 
         banners = self.banners.all().values_list("banner_type")
-        # banners = self.banners.all()
-        # print(banners)
-        charstring = genshinmodels.CHARACTER
         for banner in banners:
-            if banner[0] == charstring:
-                return True
-        return False
-
-    def user_has_weapon_banners(self) -> bool: 
-        banners = self.banners.all().values_list("banner_type")
-        weaponstring = genshinmodels.WEAPON
-        for banner in banners:
-            if banner[0] == weaponstring:
+            if banner[0] == banner_type:
                 return True
         return False

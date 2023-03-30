@@ -8,6 +8,7 @@ from datetime import date
 
 import math
 
+import genshinwishoracle.models as genshinmodels
 class ModelsTestCase(TestCase):
     # fixtures = [settings.BASE_DIR / 'analyze/fixtures/initial_data_characters_and_weapons.json',]
     fixtures = ['initial_data_characters_and_weapons.json',]
@@ -163,27 +164,31 @@ class ModelsTestCase(TestCase):
         self.assertEqual(len(testprofile.banners.all()),1)
 
     def test_user_has_character_banners_true(self):
+        banner_type = genshinmodels.CHARACTER
         testprofile = Profile.objects.filter(user_id=User.objects.filter(username=self.test_username).first().pk).first()
         testprofile.banners.add(CharacterBanner.objects.filter(name=self.characterbannername).first())
         testprofile.banners.add(WeaponBanner.objects.filter(name=self.weaponbannername).first())
 
-        self.assertTrue(testprofile.user_has_character_banners())
+        self.assertTrue(testprofile.user_has_any_banner_type(banner_type))
 
     def test_user_has_character_banners_false(self):
+        banner_type = genshinmodels.CHARACTER
         seconduser = User.objects.filter(username=self.secondusername).first()
         secondprofile = Profile.objects.filter(user_id= seconduser.pk).first()
         
-        self.assertTrue(not secondprofile.user_has_character_banners())
+        self.assertTrue(not secondprofile.user_has_any_banner_type(banner_type))
 
     def test_user_has_weapon_banners_true(self):
+        banner_type = genshinmodels.WEAPON
         testprofile = Profile.objects.filter(user_id=User.objects.filter(username=self.test_username).first().pk).first() 
         testprofile.banners.add(CharacterBanner.objects.filter(name=self.characterbannername).first())
         testprofile.banners.add(WeaponBanner.objects.filter(name=self.weaponbannername).first())
 
-        self.assertTrue(testprofile.user_has_weapon_banners())
+        self.assertTrue(testprofile.user_has_any_banner_type(banner_type))
 
     def test_user_has_weapon_banners_false(self):
+        banner_type = genshinmodels.WEAPON
         seconduser = User.objects.filter(username=self.secondusername).first()
         secondprofile = Profile.objects.filter(user_id= seconduser.pk).first()
         
-        self.assertTrue(not secondprofile.user_has_weapon_banners())
+        self.assertTrue(not secondprofile.user_has_any_banner_type(banner_type))

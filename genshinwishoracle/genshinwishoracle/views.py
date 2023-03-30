@@ -49,6 +49,7 @@ class BannerView(PersonalizedLoginRequiredMixin, generic.ListView):
     back_url = reverse_lazy('main-home')
     create_url = reverse_lazy(banner_type.lower()+'_banner_create')
     labels = []
+    special_template = 'analyze/banners_list_empty.html'
     # TODO see if I want this
     # paginate_by = 5
 
@@ -65,6 +66,9 @@ class BannerView(PersonalizedLoginRequiredMixin, generic.ListView):
 
     def get(self, request,*args, **kwargs):
         context = self.get_context_data()
+        profile = Profile.objects.filter(user_id = request.user.pk).first()
+        if not profile.user_has_any_banner_type(self.banner_type):
+            return render(request, self.special_template, context=context)
         return render(request, self.template_name, context=context)
 
     def get_queryset(self,request):
