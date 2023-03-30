@@ -476,7 +476,7 @@ class ProjectPrimosView(generic.FormView):
         # using sessions here since I prefer a flag on the user rather than making the url look worse personally
         if 'import_data' in request.session and request.session['import_data'] == True:
             request.session['import_data'] = False
-            init = {'numprimos': curr_user_prof.numprimos, 'numgenesis': curr_user_prof.numgenesis, 'numfates': curr_user_prof.numfates, 'numstarglitter': curr_user_prof.numstarglitter}
+            init = {'numprimos': curr_user_prof.numprimos, 'numgenesis': curr_user_prof.numgenesis, 'numfates': curr_user_prof.numfates, 'numstarglitter': curr_user_prof.numstarglitter, "battlepass": curr_user_prof.battlepass_user, "welkin_moon": curr_user_prof.welkin_user}
             context['form'] = self.form_class(initial=init, **kwargs)
         else:
             context['form'] = self.form_class(**kwargs)

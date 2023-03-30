@@ -8,7 +8,6 @@
 - add tests for users
 - use add_banner method of Profile places
 - add the user to the URI for the character banners
-- importing might not work for welkin moon in project primos
 - make dropdown favicon href
 - make dropdown app name href
 - custom viewpage if there are no banners
