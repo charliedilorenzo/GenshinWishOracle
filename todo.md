@@ -4,19 +4,16 @@
 
 ## New Stuff
 
-- test for user updating or delete another users banner
 - views tests
 - add tests for users
-- require login for all banner functions
-  - login mixin
 - use add_banner method of Profile places
 - add the user to the URI for the character banners
 - importing might not work for welkin moon in project primos
 - make dropdown favicon href
 - make dropdown app name href
-- change "view Profile" to "Edit Profile"
 - custom viewpage if there are no banners
 - add number of wishes to the sidebar per profile?
+- make redirect from loginrequiredmixin work
 - add desired five star for weapon banner wish simulator
 - make the banner creation / update selector not have the choose all and the remove all
 - trash icon for delete button
@@ -26,7 +23,7 @@
 - add options for over the max (1000 right now?)
 - fix date-decidable in project primos for jan 1
   - make a bool field for choosing via banner or manually?
-- login required entries in index
+- fix register view
 - additional tests
   - database tests
   - analystical tests

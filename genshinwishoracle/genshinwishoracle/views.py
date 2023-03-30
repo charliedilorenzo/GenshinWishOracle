@@ -12,6 +12,8 @@ from . import forms
 from genshinwishoracle.project_primos import project_future_primos, project_primos_chart
 from users.models import Profile
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 class Address():
     def __init__(self, url:str, name:str) -> None:
         self.url = url
@@ -33,9 +35,14 @@ class IndexView(generic.ListView):
             urls.append(Address(str(reverse(item[0], kwargs = item[1])), item[2]))
         return urls
 
+# Just makes it simpler to read since we log in the same place every time and redirect the same way every time
+class PersonalizedLoginRequiredMixin(LoginRequiredMixin):
+    login_url = reverse_lazy('login')
+    redirect_field_name = 'redirect_to'
+
 # BANNER LIST
 # USED AS ABSTRACT CLASS
-class BannerView(generic.ListView):
+class BannerView(PersonalizedLoginRequiredMixin, generic.ListView):
     banner_type = ""
     template_name = 'analyze/banners_list.html'
     context_object_name = 'banners'
@@ -57,8 +64,6 @@ class BannerView(generic.ListView):
         return context
 
     def get(self, request,*args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect(to=reverse_lazy('main-home'))
         context = self.get_context_data()
         return render(request, self.template_name, context=context)
 
@@ -84,7 +89,7 @@ class WeaponBannerView(BannerView):
 
 # DELETE VIEW
 # USED AS ABSTRACT CLASS
-class BannerDeleteView(generic.DeleteView):
+class BannerDeleteView(PersonalizedLoginRequiredMixin,generic.DeleteView):
     banner_type = ""
     template_name = 'analyze/banner_delete.html'
     success_url = reverse_lazy(banner_type.lower()+'_banners')
@@ -133,7 +138,7 @@ class WeaponBannerDeleteView(BannerDeleteView):
 
 # UPDATE VIEW
 # USED AS ABSTRACT CLASS
-class BannerUpdateView(generic.UpdateView):
+class BannerUpdateView(PersonalizedLoginRequiredMixin,generic.UpdateView):
     template_name = 'analyze/banner_update.html'
     banner_type = ""
     context_object_name = 'banner'
@@ -202,7 +207,7 @@ class WeaponBannerUpdateView(BannerUpdateView):
 
 # CREATE VIEW
 
-class BannerCreateView(generic.CreateView):
+class BannerCreateView(PersonalizedLoginRequiredMixin,generic.CreateView):
     model = models.CharacterBanner
     banner_type = ""
     form_class = forms.forms.BaseForm
