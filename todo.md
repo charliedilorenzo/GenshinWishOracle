@@ -4,9 +4,13 @@
 
 ## New Stuff
 
+- finish adding import data helper to all other parts of views
 - views tests
 - add tests for users
+- split up the views for statistics into classes but keep a general omni view that they inherit from
+
 - use add_banner method of Profile places
+- test for import user data
 - add the user to the URI for the character banners
 - make dropdown favicon href
 - make dropdown app name href
@@ -16,6 +20,7 @@
 - make the banner creation / update selector not have the choose all and the remove all
 - trash icon for delete button
 - little write note with pen for edit button
+- add graph to probability to numwishes with the wish values for the constellation as the y axis and alternative amounts of wishes as the x axis
 - for banners make the arrow in the many to many bigger
   - in widgets.css with classes: selector chooser, selector add, selector remove
 - add options for over the max (1000 right now?)

@@ -1,3 +1,7 @@
+import genshinwishoracle.forms as forms
+from users.models import Profile
+import math
+
 def add_dictionary_entries(list_of_dicts: list[dict[int, float]]) -> dict[int, float]:
     new_dict = {key: 0 for key in list_of_dicts[0]}
     for dict in list_of_dicts:
@@ -48,3 +52,23 @@ def upgrade_dictionary(dictionary: dict[int, float]) -> dict[int, float]:
     new_dict[i+1] = temp1+dictionary[i+1]
     new_dict[0] = 0
     return new_dict
+
+def import_user_data(profile: Profile, form_type):
+    dictionary =  profile.__dict__
+    required_fields = list(form_type.Meta.fields)
+    result = {}
+    if issubclass(form_type,forms.AnalyzeStatisticsCharacter):
+        dictionary["pity"] = dictionary.pop("character_pity")
+        dictionary["guaranteed"] = dictionary.pop("character_guaranteed")
+    if issubclass(form_type,forms.AnalyzeStatisticsWeapon):
+        dictionary["pity"] = dictionary.pop("weapon_pity")
+        dictionary["guaranteed"] = dictionary.pop("weapon_guaranteed")
+        dictionary["fate_points"] = dictionary.pop("weapon_fate_points")
+    if issubclass(form_type,forms.AnalyzeStatisticsToProbability):
+        dictionary["numwishes"] = math.floor(profile.calculate_pure_primos()/160)
+    if issubclass(form_type,forms.AnalyzeStatisticsToNumWishes):
+        required_fields.remove('numcopies')
+        required_fields.remove('minimum_probability')
+    for key in required_fields:
+        result[key] = dictionary[key]
+    return result

@@ -162,36 +162,32 @@ class AnalyzeStatisticsForm(forms.Form):
             cleaned_data['fate_points']  = 0
         return cleaned_data
 class AnalyzeStatisticsCharacter(AnalyzeStatisticsForm):
-    class Meta:
-        fields = [ 'pity', 'guaranteed']
     pity = forms.IntegerField(label="Pity",max_value=90,min_value=0, initial=0, required=False, error_messages={'min_value': "Pity must be between 0 and 90", 'max_value': "Pity must be between 0 and 90"})
     guaranteed = forms.BooleanField(label="Have Guaranteed",initial=False, required=False)
 
 class AnalyzeStatisticsWeapon(AnalyzeStatisticsForm):
-    class Meta:
-        fields = ['pity', 'guaranteed','fate_points']
     pity = forms.IntegerField(label="Pity", max_value=80,min_value=0, initial=0, required=False, error_messages={'min_value': "Pity must be between 0 and 80", 'max_value': "Pity must be between 0 and 80"})
     guaranteed = forms.BooleanField(label="Have Guaranteed", initial=False, required=False)
     fate_points = forms.IntegerField(label="Number of Fate Points", min_value=0,max_value=2,initial=0,required=False, error_messages={'min_value': "Fate Points must be between 0 and 2", 'max_value': "Fate Points must be between 0 and 2"})
 
 class AnalyzeStatisticsToProbability(AnalyzeStatisticsForm):
-    class Meta:
-        fields = ['numwishes']
     numwishes = forms.IntegerField(label="Number of wishes", min_value=0,error_messages={'required': "Please add your number of wishes", 'min_value': "Number of wishes must be greater than 0"})
 
 class AnalyzeStatisticsToNumWishes(AnalyzeStatisticsForm):
-    class Meta:
-        fields = ['numcopies', 'minimum_probability']
     numcopies = forms.IntegerField(label="Number of Copies Desired",max_value=7,min_value=1, initial=1,error_messages={'required': "Please add your number of copies desired", 'min_value': "Number of copies must be between 1 and 7", 'max_value': "Number of copies must be between 1 and 7"})
     minimum_probability = forms.FloatField(label="Minimum Probability of Copies Desired",max_value=1,min_value=0, initial=0, error_messages={'required': "Please give the probability desired.", 'min_value': "Probability must be between 0 and 1", 'max_value': "Probability must be between 0 and 1"})
 class AnalyzeStatisticsCharacterToProbabilityForm(AnalyzeStatisticsCharacter, AnalyzeStatisticsToProbability):
-    pass
+    class Meta:
+        fields = ['numwishes','pity', 'guaranteed']
 class AnalyzeStatisticsWeaponToProbabilityForm(AnalyzeStatisticsWeapon,AnalyzeStatisticsToProbability):
-    pass
+    class Meta:
+        fields = ['numwishes','pity', 'guaranteed','fate_points']
 class AnalyzeStatisticsCharacterToNumWishesForm(AnalyzeStatisticsCharacter,AnalyzeStatisticsToNumWishes):
-    pass
+    class Meta:
+        fields = ['numcopies', 'minimum_probability','pity', 'guaranteed']
 class AnalyzeStatisticsWeaponToNumWishesForm(AnalyzeStatisticsWeapon,AnalyzeStatisticsToNumWishes):
-    pass
+    class Meta:
+        fields = ['numcopies', 'minimum_probability','pity', 'guaranteed','fate_points']
 
 # PROJECT PRIMOS
 
