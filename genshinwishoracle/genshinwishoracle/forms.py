@@ -1,5 +1,5 @@
 from django import forms
-from genshinwishoracle import models
+import genshinwishoracle.models as models
 from .validators import validate_character_rateups
 from django.utils import timezone
 import datetime
@@ -42,19 +42,19 @@ class FilteredSelectMultiple(forms.SelectMultiple):
         context["widget"]["attrs"]["data-is-stacked"] = int(self.is_stacked)
         return context
 
+# BANNER FORMS
 
-class CreateCharacterBannerForm(forms.ModelForm):
+class CreateBannerForm(forms.ModelForm):
     class Meta:
-        model = models.CharacterBanner
         fields = ['name', 'rateups', 'enddate']
     def __init__(self, *args, **kwargs):
         user_id = kwargs.pop('user_id', None)
         self.updating = kwargs.pop('updating',None)
-        super(CreateCharacterBannerForm, self).__init__(*args, **kwargs)
+        super(CreateBannerForm, self).__init__(*args, **kwargs)
         self.fields['name'] = forms.CharField(max_length = 64,error_messages={'required': "Please add a banner name."})
         custom_widget = FilteredSelectMultiple('rateups', is_stacked=False)
         self.fields['rateups']= forms.ModelMultipleChoiceField(
-            queryset=models.Character.objects.all(),
+            queryset=self.selector_model.objects.filter(rarity__gte=4),
             widget=custom_widget,
             required = True, 
             error_messages={'required': "Please add rateups to the banner."},
@@ -98,8 +98,9 @@ class CreateCharacterBannerForm(forms.ModelForm):
     def is_valid(self) -> bool:
         valid = super().is_valid()
         cleaned_data = super().clean()
+        rateup_reqs = self.get_rateup_requirements()
         if not self.verify_rateups():
-            self.add_error('rateups', "This kind of banners requires exactly one 5 star and three 4 stars.")
+            self.add_error('rateups', "This kind of banners requires exactly {}: 5 star and {}: 4 stars.".format(rateup_reqs[5],rateup_reqs[4]))
             return False
         elif not self.updating and cleaned_data.get('name', None) is not None and not self.unique_name_for_user(cleaned_data.get('name', None)):
             self.add_error("name", "You have already created a banner with this name. Please choose another.")
@@ -120,96 +121,30 @@ class CreateCharacterBannerForm(forms.ModelForm):
         #     raise NotImplementedError("Can't create object without database save")
         rateups = cleaned_data.get('rateups')
         kwargs = {'name': cleaned_data.get('name'), 'enddate': cleaned_data.get('enddate')}
-        character_banner = self.Meta.model(**kwargs)
-        character_banner.save()    
-        character_banner.rateups.set(rateups)
-        return character_banner
+        banner = self.Meta.model(**kwargs)
+        banner.save()    
+        banner.rateups.set(rateups)
+        return banner
+class CreateCharacterBannerForm(CreateBannerForm):
+    selector_model = models.Character
+    class Meta:
+        model = models.CharacterBanner
+        fields = ['name', 'rateups', 'enddate']
+    
+    def get_rateup_requirements(self) -> dict[int:int]:
+        rateup_reqs = {3: 0, 4: 3, 5: 1}
+        return rateup_reqs
 
-class CreateWeaponBannerForm(forms.ModelForm):
-    class Media:
-        js = ("my_code.js",)
+class CreateWeaponBannerForm(CreateBannerForm):
+    selector_model = models.Weapon
     class Meta:
         model = models.WeaponBanner
         fields = ['name', 'rateups', 'enddate']
-    def __init__(self, *args, **kwargs):
-        user_id= kwargs.pop('user_id', None)
-        self.updating = kwargs.pop('updating',None)
-        super(CreateWeaponBannerForm, self).__init__(*args, **kwargs)
-        self.fields['name'] = forms.CharField(max_length = 64,error_messages={'required': "Please add a banner name."})
-        custom_widget = FilteredSelectMultiple('rateups', is_stacked=False)
-        self.fields['rateups']= forms.ModelMultipleChoiceField(
-            queryset=models.Weapon.objects.filter(~Q(rarity = 3)),
-            widget=custom_widget,
-            required = True, 
-            error_messages={'required': "Please add rateups to the banner."},
-            label = "Rateup"
-        )
-        self.fields['enddate'] = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
-        self.user_id = None
-        if user_id is not None:
-            user = User.objects.filter(id=user_id)
-        else:
-            user = User.objects.none()
-        # check they actually exist
-        if len(user) != 1:
-            pass
-        else:
-            self.user_id = user_id
-
-    def unique_name_for_user(self, current_name):
-        if self.user_id is not None:
-            profile = Profile.objects.filter(user_id = self.user_id).first()
-            banners = profile.banners.filter(name=current_name)
-            if len(banners) == 0:
-                return True
-            return False
-        else:
-            return False
-
-    def verify_rateups(self):
-        cleaned_data = super().clean()
-        rateups = cleaned_data.get('rateups')
-        if rateups is None or len(rateups) == 0:
-            return False
-        rateups_breakdown = {}
-        rateup_reqs = self.get_rateup_requirements()
-        for key in rateup_reqs:
-            rateups_breakdown[key] = len(rateups.filter(rarity=key))
-        if rateups_breakdown == rateup_reqs:
-            return True
-        return False
-    
-    def is_valid(self) -> bool:
-        valid = super().is_valid()
-        cleaned_data = super().clean()
-        if not self.verify_rateups():
-            self.add_error('rateups', "This kind of banners requires exactly one 5 star and three 4 stars.")
-            return False
-        elif not self.updating and cleaned_data.get('name', None) is not None and not self.unique_name_for_user(cleaned_data.get('name', None)):
-            self.add_error("name", "You have already created a banner with this name. Please choose another.")
-            return False
-        return valid
-
-    def clean(self):
-        cleaned_data = super().clean()
-        return cleaned_data
     
     def get_rateup_requirements(self) -> dict[int:int]:
         rateup_reqs = {3: 0, 4: 5, 5: 2}
         return rateup_reqs
     
-    def save(self, commit=True) -> models.WeaponBanner:
-        cleaned_data = super().clean()
-        # if not commit:
-        #     raise NotImplementedError("Can't create object without database save")
-        rateups = cleaned_data.get('rateups')
-        kwargs = {'name': cleaned_data.get('name'), 'enddate': cleaned_data.get('enddate')}
-        weapon_banner = self.Meta.model(**kwargs)
-        weapon_banner.save()   
-        weapon_banner.rateups.set(rateups)
-        weapon_banner.save()
-        return weapon_banner
-
 # ANALYZE STATISTICS
 
 class AnalyzeStatisticsForm(forms.Form):
@@ -257,6 +192,9 @@ class AnalyzeStatisticsCharacterToNumWishesForm(AnalyzeStatisticsCharacter,Analy
     pass
 class AnalyzeStatisticsWeaponToNumWishesForm(AnalyzeStatisticsWeapon,AnalyzeStatisticsToNumWishes):
     pass
+
+# PROJECT PRIMOS
+
 class ProjectPrimosForm(forms.Form):
     class Meta:
         fields = ['numprimos', 'numgenesis', 'numfates', 'numstarglitter', 'end_date_manual_select', 'end_date_banner_select', 'welkin_moon', 'battlepass', 'average_abyss_stars']
