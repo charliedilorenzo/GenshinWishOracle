@@ -9,6 +9,7 @@ from . import analytical
 from . import wish_simulator
 from . import models
 from . import forms
+import genshinwishoracle.helpers as helpers
 from genshinwishoracle.project_primos import project_future_primos, project_primos_chart
 from users.models import Profile
 
@@ -272,6 +273,11 @@ class StatisticsAnalyzeOmniView(generic.View):
     valid_banner_types = ['character', 'weapon']
     valid_statistics_types = ['calcprobability', 'calcnumwishes']
     default_url = "/{}/{}/".format(valid_banner_types[0], valid_statistics_types[0])
+    forms_dictionary =  {"calcprobability": 
+                      {"character": forms.AnalyzeStatisticsCharacterToProbabilityForm,"weapon":forms.AnalyzeStatisticsWeaponToProbabilityForm },
+                      "calcnumwishes": 
+                      {"character": forms.AnalyzeStatisticsCharacterToNumWishesForm,"weapon":forms.AnalyzeStatisticsWeaponToNumWishesForm }
+                      }
 
     def get(self, request,banner_type, statistics_type, *args, **kwargs):
         if banner_type not in self.valid_banner_types or statistics_type not in self.valid_statistics_types:
@@ -288,51 +294,37 @@ class StatisticsAnalyzeOmniView(generic.View):
     def get_first_form(self, banner_type, statistics_type):
         request = self.request
         init = {}
-        form = self.banner_statistics_combo_to_form_obj(banner_type, statistics_type)
+        form = self.forms_dictionary[statistics_type][banner_type]
+        # add from request.POST
         if request.POST:
             request.session['wishes'] = None
             form = form(request.POST)
             return form
+        # import
         elif 'import_data' in request.session and request.session['import_data'] == True:
             if request.user.is_authenticated:
                 curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
-                wishes = math.floor(curr_user_prof.calculate_pure_primos()/160)
-                if banner_type == "character":
-                    init.update({'numwishes':wishes,'pity':curr_user_prof.character_pity,'guaranteed': curr_user_prof.character_guaranteed })
-                elif banner_type == "weapon":
-                    init = {'numwishes':wishes,'pity':curr_user_prof.weapon_pity,'guaranteed': curr_user_prof.weapon_guaranteed, 'fate_points': curr_user_prof.weapon_fate_points }
+                # wishes = math.floor(curr_user_prof.calculate_pure_primos()/160)
+                init = helpers.import_user_data(curr_user_prof, form)
         # not very elegant but alternatives also seems to suck
         elif 'wishes' in request.session and not request.session['wishes'] == None:
             init.update({'numwishes': request.session['wishes']})
         form = form(initial=init)
         return form
-    
+
     def get_second_form_names(self, banner_type, statistics_type,first_form):
-        if statistics_type == "calcprobability" and banner_type == "character":
-            form = forms.AnalyzeStatisticsCharacterToNumWishesForm()
-        elif statistics_type == "calcprobability" and banner_type == "weapon":
-            form = forms.AnalyzeStatisticsWeaponToNumWishesForm()
-        elif statistics_type == "calcnumwishes" and banner_type == "character":
-            form = forms.AnalyzeStatisticsCharacterToProbabilityForm()
-        elif statistics_type == "calcnumwishes" and banner_type == "weapon":
-            form = forms.AnalyzeStatisticsWeaponToProbabilityForm()
+        # switch them
+        if statistics_type == "calcprobability":
+            statistics_type = "calcnumwishes"
+        elif statistics_type == "calcnumwishes":
+            statistics_type = "calcprobability"
+        form = self.forms_dictionary[statistics_type][banner_type]()
         # technically could just remove pity/guaranteed/fate_points
         names = []
         for field in form.fields:
             if field not in first_form.Meta.fields:
                 names.append(form[field].label)
         return names
-
-    def  banner_statistics_combo_to_form_obj(self,banner_type, statistics_type):
-        if statistics_type == "calcprobability" and banner_type == "character":
-            form = forms.AnalyzeStatisticsCharacterToProbabilityForm
-        elif statistics_type == "calcprobability" and banner_type == "weapon":
-            form = forms.AnalyzeStatisticsWeaponToProbabilityForm
-        elif statistics_type == "calcnumwishes" and banner_type == "character":
-            form = forms.AnalyzeStatisticsCharacterToNumWishesForm
-        elif statistics_type == "calcnumwishes" and banner_type == "weapon":
-            form = forms.AnalyzeStatisticsWeaponToNumWishesForm
-        return form
 
     def post(self, request, banner_type, statistics_type,*args, **kwargs):
         context = {}
