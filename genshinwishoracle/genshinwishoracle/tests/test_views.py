@@ -1,5 +1,5 @@
 from django.test import TestCase
-from genshinwishoracle import views
+import genshinwishoracle.views as views
 from genshinwishoracle.models import Character, Weapon, Banner, WeaponBanner, CharacterBanner
 from django.test import Client
 from django.utils import timezone
@@ -90,13 +90,13 @@ class ViewsTestClass(TestCase):
 
     # -------------------------- CHARACTER BANNER --------------------------
 
+    # Only testing here for login cause it should be the same for all the banner views
     def test_CharacterBannerView_redirect_not_logged_in(self):
         client = self.client
         response = client.get(reverse('character_banners'))
-        self.assertRedirects(response, reverse_lazy('main-home'))
-        # TODO add this?
-        # response = client.post(reverse('character_banners'))
-        # self.assertRedirects(response, reverse_lazy('main-home'))
+        self.assertRedirects(response, reverse_lazy('login')+"?"+views.PersonalizedLoginRequiredMixin.redirect_field_name+"="+reverse('character_banners'))
+        response = client.post(reverse('character_banners'))
+        self.assertRedirects(response, reverse_lazy('login')+"?"+views.PersonalizedLoginRequiredMixin.redirect_field_name+"="+reverse('character_banners'))
 
     def test_CharacterBannerView_login_gives_response(self):
         client = self.client
@@ -106,7 +106,7 @@ class ViewsTestClass(TestCase):
         self.assertTrue(math.floor(response.status_code / 100 ) != 4)
         self.assertEqual(200, response.status_code)
     
-    def test_CharacterBannerView_correct_context(self):
+    def test_CharacterBannerView_correct_context_keys(self):
         client = self.client
         user = User.objects.filter(username=self.test_username).first()
         client.force_login(user)
@@ -117,6 +117,21 @@ class ViewsTestClass(TestCase):
             self.assertIn(item, context.keys())
 
         self.assertEqual("Character", context['banner_type'])
+
+    def test_CharacterBannerView_correct_banners(self):
+        client = self.client
+        user = User.objects.filter(username=self.test_username).first()
+        client.force_login(user)
+        response = client.get(reverse('character_banners'))
+        context = response.context
+        banners = context['banners']
+        testuser_banners = Profile.objects.filter(user_id=user.pk).first().banners.filter(banner_type="Character")
+        for banner in banners:
+            banner_in = banner.get_base_banner_equivalent() in testuser_banners
+            if banner_in:
+                self.assertTrue(True)
+            else:
+                self.assertTrue(False)
 
     def test_CharacterBannerDeleteView_redirect_non_existent_banner(self):
         client = self.client
@@ -134,8 +149,6 @@ class ViewsTestClass(TestCase):
         testcharacterbanner.delete()
 
         response = client.get(reverse('character_banner_delete', kwargs={'pk': pk}))
-        # TODO what should the response code be?
-        # self.assertTrue(math.floor(response.status_code / 100 ) != 4)
         self.assertEqual(404, response.status_code)
 
     def test_CharacterBannerDeleteView_not_users_banner(self):
@@ -179,8 +192,6 @@ class ViewsTestClass(TestCase):
         testcharacterbanner.delete()
 
         response = client.get(reverse('character_banner_update', kwargs={'pk': pk}))
-        # TODO what should the response code be?
-        # self.assertTrue(math.floor(response.status_code / 100 ) != 4)
         self.assertEqual(404, response.status_code)
 
     def test_CharacterBannerUpdateView_not_users_banner(self):
@@ -216,10 +227,10 @@ class ViewsTestClass(TestCase):
         self.assertEqual(200, response.status_code)
 
     # -------------------------- WEAPON BANNER --------------------------
-
+    # TODO later, lower priority since character and weapon are similar
     # -------------------------- STATISTICS ANALYZE --------------------------
 
     # -------------------------- PROJECT PRIMOS  --------------------------
-
+    
     # -------------------------- WISH SIMULATOR --------------------------
     
