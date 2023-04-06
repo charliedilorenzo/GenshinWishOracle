@@ -9,7 +9,8 @@ genshinwishoracle/static
 genshinwishoracle/db.sqlite3
 userinput.py
 /lib/*
-# genshinwishoracle/genshinwishoracle/tests/testing.db
+genshinwishoracle/recording/*
+genshinwishoracle/genshinwishoracle/tests/testing.db
 
 __pycache__/
 *.py[cod]

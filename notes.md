@@ -1,9 +1,30 @@
+# quick notes
+
+C2
+.99 = 458
+.9 = 383
+.5 = 281
+.1 = 183
+.01 = 111
+
+C6
+.99 = 919
+.9 = 802
+.5 = 655
+.1 = 508
+.01 = 393
+
 # startup
 
 WINDOWS
 .\venv\Scripts\activate
+C:\Users\carol\Code\Personal\GenshinWishOracle\venv\Scripts\activate
 cd genshinwishoracle
 python manage.py runserver
+
+C:\Users\carol\Code\Personal\GenshinWishOracle\venv\Scripts\activate
+cd C:\Users\carol\Code\Personal\GenshinWishOracle\genshinwishoracle\recording\
+python daily_record.py
 
 MAC
 source venv/bin/activate
