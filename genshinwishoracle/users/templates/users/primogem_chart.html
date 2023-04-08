@@ -1,0 +1,49 @@
+{% extends "genshinwishoracle/bootstrap_base.html" %}
+{% block title %}Profile Page{% endblock title %}
+{% block content %}
+{% if user_form.errors %}
+<div class="alert alert-danger alert-dismissible" role="alert">
+    <div id="form_errors">
+        {% for key, value in user_form.errors.items %}
+        <strong>{{ value }}</strong>
+        {% endfor %}
+    </div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+<div>
+    <h1 class="display-4"> Primogems Record </h1>
+    <div>
+        <h2> Current Effective Primogems </h2>
+        <h4> {{current_primogems}} </h4>
+    </div>
+    <div>
+        <h2> Components of Effective Primogems </h2>
+        <table class="analysis-table">
+            <tr>
+                <td class="analysis-td">Primogems:</td>
+                <td class="analysis-td">Genesis Crystals:</td>
+                <td class="analysis-td">Intertwined Fate:</td>
+                <td class="analysis-td">Starglitter:</td>
+            </tr>
+            <tr>
+                <td class="analysis-td">{{numprimos}}</td>
+                <td class="analysis-td">{{numgenesis}}</td>
+                <td class="analysis-td">{{numfates}}</td>
+                <td class="analysis-td">{{numstarglitter}}</td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <img src="data:image/png;base64, {{chart|safe}}" alt="" id="img">
+    </div>
+    <div>
+        <a href="{% url 'users:users-home' %}"><button name='back' type="submit" class="back-button"><i
+                    class="back-arrow"></i>
+                Back</button></a>
+    </div>
+</div>
+
+{% endblock content %}

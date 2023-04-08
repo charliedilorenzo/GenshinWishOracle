@@ -4,10 +4,18 @@
 
 ## New Stuff
 
-- finish adding import data helper to all other parts of views
 - views tests
 - add tests for users
+- manually test creating a new user
+- fix user creation / password reset process
+
+- test views creating a new user
+  -
+
 - split up the views for statistics into classes but keep a general omni view that they inherit from
+- add tests to primogemrecord / primogemsnapshot
+- finish adding import data helper to all other parts of views
+  - method or class
 
 - use add_banner method of Profile places
 - test for import user data
@@ -28,6 +36,7 @@
   - make a bool field for choosing via banner or manually?
 - fix register view
 - improve no banner page
+- add an option to overlay projected primos on top of
 - additional tests
   - database tests
   - analystical tests

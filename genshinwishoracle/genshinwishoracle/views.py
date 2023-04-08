@@ -10,10 +10,9 @@ from . import wish_simulator
 from . import models
 from . import forms
 import genshinwishoracle.helpers as helpers
+from  genshinwishoracle.helpers import PersonalizedLoginRequiredMixin
 from genshinwishoracle.project_primos import project_future_primos, project_primos_chart
 from users.models import Profile
-
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 class Address():
     def __init__(self, url:str, name:str) -> None:
@@ -35,11 +34,6 @@ class IndexView(generic.ListView):
         for item in self.url_names:
             urls.append(Address(str(reverse(item[0], kwargs = item[1])), item[2]))
         return urls
-
-# Just makes it simpler to read since we log in the same place every time and redirect the same way every time
-class PersonalizedLoginRequiredMixin(LoginRequiredMixin):
-    login_url = reverse_lazy('login')
-    redirect_field_name = 'redirect_to'
 
 # BANNER LIST
 # USED AS ABSTRACT CLASS

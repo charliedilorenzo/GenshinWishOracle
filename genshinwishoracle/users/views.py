@@ -19,6 +19,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.contrib import messages
 from . import models
+from  genshinwishoracle.helpers import PersonalizedLoginRequiredMixin
+import datetime
 
 #         success_message = "We've emailed you instructions for setting your password, \nif an account exists with the email you entered. You should receive them shortly.\n If you don't receive an email, \nplease make sure you've entered the address you registered with, and check your spam folder."
 
@@ -127,6 +129,10 @@ def profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+
+            user_profile = models.Profile.objects.filter(user_id=request.user.id).first()
+            new = user_profile.primogem_record.save_new(user_profile.calculate_pure_primos())
+
             messages.success(request, 'Your profile is updated successfully')
             return redirect(to='/users/')
     else:
@@ -134,3 +140,25 @@ def profile(request):
         profile_form = UpdateProfileForm(instance=request.user.profile)
 
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+class PrimogemChartView(PersonalizedLoginRequiredMixin, generic.View):
+    template_name = 'users/primogem_chart.html'
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        user = self.request.user
+        profile = models.Profile.objects.filter(user_id = user.id).first()
+        graph = profile.primogem_record.get_graph_of_records()
+        context['graph'] = graph
+        context['current_primos'] = profile.primogem_record.get_current_value()
+        context['numprimos'] = profile.numprimos
+        context['numgenesis'] = profile.numgenesis
+        context['numfates'] = profile.numfates
+        context['numstarglitter'] = profile.numstarglitter
+        context['current_primogems'] = profile.calculate_pure_primos()
+        context['chart'] = profile.primogem_record.get_graph_of_records()
+        return context
+
+    def get(self, request,*args, **kwargs):
+        context = self.get_context_data()
+        return render(request, self.template_name, context=context)

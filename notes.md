@@ -56,6 +56,7 @@ python manage.py dumpdata auth.user users.Profile > users.json
 python manage.py dumpdata genshinwishoracle.character > characters.json
 python manage.py dumpdata genshinwishoracle.weapon > weapons.json
 python manage.py dumpdata genshinwishoracle.banner genshinwishoracle.characterbanner genshinwishoracle.weaponbanner > banners.json
+python manage.py dumpdata users.primogemsnapshot users.primogemrecord > primorecords.json
 
 python manage.py dumpdata auth.user users.Profile > initial_data_users.json
 
