@@ -4,31 +4,85 @@ import math
 from django.conf import settings
 from genshinwishoracle.models import Banner, CharacterBanner, WeaponBanner
 from django.db.models.query import QuerySet
+import datetime
 
+from matplotlib import pyplot 
+from io import BytesIO
+import base64
 class PrimogemRecord(models.Model):
-    def get_all_records(self):
+    def get_all_records(self) -> QuerySet():
         records = PrimogemSnapshot.objects.filter(associated_record_id=self.id)
         return records
 
     def get_graph_of_records(self):
         records = self.get_all_records()
-        pass
+        days_data = []
+        primos_data = []
+        for record in records:
+            days_data.append(record.date)
+            primos_data.append(record.primogem_value)
 
-    def get_current_value(self):
+        pyplot.switch_backend('AGG')
+        fig, ax = pyplot.subplots(figsize=(10, 6))
+        plot = pyplot.plot(days_data,primos_data)
+        fig.suptitle('Primo Record')
+        fig.supylabel('Number of Primos')
+        fig.supxlabel('Date')
+        pyplot.tight_layout()
+
+        buffer = BytesIO()
+        pyplot.savefig(buffer, format='png')
+        buffer.seek(0)
+        image_png = buffer.getvalue()
+        graph = base64.b64encode(image_png)
+        graph = graph.decode('utf-8')
+        buffer.close()
+        return graph
+
+    def get_current_value(self) -> int:
         current = self.get_all_records().order_by('-id').first()
+        if current is not None:
+            current = current.primogem_value
+        else:
+            current = 0
         return current
 
     def __str__(self) -> str:
-        records = list(self.get_all_records())
-        limit = 20
-        i = 0
-        record_string = ""
-        for record in records:
-            if i == limit:
-                break
-            record_string+= str(record) + "\n"
-            i +=1
-        return record_string
+        # records = list(self.get_all_records())
+        # limit = 20
+        # i = 0
+        # record_string = ""
+        # for record in records:
+        #     if i == limit:
+        #         break
+        #     record_string+= str(record) + "\n"
+        #     i +=1
+        # return record_string
+        profile = self.get_associated_profile()
+        user = User.objects.filter(id=profile.user_id).first()
+        # User.username
+        string = user.username +"'s Primogem Record - Current Pure Primos: " + str(self.get_current_value())
+        return string
+
+    def prior_today_records(self) -> bool:
+        now = datetime.date.today()
+        records = PrimogemSnapshot.objects.filter(associated_record_id=self.id,date=now)
+        return records
+
+    def save_new(self,primogem_value):
+        now = datetime.date.today()
+        prior_records_today = self.prior_today_records()
+        if prior_records_today:
+            PrimogemSnapshot.objects.filter(date=now).delete()
+        kwargs = {'primogem_value': primogem_value, 'date': now, 'associated_record': self}
+        new_snapshot = PrimogemSnapshot(**kwargs)
+        new_snapshot.save()
+        return new_snapshot
+    
+    def get_associated_profile(self):
+        profile = Profile.objects.filter(primogem_record_id=self.id).first()
+        return profile
+
 
 class PrimogemSnapshot(models.Model):
     date = models.DateField()

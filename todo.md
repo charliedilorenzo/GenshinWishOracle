@@ -4,6 +4,7 @@
 
 ## New Stuff
 
+- manually test creating a new user
 - finish adding import data helper to all other parts of views
 - views tests
 - add tests for users
@@ -28,6 +29,7 @@
   - make a bool field for choosing via banner or manually?
 - fix register view
 - improve no banner page
+- add an option to overlay projected primos on top of
 - additional tests
   - database tests
   - analystical tests

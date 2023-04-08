@@ -129,6 +129,10 @@ def profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+
+            user_profile = models.Profile.objects.filter(user_id=request.user.id).first()
+            new = user_profile.primogem_record.save_new(user_profile.calculate_pure_primos())
+
             messages.success(request, 'Your profile is updated successfully')
             return redirect(to='/users/')
     else:
@@ -137,23 +141,24 @@ def profile(request):
 
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
-class RecordWishesView(PersonalizedLoginRequiredMixin, generic.View):
-    # TODO CHANGE THIS FORM
-    template_name = 'users/record_wishes.html'
+class PrimogemChartView(PersonalizedLoginRequiredMixin, generic.View):
+    template_name = 'users/primogem_chart.html'
 
-    def get(self, request, *args, **kwargs):
-        user_profile = models.Profile.objects.filter(user_id=self.request.user.id).first()
+    def get_context_data(self, **kwargs):
+        context = {}
+        user = self.request.user
+        profile = models.Profile.objects.filter(user_id = user.id).first()
+        graph = profile.primogem_record.get_graph_of_records()
+        context['graph'] = graph
+        context['current_primos'] = profile.primogem_record.get_current_value()
+        context['numprimos'] = profile.numprimos
+        context['numgenesis'] = profile.numgenesis
+        context['numfates'] = profile.numfates
+        context['numstarglitter'] = profile.numstarglitter
+        context['current_primogems'] = profile.calculate_pure_primos()
+        context['chart'] = profile.primogem_record.get_graph_of_records()
+        return context
 
-        primogem_value = user_profile.calculate_pure_primos()
-        now = datetime.date.today()
-        record = user_profile.primogem_record
-        kwargs = {'primogem_value': primogem_value, 'date': now, 'associated_record': record}
-        new_snapshot = models.PrimogemSnapshot(**kwargs)
-        new_snapshot.save()
-        messages.success(request, 'You have added your primogem count to your record.')
-
-        return redirect(to='/users/')
-
-    
-    def post(self, request, *args, **kwargs):
-        return redirect(to='/users/')
+    def get(self, request,*args, **kwargs):
+        context = self.get_context_data()
+        return render(request, self.template_name, context=context)
