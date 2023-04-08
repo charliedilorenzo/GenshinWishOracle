@@ -10,4 +10,5 @@ urlpatterns = [
     path('', views.home, name='users-home'),
     path('register/', views.RegisterView.as_view(), name='users-register'), 
     path('profile/', views.profile, name='profile'),
+    path('record-wishes/', views.RecordWishesView.as_view(), name="record-wishes" )
 ]

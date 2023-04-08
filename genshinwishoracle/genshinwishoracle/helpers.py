@@ -1,6 +1,8 @@
 import genshinwishoracle.forms as forms
 from users.models import Profile
 import math
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse, reverse_lazy
 
 def add_dictionary_entries(list_of_dicts: list[dict[int, float]]) -> dict[int, float]:
     new_dict = {key: 0 for key in list_of_dicts[0]}
@@ -72,3 +74,8 @@ def import_user_data(profile: Profile, form_type):
     for key in required_fields:
         result[key] = dictionary[key]
     return result
+
+# Just makes it simpler to read since we log in the same place every time and redirect the same way every time
+class PersonalizedLoginRequiredMixin(LoginRequiredMixin):
+    login_url = reverse_lazy('login')
+    redirect_field_name = 'redirect_to'

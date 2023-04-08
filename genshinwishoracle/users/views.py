@@ -19,6 +19,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.contrib import messages
 from . import models
+from  genshinwishoracle.helpers import PersonalizedLoginRequiredMixin
+import datetime
 
 #         success_message = "We've emailed you instructions for setting your password, \nif an account exists with the email you entered. You should receive them shortly.\n If you don't receive an email, \nplease make sure you've entered the address you registered with, and check your spam folder."
 
@@ -134,3 +136,24 @@ def profile(request):
         profile_form = UpdateProfileForm(instance=request.user.profile)
 
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+class RecordWishesView(PersonalizedLoginRequiredMixin, generic.View):
+    # TODO CHANGE THIS FORM
+    template_name = 'users/record_wishes.html'
+
+    def get(self, request, *args, **kwargs):
+        user_profile = models.Profile.objects.filter(user_id=self.request.user.id).first()
+
+        primogem_value = user_profile.calculate_pure_primos()
+        now = datetime.date.today()
+        record = user_profile.primogem_record
+        kwargs = {'primogem_value': primogem_value, 'date': now, 'associated_record': record}
+        new_snapshot = models.PrimogemSnapshot(**kwargs)
+        new_snapshot.save()
+        messages.success(request, 'You have added your primogem count to your record.')
+
+        return redirect(to='/users/')
+
+    
+    def post(self, request, *args, **kwargs):
+        return redirect(to='/users/')

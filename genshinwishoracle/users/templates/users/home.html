@@ -12,6 +12,14 @@
         <a class="btn btn-primary btn-lg btn-block" href="{% url 'users:profile' %}" role="button">View Profile</a>
         {% endif %}
     </div>
+    <br>
+    <div class="container">
+        {% if user.is_authenticated %}
+        <a class="btn btn-primary btn-lg btn-block" href="{% url 'users:record-wishes' %}" role="button">View
+            Record Wishes</a>
+        {% endif %}
+    </div>
+    <br>
     <p class="lead">
         {% if user.is_authenticated %}
         <a class="btn btn-primary btn-lg" href="{% url 'logout' %}" role="button">Logout</a>
