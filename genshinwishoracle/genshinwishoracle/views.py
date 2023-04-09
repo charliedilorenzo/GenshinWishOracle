@@ -340,44 +340,28 @@ class StatisticsAnalyzeOmniView(generic.View):
         form = self.get_first_form(banner_type,statistics_type)
         if form.is_valid():
             cleaned = form.cleaned_data
-            if banner_type == "character" and statistics_type == "calcprobability":
-                statistics = analytical.AnalyticalCharacter().get_statistic(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],0,banner_type,formatted=True)
+            if banner_type == "character":
+                analyze_obj = analytical.TestAnalyzeCharacter()
+            elif banner_type == "weapon":
+                analyze_obj = analytical.TestAnalyzeWeapon()
+
+            if statistics_type == "calcprobability":
+                statistics = analyze_obj.get_statistic(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned.setdefault('fate_points', 0),0,True)
                 context = {
                     'banner_type' : banner_type.capitalize(),
                     'statistics_type': statistics_type,
                     "statistics": statistics
                 }
-                context.update(cleaned)
                 context['chart'] = analytical.bar_graph_for_statistics(statistics.get_formated_dictionary() ,**context)
-            elif banner_type == "weapon" and statistics_type == "calcprobability":
-                statistics = analytical.AnalyticalWeapon().get_statistic(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned['fate_points'],0,banner_type,formatted=True)
-                context = {
-                    'banner_type' : banner_type.capitalize(),
-                    'statistics_type': statistics_type,
-                    "statistics": statistics
-                }
-                context.update(cleaned)
-                context['chart'] = analytical.bar_graph_for_statistics(statistics.get_formated_dictionary() ,**context)
-            elif banner_type == "character" and statistics_type == "calcnumwishes":
-                analyze_obj = analytical.AnalyticalCharacter()
+            elif statistics_type == "calcnumwishes":
                 numwishes = analyze_obj.probability_on_copies_to_num_wishes(cleaned['minimum_probability'], cleaned['numcopies'],cleaned['pity'], cleaned['guaranteed'])
                 context = {
                     'banner_type' : banner_type.capitalize(),
                     'statistics_type': statistics_type,
                     'numwishes': numwishes
                 }
-                context.update(cleaned)
                 chart = ""
-            elif banner_type == "weapon" and statistics_type == "calcnumwishes":
-                analyze_obj = analytical.AnalyticalWeapon()
-                numwishes = analyze_obj.probability_on_copies_to_num_wishes(cleaned['minimum_probability'], cleaned['numcopies'],cleaned['pity'], cleaned['guaranteed'],cleaned['fate_points'])
-                context = {
-                    'banner_type' : banner_type.capitalize(),
-                    'statistics_type': statistics_type,
-                    'numwishes': numwishes
-                }
-                context.update(cleaned)
-                chart = ""
+            context.update(cleaned)
             return render(request, self.result_template, context)
         request.session.pop('wishes')
         request.session['import_data'] = False

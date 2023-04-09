@@ -37,10 +37,8 @@ class Statistic:
             self.values = [dictionary[i] for i in range(0,6)]
             self.datapoints = [DataPoint(self.labels[i], self.values[i]) for i in range(0,6)]
         
-        print(self.values)
         if formatted:
             self.values = ["%.{}f".format(self.place_values) % float(item) for item in self.values]
-        print(self.values)
         self.banner_type = banner_type.capitalize()
         self.datapoints = []
     
@@ -502,7 +500,7 @@ class AnalyzeGeneric:
             return -1
         elif not (guaranteed == True or guaranteed == False):
             return -1
-        elif fate_points < 0 or fate_points > self.fate_points_required:
+        elif fate_points < 0 or (fate_points > self.fate_points_required and self.banner_type == "weapon"):
             return -1
         # just a good way to ensure there is no collision and to have an invertible function
         # mod 1261 gives num_wishes, mod 1261*91 gives pity, mod 1261*91*2 gives guaranteed at least for character banner
@@ -527,6 +525,7 @@ class AnalyzeGeneric:
         return [num_wishes, pity, guaranteed, fate_points]
     
     def __init__(self, soft_pity_dist: dict[int, float], base_five_star_rate, fate_points_required, copies_max, banner_type) -> None:
+        self.banner_type = banner_type
         base_five_star_rate = base_five_star_rate
         self.fate_points_required = fate_points_required
         self.soft_pity_dist = soft_pity_dist
@@ -553,6 +552,9 @@ class AnalyzeGeneric:
         keys_solution = [i for i in range(0,len(vals_solution))]
         dict_solution = {keys_solution[i]:vals_solution[i] for i in range(0,len(vals_solution)) }
         return dict_solution
+
+    def specific_solution(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int) -> dict[int, float]:
+        pass
 
     def calculate_and_write_all_solutions(self) -> None:
         incomplete_lookups = {i for i in range(0, self.max_lookup)}
@@ -592,9 +594,9 @@ class AnalyzeGeneric:
         else:
             return False
         
-    def get_statistic(self, num_wishes: int, pity: int, guaranteed: bool, current_copies: int):
-        solution = self.specific_solution(num_wishes, pity, guaranteed, current_copies)
-        return Statistic(solution,self.banner_type)
+    def get_statistic(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int, formatted = True):
+        solution = self.specific_solution(num_wishes, pity, guaranteed, fate_points, current_copies)
+        return Statistic(solution,self.banner_type, formatted)
     
 
 class TestAnalyzeCharacter(AnalyzeGeneric):
@@ -611,23 +613,20 @@ class TestAnalyzeCharacter(AnalyzeGeneric):
         self.max_wishes_required = (self.copies_max)*self.hard_pity*2
         self.max_lookup = self.max_wishes_required
 
-        # different for weapon since its limited by fate points but guaranteed is still a different flag
-        # max lookup will be larger than max wishes required because of this
-        self.max_wishes_required = (self.copies_max)*self.hard_pity*(self.fate_points_required+1)
-        self.max_lookup = (self.copies_max)*self.hard_pity*(self.fate_points_required+1)*2
-
         db_file = database.get_default_db()
-        if exists(db_file):
+        if exists(db_file) and self.database_is_full():
             self.load_hashtable()
+        elif exists(db_file):
+            self.load_hashtable()
+            self.calculate_and_write_all_solutions()
         else:
             conn = sqlite3.connect(db_file)
             with conn:
                 database.init_db(conn)
-        self.calculate_and_write_all_solutions()
+            self.calculate_and_write_all_solutions()
 
     def specific_solution(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int) -> dict[int, float]:
-        lookup = self.lookup_num_generator(
-            num_wishes, pity, guaranteed, 0)
+        lookup = self.lookup_num_generator(num_wishes, pity, guaranteed,fate_points)
         if self.database_is_full():
             return self.solution_from_database(lookup)
         elif lookup != -1 and lookup in self.hashtable:
@@ -647,6 +646,86 @@ class TestAnalyzeCharacter(AnalyzeGeneric):
             result[self.copies_max] = 1
             self.store_if_solution_doesnt_exist(
                 lookup, result)
+            return result
+        elif current_copies >= self.copies_max:
+            return {i: 0 for i in range(0, self.copies_max+1)}
+
+        pity_val = self.soft_pity_dist[pity]
+        # basic scheme is that we always have some no_five_star which isn't upgraded (i.e. no increase to higher num of copies)
+        # but is multiplied by the inverse of the upgraded (getting a 5 star) portion so that when added with an upgraded portion the sum is 1
+        # this process seems to logically describe what we would expect and also matches fairly well with the statistical data that I have created
+        if pity < self.hard_pity:
+            temp = self.specific_solution(
+                num_wishes-1, pity+1, guaranteed, 0,  current_copies)
+            no_five_star = multiply_dictionary_entries(temp, 1-pity_val)
+        else:
+            no_five_star = {i: 0 for i in range(0, self.copies_max+1)}
+        if guaranteed == True:
+            five_star = multiply_dictionary_entries(upgrade_dictionary(
+                self.specific_solution(num_wishes-1, 0, False, 0, current_copies+1)), pity_val)
+            result = add_dictionary_entries([no_five_star, five_star])
+        elif guaranteed == False:
+            five_star_win = multiply_dictionary_entries(upgrade_dictionary(self.specific_solution(
+                num_wishes-1, 0, False, 0, current_copies+1)), pity_val*0.5)
+            five_star_lose = multiply_dictionary_entries(self.specific_solution(
+                num_wishes-1, 0, True, 0, current_copies), pity_val*0.5)
+            result = add_dictionary_entries(
+                [no_five_star, five_star_win, five_star_lose])
+
+        self.store_if_solution_doesnt_exist(lookup, result)
+        # TODO add an extra dictionary for after max constellations/refinements so that we can track for after
+        # it will be a probability dictionary that counts up the extra wishes as the percent of time you have that many additional wishes remaining
+        # should be possible and also work. Need to alter the helper function for this though
+        return result
+
+class TestAnalyzeWeapon(AnalyzeGeneric):
+    def __init__(self,db_file="") -> None:
+        self.banner_type = "weapon"
+        banner_type = self.banner_type
+        self.tablename = f'analytical_solutions_{self.banner_type}'
+
+        if db_file == "":
+            self.db_file = database.get_default_db()
+
+        super().__init__(BANNER_TYPE_TO_PITY[banner_type],BANNER_TYPE_TO_BASE_RATE[banner_type],2,5,banner_type)
+
+        # # different for weapon since its limited by fate points but guaranteed is still a different flag
+        # max lookup will be larger than max wishes required because of this
+        self.max_wishes_required = (self.copies_max)*self.hard_pity*(self.fate_points_required+1)
+        self.max_lookup = (self.copies_max)*self.hard_pity*(self.fate_points_required+1)*2
+
+        db_file = database.get_default_db()
+        if exists(db_file) and self.database_is_full():
+            self.load_hashtable()
+        elif exists(db_file):
+            self.load_hashtable()
+            self.calculate_and_write_all_solutions()
+        else:
+            conn = sqlite3.connect(db_file)
+            with conn:
+                database.init_db(conn)
+            self.calculate_and_write_all_solutions()
+
+    def specific_solution(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int) -> dict[int, float]:
+        lookup = self.lookup_num_generator(
+            num_wishes, pity, guaranteed, fate_points)
+        if self.database_is_full():
+            return self.solution_from_database(lookup)
+        elif lookup != -1 and lookup in self.hashtable:
+            temp = self.hashtable[lookup]
+            result = {i: temp[i] for i in range(0, self.copies_max+1)}
+            return result
+
+        if num_wishes == 0:
+            result = {i: 0 for i in range(0, self.copies_max+1)}
+            result[0] = 1
+            self.store_if_solution_doesnt_exist(lookup, result)
+            return result
+        # I don't know that its necessary for this base case but sometimes it seemed to glitch out and this is 1000% correct
+        elif num_wishes == self.max_wishes_required:
+            result = {i: 0 for i in range(0, self.copies_max+1)}
+            result[self.copies_max] = 1
+            self.store_if_solution_doesnt_exist(lookup, result)
             return result
         elif current_copies >= self.copies_max:
             return {i: 0 for i in range(0, self.copies_max+1)}
@@ -682,15 +761,9 @@ class TestAnalyzeCharacter(AnalyzeGeneric):
             result = add_dictionary_entries(
                 [no_five_star, five_star_desired, five_star_other_rateup, five_star_non_rateup])
 
-        self.store_if_solution_doesnt_exist(
-            lookup, result)
+        self.store_if_solution_doesnt_exist(lookup, result)
 
         return result
-
-
-class TestAnalyzeWeapon(AnalyzeGeneric):
-    pass
-
 
 
 import base64

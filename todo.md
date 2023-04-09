@@ -4,6 +4,7 @@
 
 ## New Stuff
 
+- actually properly test the new analytical classes
 - views tests
 - add tests for users
 - manually test creating a new user
