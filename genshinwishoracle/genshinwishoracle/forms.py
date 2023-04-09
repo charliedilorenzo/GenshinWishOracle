@@ -1,6 +1,5 @@
 from django import forms
 import genshinwishoracle.models as models
-from .validators import validate_character_rateups
 from django.utils import timezone
 import datetime
 from django.db.models import Q
