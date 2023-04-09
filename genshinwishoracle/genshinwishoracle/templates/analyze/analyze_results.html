@@ -6,8 +6,7 @@
 <body>
     {% csrf_token %}
     <div>
-        <a href="{% url 'main-home' %}"><button name='back' type="submit" class="back-button"><i
-                    class="back-arrow"></i>
+        <a href="{% url 'main-home' %}"><button name='back' type="submit" class="back-button"><i class="back-arrow"></i>
                 Analyze Home </button></a>
     </div>
     <title>{% block title %} Analyze Results {% endblock title %} </title>
@@ -60,49 +59,23 @@
         {% if statistics_type == "calcprobability" %}
         {% if banner_type == "Character" %}
         <h1 class="display-4"> Character Banner Analysis Results </h1>
-        <table class="analysis-table">
-            <tr>
-                <td class="analysis-td">X:</td>
-                <td class="analysis-td">C0:</td>
-                <td class="analysis-td">C1:</td>
-                <td class="analysis-td">C2:</td>
-                <td class="analysis-td">C3:</td>
-                <td class="analysis-td">C4:</td>
-                <td class="analysis-td">C5:</td>
-                <td class="analysis-td">C6:</td>
-            </tr>
-            <tr>
-                <td class="analysis-td">{{X}}</td>
-                <td class="analysis-td">{{C0}}</td>
-                <td class="analysis-td">{{C1}}</td>
-                <td class="analysis-td">{{C2}}</td>
-                <td class="analysis-td">{{C3}}</td>
-                <td class="analysis-td">{{C4}}</td>
-                <td class="analysis-td">{{C5}}</td>
-                <td class="analysis-td">{{C6}}</td>
-            </tr>
-        </table>
         {% elif banner_type == "Weapon" %}
         <h1 class="display-4"> Weapon Banner Analysis Results </h1>
-        <table class="analysis-table">
-            <tr>
-                <td class="analysis-td">X:</td>
-                <td class="analysis-td">R1:</td>
-                <td class="analysis-td">R2:</td>
-                <td class="analysis-td">R3:</td>
-                <td class="analysis-td">R4:</td>
-                <td class="analysis-td">R5:</td>
-            </tr>
-            <tr>
-                <td class="analysis-td">{{X}}</td>
-                <td class="analysis-td">{{R1}}</td>
-                <td class="analysis-td">{{R2}}</td>
-                <td class="analysis-td">{{R3}}</td>
-                <td class="analysis-td">{{R4}}</td>
-                <td class="analysis-td">{{R5}}</td>
-            </tr>
-        </table>
         {% endif %}
+        <div>
+            <table class="analysis-table">
+                <tr>
+                    {% for label in statistics.labels %}
+                    <td class="analysis-td">{{label}}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for value in statistics.values %}
+                    <td class="analysis-td">{{value}}</td>
+                    {% endfor %}
+                </tr>
+            </table>
+        </div>
         {% elif statistics_type == "calcnumwishes" %}
         <div>
             <h2>Number of Wishes: </h2>

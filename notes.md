@@ -17,7 +17,6 @@ C6
 # startup
 
 WINDOWS
-.\venv\Scripts\activate
 C:\Users\carol\Code\Personal\GenshinWishOracle\venv\Scripts\activate
 cd genshinwishoracle
 python manage.py runserver

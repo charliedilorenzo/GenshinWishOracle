@@ -11,6 +11,7 @@ userinput.py
 /lib/*
 genshinwishoracle/recording/*
 genshinwishoracle/genshinwishoracle/tests/testing.db
+/.vscode/*
 
 __pycache__/
 *.py[cod]

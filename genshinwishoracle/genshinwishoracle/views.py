@@ -289,29 +289,22 @@ class StatisticsAnalyzeOmniView(generic.View):
         request = self.request
         init = {}
         form = self.forms_dictionary[statistics_type][banner_type]
-        # add from request.POST
         if request.POST:
             request.session['wishes'] = None
             form = form(request.POST)
             return form
-        # import
         elif 'import_data' in request.session and request.session['import_data'] == True:
             if request.user.is_authenticated:
                 curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
-                # wishes = math.floor(curr_user_prof.calculate_pure_primos()/160)
                 init = helpers.import_user_data(curr_user_prof, form)
         # not very elegant but alternatives also seems to suck
-        elif 'wishes' in request.session and not request.session['wishes'] == None:
+        elif request.session.setdefault('wishes', None) is not None:
             init.update({'numwishes': request.session['wishes']})
         form = form(initial=init)
         return form
 
     def get_second_form_names(self, banner_type, statistics_type,first_form):
-        # switch them
-        if statistics_type == "calcprobability":
-            statistics_type = "calcnumwishes"
-        elif statistics_type == "calcnumwishes":
-            statistics_type = "calcprobability"
+        statistics_type = self.opposite(statistics_type)
         form = self.forms_dictionary[statistics_type][banner_type]()
         # technically could just remove pity/guaranteed/fate_points
         names = []
@@ -337,63 +330,36 @@ class StatisticsAnalyzeOmniView(generic.View):
             request.session.pop('wishes')
             request.session['import_data'] = False
             context = {"banner_type":banner_type,"statistics_type": statistics_type }
-            first_form = self.get_first_form(banner_type=banner_type,statistics_type=statistics_type)
+            first_form = self.get_first_form(banner_type,statistics_type)
             context["first_form"] = first_form
-            second_form_names =  self.get_second_form_names(banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
+            second_form_names =  self.get_second_form_names(banner_type,statistics_type,first_form)
             context["second_form_names"] = second_form_names
             return render(request, self.template_name, context=context)
-        if request.POST.get("reset"):
-            if 'wishes' in request.session:
-                request.session.pop('wishes')
         request.session['import_data'] = False
         # add request post to the correct type given by function
         form = self.get_first_form(banner_type,statistics_type)
         if form.is_valid():
             cleaned = form.cleaned_data
-            place_values = 3 
             if banner_type == "character" and statistics_type == "calcprobability":
-                analyze_obj = analytical.AnalyticalCharacter()
-                solution = analyze_obj.specific_solution(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],0)
-                for key in solution:
-                    solution[key] = ("%.{}f".format(place_values) % float(solution[key]))
+                print(cleaned)
+                statistics = analytical.AnalyticalCharacter().get_statistic(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],0,banner_type,formatted=True)
                 context = {
                     'banner_type' : banner_type.capitalize(),
                     'statistics_type': statistics_type,
-                    'X' : solution[0],
-                    'C0' : solution[1],
-                    'C1' : solution[2],
-                    'C2' : solution[3],
-                    'C3' : solution[4],
-                    'C4' : solution[5],
-                    'C5' : solution[6],
-                    'C6' : solution[7],
-                    'pity': cleaned['pity'],
-                    'guaranteed': cleaned['guaranteed'],
-                    'numwishes': cleaned['numwishes']
+                    "statistics": statistics
                 }
-                context['chart'] = analytical.bar_graph_for_statistics(solution,banner_type, statistics_type, cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],0)
+                context.update(cleaned)
+                context['chart'] = analytical.bar_graph_for_statistics(statistics.get_formated_dictionary() ,**context)
             elif banner_type == "weapon" and statistics_type == "calcprobability":
-                analyze_obj = analytical.AnalyticalWeapon()
-                solution = analyze_obj.specific_solution(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned['fate_points'],0)
-                # by 400 deteriorates to missing around 14% of the values
-                place_values = 3
-                for key in solution:
-                    solution[key] = ("%.{}f".format(place_values) % float(solution[key]))
+                print(cleaned)
+                statistics = analytical.AnalyticalWeapon().get_statistic(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned['fate_points'],0,banner_type,formatted=True)
                 context = {
                     'banner_type' : banner_type.capitalize(),
                     'statistics_type': statistics_type,
-                    'X' : solution[0],
-                    'R1' : solution[1],
-                    'R2' : solution[2],
-                    'R3' : solution[3],
-                    'R4' : solution[4],
-                    'R5' : solution[5],
-                    'pity': cleaned['pity'],
-                    'guaranteed': cleaned['guaranteed'],
-                    'fate_points': cleaned['fate_points'],
-                    'numwishes': cleaned['numwishes']
+                    "statistics": statistics
                 }
-                context['chart'] = analytical.bar_graph_for_statistics(solution,banner_type, statistics_type, cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned['fate_points'])
+                context.update(cleaned)
+                context['chart'] = analytical.bar_graph_for_statistics(statistics.get_formated_dictionary() ,**context)
             elif banner_type == "character" and statistics_type == "calcnumwishes":
                 analyze_obj = analytical.AnalyticalCharacter()
                 numwishes = analyze_obj.probability_on_copies_to_num_wishes(cleaned['minimum_probability'], cleaned['numcopies'],cleaned['pity'], cleaned['guaranteed'])
@@ -431,16 +397,18 @@ class StatisticsAnalyzeOmniView(generic.View):
         return render(request, self.template_name, context)
 
     def button_name_post_to_redirect(self, request, banner_type, statistics_type):
-        if request.POST.get("select_weapon_banner"):
-            return redirect(to='/statistics/weapon/{}/'.format(statistics_type))
-        elif request.POST.get("select_character_banner"):
-            return redirect(to='/statistics/character/{}/'.format(statistics_type))
-        if request.POST.get("select_calcnumwishes"):
-            return redirect(to='/statistics/{}/calcnumwishes/'.format(banner_type))
-        elif request.POST.get("select_calcprobability"):
-            return redirect(to='/statistics/{}/calcprobability/'.format(banner_type))
+        if request.POST.get("banner_type"):
+            return redirect(to='/statistics/{}/{}/'.format(self.opposite(banner_type),statistics_type))
+        elif request.POST.get("statistics_type"):
+            return redirect(to='/statistics/{}/{}/'.format(banner_type,self.opposite(statistics_type)))
         else:
             return None
+        
+    def opposite(self,string):
+        opposite_dictionary = {self.valid_banner_types[0]: self.valid_banner_types[1], self.valid_banner_types[1]: 
+                               self.valid_banner_types[0], self.valid_statistics_types[0]: self.valid_statistics_types[1],
+                               self.valid_statistics_types[1]:self.valid_statistics_types[0]}
+        return opposite_dictionary[string]
 class StatisticsResultView(generic.View):
     template_name = 'analyze/analyze_results.html'
     success_url = reverse_lazy('main-home')

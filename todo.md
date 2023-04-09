@@ -8,9 +8,11 @@
 - add tests for users
 - manually test creating a new user
 - fix user creation / password reset process
+- add a little button to stop the autosaving when coming from project primos
 
 - test views creating a new user
-  -
+  - manually
+- make many to many selector a drag menu
 
 - split up the views for statistics into classes but keep a general omni view that they inherit from
 - add tests to primogemrecord / primogemsnapshot
@@ -39,7 +41,7 @@
 - add an option to overlay projected primos on top of
 - additional tests
   - database tests
-  - analystical tests
+  - analytical tests
   - forms tests
   - views tests
   - forms tests
