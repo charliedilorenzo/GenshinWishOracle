@@ -341,7 +341,6 @@ class StatisticsAnalyzeOmniView(generic.View):
         if form.is_valid():
             cleaned = form.cleaned_data
             if banner_type == "character" and statistics_type == "calcprobability":
-                print(cleaned)
                 statistics = analytical.AnalyticalCharacter().get_statistic(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],0,banner_type,formatted=True)
                 context = {
                     'banner_type' : banner_type.capitalize(),
@@ -351,7 +350,6 @@ class StatisticsAnalyzeOmniView(generic.View):
                 context.update(cleaned)
                 context['chart'] = analytical.bar_graph_for_statistics(statistics.get_formated_dictionary() ,**context)
             elif banner_type == "weapon" and statistics_type == "calcprobability":
-                print(cleaned)
                 statistics = analytical.AnalyticalWeapon().get_statistic(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned['fate_points'],0,banner_type,formatted=True)
                 context = {
                     'banner_type' : banner_type.capitalize(),
@@ -366,12 +364,9 @@ class StatisticsAnalyzeOmniView(generic.View):
                 context = {
                     'banner_type' : banner_type.capitalize(),
                     'statistics_type': statistics_type,
-                    'numwishes': numwishes,
-                    'probability': cleaned['minimum_probability'],
-                    'numcopies': cleaned['numcopies'],
-                    'pity': cleaned['pity'],
-                    'guaranteed': cleaned['guaranteed']
+                    'numwishes': numwishes
                 }
+                context.update(cleaned)
                 chart = ""
             elif banner_type == "weapon" and statistics_type == "calcnumwishes":
                 analyze_obj = analytical.AnalyticalWeapon()
@@ -379,13 +374,10 @@ class StatisticsAnalyzeOmniView(generic.View):
                 context = {
                     'banner_type' : banner_type.capitalize(),
                     'statistics_type': statistics_type,
-                    'numwishes': numwishes,
-                    'probability': cleaned['minimum_probability'],
-                    'numcopies': cleaned['numcopies'],
-                    'pity': cleaned['pity'],
-                    'guaranteed': cleaned['guaranteed'],
-                    'fate_points': cleaned['fate_points']
+                    'numwishes': numwishes
                 }
+                context.update(cleaned)
+                chart = ""
             return render(request, self.result_template, context)
         request.session.pop('wishes')
         request.session['import_data'] = False
