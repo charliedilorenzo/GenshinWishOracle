@@ -273,16 +273,19 @@ class StatisticsAnalyzeOmniView(generic.View):
                       {"character": forms.AnalyzeStatisticsCharacterToNumWishesForm,"weapon":forms.AnalyzeStatisticsWeaponToNumWishesForm }
                       }
 
-    def get(self, request,banner_type, statistics_type, *args, **kwargs):
-        if banner_type not in self.valid_banner_types or statistics_type not in self.valid_statistics_types:
-            return redirect(to=self.default_url)
+    def get_context_data(self, banner_type,statistics_type, **kwargs):
         context = {"banner_type":banner_type,"statistics_type": statistics_type }
         first_form = self.get_first_form(banner_type=banner_type,statistics_type=statistics_type)
-        request.session['import_data'] = False
+        self.request.session['import_data'] = False
         context["first_form"] = first_form
         second_form_names =  self.get_second_form_names(banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
         context["second_form_names"] = second_form_names
+        return context
 
+    def get(self, request,banner_type, statistics_type, *args, **kwargs):
+        if banner_type not in self.valid_banner_types or statistics_type not in self.valid_statistics_types:
+            return redirect(to=self.default_url)
+        context = self.get_context_data(banner_type,statistics_type)
         return render(request, self.template_name, context=context)
 
     def get_first_form(self, banner_type, statistics_type):
@@ -329,11 +332,7 @@ class StatisticsAnalyzeOmniView(generic.View):
         elif request.POST.get("reset_values"):
             request.session.pop('wishes')
             request.session['import_data'] = False
-            context = {"banner_type":banner_type,"statistics_type": statistics_type }
-            first_form = self.get_first_form(banner_type,statistics_type)
-            context["first_form"] = first_form
-            second_form_names =  self.get_second_form_names(banner_type,statistics_type,first_form)
-            context["second_form_names"] = second_form_names
+            context = self.get_context_data(banner_type,statistics_type)
             return render(request, self.template_name, context=context)
         request.session['import_data'] = False
         # add request post to the correct type given by function
@@ -365,11 +364,7 @@ class StatisticsAnalyzeOmniView(generic.View):
             return render(request, self.result_template, context)
         request.session.pop('wishes')
         request.session['import_data'] = False
-        context = {"banner_type":banner_type,"statistics_type": statistics_type }
-        first_form = self.get_first_form(banner_type=banner_type,statistics_type=statistics_type)
-        context["first_form"] = first_form
-        second_form_names =  self.get_second_form_names(banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
-        context["second_form_names"] = second_form_names
+        context = self.get_context_data(banner_type, statistics_type)
         return render(request, self.template_name, context)
 
     def button_name_post_to_redirect(self, request, banner_type, statistics_type):
@@ -377,8 +372,6 @@ class StatisticsAnalyzeOmniView(generic.View):
             return redirect(to='/statistics/{}/{}/'.format(self.opposite(banner_type),statistics_type))
         elif request.POST.get("statistics_type"):
             return redirect(to='/statistics/{}/{}/'.format(banner_type,self.opposite(statistics_type)))
-        else:
-            return None
         
     def opposite(self,string):
         opposite_dictionary = {self.valid_banner_types[0]: self.valid_banner_types[1], self.valid_banner_types[1]: 
@@ -428,30 +421,24 @@ class ProjectPrimosView(generic.FormView):
                 request.session["import_data"] = True
                 return redirect(to=reverse_lazy('project_primos'))
         elif request.POST.get("reset_values"):
-            form  = forms.ProjectPrimosForm(**kwargs)
-            context['form'] = form
+            context['form'] = forms.ProjectPrimosForm(**kwargs)
             return render(request, 'analyze/project_primos.html', context=context)
         elif request.POST.get("analyze_with_future_primogems"):
             request.session["wishes"] = request.POST.get("analyze_with_future_primogems")
-            banner_type = "character"
-            statistics_type = "calcprobability"
-            return redirect(to=reverse('statistics', kwargs={"banner_type":banner_type, "statistics_type":statistics_type}))
+            # TODO possibly switch to be two buttons with one for character and one for weapon
+            return redirect(to=reverse('statistics', kwargs={"banner_type":"character", "statistics_type":"calcprobability"}))
         form  = forms.ProjectPrimosForm(request.POST,**kwargs)
         if form.is_valid():
-            # using sessions again to allow setiting 
             cleaned = form.cleaned_data
-            if form.date_is_decidable() == False:
-                return render(request,  self.template_name, context=context)
-
             future_date = form.decide_date()
             now = datetime.date.today()
             days_until_enddate = (future_date-now).days
+            # TODO test if we need this
             if days_until_enddate < 0:
                 # non-sensical end date
                 return render(request, self.template_name)
             current_date = timezone.now().date()
-            pure_primo_estimate = cleaned['numprimos']+cleaned['numgenesis']+160*math.floor(cleaned['numstarglitter']/5)+ 160*cleaned['numfates']
-            current_primos = pure_primo_estimate
+            current_primos = cleaned['numprimos']+cleaned['numgenesis']+160*math.floor(cleaned['numstarglitter']/5)+ 160*cleaned['numfates']
 
             future_primos = project_future_primos(current_primos, 0,0,0,days_until_enddate,cleaned['welkin_moon'],cleaned['battlepass'], cleaned['average_abyss_stars'])
             current_wishes = math.floor(current_primos/160)
@@ -466,13 +453,8 @@ class ProjectPrimosView(generic.FormView):
             chart = project_primos_chart(current_primos, 0,0,0,days_until_enddate,cleaned['welkin_moon'],cleaned['battlepass'], cleaned['average_abyss_stars'])
             context['chart'] = chart
             return render(request, self.result_template, context=context)
-        elif not form.date_is_decidable():
-            form.add_error('end_date_manual_select', "Please add a manual banner end date or select a banner for its end date.")
-            context['form'] = form
-            return render(request, self.template_name, context=context)
-        else:
-            context['form'] = form
-            return render(request, self.template_name, context=context)
+        context['form'] = form
+        return render(request, self.template_name, context=context)
         
 # WISH SIMULATOR
 class WishSimulatorView(generic.View):
