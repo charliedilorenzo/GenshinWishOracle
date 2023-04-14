@@ -1,0 +1,20 @@
+{% extends "genshinwishoracle/bootstrap_base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'base/style.css' %}">
+<title>{% block title %} {{banner_type}} Banners {% endblock title %} </title>
+<div>
+    <a href="{{back_url}}"><button name='back' type="submit" class="back-button"><i class="back-arrow"></i>
+            Back</button></a>
+</div>
+<h1 class="display-4">{{banner_type}} Banners</h1>
+<div>
+    <a class="display-1" href="{{create_url}}"> Create new banner </a>
+</div>
+<br>
+<br>
+<div>
+    <h1 class="display-4"> You do not have any {{ banner_type }} banners </h1>
+</div>
+
+{% endblock content %}
