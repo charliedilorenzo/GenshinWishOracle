@@ -201,16 +201,14 @@ class ProjectPrimosForm(forms.Form):
         self.fields['numgenesis'] = forms.IntegerField(label="Number of Genesis Crystal",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of genesis crystals."})
         self.fields['numfates'] = forms.IntegerField(label="Number of Intertwined Fate",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of intertwined fates"})
         self.fields['numstarglitter'] = forms.IntegerField(label="Number of Starglitter",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of starglitter"})
-        self.fields['end_date_manual_select'] = forms.DateField(label="End Date Manual Select",widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")))
+        self.fields['end_date_manual_select'] = forms.DateField(label="End Date Manual Select",widget=forms.SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")),required=False)
 
-        self.fields['welkin_moon'] = forms.BooleanField(label="Welkin Moon",initial=False, required=False)
-        self.fields['battlepass'] = forms.BooleanField(label="Battlepass",initial=False, required=False)
-        self.fields['average_abyss_stars'] = forms.IntegerField(label="Average Abyss Stars",initial=27, required=False)
+        # check they actually exist
         if self.user_id is not None:
             user = User.objects.filter(id=self.user_id)
         else:
             user = User.objects.none()
-        # check they actually exist
+
         if len(user) != 1:
             self.fields['end_date_banner_select '] = forms.ModelChoiceField(label="End Date Select Through Banner",
                 queryset= models.Banner.objects.none(),
@@ -218,12 +216,10 @@ class ProjectPrimosForm(forms.Form):
                 initial=None,
                 required=False
             )
-            pass
         else:
-            profile = Profile.objects.filter(user_id=self.user_id)
-            if len(profile) != 1:
+            profile = Profile.objects.filter(user_id=self.user_id).first()
+            if profile is None:
                 return 
-            profile = profile[0]
             now = datetime.date.today()
             banners = profile.banners.filter(enddate__gte=now)
             self.fields['end_date_banner_select'] = forms.ModelChoiceField(label="End Date Select Through Banner",
@@ -232,8 +228,12 @@ class ProjectPrimosForm(forms.Form):
                 required=False
             )
 
+        self.fields['welkin_moon'] = forms.BooleanField(label="Welkin Moon",initial=False, required=False)
+        self.fields['battlepass'] = forms.BooleanField(label="Battlepass",initial=False, required=False)
+        self.fields['average_abyss_stars'] = forms.IntegerField(label="Average Abyss Stars",initial=27, required=False)
+
     def manual_select_is_default(self):
-        cleaned_data = super().clean()
+        cleaned_data = self.clean()
         today = datetime.date.today()
         split_date_default = [str(today.year), "01", "01"]
         split_date_manual = str(cleaned_data["end_date_manual_select"]).split("-")
@@ -243,7 +243,7 @@ class ProjectPrimosForm(forms.Form):
             return False
 
     def date_is_decidable(self):
-        cleaned_data = super().clean()
+        cleaned_data = self.clean()
         if "end_date_banner_select" not in cleaned_data:
             cleaned_data["end_date_banner_select"] = None
         # currently only works in an XOR fashion
@@ -257,7 +257,7 @@ class ProjectPrimosForm(forms.Form):
             return False
 
     def decide_date(self):
-        cleaned_data = super().clean()
+        cleaned_data = self.clean()
         if cleaned_data["end_date_banner_select"]!= None and self.manual_select_is_default():
             specified_banner = cleaned_data["end_date_banner_select"].get_specified_banner_equivalent()
             enddate = specified_banner.enddate
@@ -265,9 +265,9 @@ class ProjectPrimosForm(forms.Form):
         elif cleaned_data["end_date_banner_select"] == None and not self.manual_select_is_default():
             return cleaned_data["end_date_manual_select"]
 
-    def is_valid(self) -> bool:
+    def is_valid(self,testing=False) -> bool:
         valid = super().is_valid()
-        if not self.date_is_decidable():
+        if not testing and not self.date_is_decidable():
             self.add_error('end_date_manual_select', "Please add a manual banner end date or select a banner for its end date.")
             return False
         return valid

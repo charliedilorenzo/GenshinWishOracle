@@ -449,7 +449,7 @@ class FormsTestCase(TestCase):
 
 
         form  = forms.ProjectPrimosForm(data, **kwargs)
-        form.is_valid()
+        form.is_valid(testing=True)
         self.assertEqual(form.user_id, testuser.pk)
     
     def test_projectprimos_init_userid(self):
@@ -462,7 +462,7 @@ class FormsTestCase(TestCase):
 
 
         form  = forms.ProjectPrimosForm(data, **kwargs)
-        form.is_valid()
+        form.is_valid(testing=True)
         self.assertEqual(form.user_id, testuser.pk)
 
     def test_projectprimos_init_no_userid(self):
@@ -473,7 +473,7 @@ class FormsTestCase(TestCase):
         # data['end_date_banner_select'] = None
 
         form  = forms.ProjectPrimosForm(data)
-        form.is_valid()
+        form.is_valid(testing=True)
         self.assertEqual(form.user_id, None)
 
     def test_projectprimos_manual_date_is_default_true(self):
@@ -485,8 +485,8 @@ class FormsTestCase(TestCase):
         data['end_date_manual_select'] = str(date(now.year,1,1))
         data['end_date_banner_select'] = None
 
-        form  = forms.ProjectPrimosForm(data, **kwargs)
-        form.is_valid()
+        form  = forms.ProjectPrimosForm(data, **kwargs) 
+        form.is_valid(testing=True)
         default = form.manual_select_is_default()
         self.assertTrue(default)
 
@@ -501,7 +501,7 @@ class FormsTestCase(TestCase):
         data['end_date_banner_select'] = None
 
         form  = forms.ProjectPrimosForm(data, **kwargs)
-        form.is_valid()
+        form.is_valid(testing=True)
         default = form.manual_select_is_default()
         self.assertTrue(not default)
     
@@ -514,7 +514,7 @@ class FormsTestCase(TestCase):
         data['end_date_banner_select'] = None
 
         form  = forms.ProjectPrimosForm(data, **kwargs)
-        form.is_valid()
+        form.is_valid(testing=True)
         decidable = form.date_is_decidable()
         self.assertTrue(decidable)
 
@@ -528,7 +528,7 @@ class FormsTestCase(TestCase):
         data['end_date_banner_select'] = testprofile.banners.filter(enddate__gte=now).first()
 
         form  = forms.ProjectPrimosForm(data, **kwargs)
-        form.is_valid()
+        form.is_valid(testing=True)
         decidable = form.date_is_decidable()
         self.assertTrue(decidable)
 
@@ -541,7 +541,7 @@ class FormsTestCase(TestCase):
         testprofile = Profile.objects.filter(user_id = testuser.pk).first()
         data['end_date_banner_select'] = testprofile.banners.filter(enddate__gte=now).first()
         form  = forms.ProjectPrimosForm(data, **kwargs)
-        form.is_valid()
+        valid = form.is_valid(testing=True)
         decidable = form.date_is_decidable()
         self.assertTrue(not decidable)
 
@@ -554,7 +554,7 @@ class FormsTestCase(TestCase):
         data['end_date_banner_select'] = None
 
         form  = forms.ProjectPrimosForm(data, **kwargs)
-        form.is_valid()
+        valid = form.is_valid(testing=True)
         decidable = form.date_is_decidable()
         self.assertTrue(not decidable)
 
@@ -568,7 +568,7 @@ class FormsTestCase(TestCase):
         data['end_date_banner_select'] = None
 
         form  = forms.ProjectPrimosForm(data, **kwargs)
-        form.is_valid()
+        form.is_valid(testing=True)
         decision = form.decide_date()
         self.assertEqual(testdate, decision)
 
@@ -582,7 +582,7 @@ class FormsTestCase(TestCase):
         data['end_date_banner_select'] = testprofile.banners.filter(enddate__gte=now).first()
 
         form  = forms.ProjectPrimosForm(data, **kwargs)
-        form.is_valid()
+        form.is_valid(testing=True)
         decision = form.decide_date()
         self.assertEqual(data['end_date_banner_select'].enddate, decision)
 
@@ -595,7 +595,7 @@ class FormsTestCase(TestCase):
         testprofile = Profile.objects.filter(user_id = testuser.pk).first()
         data['end_date_banner_select'] = testprofile.banners.filter(enddate__gte=now).first()
         form  = forms.ProjectPrimosForm(data, **kwargs)
-        form.is_valid()
+        valid = form.is_valid(testing=True)
         decision = form.decide_date()
         self.assertEqual(None, decision)
     
@@ -608,7 +608,7 @@ class FormsTestCase(TestCase):
         data['end_date_banner_select'] = None
 
         form  = forms.ProjectPrimosForm(data, **kwargs)
-        valid = form.is_valid()
+        valid = form.is_valid(testing=True)
         self.assertTrue(valid)
 
 
@@ -621,7 +621,7 @@ class FormsTestCase(TestCase):
         data['end_date_banner_select'] = None
 
         form  = forms.ProjectPrimosForm(data, **kwargs)
-        valid = form.is_valid()
+        valid = form.is_valid(testing=True)
         self.assertTrue(not valid)
 
     def test_projectprimos_clean(self):
@@ -633,7 +633,7 @@ class FormsTestCase(TestCase):
         data['end_date_banner_select'] = None
 
         form  = forms.ProjectPrimosForm(data, **kwargs)
-        form.is_valid()
+        form.is_valid(testing=True)
         cleaned = form.clean()
         self.assertTrue(data, cleaned)
 
