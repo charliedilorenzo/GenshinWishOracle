@@ -48,19 +48,8 @@ class PrimogemRecord(models.Model):
         return current
 
     def __str__(self) -> str:
-        # records = list(self.get_all_records())
-        # limit = 20
-        # i = 0
-        # record_string = ""
-        # for record in records:
-        #     if i == limit:
-        #         break
-        #     record_string+= str(record) + "\n"
-        #     i +=1
-        # return record_string
         profile = self.get_associated_profile()
         user = User.objects.filter(id=profile.user_id).first()
-        # User.username
         string = user.username +"'s Primogem Record - Current Pure Primos: " + str(self.get_current_value())
         return string
 
@@ -112,6 +101,7 @@ class Profile(models.Model):
 
     welkin_user = models.BooleanField(default=False)
     battlepass_user = models.BooleanField(default=False)
+
 
     primogem_record = models.OneToOneField(PrimogemRecord, on_delete=models.CASCADE)
 
