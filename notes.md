@@ -104,81 +104,8 @@ pip install -r requirements.txt
 
 <https://genshin-impact.fandom.com/wiki/Weapon/List/By_Availability>
 
-# Manually make tables
+# New Plan
 
-python manage.py dbshell
-
-DROP TABLE analyze_character;
-DROP TABLE analyze_weapon;
-DROP TABLE analyze_banner;
-DROP TABLE analyze_weaponbanner;
-DROP TABLE analyze_characterbanner;
-DROP TABLE analyze_weaponbanner_rateups;
-DROP TABLE analyze_characterbanner_rateups;
-DROP TABLE users_profile_banners;
-DROP TABLE users_profile;
-DROP TABLE users_profile_characterbanners;
-DROP TABLE users_profile_weaponbanners;
-
-DROP TABLE analyze_banner;
-DROP TABLE analyze_weaponbanner;
-DROP TABLE analyze_characterbanner;
-DROP TABLE analyze_weaponbanner_rateups;
-DROP TABLE analyze_characterbanner_rateups;
-DROP TABLE users_profile_banners;
-
-CREATE TABLE IF NOT EXISTS analyze_characterbanner(
-    banner_ptr_id INT
-);
-
-CREATE TABLE IF NOT EXISTS analyze_weaponbanner (
-    banner_ptr_id INT
-);
-
-CREATE TABLE IF NOT EXISTS analyze_banner (
-    id INT PRIMARY KEY,
-    name TEXT,
-    enddate DATE,
-    banner_type TEXT
-);
-CREATE TABLE IF NOT EXISTS analyze_weaponbanner_rateups(
-    id INT PRIMARY KEY,
-    weaponbanner INT,
-    weapon_id INT
-);
-CREATE TABLE IF NOT EXISTS analyze_characterbanner_rateups(
-    id INT PRIMARY KEY,
-    characterbanner INT,
-    character_id INT
-);
-
-DROP TABLE users_profile_banners;
-DROP TABLE users_profile;
-
-CREATE TABLE IF NOT EXISTS users_profile(
-    id INT PRIMARY KEY,
-    numprimos INT,
-    numgenesis INT,
-    numstarglitter INT,
-    numfates INT,
-    character_pity INT,
-    character_guaranteed BOOL,
-    weapon_pity INT,
-    weapon_guaranteed INT,
-    weapon_fate_points INT,
-    welkin_user BOOL,
-    battlepass_user BOOL,
-    user_id INT
-);
-
-CREATE TABLE IF NOT EXISTS users_profile_banners(
-    id INT PRIMARY KEY,
-    profile_id INT,
-    banner_id INT
-);
-
-INSERT INTO users_profile (id, numprimos,numgenesis, numgenesis, numfates, numstarglitter, character_pity, character_guaranteed, weapon_pity, weapon_guaranteed, weapon_fate_points, welkin_user, battlepass_user, user_id) VALUES (4, 0, 0 , 0, 0, 0, 0, false, 0, false, 0, false, false, 9);
-
-INSERT INTO users_profile (id, numprimos,numgenesis, numgenesis, numfates, numstarglitter, character_pity, character_guaranteed, weapon_pity, weapon_guaranteed, weapon_fate_points, welkin_user, battlepass_user, user_id) VALUES (3, 0, 0 , 0, 0, 0, 0, false, 0, false, 0, false, false, 8);
-
-INSERT INTO users_profile_banner (id, profile_id, banner_id) VALUES () ;
+- Cyno Weapon
+- Baizhu C2
+- Some other rando c6
