@@ -234,6 +234,8 @@ class ProjectPrimosForm(forms.Form):
 
     def manual_select_is_default(self):
         cleaned_data = self.clean()
+        if cleaned_data["end_date_manual_select"] == None:
+            return True
         today = datetime.date.today()
         split_date_default = [str(today.year), "01", "01"]
         split_date_manual = str(cleaned_data["end_date_manual_select"]).split("-")
@@ -267,6 +269,7 @@ class ProjectPrimosForm(forms.Form):
 
     def is_valid(self,testing=False) -> bool:
         valid = super().is_valid()
+        print(self.date_is_decidable())
         if not testing and not self.date_is_decidable():
             self.add_error('end_date_manual_select', "Please add a manual banner end date or select a banner for its end date.")
             return False
