@@ -4,6 +4,7 @@ from . import database
 import sqlite3
 from .helpers import add_dictionary_entries, multiply_dictionary_entries, upgrade_dictionary, within_epsilon_or_greater
 import pandas
+import matplotlib.ticker as mtick
 
 DEFAULT_CHARACTER_BANNER_SOFT_PITY = {73: .06, 74: .12, 75: .18, 76: .24, 77: .3, 78: .35,
                                           79: .4, 80: .45, 81: .5, 82: .55, 83: .6, 84: .65, 85: .65, 86: .5, 87: .5, 88: .25, 89: 0.5, 90: 1}
@@ -796,7 +797,7 @@ def bar_graph_for_calcprobability(solution, banner_type, numwishes, pity, guaran
         for i in range(0,7):
             x_labels.append("C"+str(i))
         fig.suptitle('Wish Probability Breakdown for: {} Wishes, {} Pity, {} Guaranteed'.format(numwishes, pity, guaranteed_text))
-        fig.supylabel('Portion Resuling in Specified Constellation')
+        fig.supylabel('Percentage Resulting in Specified Constellation')
     elif banner_type == "weapon":
         x_labels = ["X"]
         for i in range(1,6):
@@ -804,6 +805,10 @@ def bar_graph_for_calcprobability(solution, banner_type, numwishes, pity, guaran
         fig.suptitle('Wish Probability Breakdown for: {} Wishes, {} Pity, {} Guaranteed, {} Fate Points'.format(numwishes, pity, guaranteed_text, fate_points))
         fig.supylabel('Portion Resuling in Specified Refinement')
 
+    # fmt = '%.0f%%'
+    # values = [value*10000 for value in values]
+    yticks = mtick.PercentFormatter(1.0)
+    ax.yaxis.set_major_formatter(yticks)
     bars= pyplot.bar(x_labels , values)
     ax.bar_label(bars)
     min_ylim = -0.1
