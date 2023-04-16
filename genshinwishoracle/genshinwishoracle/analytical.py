@@ -2,7 +2,7 @@ from genericpath import exists
 import math
 from . import database
 import sqlite3
-from .helpers import add_dictionary_entries, multiply_dictionary_entries, upgrade_dictionary
+from .helpers import add_dictionary_entries, multiply_dictionary_entries, upgrade_dictionary, within_epsilon_or_greater
 import pandas
 
 DEFAULT_CHARACTER_BANNER_SOFT_PITY = {73: .06, 74: .12, 75: .18, 76: .24, 77: .3, 78: .35,
@@ -18,6 +18,8 @@ BASE_WEAPON_FIVE_STAR_RATE = 0.006
 BANNER_TYPE_TO_BASE_RATE = {"character": BASE_CHARACTER_FIVE_STAR_RATE, "weapon": BASE_WEAPON_FIVE_STAR_RATE}
 
 BASE_MAXIMUM_FATE_POINTS = 2
+
+EPSILON = 0.00000001
 
 class DataPoint():
     def __init__(self, label, value) -> None:
@@ -236,7 +238,7 @@ class AnalyticalCharacter:
             current_solution = self.specific_solution(i, pity, guaranteed, 0)
             for j in range(copies_desired, self.copies_max+1):
                 current_probability += current_solution[j]
-            if current_probability >= probability_desired:
+            if within_epsilon_or_greater(current_probability, probability_desired, EPSILON):
                 return i
         # we should never get here but just in case
         return self.max_wishes_required
@@ -450,7 +452,7 @@ class AnalyticalWeapon:
                 i, pity, guaranteed, 0, fate_points)
             for j in range(copies_desired, self.copies_max+1):
                 current_probability += current_solution[j]
-            if current_probability >= probability_desired:
+            if within_epsilon_or_greater(current_probability, probability_desired, EPSILON):
                 return i
         # we should never get here but just in case
         return self.max_wishes_required
@@ -580,7 +582,8 @@ class AnalyzeGeneric:
                 i, pity, guaranteed, 0, fate_points)
             for j in range(copies_desired, self.copies_max+1):
                 current_probability += current_solution[j]
-            if current_probability >= probability_desired:
+            print(current_probability)
+            if within_epsilon_or_greater(current_probability, probability_desired, EPSILON):
                 return i
         # we should never get here but just in case
         return self.max_wishes_required

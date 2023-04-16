@@ -75,6 +75,15 @@ def import_user_data(profile: Profile, form_type):
         result[key] = dictionary[key]
     return result
 
+def within_epsilon_or_greater(value_to_test, target, epsilon=0.0000001):
+    if value_to_test > target:
+        return True
+    difference = abs(value_to_test-target)
+    if difference <= epsilon:
+        return True
+    else:
+        return False
+
 # Just makes it simpler to read since we log in the same place every time and redirect the same way every time
 class PersonalizedLoginRequiredMixin(LoginRequiredMixin):
     login_url = reverse_lazy('login')
