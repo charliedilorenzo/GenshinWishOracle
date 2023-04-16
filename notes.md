@@ -106,6 +106,7 @@ pip install -r requirements.txt
 
 # New Plan
 
-- Cyno Weapon
 - Baizhu C2
+- Kazuha
+- Cyno Weapon
 - Some other rando c6

@@ -4,6 +4,14 @@
 
 ### immediate testing
 
+- change the typo on the left of the graph for primos
+- prefer percentages
+- might consider dates at the bottom
+- for wishing simulator direct the user to make banners if they dont have any
+- "Please log in if you'd like to access more features." - get rid of it for the screen in user home
+- from types import UnionTyping
+- fix graph labelling Wish Probability Breakdown for None Wishes, None Pity, without Guaranteeds
+- from typing Any, Dict, Iterator, List, Union
 - think of some stuff that chatgpt might be able to solve for me
 - views tests
 - add tests for users
