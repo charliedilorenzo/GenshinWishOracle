@@ -1,1 +1,290 @@
-[{"model": "genshinwishoracle.banner", "pk": 1, "fields": {"name": "basic weapon banner default date", "enddate": "2023-01-01", "banner_type": "Weapon"}}, {"model": "genshinwishoracle.banner", "pk": 2, "fields": {"name": "basic weapon banner default date", "enddate": "2023-01-01", "banner_type": "Weapon"}}, {"model": "genshinwishoracle.banner", "pk": 3, "fields": {"name": "basic weapon banner default date", "enddate": "2023-01-01", "banner_type": "Weapon"}}, {"model": "genshinwishoracle.banner", "pk": 4, "fields": {"name": "basic weapon banner default date", "enddate": "2023-01-01", "banner_type": "Weapon"}}, {"model": "genshinwishoracle.banner", "pk": 5, "fields": {"name": "basic weapon banner default date", "enddate": "2023-01-01", "banner_type": "Weapon"}}, {"model": "genshinwishoracle.banner", "pk": 6, "fields": {"name": "basic weapon banner default date", "enddate": "2023-01-01", "banner_type": "Weapon"}}, {"model": "genshinwishoracle.banner", "pk": 7, "fields": {"name": "character banner already past", "enddate": "2023-01-01", "banner_type": "Character"}}, {"model": "genshinwishoracle.banner", "pk": 8, "fields": {"name": "character banner in the future", "enddate": "2032-01-01", "banner_type": "Character"}}, {"model": "genshinwishoracle.banner", "pk": 9, "fields": {"name": "weapon banner already past", "enddate": "2023-01-01", "banner_type": "Weapon"}}, {"model": "genshinwishoracle.banner", "pk": 10, "fields": {"name": "weapon banner in the future", "enddate": "2032-01-01", "banner_type": "Weapon"}}, {"model": "genshinwishoracle.banner", "pk": 11, "fields": {"name": "Baizhu Banner Start Date", "enddate": "2023-04-12", "banner_type": "Character"}}, {"model": "genshinwishoracle.banner", "pk": 12, "fields": {"name": "Baizhu End Date", "enddate": "2023-05-03", "banner_type": "Character"}}, {"model": "genshinwishoracle.banner", "pk": 13, "fields": {"name": "Baizhu Weapon Start Date", "enddate": "2023-04-12", "banner_type": "Weapon"}}, {"model": "genshinwishoracle.banner", "pk": 14, "fields": {"name": "Baizhu Weapon End Date", "enddate": "2023-05-03", "banner_type": "Weapon"}}, {"model": "genshinwishoracle.characterbanner", "pk": 7, "fields": {"rateups": [15, 69, 11, 73]}}, {"model": "genshinwishoracle.characterbanner", "pk": 8, "fields": {"rateups": [15, 69, 11, 73]}}, {"model": "genshinwishoracle.characterbanner", "pk": 11, "fields": {"rateups": [13, 69, 11, 73]}}, {"model": "genshinwishoracle.characterbanner", "pk": 12, "fields": {"rateups": [13, 69, 11, 73]}}, {"model": "genshinwishoracle.weaponbanner", "pk": 1, "fields": {"rateups": [17, 1, 51, 78, 66, 15, 22]}}, {"model": "genshinwishoracle.weaponbanner", "pk": 2, "fields": {"rateups": [17, 1, 23, 24, 69, 25, 42]}}, {"model": "genshinwishoracle.weaponbanner", "pk": 3, "fields": {"rateups": [17, 1, 23, 24, 69, 25, 42]}}, {"model": "genshinwishoracle.weaponbanner", "pk": 4, "fields": {"rateups": [17, 1, 23, 24, 69, 25, 42]}}, {"model": "genshinwishoracle.weaponbanner", "pk": 5, "fields": {"rateups": [17, 1, 23, 24, 69, 25, 42]}}, {"model": "genshinwishoracle.weaponbanner", "pk": 6, "fields": {"rateups": [17, 1, 23, 24, 69, 25, 42]}}, {"model": "genshinwishoracle.weaponbanner", "pk": 9, "fields": {"rateups": [17, 1, 23, 24, 69, 25, 42]}}, {"model": "genshinwishoracle.weaponbanner", "pk": 10, "fields": {"rateups": [17, 1, 23, 24, 69, 25, 42]}}, {"model": "genshinwishoracle.weaponbanner", "pk": 13, "fields": {"rateups": [17, 3, 23, 24, 69, 25, 42]}}, {"model": "genshinwishoracle.weaponbanner", "pk": 14, "fields": {"rateups": [17, 3, 23, 24, 69, 25, 42]}}]
+[
+    {
+        "model": "genshinwishoracle.banner",
+        "pk": 6,
+        "fields": {
+            "name": "basic weapon banner default date",
+            "enddate": "2023-01-01",
+            "banner_type": "Weapon"
+        }
+    },
+    {
+        "model": "genshinwishoracle.banner",
+        "pk": 7,
+        "fields": {
+            "name": "character banner already past",
+            "enddate": "2023-01-01",
+            "banner_type": "Character"
+        }
+    },
+    {
+        "model": "genshinwishoracle.banner",
+        "pk": 8,
+        "fields": {
+            "name": "character banner in the future",
+            "enddate": "2032-01-01",
+            "banner_type": "Character"
+        }
+    },
+    {
+        "model": "genshinwishoracle.banner",
+        "pk": 9,
+        "fields": {
+            "name": "weapon banner already past",
+            "enddate": "2023-01-01",
+            "banner_type": "Weapon"
+        }
+    },
+    {
+        "model": "genshinwishoracle.banner",
+        "pk": 10,
+        "fields": {
+            "name": "weapon banner in the future",
+            "enddate": "2032-01-01",
+            "banner_type": "Weapon"
+        }
+    },
+    {
+        "model": "genshinwishoracle.banner",
+        "pk": 13,
+        "fields": {
+            "name": "Baizhu Weapon Start Date",
+            "enddate": "2023-04-12",
+            "banner_type": "Weapon"
+        }
+    },
+    {
+        "model": "genshinwishoracle.banner",
+        "pk": 16,
+        "fields": {
+            "name": "clutter master",
+            "enddate": "2023-01-01",
+            "banner_type": "Character"
+        }
+    },
+    {
+        "model": "genshinwishoracle.banner",
+        "pk": 17,
+        "fields": {
+            "name": "clutter monster",
+            "enddate": "2023-01-01",
+            "banner_type": "Character"
+        }
+    },
+    {
+        "model": "genshinwishoracle.banner",
+        "pk": 18,
+        "fields": {
+            "name": "they say you got the clutter",
+            "enddate": "2023-01-01",
+            "banner_type": "Character"
+        }
+    },
+    {
+        "model": "genshinwishoracle.banner",
+        "pk": 19,
+        "fields": {
+            "name": "Baizhu 2nd Half Ending",
+            "enddate": "2023-05-24",
+            "banner_type": "Character"
+        }
+    },
+    {
+        "model": "genshinwishoracle.banner",
+        "pk": 28,
+        "fields": {
+            "name": "4.0 Banner",
+            "enddate": "2023-08-11",
+            "banner_type": "Character"
+        }
+    },
+    {
+        "model": "genshinwishoracle.banner",
+        "pk": 29,
+        "fields": {
+            "name": "3.6 first half banner",
+            "enddate": "2023-05-02",
+            "banner_type": "Character"
+        }
+    },
+    {
+        "model": "genshinwishoracle.banner",
+        "pk": 30,
+        "fields": {
+            "name": "Nahida weapon banner",
+            "enddate": "2023-01-01",
+            "banner_type": "Weapon"
+        }
+    },
+    {
+        "model": "genshinwishoracle.characterbanner",
+        "pk": 7,
+        "fields": {
+            "rateups": [
+                31,
+                69,
+                11,
+                73
+            ]
+        }
+    },
+    {
+        "model": "genshinwishoracle.characterbanner",
+        "pk": 8,
+        "fields": {
+            "rateups": [
+                5,
+                69,
+                11,
+                73
+            ]
+        }
+    },
+    {
+        "model": "genshinwishoracle.characterbanner",
+        "pk": 16,
+        "fields": {
+            "rateups": [
+                15,
+                53,
+                55,
+                57
+            ]
+        }
+    },
+    {
+        "model": "genshinwishoracle.characterbanner",
+        "pk": 17,
+        "fields": {
+            "rateups": [
+                76,
+                60,
+                64,
+                66
+            ]
+        }
+    },
+    {
+        "model": "genshinwishoracle.characterbanner",
+        "pk": 18,
+        "fields": {
+            "rateups": [
+                24,
+                58,
+                60,
+                64
+            ]
+        }
+    },
+    {
+        "model": "genshinwishoracle.characterbanner",
+        "pk": 19,
+        "fields": {
+            "rateups": [
+                74,
+                69,
+                11,
+                73
+            ]
+        }
+    },
+    {
+        "model": "genshinwishoracle.characterbanner",
+        "pk": 28,
+        "fields": {
+            "rateups": [
+                24,
+                32,
+                9,
+                75
+            ]
+        }
+    },
+    {
+        "model": "genshinwishoracle.characterbanner",
+        "pk": 29,
+        "fields": {
+            "rateups": [
+                46,
+                27,
+                12,
+                43
+            ]
+        }
+    },
+    {
+        "model": "genshinwishoracle.weaponbanner",
+        "pk": 6,
+        "fields": {
+            "rateups": [
+                17,
+                1,
+                23,
+                24,
+                69,
+                25,
+                42
+            ]
+        }
+    },
+    {
+        "model": "genshinwishoracle.weaponbanner",
+        "pk": 9,
+        "fields": {
+            "rateups": [
+                17,
+                1,
+                23,
+                24,
+                69,
+                25,
+                42
+            ]
+        }
+    },
+    {
+        "model": "genshinwishoracle.weaponbanner",
+        "pk": 10,
+        "fields": {
+            "rateups": [
+                17,
+                18,
+                23,
+                24,
+                69,
+                25,
+                42
+            ]
+        }
+    },
+    {
+        "model": "genshinwishoracle.weaponbanner",
+        "pk": 13,
+        "fields": {
+            "rateups": [
+                73,
+                91,
+                23,
+                24,
+                69,
+                25,
+                42
+            ]
+        }
+    },
+    {
+        "model": "genshinwishoracle.weaponbanner",
+        "pk": 30,
+        "fields": {
+            "rateups": [
+                17,
+                33,
+                55,
+                41,
+                83,
+                23,
+                24
+            ]
+        }
+    }
+]
