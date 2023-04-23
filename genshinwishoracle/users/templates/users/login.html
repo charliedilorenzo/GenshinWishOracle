@@ -64,11 +64,12 @@
                             </div>
                         </form>
                     </div>
-                    <div class="card-footer text-center">
-                        <div class="small">
-                            <a href="{% url 'password_reset' %}">Don't have an account yet? Go to signup</a><br>
-                            <a href="{% url 'password_reset' %}"><i>Forgot Password?</i></a>
-                        </div>
+                    <div>
+                        <button name="login" class="col-md-12 btn btn-dark" id="login">
+                            <a class="bright-link" href="{% url 'users:users-register' %}">Don't have an account yet? Go
+                                to signup</a>
+                        </button>
+                        <!-- <a href="{% url 'password_reset' %}"><i>Forgot Password?</i></a> -->
                     </div>
                 </div>
             </div>

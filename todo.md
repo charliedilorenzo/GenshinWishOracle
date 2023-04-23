@@ -4,7 +4,10 @@
 
 ### immediate testing
 
-- for wishing simulator direct the user to make banners if they dont have any
+- primo project:
+  - hide field when no valid banners " End Date Select Through Banner: "
+- wishing simulator
+  - direct the user to make banners if they dont have any
 - think of some stuff that chatgpt might be able to solve for me
 - views tests
 - add tests for users
@@ -12,17 +15,14 @@
 - add tests to primogemrecord / primogemsnapshot
 - actually properly test the new analytical classes
 - test for import user data
-- manually test creating a new user
 
 ### immediate features
 
 - think of some stuff that chatgpt might be able to solve for me
 - fix user creation / password reset process
 - fix can't edit banner name?
-  - 5 banners of each type per user
-  - 100 primogem records
-    - add export csv for primogem records
-  - look for other things that users can generate other than users that have storage
+- add export csv for primogem records
+- look for other things that users can generate other than users that have storage
 - make redirect from loginrequiredmixin work
 - add desired five star for weapon banner wish simulator
 - add graph to probability to numwishes with the wish values for the constellation as the y axis and alternative amounts of wishes as the x axis
@@ -34,6 +34,7 @@
 - export primo record as csv
 - add limits to user banners
 - allow download csv for all charts at all places with charts
+- possibly add back emails to users
 
 - add "advanced statistics" where you can drag and drop up to 2 banners for character and weapons each in order to see odds of that stuff
   - start smaller with just 1 banner of each and you can choose order for probability
