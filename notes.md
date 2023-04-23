@@ -48,6 +48,7 @@ python manage.py loaddata initial_data_content_types.json
 python manage.py loaddata initial_data_users.json
 python manage.py loaddata initial_data_auth.json
 python manage.py loaddata initial_data_characters_and_weapons.json
+python manage.py loaddata primorecords.json
 
 # dump data for models
 

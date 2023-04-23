@@ -66,7 +66,9 @@ def project_primos_chart(current_primos, current_genesis_crystals,current_fates,
     
     pyplot.switch_backend('AGG')
     fig, ax = pyplot.subplots(figsize=(10, 6))
-    plot = pyplot.plot(days_data,primos_data)
+    today = datetime.date.today()
+    dates_data = [today+datetime.timedelta(days=offset) for offset in days_data]
+    plot = pyplot.plot(dates_data,primos_data)
     fig.suptitle('Primo income over {} Days'.format(days_till_banner_end_date))
     fig.supylabel('Number of Primos')
     fig.supxlabel('Number of Days')

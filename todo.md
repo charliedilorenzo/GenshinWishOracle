@@ -4,7 +4,6 @@
 
 ### immediate testing
 
-- might consider dates at the bottom
 - for wishing simulator direct the user to make banners if they dont have any
 - think of some stuff that chatgpt might be able to solve for me
 - views tests
@@ -17,17 +16,13 @@
 
 ### immediate features
 
-- 'from types import UnionTyping' for typehinting
-- 'from typing Any, Dict, Iterator, List, Union' from typehinting
 - think of some stuff that chatgpt might be able to solve for me
 - fix user creation / password reset process
 - fix can't edit banner name?
-- add user limits for anything that will create a permanently stored object in database
   - 5 banners of each type per user
   - 100 primogem records
     - add export csv for primogem records
   - look for other things that users can generate other than users that have storage
-- use add_banner method of Profile places
 - make redirect from loginrequiredmixin work
 - add desired five star for weapon banner wish simulator
 - add graph to probability to numwishes with the wish values for the constellation as the y axis and alternative amounts of wishes as the x axis
@@ -36,11 +31,17 @@
   - make a bool field for choosing via banner or manually?
 - fix register view
 - rework database?
+- export primo record as csv
+- add limits to user banners
+- allow download csv for all charts at all places with charts
 
 - add "advanced statistics" where you can drag and drop up to 2 banners for character and weapons each in order to see odds of that stuff
   - start smaller with just 1 banner of each and you can choose order for probability
   - then upgrade to two characters + 1 weapon
   - then upgrade to two character and 2 weapon, since two weapons would be intertwined
+- check user settings <https://docs.djangoproject.com/en/4.2/topics/auth/default/>
+- 'from types import UnionTyping' for typehinting
+- 'from typing import Any, Dict, Iterator, List, Union' from typehinting
 
 ### tests
 
