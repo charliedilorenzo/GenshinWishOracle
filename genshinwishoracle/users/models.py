@@ -53,7 +53,7 @@ class PrimogemRecord(models.Model):
         string = user.username +"'s Primogem Record - Current Pure Primos: " + str(self.get_current_value())
         return string
 
-    def prior_today_records(self) -> bool:
+    def prior_today_records(self):
         now = datetime.date.today()
         records = PrimogemSnapshot.objects.filter(associated_record_id=self.id,date=now)
         return records
@@ -61,12 +61,22 @@ class PrimogemRecord(models.Model):
     def save_new(self,primogem_value):
         now = datetime.date.today()
         prior_records_today = self.prior_today_records()
-        if prior_records_today:
-            PrimogemSnapshot.objects.filter(date=now).delete()
-        kwargs = {'primogem_value': primogem_value, 'date': now, 'associated_record': self}
-        new_snapshot = PrimogemSnapshot(**kwargs)
-        new_snapshot.save()
-        return new_snapshot
+        if len(prior_records_today) > 1:
+            prior_records_today.delete()
+            kwargs = {'primogem_value': primogem_value, 'date': now, 'associated_record': self}
+            snapshot = PrimogemSnapshot(**kwargs)
+            snapshot.save()
+        elif len(prior_records_today) == 1:
+            snapshot = prior_records_today.first()
+            snapshot.primogem_value = primogem_value
+            snapshot.date = now
+            snapshot.associated_record = self
+            snapshot.save()
+        else:
+            kwargs = {'primogem_value': primogem_value, 'date': now, 'associated_record': self}
+            snapshot = PrimogemSnapshot(**kwargs)
+            snapshot.save()
+        return snapshot
     
     def get_associated_profile(self):
         profile = Profile.objects.filter(primogem_record_id=self.id).first()
