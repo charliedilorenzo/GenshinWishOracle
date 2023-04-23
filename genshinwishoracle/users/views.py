@@ -131,7 +131,9 @@ def profile(request):
             profile_form.save()
 
             user_profile = models.Profile.objects.filter(user_id=request.user.id).first()
-            new = user_profile.primogem_record.save_new(user_profile.calculate_pure_primos())
+            out = user_profile.update_primogem_record(user_profile.calculate_pure_primos())
+            if out is None:
+                messages.warning(request, 'Your primogem record has not been updated. Please export as CSV to clear record and record primogem snapshot.')
 
             messages.success(request, 'Your profile is updated successfully')
             return redirect(to='/users/')

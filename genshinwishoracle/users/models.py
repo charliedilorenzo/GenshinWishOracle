@@ -9,8 +9,15 @@ import datetime
 from matplotlib import pyplot 
 from io import BytesIO
 import base64
+from typing import  Union
+# from types import UnionTyping
+
+USER_LIMIT_PRIMOGEMSNAPSHOT = 100
+USER_LIMIT_BANNER = 15
+ADMIN_LIMIT_PRIMOGEMSNAPSHOT = 100000000
+ADMIN_LIMIT_BANNER = 100000000
 class PrimogemRecord(models.Model):
-    def get_all_records(self) -> QuerySet():
+    def get_all_records(self) -> QuerySet['PrimogemSnapshot']:
         records = PrimogemSnapshot.objects.filter(associated_record_id=self.id)
         return records
 
@@ -53,34 +60,45 @@ class PrimogemRecord(models.Model):
         string = user.username +"'s Primogem Record - Current Pure Primos: " + str(self.get_current_value())
         return string
 
-    def prior_today_records(self):
+    def prior_today_records(self) -> QuerySet['PrimogemSnapshot']:
         now = datetime.date.today()
         records = PrimogemSnapshot.objects.filter(associated_record_id=self.id,date=now)
         return records
 
-    def save_new(self,primogem_value):
+    def save_new(self,primogem_value: int, superuser: bool) -> Union[None, 'PrimogemSnapshot']:
         now = datetime.date.today()
         prior_records_today = self.prior_today_records()
-        if len(prior_records_today) > 1:
-            prior_records_today.delete()
-            kwargs = {'primogem_value': primogem_value, 'date': now, 'associated_record': self}
-            snapshot = PrimogemSnapshot(**kwargs)
-            snapshot.save()
-        elif len(prior_records_today) == 1:
-            snapshot = prior_records_today.first()
-            snapshot.primogem_value = primogem_value
-            snapshot.date = now
-            snapshot.associated_record = self
-            snapshot.save()
+        # TODO do this in a better way since we just need count not the actual records
+        limits_are_okay= self.check_limits(superuser)
+        if limits_are_okay:
+            if len(prior_records_today) > 1:
+                prior_records_today.delete()
+                kwargs = {'primogem_value': primogem_value, 'date': now, 'associated_record': self}
+                snapshot = PrimogemSnapshot(**kwargs)
+                snapshot.save()
+            elif len(prior_records_today) == 1:
+                snapshot = prior_records_today.first()
+                snapshot.primogem_value = primogem_value
+                snapshot.date = now
+                snapshot.associated_record = self
+                snapshot.save()
+            else:
+                kwargs = {'primogem_value': primogem_value, 'date': now, 'associated_record': self}
+                snapshot = PrimogemSnapshot(**kwargs)
+                snapshot.save()
+            return snapshot
         else:
-            kwargs = {'primogem_value': primogem_value, 'date': now, 'associated_record': self}
-            snapshot = PrimogemSnapshot(**kwargs)
-            snapshot.save()
-        return snapshot
-    
-    def get_associated_profile(self):
+            return None
+
+    def get_associated_profile(self) -> Union['Profile', None]:
         profile = Profile.objects.filter(primogem_record_id=self.id).first()
         return profile
+    
+    def check_limits(self, superuser: bool) -> bool:
+        if superuser:
+            return True
+        total_record_count = self.get_all_records().count()
+        return total_record_count < USER_LIMIT_PRIMOGEMSNAPSHOT
 
 
 class PrimogemSnapshot(models.Model):
@@ -116,13 +134,13 @@ class Profile(models.Model):
     primogem_record = models.OneToOneField(PrimogemRecord, on_delete=models.CASCADE)
 
 
-    def calculate_pure_primos(self):
+    def calculate_pure_primos(self) -> int:
         return self.numprimos+self.numgenesis+160*math.floor(self.numstarglitter/5) + 160*self.numfates
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.user.username
     
-    def add_banners(self,banner):
+    def add_banners(self,banner: Union[QuerySet, list, Banner]):
         # with queryset 
         if isinstance(banner, QuerySet) and len(banner) > 0:
             banner = list(banner)
@@ -138,9 +156,15 @@ class Profile(models.Model):
         else:
             raise(Exception, "type of add_banners is invalid")
     
-    def user_has_any_banner_type(self,banner_type) -> bool: 
+    def user_has_any_banner_type(self,banner_type: str) -> bool: 
         banners = self.banners.all().values_list("banner_type")
         for banner in banners:
             if banner[0] == banner_type:
                 return True
         return False
+    
+    # 142979
+    def update_primogem_record(self,primogem_value: int) -> Union[None, PrimogemSnapshot]:
+        record = self.primogem_record
+        superuser = self.user.is_superuser
+        return record.save_new(primogem_value,superuser)
