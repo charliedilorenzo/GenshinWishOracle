@@ -339,6 +339,7 @@ class StatisticsAnalyzeOmniView(generic.View):
         form = self.get_first_form(banner_type,statistics_type)
         if form.is_valid():
             cleaned = form.cleaned_data
+            context = cleaned
             if banner_type == "character":
                 analyze_obj = analytical.TestAnalyzeCharacter()
             elif banner_type == "weapon":
@@ -346,21 +347,20 @@ class StatisticsAnalyzeOmniView(generic.View):
 
             if statistics_type == "calcprobability":
                 statistics = analyze_obj.get_statistic(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned.setdefault('fate_points', 0),0,True)
-                context = {
+                context.update({
                     'banner_type' : banner_type.capitalize(),
                     'statistics_type': statistics_type,
                     "statistics": statistics
-                }
-                context['chart'] = analytical.bar_graph_for_statistics(statistics.get_formated_dictionary() ,**context)
+                })
+                context['chart'] = analytical.bar_graph_for_statistics(statistics.get_formated_dictionary() , **context)
             elif statistics_type == "calcnumwishes":
                 numwishes = analyze_obj.probability_on_copies_to_num_wishes(cleaned['minimum_probability'], cleaned['numcopies'],cleaned['pity'], cleaned['guaranteed'])
-                context = {
+                context.update({
                     'banner_type' : banner_type.capitalize(),
                     'statistics_type': statistics_type,
                     'numwishes': numwishes
-                }
+                })
                 chart = ""
-            context.update(cleaned)
             return render(request, self.result_template, context)
         request.session.pop('wishes')
         request.session['import_data'] = False
