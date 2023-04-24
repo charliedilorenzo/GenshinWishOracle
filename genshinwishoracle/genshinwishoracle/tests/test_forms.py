@@ -6,6 +6,7 @@ from django.utils import timezone
 from users.models import Profile
 from django.contrib.auth.models import User
 from datetime import date
+import datetime
 
 class FormsTestCase(TestCase):
     fixtures = ['initial_data_characters_and_weapons.json',]
@@ -35,13 +36,14 @@ class FormsTestCase(TestCase):
     def setUpTestData(cls):
         testuser = User.objects.create_user("testuser", "testemail@gmail.com","verysecurepassword")
         now = timezone.now()
-        testcharacterbanner = CharacterBanner.objects.create(name="testbannercharacter", enddate=now, banner_type="Character")
+        future = now + datetime.timedelta(1)
+        testcharacterbanner = CharacterBanner.objects.create(name="testbannercharacter", enddate=future, banner_type="Character")
         four_stars = Character.objects.filter(rarity=4)[0:3]
         five_stars = [Character.objects.filter(rarity=5)[0]]
         testcharacterbanner.rateups.add(*four_stars)
         testcharacterbanner.rateups.add(*five_stars)
 
-        testweaponbanner =WeaponBanner.objects.create(name="testbannerweapon", enddate=now, banner_type="Weapon")
+        testweaponbanner =WeaponBanner.objects.create(name="testbannerweapon", enddate=future, banner_type="Weapon")
         four_stars = Weapon.objects.filter(rarity=4)[0:5]
         five_stars = Weapon.objects.filter(rarity=5)[0:1]
         testweaponbanner.rateups.add(*four_stars)
@@ -580,7 +582,6 @@ class FormsTestCase(TestCase):
         data['end_date_manual_select'] = str(date(now.year,1,1))
         testprofile = Profile.objects.filter(user_id = testuser.pk).first()
         data['end_date_banner_select'] = testprofile.get_future_banners().first()
-
         form  = forms.ProjectPrimosForm(data, **kwargs)
         form.is_valid(testing=True)
         decision = form.decide_date()
