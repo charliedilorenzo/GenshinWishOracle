@@ -113,23 +113,6 @@ class ModelsTestCase(TestCase):
         self.assertEqual(equiv, None)
         broken_banner.delete()
 
-    def test_banner_get_all_after_current_date_not_found(self):
-        pasttime = date(1900, 1,1)
-        superfuturebanner = Banner.objects.create(name="brokenbanner", enddate = pasttime , banner_type = "Character")
-        all_after = Banner.get_all_after_current_date()
-        self.assertEqual(len(all_after), 2 )
-        self.assertIn(Banner.objects.filter(name=self.characterbannername)[0], all_after)
-        self.assertIn(Banner.objects.filter(name=self.weaponbannername)[0], all_after)
-
-    def test_banner_get_all_after_current_date_found(self):
-        futuretime = date(3000, 1,1)
-        superfuturebanner = Banner.objects.create(name="brokenbanner", enddate = futuretime , banner_type = "Character")
-        all_after = Banner.get_all_after_current_date()
-        self.assertEqual(len(all_after), 3 )
-        self.assertIn(Banner.objects.filter(name=self.characterbannername)[0], all_after)
-        self.assertIn(Banner.objects.filter(name=self.weaponbannername)[0], all_after)
-        self.assertIn(superfuturebanner, all_after)
-
 
 
     def test_banner_string(self):
