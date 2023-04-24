@@ -1,7 +1,7 @@
 # Genshin Wish Oracle
 
 ## Instructions to get working on computer
-- have a python installation and pip installed
+- have a python installation (mine is Python 3.9.10, but some others might work) and pip installed
 - get to directory with /GenshinWishOracle
 - MAC
 ```
