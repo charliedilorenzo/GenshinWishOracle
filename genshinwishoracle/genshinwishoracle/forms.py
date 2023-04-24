@@ -221,7 +221,7 @@ class ProjectPrimosForm(forms.Form):
             if profile is None:
                 return 
             now = datetime.date.today()
-            banners = profile.banners.filter(enddate__gte=now)
+            banners = profile.get_future_banners()
             self.fields['end_date_banner_select'] = forms.ModelChoiceField(label="End Date Select Through Banner",
                 queryset= banners,
                 widget=forms.Select(attrs={'size': 30},),

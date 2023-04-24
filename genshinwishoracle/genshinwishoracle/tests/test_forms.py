@@ -525,7 +525,7 @@ class FormsTestCase(TestCase):
         data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
         data['end_date_manual_select'] = str(date(now.year,1,1))
         testprofile = Profile.objects.filter(user_id = testuser.pk).first()
-        data['end_date_banner_select'] = testprofile.banners.filter(enddate__gte=now).first()
+        data['end_date_banner_select'] = testprofile.get_future_banners().first()
 
         form  = forms.ProjectPrimosForm(data, **kwargs)
         form.is_valid(testing=True)
@@ -539,7 +539,7 @@ class FormsTestCase(TestCase):
         data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
         data['end_date_manual_select'] = str(date(now.year+1,2,1))
         testprofile = Profile.objects.filter(user_id = testuser.pk).first()
-        data['end_date_banner_select'] = testprofile.banners.filter(enddate__gte=now).first()
+        data['end_date_banner_select'] = testprofile.get_future_banners().first()
         form  = forms.ProjectPrimosForm(data, **kwargs)
         valid = form.is_valid(testing=True)
         decidable = form.date_is_decidable()
@@ -579,7 +579,7 @@ class FormsTestCase(TestCase):
         data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
         data['end_date_manual_select'] = str(date(now.year,1,1))
         testprofile = Profile.objects.filter(user_id = testuser.pk).first()
-        data['end_date_banner_select'] = testprofile.banners.filter(enddate__gte=now).first()
+        data['end_date_banner_select'] = testprofile.get_future_banners().first()
 
         form  = forms.ProjectPrimosForm(data, **kwargs)
         form.is_valid(testing=True)
@@ -593,7 +593,7 @@ class FormsTestCase(TestCase):
         data = {'numprimos': 0, 'numgenesis': 0, 'numfates': 0 , 'numstarglitter': 0 , 'welkin_moon': True,'battlepass': True, 'average_abyss_stars': 30}
         data['end_date_manual_select'] = str(date(now.year+1,2,1))
         testprofile = Profile.objects.filter(user_id = testuser.pk).first()
-        data['end_date_banner_select'] = testprofile.banners.filter(enddate__gte=now).first()
+        data['end_date_banner_select'] = testprofile.get_future_banners().first()
         form  = forms.ProjectPrimosForm(data, **kwargs)
         valid = form.is_valid(testing=True)
         decision = form.decide_date()

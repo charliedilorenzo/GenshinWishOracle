@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 import math
 from django.conf import settings
-from genshinwishoracle.models import Banner, CharacterBanner, WeaponBanner
+from genshinwishoracle.models import Banner, CharacterBanner, WeaponBanner, CHARACTER, WEAPON, GENERIC
 from django.db.models.query import QuerySet
 import datetime
 
@@ -163,6 +163,20 @@ class Profile(models.Model):
                 return True
         return False
     
+    def get_future_banners(self, banner_type: str = "Banner") -> QuerySet['Banner']:
+        acceptable_banner_types  = [CHARACTER, WEAPON, GENERIC]
+        if banner_type not in acceptable_banner_types:
+            raise Exception(f"Banner type is not one of the allowed types {acceptable_banner_types}")
+        now = datetime.date.today()
+        if banner_type == GENERIC:
+            return self.banners.filter(enddate__gt=now)
+        else:
+            return self.banners.filter(enddate__gt=now, banner_type=banner_type)
+    
+    def user_has_any_future_banner(self) -> bool:
+        future_banners = self.get_future_banners(banner_type="Banner")
+        return future_banners.count() > 0
+
     # 142979
     def update_primogem_record(self,primogem_value: int) -> Union[None, PrimogemSnapshot]:
         record = self.primogem_record

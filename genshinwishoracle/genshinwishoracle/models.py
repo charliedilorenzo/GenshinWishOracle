@@ -23,6 +23,7 @@ class Weapon(models.Model):
 
 CHARACTER = "Character"
 WEAPON = "Weapon"
+GENERIC = "Banner"
 BANNER_TYPE = [(CHARACTER, "Character"), (WEAPON, "Weapon"),]
 
 class Banner(models.Model):
@@ -49,12 +50,6 @@ class Banner(models.Model):
             else:
                 return None
         return None
-
-    @staticmethod     
-    def get_all_after_current_date():
-        now = datetime.date.today()
-        banners = Banner.objects.filter(enddate__gte=now)
-        return banners
 
 class CharacterBanner(Banner):
     rateups = models.ManyToManyField(Character,blank=True)
