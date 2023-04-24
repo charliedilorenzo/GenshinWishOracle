@@ -197,7 +197,7 @@ class ProjectPrimosForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.user_id = kwargs.pop('user_id', None)
         super(ProjectPrimosForm, self).__init__(*args, **kwargs)
-        self.fields['numprimos'] = forms.IntegerField(label="Number of Wishes",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of primogems."} )
+        self.fields['numprimos'] = forms.IntegerField(label="Number of Primogems",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of primogems."} )
         self.fields['numgenesis'] = forms.IntegerField(label="Number of Genesis Crystal",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of genesis crystals."})
         self.fields['numfates'] = forms.IntegerField(label="Number of Intertwined Fate",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of intertwined fates"})
         self.fields['numstarglitter'] = forms.IntegerField(label="Number of Starglitter",min_value=0,initial=0,error_messages={'min_value': "Please give a positive number of starglitter"})
@@ -210,23 +210,33 @@ class ProjectPrimosForm(forms.Form):
             user = User.objects.none()
 
         if len(user) != 1:
-            self.fields['end_date_banner_select '] = forms.ModelChoiceField(label="End Date Select Through Banner",
-                queryset= models.Banner.objects.none(),
-                widget=forms.Select(attrs={'size': 30, 'hidden': True},),
-                initial=None,
-                required=False
-            )
+            # self.fields['end_date_banner_select '] = forms.ModelChoiceField(label="End Date Select Through Banner",
+            #     queryset= models.Banner.objects.none(),
+            #     widget=forms.Select(attrs={'size': 30, 'hidden': True},),
+            #     initial=None,
+            #     required=False
+            # )
+            return
         else:
             profile = Profile.objects.filter(user_id=self.user_id).first()
             if profile is None:
                 return 
-            now = datetime.date.today()
-            banners = profile.get_future_banners()
-            self.fields['end_date_banner_select'] = forms.ModelChoiceField(label="End Date Select Through Banner",
-                queryset= banners,
-                widget=forms.Select(attrs={'size': 30},),
-                required=False
-            )
+            elif profile.user_has_any_future_banner():
+                now = datetime.date.today()
+                banners = profile.get_future_banners()
+                self.fields['end_date_banner_select'] = forms.ModelChoiceField(label="End Date Select Through Banner",
+                    queryset= banners,
+                    widget=forms.Select(attrs={'size': 30},),
+                    required=False
+                )
+            else:
+                # self.fields['end_date_banner_select '] = forms.ModelChoiceField(label="End Date Select Through Banner",
+                #     queryset= models.Banner.objects.none(),
+                #     widget=forms.Select(attrs={'size': 30, 'hidden': True},),
+                #     initial=None,
+                #     required=False
+                # )
+                return
 
         self.fields['welkin_moon'] = forms.BooleanField(label="Welkin Moon",initial=False, required=False)
         self.fields['battlepass'] = forms.BooleanField(label="Battlepass",initial=False, required=False)
