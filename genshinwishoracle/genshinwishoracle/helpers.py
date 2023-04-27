@@ -51,8 +51,8 @@ def import_user_data(profile: Profile, form_type):
     if issubclass(form_type,forms.AnalyzeStatisticsToProbability):
         dictionary["numwishes"] = math.floor(profile.calculate_pure_primos()/160)
     if issubclass(form_type,forms.AnalyzeStatisticsToNumWishes):
-        required_fields.remove('numcopies')
-        required_fields.remove('minimum_probability')
+        required_fields.remove("numcopies")
+        required_fields.remove("minimum_probability")
     for key in required_fields:
         result[key] = dictionary[key]
     return result

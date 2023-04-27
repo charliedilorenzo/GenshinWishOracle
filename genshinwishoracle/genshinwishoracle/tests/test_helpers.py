@@ -1,9 +1,18 @@
 from django.test import TestCase
 import pytest
+from django.contrib.auth.models import User
 
 from ..helpers import *
+from users.models import Profile
 
 class HelperTestCase(TestCase):
+    test_username = "testuser"
+
+    @classmethod
+    def setUpTestData(cls):
+        test_username = "testuser"
+        testuser = User.objects.create_user(test_username, "testemail@gmail.com","verysecurepassword")
+        
     # ADD DICTIONARIES
     def test_add_list_entries_zero_length(self):
         dicts = [[], []]
@@ -110,3 +119,43 @@ class HelperTestCase(TestCase):
         target = 1
         value = .998
         self.assertTrue(not within_epsilon_or_greater(value,target,epsilon=epsilon))
+
+    def test_import_data_character_prob(self):
+        user = User.objects.filter(username=self.test_username).first()
+        profile = Profile.objects.filter(user_id=user.pk).first()
+        form_type = forms.AnalyzeStatisticsCharacterToProbabilityForm
+        data = list(import_user_data(profile, form_type).keys())
+        expected_fields = ["pity","guaranteed","numwishes"]
+        data.sort()
+        expected_fields.sort()
+        self.assertTupleEqual(tuple(expected_fields),tuple(data))
+
+    def test_import_data_weapon_prob(self):
+        user = User.objects.filter(username=self.test_username).first()
+        profile = Profile.objects.filter(user_id=user.pk).first()
+        form_type = forms.AnalyzeStatisticsWeaponToProbabilityForm
+        data = list(import_user_data(profile, form_type).keys())
+        expected_fields = ["pity","guaranteed","fate_points","numwishes"]
+        data.sort()
+        expected_fields.sort()
+        self.assertTupleEqual(tuple(expected_fields),tuple(data))
+    
+    def test_import_data_character_wishes(self):
+        user = User.objects.filter(username=self.test_username).first()
+        profile = Profile.objects.filter(user_id=user.pk).first()
+        form_type = forms.AnalyzeStatisticsCharacterToNumWishesForm
+        data = list(import_user_data(profile, form_type).keys())
+        expected_fields = ["pity","guaranteed"]
+        data.sort()
+        expected_fields.sort()
+        self.assertTupleEqual(tuple(expected_fields),tuple(data))
+    
+    def test_import_data_character_wishes(self):
+        user = User.objects.filter(username=self.test_username).first()
+        profile = Profile.objects.filter(user_id=user.pk).first()
+        form_type = forms.AnalyzeStatisticsWeaponToNumWishesForm
+        data = list(import_user_data(profile, form_type).keys())
+        expected_fields = ["pity","guaranteed","fate_points"]
+        data.sort()
+        expected_fields.sort()
+        self.assertTupleEqual(tuple(expected_fields),tuple(data))
