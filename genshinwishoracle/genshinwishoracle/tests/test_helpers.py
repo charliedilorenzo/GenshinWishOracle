@@ -1,6 +1,7 @@
-from genshinwishoracle.helpers import *
 from django.test import TestCase
 import pytest
+
+from ..helpers import *
 
 class HelperTestCase(TestCase):
     # ADD DICTIONARIES
@@ -85,3 +86,27 @@ class HelperTestCase(TestCase):
         expected = dict.copy()
         result = upgrade_list(dict)
         assert result == expected
+    
+    def test_within_epsilon_or_greater_exact_match(self):
+        epsilon = 0.001
+        target = 1
+        value = 1
+        self.assertTrue(within_epsilon_or_greater(value,target,epsilon=epsilon))
+    
+    def test_within_epsilon_or_greater_greater_case(self):
+        epsilon = 0.001
+        target = 1
+        value = 2
+        self.assertTrue(within_epsilon_or_greater(value,target,epsilon=epsilon))
+    
+    def test_within_epsilon_or_greater_almost_lesser_case(self):
+        epsilon = 0.001
+        target = 1
+        value = .9999
+        self.assertTrue(within_epsilon_or_greater(value,target,epsilon=epsilon))
+    
+    def test_within_epsilon_or_greater_lesser_case(self):
+        epsilon = 0.001
+        target = 1
+        value = .998
+        self.assertTrue(not within_epsilon_or_greater(value,target,epsilon=epsilon))

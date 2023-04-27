@@ -1,12 +1,13 @@
 from django.test import TestCase
-from genshinwishoracle import forms
-from genshinwishoracle.models import Character, CharacterBanner, Weapon, WeaponBanner, Banner
 from django.core.management import call_command
 from django.utils import timezone
 from users.models import Profile
 from django.contrib.auth.models import User
 from datetime import date
 import datetime
+
+from .. import forms
+from ..models import Character, CharacterBanner, Weapon, WeaponBanner, Banner
 
 class FormsTestCase(TestCase):
     fixtures = ['initial_data_characters_and_weapons.json',]

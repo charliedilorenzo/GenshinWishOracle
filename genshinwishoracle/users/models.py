@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 import math
 from django.conf import settings
-from genshinwishoracle.models import Banner, CharacterBanner, WeaponBanner, CHARACTER, WEAPON, GENERIC
 from django.db.models.query import QuerySet
 import datetime
 
@@ -11,6 +10,8 @@ from io import BytesIO
 import base64
 from typing import  Union
 # from types import UnionTyping
+
+from genshinwishoracle.models import Banner, CharacterBanner, WeaponBanner, CHARACTER, WEAPON, GENERIC
 
 USER_LIMIT_PRIMOGEMSNAPSHOT = 100
 USER_LIMIT_BANNER = 15

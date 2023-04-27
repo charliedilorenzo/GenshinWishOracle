@@ -279,7 +279,6 @@ class ProjectPrimosForm(forms.Form):
 
     def is_valid(self,testing=False) -> bool:
         valid = super().is_valid()
-        print(self.date_is_decidable())
         if not testing and not self.date_is_decidable():
             self.add_error('end_date_manual_select', "Please add a manual banner end date or select a banner for its end date.")
             return False

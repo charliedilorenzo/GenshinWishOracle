@@ -1,15 +1,15 @@
 from django.test import TestCase
 import genshinwishoracle.views as views
-from genshinwishoracle.models import Character, Weapon, Banner, WeaponBanner, CharacterBanner
 from django.test import Client
 from django.utils import timezone
 from django.contrib.auth.models import User
 from users.models import Profile
 from django.urls import reverse, reverse_lazy, resolve
-from genshinwishoracle.urls import urlpatterns
 import math
 from django.db.models import Q
 
+from ..models import Character, Weapon, Banner, WeaponBanner, CharacterBanner
+# from ..urls import urlpatterns
 
 class ViewsTestClass(TestCase):
     fixtures = ['initial_data_characters_and_weapons.json',]

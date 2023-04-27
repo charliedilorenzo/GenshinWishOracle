@@ -9,9 +9,9 @@ from . import analytical
 from . import wish_simulator
 from . import models
 from . import forms
-import genshinwishoracle.helpers as helpers
-from  genshinwishoracle.helpers import PersonalizedLoginRequiredMixin
-from genshinwishoracle.project_primos import project_future_primos, project_primos_chart
+from . import helpers
+from .helpers import PersonalizedLoginRequiredMixin
+from .project_primos import project_future_primos, project_primos_chart
 from users.models import Profile
 
 class Address():
@@ -341,9 +341,9 @@ class StatisticsAnalyzeOmniView(generic.View):
             cleaned = form.cleaned_data
             context = cleaned
             if banner_type == "character":
-                analyze_obj = analytical.TestAnalyzeCharacter()
+                analyze_obj = analytical.AnalyzeCharacter()
             elif banner_type == "weapon":
-                analyze_obj = analytical.TestAnalyzeWeapon()
+                analyze_obj = analytical.AnalyzeWeapon()
 
             if statistics_type == "calcprobability":
                 statistics = analyze_obj.get_statistic(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned.setdefault('fate_points', 0),0,True)
