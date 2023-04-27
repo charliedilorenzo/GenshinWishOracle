@@ -73,12 +73,13 @@ class AnalyzeGeneric:
         return 0
 
     def load_hashtable(self) -> None:
-        # stored in db is prioritized over files
         if database.check_db(self.db_file):
-            conn = database.get_db_connection(self.db_file)
-            data = database.table_data_to_hashtable(
-                self.tablename, conn)
-            self.hashtable.update(data)
+            with database.get_db_connection(self.db_file) as conn:
+                if not database.check_table(self.tablename,conn):
+                    database.create_data_tables(conn)
+                data = database.table_data_to_hashtable(
+                    self.tablename, conn)
+                self.hashtable.update(data)
 
     def lookup_num_generator(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int) -> int:
         # malformed cases
@@ -113,6 +114,7 @@ class AnalyzeGeneric:
         return [num_wishes, pity, guaranteed, fate_points]
     
     def __init__(self, soft_pity_dist: dict[int, float], base_five_star_rate, fate_points_required, copies_max, banner_type) -> None:
+        self.tablename = f'analytical_solutions_{self.banner_type}'
         self.banner_type = banner_type
         base_five_star_rate = base_five_star_rate
         self.fate_points_required = fate_points_required
@@ -185,9 +187,13 @@ class AnalyzeGeneric:
     
     def refresh_database_size(self):
         if exists(self.db_file):
-            conn =  sqlite3.connect(self.db_file)
-            with conn:
-                self.database_size = database.count_entries_in_table(self.tablename, conn)
+            with sqlite3.connect(self.db_file) as conn:
+                if database.check_table(self.tablename,conn):
+                    self.database_size = database.count_entries_in_table(self.tablename, conn)
+                else:
+                    self.database_size = 0
+        else:
+            self.database_size = 0
         
     def get_statistic(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int, formatted = True):
         solution = self.specific_solution(num_wishes, pity, guaranteed, fate_points, current_copies)
@@ -198,10 +204,10 @@ class AnalyzeCharacter(AnalyzeGeneric):
     def __init__(self,db_file="") -> None:
         self.banner_type = "character"
         banner_type = self.banner_type
-        self.tablename = f'analytical_solutions_{self.banner_type}'
 
         if db_file == "":
             self.db_file = database.get_default_db()
+            db_file = database.get_default_db()
         else:
             self.db_file = db_file
 
@@ -219,7 +225,7 @@ class AnalyzeCharacter(AnalyzeGeneric):
         else:
             conn = sqlite3.connect(db_file)
             with conn:
-                database.init_db(conn)
+                database.init_db(db_file)
             self.calculate_and_write_all_solutions()
     
 
@@ -275,6 +281,7 @@ class AnalyzeWeapon(AnalyzeGeneric):
 
         if db_file == "":
             self.db_file = database.get_default_db()
+            db_file = database.get_default_db()
         else:
             self.db_file = db_file
 
@@ -285,7 +292,6 @@ class AnalyzeWeapon(AnalyzeGeneric):
         self.max_wishes_required = (self.copies_max)*self.hard_pity*(self.fate_points_required+1)
         self.max_lookup = self.max_wishes_required*self.hard_pity*(self.fate_points_required+1)*2
 
-        db_file = database.get_default_db()
         self.refresh_database_size()
         if exists(db_file) and self.database_is_full():
             self.load_hashtable()
@@ -295,7 +301,7 @@ class AnalyzeWeapon(AnalyzeGeneric):
         else:
             conn = sqlite3.connect(db_file)
             with conn:
-                database.init_db(conn)
+                database.init_db(db_file)
             self.calculate_and_write_all_solutions()
 
     def specific_solution(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int) -> list[float]:
@@ -414,10 +420,3 @@ def bar_graph_for_calcprobability(solution, banner_type, numwishes, pity, guaran
     graph = graph.decode('utf-8')
     buffer.close()
     return graph
-
-def main():
-    print("MAIN FOR ANALYTICAL")
-    test_analyze_character = AnalyzeCharacter()
-    print("FINISHED CHARACTER")
-    test_analyze_weapon = AnalyzeWeapon()
-    print("FINISHED WEAPON")

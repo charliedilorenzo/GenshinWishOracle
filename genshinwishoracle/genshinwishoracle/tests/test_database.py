@@ -46,8 +46,9 @@ class DatebaseTestCase(TestCase):
     def reset_database(self):
         database.reset_database(self.get_test_db_name())
 
-    def test_init_self(self):
-        os.remove(self.test_db)
+    def test_init_file_exists(self):
+        # os.remove(self.test_db)
+        database.reset_database(self.test_db)
         self.assertFalse(database.check_db(self.test_db))
         database.init_db(self.test_db)
         self.assertTrue(database.check_db(self.test_db))
@@ -83,6 +84,25 @@ class DatebaseTestCase(TestCase):
             current_table = database.table_data_to_hashtable(table, conn)
             assert current_table == {}
         self.reset_database()
+    
+    def test_check_tables_expected_tables(self):
+        expected_tables = ['analytical_solutions_character',
+                           'analytical_solutions_weapon', 'character_banners', 'weapon_banners']
+        self.reset_database()
+
+        conn = self.get_test_db_conn()
+
+        for table in expected_tables:
+            check = database.check_table(table, conn)
+            assert check == True
+        self.reset_database()
+
+    def test_check_tables_unexpected_table(self):
+        self.reset_database()
+
+        conn = self.get_test_db_conn()
+        unexpected_table = 'this_table_is_so_totally_unexpected_bro'
+        check = database.check_table(unexpected_table, conn)
 
     def test_get_primary_keys(self):
         self.reset_database()
@@ -242,3 +262,10 @@ class DatebaseTestCase(TestCase):
         with self.get_test_db_conn() as conn:
             database.count_entries_in_table(analytical_character.tablename, conn)
             database.count_entries_in_table(analytical_weapon.tablename, conn)
+
+    def test_get_entry_by_primary_key_analytical(self):
+        self.reset_database()
+        conn = self.get_test_db_conn()
+        table_name = "analytical_solutions_weapon"
+        lookup = 1
+        lst = database.get_entry_by_primary_key_analytical(table_name, conn, lookup)

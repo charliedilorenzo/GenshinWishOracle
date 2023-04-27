@@ -170,3 +170,12 @@ class ModelsTestCase(TestCase):
         for rateup in rateups:
             self.assertIn(str(rateup), banner_string)
     
+
+    # -------------------------- FOR HIGHER COVERAGE, NOT SUPER USEFUL BUT COULD BE A BIT  --------------------------
+    def test_character_string(self):
+        string = CharacterBanner.get_banner_type_string()
+        self.assertEqual(string, "Character")
+
+    def test_weapon_string(self):
+        string = WeaponBanner.get_banner_type_string()
+        self.assertEqual(string, "Weapon")

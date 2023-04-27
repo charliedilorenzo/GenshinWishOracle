@@ -33,8 +33,8 @@ def create_data_tables(conn: sqlite3.Connection,schema_filepath = SCHEMA_FILE) -
 
 
 def init_db(db_file) -> int:
-    if not check_db:
-        with open(db_file, " ") as f:
+    if not check_db(db_file):
+        with open(db_file, "w") as f:
             pass
     with sqlite3.connect(db_file) as conn:
         create_data_tables(conn)
@@ -51,17 +51,6 @@ def update_data_in_table(data: list[tuple], table: str, conn: sqlite3.Connection
         table, question_marks), data)
     conn.commit()
     return 0
-
-
-def print_table(table: str, conn: sqlite3.Connection) -> None:
-    i = 0
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM {};".format(table))
-    rows = cur.fetchall()
-    for row in rows:
-        print(row)
-        i += 1
-
 
 def clear_table(table: str, conn: sqlite3.Connection) -> int:
     cur = conn.cursor()
@@ -113,6 +102,13 @@ def get_entry_by_primary_key_analytical(table: str, conn: sqlite3.Connection, pr
     rows = cur.fetchall()[0]
     rows = rows[1:len(rows)]
     return rows
+
+def check_table(table: str, conn:  sqlite3.Connection) -> bool:
+    tables = get_tables(conn)
+    if table in tables:
+        return True
+    else:
+        return False
 
 def count_entries_in_table(table: str, conn: sqlite3.Connection):
     cur = conn.cursor()

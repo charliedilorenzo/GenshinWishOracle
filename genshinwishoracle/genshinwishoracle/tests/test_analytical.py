@@ -201,6 +201,6 @@ class AnalyticalTestClass(TestCase):
                         assert 0
             assert 1
 
-    def test_probabilities_all_around_one():
+    def test_probabilities_all_around_one(self):
         # TODO
         pass

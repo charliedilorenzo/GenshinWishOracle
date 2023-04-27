@@ -15,13 +15,37 @@
 - actually properly test the new analytical classes
 - test for import user data
 
+- READD CHECK TABLE TEST
+DATABASSE
+43 - get default db
+103-104 - get_entry_by_primary_key_analytical it glitches out probably
+
 - COVERAGE REPORT:
+ANALYTICAL
+26-27 - Datapoint init
+30-45 - Statistics init
+48-51 - Statistics get_formated_dictionary
+54-58 - Statistics get_data_points
+137-142 - Analyze solution_from_database
+150 - for val in self.hashtable: incomplete_lookups.discard(val)
+167-176 - probability_on_copies_to_num_wishes
+182 - database_is_full init
+193-194 - get_statistic
+refresh_database_size
+215  init  exists(db_file) and self.database_is_full():
+220-223   file doesn't exist
+230 - specific solution self.database_is_full()
+291  - init  exists(db_file) and self.database_is_full():
+296-299 - file doesn't exist
+306 - specific solution self.database_is_full()
+368-378 - GET RID OF THISS
+381-416 - bar_graph_for_calcprobability
+
 \genshinwishoracle\users\models.py      41%   21-22, 25-47, 50-55, 58-61, 64-66, 69-91, 94-95, 98-101, 110-111, 138, 141, 145-157, 160-164, 169, 174, 182-184
 \genshinwishoracle\users\views.py       42%   28-56, 59, 80-90, 100-104, 107-108, 111-121, 125-144, 150-162, 165-166
 \genshinwishoracle\genshinwishoracle\analytical.py                                                                         66%   26-27, 30-45, 48-51, 54-58, 137-142, 145, 150, 167-176, 193-194, 204, 220-223, 230, 277, 296-299, 306, 324, 368-378, 381-416, 419-423
 
 \genshinwishoracle\genshinwishoracle\forms.py                                                                              82%   36-42, 114-115, 151-152, 155-162, 223, 239, 248, 260, 283-284, 303-324, 332-333, 336-337
-\genshinwishoracle\genshinwishoracle\helpers.py                                                                            69%   41-58
 \genshinwishoracle\genshinwishoracle\models.py                                                                             98%   80, 105
 \genshinwishoracle\genshinwishoracle\project_primos.py                                                                     17%   11-16, 19-58, 61-84
 \genshinwishoracle\genshinwishoracle\views.py                                                                             33%   19-20, 28-30, 33-36, 52-60, 63-67, 70-73, 98-103, 106-115, 118-124, 148-157, 160-163, 166-169, 172-194, 218-221, 224-233, 236-249, 277-283, 286-289, 292-307, 310-317, 320-368, 371-374, 377-380, 386-387, 398-411, 414-457, 466-468, 471-474, 476-486, 493-510, 513, 516-517, 520-529, 533-538, 541
