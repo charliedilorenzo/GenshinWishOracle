@@ -1,8 +1,12 @@
 import os
-from genshinwishoracle.analytical import AnalyzeCharacter, AnalyzeWeapon
+import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'genshinwishoracle.settings')
+django.setup()
 from django.test import TestCase
-from genshinwishoracle import settings
-import genshinwishoracle.database as database
+from .. import settings, database
+from ..analytical import AnalyzeCharacter, AnalyzeWeapon
+
 
 global schema_file, path
 path = settings.BASE_DIR / "genshinwishoracle"
@@ -196,3 +200,7 @@ class AnalyticalTestClass(TestCase):
                     if not (wish_num == reverse[0] and pity == reverse[1] and guaranteed == reverse[2]):
                         assert 0
             assert 1
+
+    def test_probabilities_all_around_one():
+        # TODO
+        pass

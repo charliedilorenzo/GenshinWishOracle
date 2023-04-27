@@ -2,13 +2,12 @@
 
 - checkout installed apps <https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-INSTALLED_APPS>
 
+- think of some stuff that chatgpt might be able to solve for me
+
 ### immediate testing
 
-- primo project:
-  - hide field when no valid banners " End Date Select Through Banner: "
 - wishing simulator
   - direct the user to make banners if they dont have any
-- think of some stuff that chatgpt might be able to solve for me
 - views tests
 - add tests for users
 - fix user tests for new primogem record / snapshot
@@ -16,12 +15,23 @@
 - actually properly test the new analytical classes
 - test for import user data
 
+- COVERAGE REPORT:
+\genshinwishoracle\users\models.py      41%   21-22, 25-47, 50-55, 58-61, 64-66, 69-91, 94-95, 98-101, 110-111, 138, 141, 145-157, 160-164, 169, 174, 182-184
+\genshinwishoracle\users\views.py       42%   28-56, 59, 80-90, 100-104, 107-108, 111-121, 125-144, 150-162, 165-166
+\genshinwishoracle\genshinwishoracle\analytical.py                                                                         66%   26-27, 30-45, 48-51, 54-58, 137-142, 145, 150, 167-176, 193-194, 204, 220-223, 230, 277, 296-299, 306, 324, 368-378, 381-416, 419-423
+
+\genshinwishoracle\genshinwishoracle\forms.py                                                                              82%   36-42, 114-115, 151-152, 155-162, 223, 239, 248, 260, 283-284, 303-324, 332-333, 336-337
+\genshinwishoracle\genshinwishoracle\helpers.py                                                                            69%   41-58
+\genshinwishoracle\genshinwishoracle\models.py                                                                             98%   80, 105
+\genshinwishoracle\genshinwishoracle\project_primos.py                                                                     17%   11-16, 19-58, 61-84
+\genshinwishoracle\genshinwishoracle\views.py                                                                             33%   19-20, 28-30, 33-36, 52-60, 63-67, 70-73, 98-103, 106-115, 118-124, 148-157, 160-163, 166-169, 172-194, 218-221, 224-233, 236-249, 277-283, 286-289, 292-307, 310-317, 320-368, 371-374, 377-380, 386-387, 398-411, 414-457, 466-468, 471-474, 476-486, 493-510, 513, 516-517, 520-529, 533-538, 541
+\genshinwishoracle\genshinwishoracle\wish_simulator.py                                                                    9%   6-7, 12-57, 61-80, 83-92, 96-137, 140-145
+
 ### immediate features
 
-- think of some stuff that chatgpt might be able to solve for me
-- fix user creation / password reset process
 - fix can't edit banner name?
 - add export csv for primogem records
+- allow download csv for all charts at all places with charts
 - look for other things that users can generate other than users that have storage
 - make redirect from loginrequiredmixin work
 - add desired five star for weapon banner wish simulator
@@ -31,9 +41,7 @@
   - make a bool field for choosing via banner or manually?
 - fix register view
 - rework database?
-- export primo record as csv
 - add limits to user banners
-- allow download csv for all charts at all places with charts
 - possibly add back emails to users
 
 - add "advanced statistics" where you can drag and drop up to 2 banners for character and weapons each in order to see odds of that stuff

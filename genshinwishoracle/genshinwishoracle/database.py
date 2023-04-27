@@ -1,10 +1,11 @@
 import os
 import sqlite3
-from genshinwishoracle import settings
 
-global schema_file, path
+from . import settings
+
+global SCHEMA_FILE, path
 path = settings.BASE_DIR / "genshinwishoracle"
-schema_file = path / "schema.sql"
+SCHEMA_FILE = path / "schema.sql"
 
 
 def check_db(filename: str) -> bool:
@@ -22,23 +23,21 @@ def get_tables(conn: sqlite3.Connection) -> list[str]:
     return tables
 
 
-def create_data_tables(schema_filepath, conn: sqlite3.Connection) -> int:
-    # TODO FIX THIS AND HAVE A BETTER GLOBAL VARIABLE FOR IT OR SOMETHING
-    if schema_filepath == "":
-        schema_filepath = schema_file
+def create_data_tables(conn: sqlite3.Connection,schema_filepath = SCHEMA_FILE) -> int:
     # will only create each table if it doesn't exist
     with open(schema_filepath, 'r') as rf:
         # Read the schema from the file
         schema = rf.read()
-        conn.executescript(schema)
+        conn.executescript(schema)  
     return 0
 
 
-def init_db(conn: sqlite3.Connection) -> int:
-    create_data_tables("", conn)
-    # TODO Make init generate analytical data for characters and weapons
-    return 0
-
+def init_db(db_file) -> int:
+    if not check_db:
+        with open(db_file, " ") as f:
+            pass
+    with sqlite3.connect(db_file) as conn:
+        create_data_tables(conn)
 
 def get_default_db() -> str:
     return path / "database.sqlite3"
@@ -134,17 +133,5 @@ def reset_database(db_file: str) -> int:
                 clear_table(table, conn)
 
     with sqlite3.connect(db_file) as conn:
-        create_data_tables("", conn)
+        create_data_tables(conn)
     return 0
-
-
-def main():
-    global schema_file
-    db_file = get_default_db()
-    conn = sqlite3.connect(db_file)
-    with conn:
-        reset_database(db_file)
-
-
-if __name__ == "__main__":
-    main()

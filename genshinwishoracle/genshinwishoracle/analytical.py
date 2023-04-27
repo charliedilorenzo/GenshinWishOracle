@@ -1,10 +1,10 @@
 from genericpath import exists
 import math
-from genshinwishoracle import database
 import sqlite3
-import genshinwishoracle.helpers as H
-import pandas
 import matplotlib.ticker as mtick
+
+from . import helpers as H
+from . import database
 
 DEFAULT_CHARACTER_BANNER_SOFT_PITY = {73: .06, 74: .12, 75: .18, 76: .24, 77: .3, 78: .35,
                                           79: .4, 80: .45, 81: .5, 82: .55, 83: .6, 84: .65, 85: .65, 86: .5, 87: .5, 88: .25, 89: 1}
