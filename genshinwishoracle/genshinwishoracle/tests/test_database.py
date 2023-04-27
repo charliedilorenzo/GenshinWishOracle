@@ -27,13 +27,6 @@ class DatebaseTestCase(TestCase):
         data = [tuple(i for i in range(0, 7))]
         database.update_data_in_table(
             data, 'analytical_solutions_weapon', conn)
-        data = [("example banner character", "Baizhu", "Amber", "Kaeya", "Lisa")]
-        database.update_data_in_table(
-            data, 'character_banners', conn)
-        data = [("example banner weapon", "Skyward Pride", "Wolf's Greatstone",
-                 "The Bell", "Widsth", "Favonius Lance", "Stringless", "Lion's Roar")]
-        database.update_data_in_table(
-            data, 'weapon_banners', conn)
 
     def reset_database(self):
         database.reset_database(self.get_test_db_name())
@@ -90,7 +83,7 @@ class DatebaseTestCase(TestCase):
 
     def test_get_tables(self):
         expected_tables = ['analytical_solutions_character',
-                           'analytical_solutions_weapon', 'character_banners', 'weapon_banners']
+                           'analytical_solutions_weapon']
         self.reset_database()
         conn = self.get_test_db_conn()
         database.create_data_tables(self.schema_filepath, conn)
@@ -99,28 +92,9 @@ class DatebaseTestCase(TestCase):
         assert tables == expected_tables
         self.reset_database()
 
-    def test_check_tables_expected_tables(self):
-        expected_tables = ['analytical_solutions_character',
-                           'analytical_solutions_weapon', 'character_banners', 'weapon_banners']
-        self.reset_database()
-
-        conn = self.get_test_db_conn()
-
-        for table in expected_tables:
-            check = database.check_table(table, conn)
-            assert check == True
-        self.reset_database()
-
-    def test_check_tables_unexpected_table(self):
-        self.reset_database()
-
-        conn = self.get_test_db_conn()
-        unexpected_table = 'this_table_is_so_totally_unexpected_bro'
-        check = database.check_table(unexpected_table, conn)
-
     def test_create_tables_tables_exist(self):
         expected_tables = ['analytical_solutions_character',
-                           'analytical_solutions_weapon', 'character_banners', 'weapon_banners']
+                           'analytical_solutions_weapon']
         self.reset_database()
 
         special_test_db = self.main_dir / "tests/tablesexisttest.db"
@@ -214,37 +188,6 @@ class DatebaseTestCase(TestCase):
         data = [tuple(i for i in range(0, 7))]
         database.update_data_in_table(data, example_table, conn)
         expected = {0: [i for i in range(1, 7)]}
-        hashtable = database.table_data_to_hashtable(example_table, conn)
-        assert hashtable == expected
-        self.reset_database()
-
-    def test_update_data_in_table_character_banners(self):
-        self.reset_database()
-        conn = self.get_test_db_conn()
-        tables = database.get_tables(conn)
-        example_table = 'character_banners'
-        if example_table not in tables:
-            assert 0
-        data = [("example banner character", "Baizhu", "Amber", "Kaeya", "Lisa")]
-        database.update_data_in_table(data, example_table, conn)
-        expected = {"example banner character": [
-            "Baizhu", "Amber", "Kaeya", "Lisa"]}
-        hashtable = database.table_data_to_hashtable(example_table, conn)
-        assert hashtable == expected
-        self.reset_database()
-
-    def test_update_data_in_table_weapon_banners(self):
-        self.reset_database()
-        conn = self.get_test_db_conn()
-        tables = database.get_tables(conn)
-        example_table = 'weapon_banners'
-        if example_table not in tables:
-            assert 0
-        data = [("example banner weapon", "Skyward Pride", "Wolf's Greatstone",
-                 "The Bell", "Widsth", "Favonius Lance", "Stringless", "Lion's Roar")]
-        database.update_data_in_table(data, example_table, conn)
-        expected = {"example banner weapon": [
-            "Skyward Pride", "Wolf's Greatstone", "The Bell", "Widsth", "Favonius Lance", "Stringless", "Lion's Roar"]}
         hashtable = database.table_data_to_hashtable(example_table, conn)
         assert hashtable == expected
         self.reset_database()

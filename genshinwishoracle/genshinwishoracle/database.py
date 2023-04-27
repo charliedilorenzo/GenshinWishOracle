@@ -22,14 +22,6 @@ def get_tables(conn: sqlite3.Connection) -> list[str]:
     return tables
 
 
-def check_table(table: str, conn:  sqlite3.Connection) -> bool:
-    tables = get_tables(conn)
-    if table in tables:
-        return True
-    else:
-        return False
-
-
 def create_data_tables(schema_filepath, conn: sqlite3.Connection) -> int:
     # TODO FIX THIS AND HAVE A BETTER GLOBAL VARIABLE FOR IT OR SOMETHING
     if schema_filepath == "":
@@ -49,7 +41,7 @@ def init_db(conn: sqlite3.Connection) -> int:
 
 
 def get_default_db() -> str:
-    return path / "database.db"
+    return path / "database.sqlite3"
 
 
 def update_data_in_table(data: list[tuple], table: str, conn: sqlite3.Connection) -> int:
@@ -117,6 +109,7 @@ def get_primary_key_column_name(table: str, conn: sqlite3.Connection) -> list:
 
 def get_entry_by_primary_key_analytical(table: str, conn: sqlite3.Connection, primary_key: int) -> list:
     cur = conn.cursor()
+    print(table,primary_key)
     cur.execute("SELECT * FROM {} WHERE lookup = {}".format(table,primary_key))
     rows = cur.fetchall()[0]
     rows = rows[1:len(rows)]
@@ -150,7 +143,7 @@ def main():
     db_file = get_default_db()
     conn = sqlite3.connect(db_file)
     with conn:
-        init_db(conn)
+        reset_database(db_file)
 
 
 if __name__ == "__main__":
