@@ -1,0 +1,34 @@
+{% extends "genshinwishoracle/bootstrap_base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'base/style.css' %}">
+<title>{% block title %} Credits {% endblock %} </title>
+
+<div>
+    <a href="{% url 'main-home' %}"><button name='back' type="submit" class="back-button"><i class="back-arrow"></i>
+            Back</button></a>
+</div>
+
+<div>
+    Credits to Django
+</div>
+
+<div>
+    Credits to Python
+</div>
+
+<div>
+    Hana Belay / <a href="https://github.com/earthcomfy"> Earthcomfy </a>[Earthcomfy] for the basis of the user system
+    and the <a href="https://dev.to/earthcomfy/creating-a-django-registration-login-app-part-i-1di5"> wonderful tutorial
+    </a> on it
+</div>
+
+<div>
+    Awesomefonts for many of the icons
+</div>
+
+<div>
+    ChatGPT with help with some of the visuals
+</div>
+
+{% endblock %}

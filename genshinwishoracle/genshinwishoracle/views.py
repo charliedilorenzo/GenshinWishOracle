@@ -14,10 +14,21 @@ from .helpers import PersonalizedLoginRequiredMixin
 from .project_primos import project_future_primos, project_primos_chart
 from users.models import Profile
 
-class Address():
-    def __init__(self, url:str, name:str) -> None:
-        self.url = url
-        self.name = name
+class CreditsView(generic.View):
+    template_name = 'genshinwishoracle/credits.html'
+
+    def get(self, request,*args, **kwargs):
+        # context = self.get_context_data()
+        context = {}
+        return render(request, self.template_name, context=context)
+
+class AboutView(generic.View):
+    template_name = 'genshinwishoracle/about.html'
+
+    def get(self, request,*args, **kwargs):
+        # context = self.get_context_data()
+        context = {}
+        return render(request, self.template_name, context=context)
 class IndexView(generic.ListView):
     context_object_name = 'links'
     template_name = 'genshinwishoracle/index.html'

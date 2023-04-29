@@ -1,0 +1,12 @@
+{% extends "genshinwishoracle/bootstrap_base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'base/style.css' %}">
+<title>{% block title %} Abouts {% endblock %} </title>
+
+<div>
+    <a href="{% url 'main-home' %}"><button name='back' type="submit" class="back-button"><i class="back-arrow"></i>
+            Back</button></a>
+</div>
+
+{% endblock %}
