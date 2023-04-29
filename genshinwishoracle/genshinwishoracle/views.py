@@ -18,22 +18,44 @@ class Address():
     def __init__(self, url:str, name:str) -> None:
         self.url = url
         self.name = name
-
 class IndexView(generic.ListView):
-    context_object_name = 'urls'
+    context_object_name = 'links'
     template_name = 'genshinwishoracle/index.html'
-    url_names = [['statistics', {"banner_type": "character", "statistics_type": "calcprobability" }, "Wishing Statistics"], ['character_banners',{}, "Character Banners"], ['weapon_banners',{}, "Weapon Banners"], ['project_primos',{}, "Project Future Primogems"],['wish_simulator',{}, "Wishing Simulator"], ['users:users-home',{}, "User Login and Settings"]]
-
+    url_names = [
+        {"django_url": "statistics",
+        "kwargs": {"banner_type": "character", "statistics_type": "calcprobability" },
+        "presentationname": "Wishing Statistics"},
+        {"django_url": 'character_banners',
+        "kwargs": { },
+        "presentationname": "Character Banners"},
+        {"django_url": 'weapon_banners',
+        "kwargs": {},
+        "presentationname": "Weapon Banners"},
+        {"django_url": 'project_primos',
+        "kwargs": {},
+        "presentationname": "Project Future Primogems"},
+        {"django_url": 'wish_simulator',
+        "kwargs": {},
+        "presentationname":  "Wishing Simulator"},
+        {"django_url": 'users:users-home',
+        "kwargs": {},
+        "presentationname": "User Login and Settings"}
+    ]
+    
     def get_context_data(self, **kwargs):
         context = {}
         context[self.context_object_name] = self.get_queryset()
         return context
 
     def get_queryset(self):
-        urls = []
+        links = []
         for item in self.url_names:
-            urls.append(Address(str(reverse(item[0], kwargs = item[1])), item[2]))
-        return urls
+            single_link = item.copy()
+            image_file_name = item["django_url"].split(":")[-1]
+            single_link["imagename"] = "base/icons/"+image_file_name+".svg"
+            single_link["url"] = str(reverse(single_link.pop("django_url"),kwargs = single_link.pop("kwargs")))
+            links.append(single_link)
+        return links
 
 # BANNER LIST
 # USED AS ABSTRACT CLASS
