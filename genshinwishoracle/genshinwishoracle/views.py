@@ -302,6 +302,12 @@ class StatisticsAnalyzeOmniView(generic.View):
         context["first_form"] = first_form
         second_form_names =  self.get_second_form_names(banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
         context["second_form_names"] = second_form_names
+        present = {"character": "Character Banner", "weapon": "Weapon Banner", "calcprobability": "Calculate Probability", "calcnumwishes": "Calculate Number of Wishes"}
+        context["references"] = {"current_banner": {"value": banner_type, "present": present[banner_type]},
+                  "opposite_banner": {"value": self.opposite(banner_type), "present": present[self.opposite(banner_type)]},
+                  "current_statistics": {"value": statistics_type, "present": present[statistics_type]},
+                  "opposite_statistics": {"value": self.opposite(statistics_type), "present": present[self.opposite(statistics_type)]}
+        }
         return context
 
     def get(self, request,banner_type, statistics_type, *args, **kwargs):
@@ -340,10 +346,6 @@ class StatisticsAnalyzeOmniView(generic.View):
 
     def post(self, request, banner_type, statistics_type,*args, **kwargs):
         context = {}
-        # check if we pressed the switch button
-        redirect_buttons = self.button_name_post_to_redirect(request, banner_type, statistics_type)
-        if not redirect_buttons is None:
-            return redirect_buttons
         # i dont want to include extra stuff in the url personally
         # still need to redirect though to allow update form
         # redirect for self and add a session flag to alter initial form data
@@ -388,13 +390,6 @@ class StatisticsAnalyzeOmniView(generic.View):
         request.session['import_data'] = False
         context = self.get_context_data(banner_type, statistics_type)
         return render(request, self.template_name, context)
-
-    def button_name_post_to_redirect(self, request, banner_type, statistics_type):
-        if request.POST.get("banner_type"):
-            return redirect(to='/statistics/{}/{}/'.format(self.opposite(banner_type),statistics_type))
-        elif request.POST.get("statistics_type"):
-            return redirect(to='/statistics/{}/{}/'.format(banner_type,self.opposite(statistics_type)))
-        
     def opposite(self,string):
         opposite_dictionary = {self.valid_banner_types[0]: self.valid_banner_types[1], self.valid_banner_types[1]: 
                                self.valid_banner_types[0], self.valid_statistics_types[0]: self.valid_statistics_types[1],

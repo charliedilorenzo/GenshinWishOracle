@@ -36,39 +36,14 @@
                 </form>
             </td>
             <td>
-                {% if banner_type == "character" %}
-                <form method="post">
-                    {% csrf_token %}
-                    <button class="switch-button" name="banner_type" value="weapon_banner">Switch to Weapon
-                        Banner</button>
-                </form>
-                {% endif %}
-                {% if banner_type == "weapon" %}
-                <form method="post">
-                    {% csrf_token %}
-                    <button class="switch-button" name="banner_type" value="character_banner">Switch to
-                        Character
-                        Banner</button>
-                </form>
-                {% endif %}
+                <a href="{% url 'statistics' references.opposite_banner.value references.current_statistics.value %}"><button
+                        class="switch-button" name="switch">Switch to
+                        {{references.opposite_banner.present}}</button></a>
             </td>
             <td>
-                {% if statistics_type == "calcprobability" %}
-                <form method="post">
-                    {% csrf_token %}
-                    <button class="switch-button" name="statistics_type" value="calcnumwishes">Switch to Calculate
-                        Number of
-                        Wishes</button>
-                </form>
-                {% endif %}
-                {% if statistics_type == "calcnumwishes" %}
-                <form method="post">
-                    {% csrf_token %}
-                    <button class="switch-button" name="statistics_type" value="calcprobability">Switch to
-                        Calculate
-                        Probability</button>
-                </form>
-                {% endif %}
+                <a href="{% url 'statistics' references.current_banner.value references.opposite_statistics.value %}"><button
+                        class="switch-button" name="switch">Switch to
+                        {{references.opposite_statistics.present}}</button></a>
             </td>
         </tr>
     </table>
