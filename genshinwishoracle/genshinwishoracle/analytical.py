@@ -6,6 +6,11 @@ import matplotlib.ticker as mtick
 from . import helpers as H
 from . import database
 
+# DEFAULT_CHARACTER_BANNER_SOFT_PITY = {73: 0.32, 74: 0.32, 75: 0.32, 76: 0.32, 77: 0.32, 78: 0.32, 79: 0.32, 
+# 80: 0.32, 81: 0.32, 82: 0.32, 83: 0.32, 84: 0.32, 85: 0.32, 86: 0.32, 87: 0.32, 88: 0.32, 89: 1}
+# DEFAULT_WEAPON_BANNER_SOFT_PITY = {62: 0.08, 63: 0.15, 64: 0.22, 65: 0.28, 66: 0.36, 67: 0.42, 68: 0.5,
+#                                        69: 0.56, 70: 0.6, 71: 0.67, 72: 0.71, 73: 0.75, 74: 0.80, 75: 0.83, 76: 0.84, 77: 0.80, 78: 0.5, 79:1}
+
 DEFAULT_CHARACTER_BANNER_SOFT_PITY = {73: .06, 74: .12, 75: .18, 76: .24, 77: .3, 78: .35,
                                           79: .4, 80: .45, 81: .5, 82: .55, 83: .6, 84: .65, 85: .65, 86: .5, 87: .5, 88: .25, 89: 1}
 
@@ -26,35 +31,30 @@ class DataPoint():
         self.label = label
         self.value = value
 class Statistic:
-    def __init__(self, dictionary: dict[int,float],banner_type: str,formatted = False):
+    def __init__(self, values: list[float],banner_type: str,formatted = False):
         self.place_values = 4
-        self.dictionary = dictionary
+        self.values = values
         self.banner_type = banner_type
         if self.banner_type == "character":
             self.labels = ["X"]+["C{}".format(i) for i in range(0,7)]
-            self.values = [dictionary[i] for i in range(0,8)]
             self.datapoints = [DataPoint(self.labels[i], self.values[i]) for i in range(0,8)]
         elif self.banner_type == "weapon":
             self.labels = ["X"]+["R{}".format(i) for i in range(1,6)]
-            self.values = [dictionary[i] for i in range(0,6)]
             self.datapoints = [DataPoint(self.labels[i], self.values[i]) for i in range(0,6)]
-        
         if formatted:
-            self.values = ["%.{}f".format(self.place_values) % float(item) for item in self.values]
+            self.values = ["%.{}f".format(self.place_values) % item for item in self.values]
         self.banner_type = banner_type.capitalize()
         self.datapoints = []
     
     def get_formated_dictionary(self) -> dict:
+        # formatted_dictionary = [("%.{}f".format(self.place_values) % float(val)) for val in self.values]
+
         formatted_dictionary = {}
-        for key in self.dictionary:
-            formatted_dictionary[key] = ("%.{}f".format(self.place_values) % float(self.dictionary[key]))
+        for i in range(0, len(self.values)):
+            formatted_dictionary[self.labels[i]] = ("%.{}f".format(self.place_values) % float(self.values[i]))
         return formatted_dictionary
 
     def get_data_points(self) -> list[DataPoint]:
-        if self.banner_type == "character":
-            self.datapoints = [DataPoint(self.labels[i], ("%.{}f".format(self.place_values) % float(self.values[i]))) for i in range(0,8)]
-        elif self.banner_type == "weapon":
-            self.datapoints = [DataPoint(self.labels[i], ("%.{}f".format(self.place_values) % float(self.values[i]))) for i in range(0,6)]
         return self.datapoints
 
 class AnalyzeGeneric:
@@ -139,9 +139,7 @@ class AnalyzeGeneric:
         conn = sqlite3.connect(self.db_file)
         vals_solution = database.get_entry_by_primary_key_analytical(self.tablename, conn,lookup)
         vals_solution = list(vals_solution)
-        keys_solution = [i for i in range(0,len(vals_solution))]
-        dict_solution = {keys_solution[i]:vals_solution[i] for i in range(0,len(vals_solution)) }
-        return dict_solution
+        return vals_solution
 
     def specific_solution(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int) -> dict[int, float]:
         pass
@@ -150,7 +148,6 @@ class AnalyzeGeneric:
         incomplete_lookups = {i for i in range(0, self.max_lookup)}
         for val in self.hashtable:
             incomplete_lookups.discard(val)
-
         if len(self.hashtable) <= self.max_lookup:
             while len(incomplete_lookups) > 0:
                 random_lookup = incomplete_lookups.pop()
@@ -213,8 +210,8 @@ class AnalyzeCharacter(AnalyzeGeneric):
 
         super().__init__(BANNER_TYPE_TO_PITY[banner_type],BANNER_TYPE_TO_BASE_RATE[banner_type],-1,7,banner_type)
         # same for character
-        self.max_wishes_required = (self.copies_max)*self.hard_pity*2
-        self.max_lookup = self.max_wishes_required*self.hard_pity*2
+        self.max_wishes_required = (self.copies_max)*(self.hard_pity+1)*2
+        self.max_lookup = self.max_wishes_required*(self.hard_pity+1)*2
 
         self.refresh_database_size()
         if exists(db_file) and self.database_is_full():
@@ -289,8 +286,8 @@ class AnalyzeWeapon(AnalyzeGeneric):
 
         # # different for weapon since its limited by fate points but guaranteed is still a different flag
         # max lookup will be larger than max wishes required because of this
-        self.max_wishes_required = (self.copies_max)*self.hard_pity*(self.fate_points_required+1)
-        self.max_lookup = self.max_wishes_required*self.hard_pity*(self.fate_points_required+1)*2
+        self.max_wishes_required = (self.copies_max)*(self.hard_pity+1)*(self.fate_points_required+1)
+        self.max_lookup = self.max_wishes_required*(self.hard_pity+1)*(self.fate_points_required+1)*2
 
         self.refresh_database_size()
         if exists(db_file) and self.database_is_full():
