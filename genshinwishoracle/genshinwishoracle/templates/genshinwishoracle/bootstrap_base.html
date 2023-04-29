@@ -49,32 +49,28 @@
                 <li>
                     <a href="{% url 'main-home'  %}">Home</a>
                 </li>
-                <li><a href="#userSubmenu" data-bs-toggle="collapse" aria-expanded="false" role="button"
-                        class="dropdown-toggle"> User
-                        Stuff</a>
-                    <ul class="collapse list-unstyled" id="userSubmenu">
+                <li>
+                    <a href="{% url 'users:users-home'  %}">Profile</a>
+                </li>
+                <li>
+                    <a href="{% url 'statistics' 'character' 'calcprobability' %}"> Statistics </a>
+                </li>
+                <li>
+                    <a href="{% url 'project_primos' %}"> Projection of Primogems </a>
+                </li>
+                <li><a href="#analyzeSubmenu" data-bs-toggle="collapse" aria-expanded="false" role="button"
+                        class="dropdown-toggle"> Banners </a>
+                    <ul class="collapse list-unstyled" id="analyzeSubmenu">
                         <li>
-                            <a href="{% url 'users:users-home' %}">User Home</a>
+                            <a href="{% url 'character_banners' %}"> Character Banners </a>
                         </li>
                         <li>
-                            <a href="{% url 'users:profile' %}"> Edit Profile</a>
+                            <a href="{% url 'weapon_banners'  %}"> Weapon Bannerss</a>
                         </li>
                     </ul>
                 </li>
-                <li><a href="#analyzeSubmenu" data-bs-toggle="collapse" aria-expanded="false" role="button"
-                        class="dropdown-toggle"> Analyze
-                        Home </a>
-                    <ul class="collapse list-unstyled" id="analyzeSubmenu">
-                        <li>
-                            <a href="{% url 'statistics' 'character' 'calcprobability' %}"> Statistics </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'project_primos' %}"> Projection of Primogems </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'wish_simulator'  %}"> Wish Simulator</a>
-                        </li>
-                    </ul>
+                <li>
+                    <a href="{% url 'wish_simulator'  %}"> Wish Simulator</a>
                 </li>
             </ul>
 
@@ -115,7 +111,7 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarAdmin">
                                     {% if user.is_authenticated %}
-                                    <li><a class="dropdown-item" href="{% url 'users:profile' %}">
+                                    <li><a class="dropdown-item" href="{% url 'users:users-home' %}">
                                             Profile</a></li>
                                     <li>
                                     <li><a class="dropdown-item" href="{% url 'logout' %}">
