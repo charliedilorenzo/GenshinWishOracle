@@ -23,6 +23,7 @@ DATABASSE
 
 - fix can't edit banner name?
 - add export csv for primogem records
+- better date selector
 - allow download csv for all charts at all places with charts
 - look for other things that users can generate other than users that have storage
 - make redirect from loginrequiredmixin work

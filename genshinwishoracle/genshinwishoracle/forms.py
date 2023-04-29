@@ -226,16 +226,10 @@ class ProjectPrimosForm(forms.Form):
                 banners = profile.get_future_banners()
                 self.fields['end_date_banner_select'] = forms.ModelChoiceField(label="End Date Select Through Banner",
                     queryset= banners,
-                    widget=forms.Select(attrs={'size': 30},),
+                    widget=forms.Select(attrs={'size': 20},),
                     required=False
                 )
             else:
-                # self.fields['end_date_banner_select '] = forms.ModelChoiceField(label="End Date Select Through Banner",
-                #     queryset= models.Banner.objects.none(),
-                #     widget=forms.Select(attrs={'size': 30, 'hidden': True},),
-                #     initial=None,
-                #     required=False
-                # )
                 return
 
         self.fields['welkin_moon'] = forms.BooleanField(label="Welkin Moon",initial=False, required=False)
@@ -323,7 +317,7 @@ class WishSimulatorForm(forms.Form):
             banners = profile.banners.all()
             self.fields['banner'] = forms.ModelChoiceField(label="Banner:",
                 queryset= banners,
-                widget=forms.Select(attrs={'size': 30},),
+                widget=forms.Select(attrs={'size': 20},),
                 initial=timezone.now(),
                 required=True
             )

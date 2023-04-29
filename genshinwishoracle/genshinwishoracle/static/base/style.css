@@ -312,3 +312,14 @@
     left: 0;
     right: 0;
 }
+
+.form-column {
+    display: inline-block;
+    vertical-align: top;
+    width: 48%;
+    margin-right: 2%;
+}
+
+.form-column:last-child {
+    margin-right: 0;
+}

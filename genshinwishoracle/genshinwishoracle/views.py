@@ -302,6 +302,7 @@ class StatisticsAnalyzeOmniView(generic.View):
         context["first_form"] = first_form
         second_form_names =  self.get_second_form_names(banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
         context["second_form_names"] = second_form_names
+        # references to allow us to make omni cleaner
         present = {"character": "Character Banner", "weapon": "Weapon Banner", "calcprobability": "Calculate Probability", "calcnumwishes": "Calculate Number of Wishes"}
         context["references"] = {"current_banner": {"value": banner_type, "present": present[banner_type]},
                   "opposite_banner": {"value": self.opposite(banner_type), "present": present[self.opposite(banner_type)]},

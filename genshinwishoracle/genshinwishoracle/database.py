@@ -97,7 +97,6 @@ def get_primary_key_column_name(table: str, conn: sqlite3.Connection) -> list:
 
 def get_entry_by_primary_key_analytical(table: str, conn: sqlite3.Connection, primary_key: int) -> list:
     cur = conn.cursor()
-    print(table,primary_key)
     cur.execute("SELECT * FROM {} WHERE lookup = {}".format(table,primary_key))
     rows = cur.fetchall()[0]
     rows = rows[1:len(rows)]
