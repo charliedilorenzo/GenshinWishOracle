@@ -2,11 +2,16 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 {% block content %}
-<title>{% block title %} Analyze Options {% endblock title %} </title>
-<h1 class="display-4"> Home </h1>
-<ul>
-    {% for address in urls %}
-        <li> <a href="{{address.url}}">{{address.name}} </a></li>
+<title>{% block title %} Home {% endblock title %} </title>
+<div class="indexcontainer">
+    {% for link in links %}
+    <a href="{{ link.url }}">
+        <div class="indexbox">
+            <img src="{% static link.imagename %}">
+            <h3>{{ link.presentationname }}</h3>
+        </div>
+    </a>
     {% endfor %}
-</ul>
+</div>
+
 {% endblock content %}

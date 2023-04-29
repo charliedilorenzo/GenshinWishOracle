@@ -9,31 +9,53 @@ from . import analytical
 from . import wish_simulator
 from . import models
 from . import forms
-import genshinwishoracle.helpers as helpers
-from  genshinwishoracle.helpers import PersonalizedLoginRequiredMixin
-from genshinwishoracle.project_primos import project_future_primos, project_primos_chart
+from . import helpers
+from .helpers import PersonalizedLoginRequiredMixin
+from .project_primos import project_future_primos, project_primos_chart
 from users.models import Profile
 
 class Address():
     def __init__(self, url:str, name:str) -> None:
         self.url = url
         self.name = name
-
 class IndexView(generic.ListView):
-    context_object_name = 'urls'
+    context_object_name = 'links'
     template_name = 'genshinwishoracle/index.html'
-    url_names = [['statistics', {"banner_type": "character", "statistics_type": "calcprobability" }, "Wishing Statistics"], ['character_banners',{}, "Character Banners"], ['weapon_banners',{}, "Weapon Banners"], ['project_primos',{}, "Project Future Primogems"],['wish_simulator',{}, "Wishing Simulator"], ['users:users-home',{}, "User Login and Settings"]]
-
+    url_names = [
+        {"django_url": "statistics",
+        "kwargs": {"banner_type": "character", "statistics_type": "calcprobability" },
+        "presentationname": "Wishing Statistics"},
+        {"django_url": 'character_banners',
+        "kwargs": { },
+        "presentationname": "Character Banners"},
+        {"django_url": 'weapon_banners',
+        "kwargs": {},
+        "presentationname": "Weapon Banners"},
+        {"django_url": 'project_primos',
+        "kwargs": {},
+        "presentationname": "Project Future Primogems"},
+        {"django_url": 'wish_simulator',
+        "kwargs": {},
+        "presentationname":  "Wishing Simulator"},
+        {"django_url": 'users:users-home',
+        "kwargs": {},
+        "presentationname": "User Login and Settings"}
+    ]
+    
     def get_context_data(self, **kwargs):
         context = {}
         context[self.context_object_name] = self.get_queryset()
         return context
 
     def get_queryset(self):
-        urls = []
+        links = []
         for item in self.url_names:
-            urls.append(Address(str(reverse(item[0], kwargs = item[1])), item[2]))
-        return urls
+            single_link = item.copy()
+            image_file_name = item["django_url"].split(":")[-1]
+            single_link["imagename"] = "base/icons/"+image_file_name+".svg"
+            single_link["url"] = str(reverse(single_link.pop("django_url"),kwargs = single_link.pop("kwargs")))
+            links.append(single_link)
+        return links
 
 # BANNER LIST
 # USED AS ABSTRACT CLASS
@@ -280,6 +302,13 @@ class StatisticsAnalyzeOmniView(generic.View):
         context["first_form"] = first_form
         second_form_names =  self.get_second_form_names(banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
         context["second_form_names"] = second_form_names
+        # references to allow us to make omni cleaner
+        present = {"character": "Character Banner", "weapon": "Weapon Banner", "calcprobability": "Calculate Probability", "calcnumwishes": "Calculate Number of Wishes"}
+        context["references"] = {"current_banner": {"value": banner_type, "present": present[banner_type]},
+                  "opposite_banner": {"value": self.opposite(banner_type), "present": present[self.opposite(banner_type)]},
+                  "current_statistics": {"value": statistics_type, "present": present[statistics_type]},
+                  "opposite_statistics": {"value": self.opposite(statistics_type), "present": present[self.opposite(statistics_type)]}
+        }
         return context
 
     def get(self, request,banner_type, statistics_type, *args, **kwargs):
@@ -318,10 +347,6 @@ class StatisticsAnalyzeOmniView(generic.View):
 
     def post(self, request, banner_type, statistics_type,*args, **kwargs):
         context = {}
-        # check if we pressed the switch button
-        redirect_buttons = self.button_name_post_to_redirect(request, banner_type, statistics_type)
-        if not redirect_buttons is None:
-            return redirect_buttons
         # i dont want to include extra stuff in the url personally
         # still need to redirect though to allow update form
         # redirect for self and add a session flag to alter initial form data
@@ -341,9 +366,9 @@ class StatisticsAnalyzeOmniView(generic.View):
             cleaned = form.cleaned_data
             context = cleaned
             if banner_type == "character":
-                analyze_obj = analytical.TestAnalyzeCharacter()
+                analyze_obj = analytical.AnalyzeCharacter()
             elif banner_type == "weapon":
-                analyze_obj = analytical.TestAnalyzeWeapon()
+                analyze_obj = analytical.AnalyzeWeapon()
 
             if statistics_type == "calcprobability":
                 statistics = analyze_obj.get_statistic(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned.setdefault('fate_points', 0),0,True)
@@ -366,13 +391,6 @@ class StatisticsAnalyzeOmniView(generic.View):
         request.session['import_data'] = False
         context = self.get_context_data(banner_type, statistics_type)
         return render(request, self.template_name, context)
-
-    def button_name_post_to_redirect(self, request, banner_type, statistics_type):
-        if request.POST.get("banner_type"):
-            return redirect(to='/statistics/{}/{}/'.format(self.opposite(banner_type),statistics_type))
-        elif request.POST.get("statistics_type"):
-            return redirect(to='/statistics/{}/{}/'.format(banner_type,self.opposite(statistics_type)))
-        
     def opposite(self,string):
         opposite_dictionary = {self.valid_banner_types[0]: self.valid_banner_types[1], self.valid_banner_types[1]: 
                                self.valid_banner_types[0], self.valid_statistics_types[0]: self.valid_statistics_types[1],

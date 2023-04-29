@@ -1,11 +1,12 @@
 from django.test import TestCase
-from genshinwishoracle.models import Character, CharacterBanner, Weapon, WeaponBanner, Banner
 from django.core.management import call_command
-from genshinwishoracle import settings
 from django.contrib.auth.models import User
 from users.models import Profile
 from django.utils import timezone
 from datetime import date
+
+from ..models import Character, CharacterBanner, Weapon, WeaponBanner, Banner
+# from genshinwishoracle import settings
 
 class ModelsTestCase(TestCase):
     # fixtures = [settings.BASE_DIR / 'analyze/fixtures/initial_data_characters_and_weapons.json',]
@@ -169,3 +170,12 @@ class ModelsTestCase(TestCase):
         for rateup in rateups:
             self.assertIn(str(rateup), banner_string)
     
+
+    # -------------------------- FOR HIGHER COVERAGE, NOT SUPER USEFUL BUT COULD BE A BIT  --------------------------
+    def test_character_string(self):
+        string = CharacterBanner.get_banner_type_string()
+        self.assertEqual(string, "Character")
+
+    def test_weapon_string(self):
+        string = WeaponBanner.get_banner_type_string()
+        self.assertEqual(string, "Weapon")

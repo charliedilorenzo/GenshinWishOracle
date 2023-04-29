@@ -2,13 +2,13 @@
 
 - checkout installed apps <https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-INSTALLED_APPS>
 
+- think of some stuff that chatgpt might be able to solve for me
+
 ### immediate testing
 
-- primo project:
-  - hide field when no valid banners " End Date Select Through Banner: "
+- look for TODO in analytical and other files
 - wishing simulator
   - direct the user to make banners if they dont have any
-- think of some stuff that chatgpt might be able to solve for me
 - views tests
 - add tests for users
 - fix user tests for new primogem record / snapshot
@@ -16,12 +16,15 @@
 - actually properly test the new analytical classes
 - test for import user data
 
+- READD CHECK TABLE TEST
+DATABASSE
+
 ### immediate features
 
-- think of some stuff that chatgpt might be able to solve for me
-- fix user creation / password reset process
 - fix can't edit banner name?
 - add export csv for primogem records
+- better date selector
+- allow download csv for all charts at all places with charts
 - look for other things that users can generate other than users that have storage
 - make redirect from loginrequiredmixin work
 - add desired five star for weapon banner wish simulator
@@ -31,9 +34,7 @@
   - make a bool field for choosing via banner or manually?
 - fix register view
 - rework database?
-- export primo record as csv
 - add limits to user banners
-- allow download csv for all charts at all places with charts
 - possibly add back emails to users
 
 - add "advanced statistics" where you can drag and drop up to 2 banners for character and weapons each in order to see odds of that stuff

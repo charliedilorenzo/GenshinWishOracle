@@ -1,0 +1,6 @@
+- Django
+    -   https://creativecommons.org/licenses/by-sa/3.0/
+- django-bootstrap-sidebar
+    -   https://github.com/paulino/django-bootstrap-sidebar/blob/master/LICENSE
+- https://github.com/earthcomfy/Django-registration-and-login-system
+    - same as django

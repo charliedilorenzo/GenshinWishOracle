@@ -18,26 +18,3 @@ CREATE TABLE IF NOT EXISTS analytical_solutions_weapon(
     R4 REAL,
     R5 REAL
 );
-
-CREATE TABLE IF NOT EXISTS character_banners(
-    banner_name TEXT PRIMARY KEY,
-    rateup_five_star TEXT,
-    rateup_four_star1 TEXT,
-    rateup_four_star2 TEXT,
-    rateup_four_star3 TEXT
-);
-CREATE TABLE IF NOT EXISTS weapon_banners(
-    banner_name TEXT PRIMARY KEY,
-    rateup_five_star1 TEXT NOT NULL,
-    rateup_five_star2 TEXT NOT NULL,
-    rateup_four_star1 TEXT,
-    rateup_four_star2 TEXT,
-    rateup_four_star3 TEXT,
-    rateup_four_star4 TEXT,
-    rateup_four_star5 TEXT
-);
-
--- CREATE TABLE IF NOT EXISTS user_settings(
---     setting_name TEXT PRIMARY KEY,
---     setting_value
--- );

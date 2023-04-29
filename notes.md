@@ -70,6 +70,9 @@ coverage run -m pytest
 coverage report -m
 pytest -k database_test.py
 
+cd C:\Users\carol\Code\Personal\GenshinWishOracle\genshinwishoracle\genshinwishoracle
+set  DJANGO_SETTINGS_MODULE=settings
+
 # REQUIREMENTS.TXT NOTES
 
 <<<< pip freeze > requirements.txt >>>>

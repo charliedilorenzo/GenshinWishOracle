@@ -1,10 +1,10 @@
 from django.test import TestCase
-from genshinwishoracle.models import Character, CharacterBanner, Weapon, WeaponBanner
 from django.contrib.auth.models import User
 from users.models import Profile
 from django.utils import timezone
 
-import genshinwishoracle.models as genshinmodels
+from genshinwishoracle.models import Character, CharacterBanner, Weapon, WeaponBanner
+
 class ViewsTestCase(TestCase):
     # fixtures = [settings.BASE_DIR / 'analyze/fixtures/initial_data_characters_and_weapons.json',]
     fixtures = ['initial_data_characters_and_weapons.json',]
