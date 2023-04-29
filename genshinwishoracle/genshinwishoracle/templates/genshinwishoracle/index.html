@@ -3,10 +3,10 @@
 <link rel="stylesheet" href="{% static 'analyze/style.css' %}">
 {% block content %}
 <title>{% block title %} Home {% endblock title %} </title>
-<div class="container">
+<div class="indexcontainer">
     {% for link in links %}
     <a href="{{ link.url }}">
-        <div class="box">
+        <div class="indexbox">
             <object data="{% static link.imagename %}" type="image/svg+xml"></object>
             <h3>{{ link.presentationname }}</h3>
         </div>
