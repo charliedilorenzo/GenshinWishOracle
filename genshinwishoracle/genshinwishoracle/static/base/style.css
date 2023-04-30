@@ -212,18 +212,6 @@
     color: red;
 }
 
-.analysis-table {
-    border: 1px solid black;
-    row-gap: 5px;
-
-}
-
-.analysis-td {
-    text-align: center;
-    border: 1px solid black;
-    padding: 5px;
-}
-
 .five-star {
     color: orange;
 }
@@ -354,4 +342,162 @@
 h3,
 p {
     margin: 0;
+}
+
+.save-button {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.save-button:hover {
+    background-color: #2E8B57;
+}
+
+.analyzecontainer {
+    display: grid;
+    grid-template-columns: repeat(1, auto);
+    column-gap: 0px;
+    row-gap: 20px;
+    justify-items: left;
+}
+
+.analyzeitem {
+    width: 300px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    border: #212121;
+    border-radius: 3px;
+    border-width: 3px;
+}
+
+.label {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.value {
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.curved-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.curved-table th,
+.curved-table td {
+    padding: 10px;
+    text-align: center;
+    border-right: 2px solid #ddd;
+    border-bottom: 2px solid #ddd;
+}
+
+.curved-table th:first-child,
+.curved-table td:first-child {
+    border-left: 2px solid #ddd;
+}
+
+.curved-table th {
+    font-weight: bold;
+    background-color: #ddd;
+    border-bottom: none;
+    border-top: 2px solid #212121;
+}
+
+.curved-table tbody tr:last-child td {
+    border-bottom: 2px solid #212121;
+}
+
+.curved-table tbody tr:nth-child(even) td {
+    background-color: #f2f2f2;
+}
+
+.curved-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+    border-left: 2px solid #212121;
+}
+
+.curved-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+    border-right: 2px solid #212121;
+}
+
+/* #3c4043 */
+.curved-table thead th:first-child {
+    border-top-left-radius: 10px;
+    border-left: 2px solid #212121;
+}
+
+.curved-table thead th:last-child {
+    border-top-right-radius: 10px;
+    border-right: 2px solid #212121;
+}
+
+.chartcontainer {
+    height: 500px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.small-column {
+    float: left;
+    width: 25%;
+    padding: 10px;
+    box-sizing: border-box;
+    height: auto;
+    margin-bottom: 80px
+}
+
+.small-column h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.large-column {
+    float: right;
+    width: 75%;
+    padding: 20px;
+    box-sizing: border-box;
+    height: auto;
+}
+
+.large-column h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.button-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 20px;
 }
