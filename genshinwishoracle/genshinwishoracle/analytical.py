@@ -30,6 +30,13 @@ class DataPoint():
     def __init__(self, label, value) -> None:
         self.label = label
         self.value = value
+    
+    def __eq__(self, __value: object) -> bool:
+        if self.label != __value.label:
+            return False
+        elif self.value != __value.value:
+            return False
+        return True
 class Statistic:
     def __init__(self, values: list[float],banner_type: str,formatted = False):
         self.place_values = 4
@@ -69,6 +76,8 @@ class AnalyzeGeneric:
         with sqlite3.connect(self.db_file) as conn:
             database.update_data_in_table(
                 analytical_sets, self.tablename, conn)
+            
+        with sqlite3.connect(self.db_file) as conn:
             self.database_size = database.count_entries_in_table(self.tablename, conn)
         return 0
 
@@ -148,6 +157,7 @@ class AnalyzeGeneric:
         incomplete_lookups = {i for i in range(0, self.max_lookup)}
         for val in self.hashtable:
             incomplete_lookups.discard(val)
+        print("here")
         if len(self.hashtable) <= self.max_lookup:
             while len(incomplete_lookups) > 0:
                 random_lookup = incomplete_lookups.pop()
@@ -228,16 +238,16 @@ class AnalyzeCharacter(AnalyzeGeneric):
 
     def specific_solution(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int) -> list[float]:
         lookup = self.lookup_num_generator(num_wishes, pity, guaranteed,fate_points)
-        all_empty_list = [0 for i in range(0, self.copies_max+1)]
-        if self.database_is_full():
-            return self.solution_from_database(lookup)
+        all_empty_list = [float(0) for i in range(0, self.copies_max+1)]
         if lookup != -1 and lookup in self.hashtable:
             temp = self.hashtable[lookup]
             return temp
+        elif self.database_is_full():
+            return self.solution_from_database(lookup)
 
         if num_wishes == 0:
             result = all_empty_list
-            result[0] = 1
+            result[0] = float(1)
             self.store_if_solution_doesnt_exist(
                 lookup, result)
             return result
@@ -304,17 +314,16 @@ class AnalyzeWeapon(AnalyzeGeneric):
     def specific_solution(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int) -> list[float]:
         lookup = self.lookup_num_generator(
             num_wishes, pity, guaranteed, fate_points)
-        all_empty_list = [0 for i in range(0, self.copies_max+1)]
-        if self.database_is_full():
-            return self.solution_from_database(lookup)
-        elif lookup != -1 and lookup in self.hashtable:
+        all_empty_list = [float(0) for i in range(0, self.copies_max+1)]
+        if lookup != -1 and lookup in self.hashtable:
             temp = self.hashtable[lookup]
-            result = temp
-            return result
+            return temp
+        elif self.database_is_full():
+            return self.solution_from_database(lookup)
 
         if num_wishes == 0:
             result = all_empty_list
-            result[0] = 1
+            result[0] = float(1)
             self.store_if_solution_doesnt_exist(lookup, result)
             return result
         # I don't know that its necessary for this base case but sometimes it seemed to glitch out and this is 1000% correct

@@ -16,11 +16,13 @@
 - actually properly test the new analytical classes
 - test for import user data
 
-- READD CHECK TABLE TEST
-DATABASSE
+analytical 45, 79, 139-142, 145, 166-175, 191-193, 196-197, 206-207, 218, 223-226, 233, 280-281, 294, 299-302, 309, 327, 371-381, 384-419
+forms 36-42, 114-115, 151-152, 155-162, 223, 233, 242, 254, 277-278, 297-318, 326-327, 330-331
 
 ### immediate features
 
+- adding and expanding credits
+- adding and expanding about
 - fix can't edit banner name?
 - add export csv for primogem records
 - better date selector
@@ -44,6 +46,7 @@ DATABASSE
 - check user settings <https://docs.djangoproject.com/en/4.2/topics/auth/default/>
 - 'from types import UnionTyping' for typehinting
 - 'from typing import Any, Dict, Iterator, List, Union' from typehinting
+- add the bottom thing with the copyright and peripheral links and the link
 
 ### tests
 
