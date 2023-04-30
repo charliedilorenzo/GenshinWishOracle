@@ -35,12 +35,15 @@
 
         <nav id="sidebar">
             <div class="text-center">
-                <div class="mb-4">
-                    <img id="logo" class="rounded mt-4" src="{% static 'base/icons/favicon.ico' %}" alt="">
-                </div>
+                <img id="logo" class="rounded mt-4" src="{% static 'base/icons/favicon.ico' %}" alt="">
                 <h3>Genshin Wish Oracle</h3>
-                <p>{{ user.username }}
-                </p>
+                {% if user.is_authenticated %}
+                <div class="text-right">
+                    <h6>Logged in as: </h6>
+                    <p>{{ user.username }}</p>
+                    <u><a href="{% url 'logout' %}">Logout</a></u>
+                </div>
+                {% endif %}
             </div>
 
             <hr />
@@ -52,12 +55,22 @@
                 <li>
                     <a href="{% url 'users:users-home'  %}">Profile</a>
                 </li>
-                <li>
-                    <a href="{% url 'statistics' 'character' 'calcprobability' %}"> Statistics </a>
+
+                <li><a href="#analyzeSubmenu" data-bs-toggle="collapse" aria-expanded="false" role="button"
+                        class="dropdown-toggle"> Tools </a>
+                    <ul class="collapse list-unstyled" id="analyzeSubmenu">
+                        <li>
+                            <a href="{% url 'statistics' 'character' 'calcprobability' %}"> Statistics </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'project_primos' %}"> Project Primogems </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'wish_simulator'  %}"> Wish Simulator</a>
+                        </li>
+                    </ul>
                 </li>
-                <li>
-                    <a href="{% url 'project_primos' %}"> Projection of Primogems </a>
-                </li>
+
                 <li><a href="#analyzeSubmenu" data-bs-toggle="collapse" aria-expanded="false" role="button"
                         class="dropdown-toggle"> Banners </a>
                     <ul class="collapse list-unstyled" id="analyzeSubmenu">
@@ -69,18 +82,16 @@
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="{% url 'wish_simulator'  %}"> Wish Simulator</a>
-                </li>
             </ul>
 
-            {% if user.is_authenticated %}
             <ul class="list-unstyled ">
                 <li>
-                    <a href="{% url 'logout' %}">Logout</a>
+                    <a href="{% url 'credits' %}">Credits</a>
+                </li>
+                <li>
+                    <a href="{% url 'about' %}">About</a>
                 </li>
             </ul>
-            {% endif %}
         </nav>
         {% endblock %}
 

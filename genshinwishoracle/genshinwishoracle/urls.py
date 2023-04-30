@@ -56,5 +56,7 @@ urlpatterns = [
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
     path('favicon.ico',RedirectView.as_view(url='/static/base/icons/favicon.ico')),
     path('jsi18n', JavaScriptCatalog.as_view(), name='jsi18n'),
-    path('oauth/', include('social_django.urls',namespace='social'), name='social')
+    path('oauth/', include('social_django.urls',namespace='social'), name='social'),
+    path('credits/', views.CreditsView.as_view(), name="credits"),
+    path('about/', views.AboutView.as_view(), name="about"),
 ]

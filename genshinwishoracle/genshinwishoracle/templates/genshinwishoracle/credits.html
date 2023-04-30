@@ -1,0 +1,73 @@
+{% extends "genshinwishoracle/bootstrap_base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'base/style.css' %}">
+<title>{% block title %} Credits {% endblock %} </title>
+
+<div>
+    <a href="{% url 'main-home' %}"><button name='back' type="submit" class="back-button"><i class="back-arrow"></i>
+            Back</button></a>
+</div>
+<br>
+<h2 class="display-4">Credits</h2>
+<div class="card">
+    <div class="name">
+        <h3>Django</h3>
+    </div>
+    <div class="description">
+        <p>Provides the web framework</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="name">
+        <h3>Hana Belay / <a href="https://github.com/earthcomfy" class="name"> Earthcomfy </a></h3>
+    </div>
+    <div class="description">
+        <p> I used her <a href="https://dev.to/earthcomfy/creating-a-django-registration-login-app-part-i-1di5">
+                wonderful
+                tutorial</a> and <a href=https://github.com/earthcomfy/Django-registration-and-login-system>code</a> to
+            create the basis of the user system. It functions so well!
+    </div>
+</div>
+
+<div class="card">
+    <div class="name">
+        <h3>Python</h3>
+    </div>
+    <div class="description">
+        <p>The language that most of this is written in</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="name">
+        <h3>Paulino Ruiz de Clavijo Vázquez / <a href="https://github.com/paulino" class="name">paulino</a></h3>
+    </div>
+    <div class="description">
+        <p>The <a href="https://github.com/paulino/django-bootstrap-sidebar"> sidebar</a> is so cool! I am so glad that
+            he made such a cool sleek sidebar since this is way to complicated for me to make!</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="name">
+        <h3>Awesomefonts</h3>
+    </div>
+    <div class="description">
+        <p>For many of these aesthetically pleasing and utility providing icons</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="name">
+        <h3>ChatGPT</h3>
+    </div>
+    <div class="description">
+        <p>ChatGPT with help with some of the visuals. Including the creation of this file! (I suck at HTML/CSS and
+            don't really intend to get better)</p>
+    </div>
+</div>
+
+
+{% endblock %}

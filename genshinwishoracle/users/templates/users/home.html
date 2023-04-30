@@ -5,11 +5,11 @@
     <h1 class="display-4">Welcome</h1>
     {% if user.is_authenticated %}
     <hr class="my-4">
-    <div class="container">
-        <a class="btn btn-primary btn-lg btn-block" href="{% url 'users:profile' %}" role="button">View Profile</a>
+    <div class="container justify-content-center">
+        <a class="btn btn-primary btn-lg btn-block " href="{% url 'users:profile' %}" role="button">View Profile</a>
     </div>
     <br>
-    <div class="container">
+    <div class="container justify-content-center">
         <a class="btn btn-primary btn-lg btn-block" href="{% url 'users:primogem-chart' %}" role="button">
             View Primogem Record as Chart</a>
     </div>

@@ -14,10 +14,21 @@ from .helpers import PersonalizedLoginRequiredMixin
 from .project_primos import project_future_primos, project_primos_chart
 from users.models import Profile
 
-class Address():
-    def __init__(self, url:str, name:str) -> None:
-        self.url = url
-        self.name = name
+class CreditsView(generic.View):
+    template_name = 'genshinwishoracle/credits.html'
+
+    def get(self, request,*args, **kwargs):
+        # context = self.get_context_data()
+        context = {}
+        return render(request, self.template_name, context=context)
+
+class AboutView(generic.View):
+    template_name = 'genshinwishoracle/about.html'
+
+    def get(self, request,*args, **kwargs):
+        # context = self.get_context_data()
+        context = {}
+        return render(request, self.template_name, context=context)
 class IndexView(generic.ListView):
     context_object_name = 'links'
     template_name = 'genshinwishoracle/index.html'
@@ -370,6 +381,16 @@ class StatisticsAnalyzeOmniView(generic.View):
             elif banner_type == "weapon":
                 analyze_obj = analytical.AnalyzeWeapon()
 
+            input_args = []
+            present = {"numwishes": "Number of Wishes ", "guaranteed": "Guaranteed", "pity": "Pity", "character": "Character Banner", "weapon": "Weapon Banner","calcprobability": "Number of Wishes to Probabilites", "calcnumwishes": "Minimum Probability to Number of Wishes","numcopies": "Number of Copies Required", "minimum_probability": "Minimum Probability", "fate_points": "Fate Points"}
+            for key, value in cleaned.items():
+                input_args.append({"arg_name": present[key], "arg_value":value})
+            output = self.opposite(statistics_type)
+            # input_args.append({"arg_name": "statistics_type", "arg_value": statistics_type})
+            input_args.append({"arg_name": "Statistics Type", "arg_value": present[statistics_type]})
+            input_args.append({"arg_name": "Banner Type", "arg_value": present[banner_type]})
+
+            context["input_args"] = input_args
             if statistics_type == "calcprobability":
                 statistics = analyze_obj.get_statistic(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned.setdefault('fate_points', 0),0,True)
                 context.update({
