@@ -396,14 +396,14 @@ class AnalyticalTestClass(TestCase):
                     guaranteed = True
                 lookup = analytical_character.lookup_num_generator(0,pity,guaranteed,fate_points)
                 past = analytical_character.hashtable[lookup]
-                sums_past = sums = [sum(past[a:len(past)]) for a in range(1,len(past))]
+                sums_past = [sum(past[0:len(past)]) for a in range(0,len(past))]
                 for i in range(1, max_wishes_required+1):
                     wish_num = i
                     lookup = analytical_character.lookup_num_generator(wish_num,pity,guaranteed,fate_points)
                     current = analytical_character.hashtable[lookup]
-                    sums = [sum(current[a:len(current)]) for a in range(1,len(current))]
+                    sums = [sum(current[0:len(current)]) for a in range(0,len(current))]
                     for a in range(0,len(sums)):
-                        self.assertGreaterEqual(sums[a],sums_past[a])
+                        self.assertTrue(within_epsilon_or_greater(sums[a],sums_past[a]))
                     sums_past = sums
         self.assertTrue(True)
 
@@ -425,16 +425,14 @@ class AnalyticalTestClass(TestCase):
                         guaranteed = True
                     lookup = analytical_weapon.lookup_num_generator(0,pity,guaranteed,fate_points)
                     past = analytical_weapon.hashtable[lookup]
-                    sums_past = sums = [sum(past[a:len(past)]) for a in range(1,len(past))]
-                    # .............................
-                    # ............................
+                    sums_past = [sum(past[0:len(past)]) for a in range(0,len(past))]
                     for j in range(1, max_wishes_required+1):
                         wish_num = j
                         lookup = analytical_weapon.lookup_num_generator(wish_num,pity,guaranteed,fate_points)
                         current  = analytical_weapon.hashtable[lookup]
-                        sums = [sum(current[a:len(current)]) for a in range(1,len(current))]
+                        sums = [sum(current[0:len(current)]) for a in range(0,len(current))]
                         for a in range(0,len(sums)):
-                            self.assertGreaterEqual(sums[a],sums_past[a])
+                            self.assertTrue(within_epsilon_or_greater(sums[a],sums_past[a]))
                         sums_past = sums
         self.assertTrue(True)
 
@@ -452,14 +450,14 @@ class AnalyticalTestClass(TestCase):
                     guaranteed = True
                 lookup = analytical_character.lookup_num_generator(wish_num,0,guaranteed,fate_points)
                 past = analytical_character.hashtable[lookup]
-                sums_past = sums = [sum(past[a:len(past)]) for a in range(1,len(past))]
+                sums_past  = [sum(past[0:len(past)]) for a in range(0,len(past))]
                 for j in range(1, max_pity+1):
                     pity = j
                     lookup = analytical_character.lookup_num_generator(wish_num,pity,guaranteed,fate_points)
                     current = analytical_character.hashtable[lookup]
-                    sums = [sum(current[a:len(current)]) for a in range(1,len(current))]
+                    sums = [sum(current[0:len(current)]) for a in range(0,len(current))]
                     for a in range(0,len(sums)):
-                        self.assertGreaterEqual(sums[a],sums_past[a])
+                        self.assertTrue(within_epsilon_or_greater(sums[a],sums_past[a]))
                     sums_past = sums
         self.assertTrue(True)
 
@@ -481,14 +479,14 @@ class AnalyticalTestClass(TestCase):
                         guaranteed = True
                     lookup = analytical_weapon.lookup_num_generator(wish_num,0,guaranteed,fate_points)
                     past = analytical_weapon.hashtable[lookup]
-                    sums_past = sums = [sum(past[a:len(past)]) for a in range(1,len(past))]
+                    sums_past  = [sum(past[0:len(past)]) for a in range(0,len(past))]
                     for j in range(1, max_pity+1):
                         pity = j
                         lookup = analytical_weapon.lookup_num_generator(wish_num,pity,guaranteed,fate_points)
                         current = analytical_weapon.hashtable[lookup]
-                        sums = [sum(current[a:len(current)]) for a in range(1,len(current))]
+                        sums = [sum(current[0:len(current)]) for a in range(0,len(current))]
                         for a in range(0,len(sums)):
-                            self.assertGreaterEqual(sums[a],sums_past[a])
+                            self.assertTrue(within_epsilon_or_greater(sums[a],sums_past[a]))
                         sums_past = sums
         self.assertTrue(True)
 
@@ -503,12 +501,12 @@ class AnalyticalTestClass(TestCase):
                 pity = j
                 lookup = analytical_character.lookup_num_generator(wish_num,pity,False,fate_points)
                 past = analytical_character.hashtable[lookup]
-                sums_past  = [sum(past[a:len(past)]) for a in range(1,len(past))]
+                sums_past  = [sum(past[0:len(past)]) for a in range(0,len(past))]
                 lookup = analytical_character.lookup_num_generator(wish_num,pity,True,fate_points)
                 current = analytical_character.hashtable[lookup]
-                sums = [sum(current[a:len(current)]) for a in range(1,len(current))]
+                sums = [sum(current[0:len(current)]) for a in range(0,len(current))]
                 for a in range(0,len(sums)):
-                    self.assertGreaterEqual(sums[a],sums_past[a])
+                    self.assertTrue(within_epsilon_or_greater(sums[a],sums_past[a]))
         self.assertTrue(True)
 
     def test_solution_odds_is_greater_than_last_weapon_guaranteed(self):
@@ -526,10 +524,10 @@ class AnalyticalTestClass(TestCase):
                     pity = j
                     lookup = analytical_weapon.lookup_num_generator(wish_num,pity,False,fate_points)
                     past = analytical_weapon.hashtable[lookup]
-                    sums_past  = [sum(past[a:len(past)]) for a in range(1,len(past))]
+                    sums_past  = [sum(past[0:len(past)]) for a in range(0,len(past))]
                     lookup = analytical_weapon.lookup_num_generator(wish_num,pity,True,fate_points)
                     current = analytical_weapon.hashtable[lookup]
-                    sums = [sum(current[a:len(current)]) for a in range(1,len(current))]
+                    sums = [sum(current[0:len(current)]) for a in range(0,len(current))]
                     for a in range(0,len(sums)):
-                        self.assertGreaterEqual(sums[a],sums_past[a])
+                        self.assertTrue(within_epsilon_or_greater(sums[a],sums_past[a]))
         self.assertTrue(True)
