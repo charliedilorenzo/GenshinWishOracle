@@ -51,7 +51,6 @@ class Statistic:
         if formatted:
             self.values = ["%.{}f".format(self.place_values) % item for item in self.values]
         self.banner_type = banner_type.capitalize()
-        self.datapoints = []
     
     def get_formated_dictionary(self) -> dict:
         # formatted_dictionary = [("%.{}f".format(self.place_values) % float(val)) for val in self.values]
@@ -83,12 +82,14 @@ class AnalyzeGeneric:
 
     def load_hashtable(self) -> None:
         if database.check_db(self.db_file):
-            with database.get_db_connection(self.db_file) as conn:
+            with sqlite3.connect(self.db_file) as conn:
                 if not database.check_table(self.tablename,conn):
                     database.create_data_tables(conn)
                 data = database.table_data_to_hashtable(
                     self.tablename, conn)
                 self.hashtable.update(data)
+            with sqlite3.connect(self.db_file) as conn:
+                self.database_size = database.count_entries_in_table(self.tablename, conn)
 
     def lookup_num_generator(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int) -> int:
         # malformed cases
@@ -102,13 +103,18 @@ class AnalyzeGeneric:
             return -1
         # just a good way to ensure there is no collision and to have an invertible function
         # mod 1261 gives num_wishes, mod 1261*91 gives pity, mod 1261*91*2 gives guaranteed at least for character banner
-        lookup_num = num_wishes+(self.max_wishes_required+1) * \
-            pity+(self.hard_pity+1)*(self.max_wishes_required+1)*guaranteed + \
+        lookup_num = num_wishes + \
+            (self.max_wishes_required+1) * pity + \
+            (self.hard_pity+1)*(self.max_wishes_required+1)*guaranteed + \
             (self.hard_pity+1)*(self.max_wishes_required+1)*2*fate_points
+        if lookup_num > self.max_lookup:
+            raise Exception(f"Lookup number {lookup_num} is larger than max_lookup: {self.max_lookup}. In {self.banner_type} banner")
         return lookup_num
 
     def lookup_num_to_setting(self, lookup_num: int) -> list[int, int, bool, int]:
         # exact inverse of lookup_num_generator
+        if lookup_num > self.max_lookup:
+            raise Exception(f"Lookup number {lookup_num} is larger than max_lookup: {self.max_lookup}. In {self.banner_type} banner")
         num_wishes = lookup_num % (self.max_wishes_required+1)
         lookup_num = math.floor(lookup_num/(self.max_wishes_required+1))
         pity = lookup_num % (self.hard_pity+1)
@@ -139,35 +145,37 @@ class AnalyzeGeneric:
         # "hard pity" in this case only gives a guaranteed 5 star not guaranteed rateup
         # note that this is different from constellations for characters there is max c6 but 7 copies to get there
         self.hashtable = {}
+        self.database_size = 0
 
     def store_if_solution_doesnt_exist(self, lookup_num: int, solution: list[float]) -> None:
         if lookup_num not in self.hashtable:
             self.hashtable.update({lookup_num: solution})
 
     def solution_from_database(self, lookup: int):
-        conn = sqlite3.connect(self.db_file)
-        vals_solution = database.get_entry_by_primary_key_analytical(self.tablename, conn,lookup)
-        vals_solution = list(vals_solution)
-        return vals_solution
+        with sqlite3.connect(self.db_file) as conn:
+            vals_solution = database.get_entry_by_primary_key_analytical(self.tablename, conn,lookup)
+            vals_solution = list(vals_solution)
+            return vals_solution
 
     def specific_solution(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int) -> dict[int, float]:
         pass
 
     def calculate_and_write_all_solutions(self) -> None:
+        if not exists(self.db_file):
+            database.init_db(self.db_file)
         incomplete_lookups = {i for i in range(0, self.max_lookup)}
         for val in self.hashtable:
             incomplete_lookups.discard(val)
-        print("here")
         if len(self.hashtable) <= self.max_lookup:
             while len(incomplete_lookups) > 0:
                 random_lookup = incomplete_lookups.pop()
                 settings = self.lookup_num_to_setting(random_lookup)
                 self.specific_solution(
                     settings[0], settings[1], settings[2], settings[3], 0)
-
             self.update_analytical_db()
 
-    def probability_on_copies_to_num_wishes(self, probability_desired, copies_desired, pity=0, guaranteed=False, fate_points=0):
+    def probability_on_copies_to_num_wishes(self, probability_desired, copies_desired, pity=0, guaranteed=False, fate_points=0,graph=False):
+        # TODO ADD GRAPHS
         # takes as input the probability desired for however many copies desired (or more copies). optionally can do for a specific pity or guaranteed
         # returns the number or wishes required to achieve that probability for the number of copies (or more copies) with pity and guaranteed
         # in some ways an inverse function for specific solution by swapping num wishes with probabilities
@@ -185,6 +193,7 @@ class AnalyzeGeneric:
         return self.max_wishes_required
 
     def database_is_full(self):
+        # DO NOT ADD IN A QUERY TO DB HERE IT WILL SLOW EVERYTHING DOWN AND MAKE IT TERRIBLE
         count = self.database_size
         # we just care that its mostly full since its more efficient to estimate if its full then fill in on the off chance it isnt
         if count >= self.max_lookup*.99:
@@ -219,9 +228,8 @@ class AnalyzeCharacter(AnalyzeGeneric):
             self.db_file = db_file
 
         super().__init__(BANNER_TYPE_TO_PITY[banner_type],BANNER_TYPE_TO_BASE_RATE[banner_type],-1,7,banner_type)
-        # same for character
         self.max_wishes_required = (self.copies_max)*(self.hard_pity+1)*2
-        self.max_lookup = self.max_wishes_required*(self.hard_pity+1)*2
+        self.max_lookup = (self.max_wishes_required+1)*(self.hard_pity+1)*2
 
         self.refresh_database_size()
         if exists(db_file) and self.database_is_full():
@@ -230,9 +238,7 @@ class AnalyzeCharacter(AnalyzeGeneric):
             self.load_hashtable()
             self.calculate_and_write_all_solutions()
         else:
-            conn = sqlite3.connect(db_file)
-            with conn:
-                database.init_db(db_file)
+            database.init_db(db_file)
             self.calculate_and_write_all_solutions()
     
 
@@ -242,8 +248,8 @@ class AnalyzeCharacter(AnalyzeGeneric):
         if lookup != -1 and lookup in self.hashtable:
             temp = self.hashtable[lookup]
             return temp
-        elif self.database_is_full():
-            return self.solution_from_database(lookup)
+        # elif self.database_is_full():
+        #     return self.solution_from_database(lookup)
 
         if num_wishes == 0:
             result = all_empty_list
@@ -297,7 +303,11 @@ class AnalyzeWeapon(AnalyzeGeneric):
         # # different for weapon since its limited by fate points but guaranteed is still a different flag
         # max lookup will be larger than max wishes required because of this
         self.max_wishes_required = (self.copies_max)*(self.hard_pity+1)*(self.fate_points_required+1)
-        self.max_lookup = self.max_wishes_required*(self.hard_pity+1)*(self.fate_points_required+1)*2
+        self.max_lookup = (self.max_wishes_required+1)*(self.hard_pity+1)*(self.fate_points_required+1)*2
+
+
+        # max_wishes_required = (copies_max)*(hard_pity+1)*(fate_points_required+1)
+        # max_lookup = max_wishes_required*(hard_pity+1)*(fate_points_required+1)*2
 
         self.refresh_database_size()
         if exists(db_file) and self.database_is_full():
@@ -306,9 +316,7 @@ class AnalyzeWeapon(AnalyzeGeneric):
             self.load_hashtable()
             self.calculate_and_write_all_solutions()
         else:
-            conn = sqlite3.connect(db_file)
-            with conn:
-                database.init_db(db_file)
+            database.init_db(db_file)
             self.calculate_and_write_all_solutions()
 
     def specific_solution(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int) -> list[float]:
@@ -318,8 +326,8 @@ class AnalyzeWeapon(AnalyzeGeneric):
         if lookup != -1 and lookup in self.hashtable:
             temp = self.hashtable[lookup]
             return temp
-        elif self.database_is_full():
-            return self.solution_from_database(lookup)
+        # elif self.database_is_full():
+        #     return self.solution_from_database(lookup)
 
         if num_wishes == 0:
             result = all_empty_list
@@ -364,7 +372,6 @@ class AnalyzeWeapon(AnalyzeGeneric):
                 num_wishes-1, 0, False, fate_points+1, current_copies), pity_val*0.375)
             five_star_non_rateup = H.scalar_list(self.specific_solution(
                 num_wishes-1, 0, True, fate_points+1, current_copies), pity_val*0.25)
-        
         result = H.add_list_entries([no_five_star, five_star_desired, five_star_other_rateup, five_star_non_rateup])
 
         self.store_if_solution_doesnt_exist(lookup, result)
@@ -378,32 +385,34 @@ from io import BytesIO
 from matplotlib import pyplot
 def bar_graph_for_statistics(solution, **kwargs) ->str:
     statistics_type = kwargs.pop('statistics_type', None)
-    banner_type = kwargs.pop('banner_type', None).lower()
-    numwishes = kwargs.pop('numwishes', None)
-    pity = kwargs.pop('pity', None)
-    guaranteed = kwargs.pop('guaranteed', None)
-    fate_points = kwargs.pop('fate_points', None)
+    banner_type = kwargs.pop('banner_type', "character").lower()
     if statistics_type == "calcprobability":
+        numwishes = kwargs.pop('numwishes', None)
+        pity = kwargs.pop('pity', None)
+        guaranteed = kwargs.pop('guaranteed', None)
+        fate_points = kwargs.pop('fate_points', None)
         return bar_graph_for_calcprobability(solution,banner_type, numwishes, pity, guaranteed, fate_points)
     elif statistics_type == "calcnumwishes":
-        return ""
+        pity = kwargs.pop('pity', None)
+        guaranteed = kwargs.pop('guaranteed', None)
+        fate_points = kwargs.pop('fate_points', None)
+        minimum_probability = kwargs.pop('minimum_probability', None)
+        copies_requried = kwargs.pop('numcopies' , None)
+        return bar_graph_calc_numwishes(solution, minimum_probability, copies_requried, pity, guaranteed, fate_points)
     return ""
 
-def bar_graph_for_calcprobability(solution, banner_type, numwishes, pity, guaranteed, fate_points) -> str:
-    values = [float(solution[key]) for key in solution.keys()]
+def bar_graph_for_calcprobability(solution: Statistic, banner_type, numwishes, pity, guaranteed, fate_points) -> str:
+    values = solution.get_formated_dictionary()
+    values = [float(values[key]) for key in values.keys()]
     pyplot.switch_backend('AGG')
     fig, ax = pyplot.subplots(figsize=(10, 6))
     guaranteed_text = "with" if guaranteed else "without"
+    x_labels = solution.labels
     if banner_type == "character":
-        x_labels = ["X"]
-        for i in range(0,7):
-            x_labels.append("C"+str(i))
+        x_labels = solution.labels
         fig.suptitle('Wish Probability Breakdown for: {} Wishes, {} Pity, {} Guaranteed'.format(numwishes, pity, guaranteed_text))
         fig.supylabel('Percentage Resulting in Specified Constellation')
     elif banner_type == "weapon":
-        x_labels = ["X"]
-        for i in range(1,6):
-            x_labels.append("R"+str(i))
         fig.suptitle('Wish Probability Breakdown for: {} Wishes, {} Pity, {} Guaranteed, {} Fate Points'.format(numwishes, pity, guaranteed_text, fate_points))
         fig.supylabel('Portion Resuling in Specified Refinement')
 
@@ -426,3 +435,7 @@ def bar_graph_for_calcprobability(solution, banner_type, numwishes, pity, guaran
     graph = graph.decode('utf-8')
     buffer.close()
     return graph
+
+def bar_graph_calc_numwishes(solution, minimum_probability, copies_requried, pity, guaranteed, fate_points):
+    # TODO ADD THIS
+    return ""

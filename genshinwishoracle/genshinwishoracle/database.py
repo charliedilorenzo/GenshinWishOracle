@@ -29,6 +29,7 @@ def create_data_tables(conn: sqlite3.Connection,schema_filepath = SCHEMA_FILE) -
         # Read the schema from the file
         schema = rf.read()
         conn.executescript(schema)  
+        conn.commit()
     return 0
 
 
@@ -38,6 +39,7 @@ def init_db(db_file) -> int:
             pass
     with sqlite3.connect(db_file) as conn:
         create_data_tables(conn)
+        conn.commit()
 
 def get_default_db() -> str:
     return path / "database.sqlite3"
@@ -109,15 +111,10 @@ def check_table(table: str, conn:  sqlite3.Connection) -> bool:
     else:
         return False
 
-def count_entries_in_table(table: str, conn: sqlite3.Connection):
+def count_entries_in_table(table: str, conn: sqlite3.Connection) -> int:
     cur = conn.cursor()
-    count = cur.execute("SELECT COUNT() FROM {}".format(table)).fetchone()[0]
+    count = cur.execute("SELECT COUNT(*) FROM {}".format(table)).fetchone()[0]
     return count
-
-
-def get_db_connection(db_file: str) -> sqlite3.Connection:
-    conn = sqlite3.connect(db_file)
-    return conn
 
 
 def reset_database(db_file: str) -> int:
@@ -126,7 +123,16 @@ def reset_database(db_file: str) -> int:
             tables = get_tables(conn)
             for table in tables:
                 clear_table(table, conn)
+            conn.commit()
+    else:
+        init_db(db_file)
+        with sqlite3.connect(db_file) as conn:
+            tables = get_tables(conn)
+            for table in tables:
+                clear_table(table, conn)
+            conn.commit()
 
     with sqlite3.connect(db_file) as conn:
         create_data_tables(conn)
+        conn.commit()
     return 0
