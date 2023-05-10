@@ -180,11 +180,11 @@ class AnalyzeGeneric:
         # returns the number or wishes required to achieve that probability for the number of copies (or more copies) with pity and guaranteed
         # in some ways an inverse function for specific solution by swapping num wishes with probabilities
         # all_lookups = [self.lookup_num_generator(i,pity,guaranteed,fate_points) for i in range(0, self.max_wishes_required):]
-
-        for i in range(0, self.max_wishes_required):
+        lookups = self.get_all_lookups_vary_on_num_wishes(pity, guaranteed,fate_points)
+        for i in range(0, len(lookups)):
             current_probability = 0
-            current_solution = self.specific_solution(
-                i, pity, guaranteed, 0, fate_points)
+            current_solution = lookups[i][1:]
+            print(lookups[i][0], current_solution)
             for j in range(copies_desired, self.copies_max+1):
                 current_probability += current_solution[j]
             if H.within_epsilon_or_greater(current_probability, probability_desired, EPSILON):
@@ -214,6 +214,19 @@ class AnalyzeGeneric:
     def get_statistic(self, num_wishes: int, pity: int, guaranteed: bool, fate_points: int, current_copies: int, formatted = True):
         solution = self.specific_solution(num_wishes, pity, guaranteed, fate_points, current_copies)
         return Statistic(solution,self.banner_type, formatted)
+    
+    def get_all_lookups_vary_on_num_wishes(self, pity: int, guaranteed: bool, fate_points: int) -> list:
+        # given any combo of pity/guaranteed/fate_points, it will return all the lookups of wish nums 0 through max wish number
+        # returns a hash table
+        
+        lookups_low = self.lookup_num_generator(0,pity,guaranteed,fate_points)
+        lookups_high = self.lookup_num_generator(self.max_wishes_required,pity,guaranteed,fate_points)
+        print(lookups_low,lookups_high)
+        print(self.lookup_num_to_setting(lookups_low))
+        # because of how lookups work we can get away with using the low and the high only and then searching in between
+        with sqlite3.connect(self.db_file) as conn:
+            returned = database.get_all_lookups(self.tablename,conn,lookups_low, lookups_high)
+        return returned
     
 
 class AnalyzeCharacter(AnalyzeGeneric):

@@ -116,6 +116,13 @@ def count_entries_in_table(table: str, conn: sqlite3.Connection) -> int:
     count = cur.execute("SELECT COUNT(*) FROM {}".format(table)).fetchone()[0]
     return count
 
+def get_all_lookups(table: str, conn: sqlite3.Connection, lookups_low: int, lookups_high: int) -> dict:
+    # given a list of lookups will return all of them
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM {} WHERE lookup BETWEEN {} and {} ORDER BY lookup".format(table,lookups_low,lookups_high))
+    rows = cur.fetchall()
+    return rows
+
 
 def reset_database(db_file: str) -> int:
     if check_db(db_file):

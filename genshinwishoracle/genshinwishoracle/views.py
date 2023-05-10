@@ -327,8 +327,15 @@ class StatisticsAnalyzeOmniView(generic.View):
         context = {"banner_type":banner_type,"statistics_type": statistics_type }
         # This is for the form that has user input and any parts we need to fill out
         explicit_import_param_names_to_type = {"numwishes":int,"pity":int,"guaranteed":bool,"fate_points":int}
+        guaranteed = request.GET.get("guaranteed",None)
         values_for_explicit_imports_as_correct_type = {param_name: type_to_cast(request.GET.get(param_name, None)) for param_name,type_to_cast 
                                        in explicit_import_param_names_to_type.items() if request.GET.get(param_name, None) is not None}
+        if guaranteed == "True":
+            values_for_explicit_imports_as_correct_type["guaranteed"] = True
+        elif guaranteed == "False":
+            values_for_explicit_imports_as_correct_type["guaranteed"] = False
+        else:
+            pass
         user_form = self.forms_dictionary[statistics_type][banner_type](initial=values_for_explicit_imports_as_correct_type)
         context["user_form"] = user_form
         
@@ -384,9 +391,16 @@ class StatisticsResultView(generic.View):
 
     def get_context_data(self, request: HttpRequest, banner_type, statistics_type,**kwargs):
         context = {}
+        guaranteed = request.GET.get("guaranteed",None)
         explicit_import_param_names_to_type = {"numwishes":int,"pity":int,"guaranteed":bool,"fate_points":int,"minimum_probability":float,"numcopies":int}
         values_for_explicit_imports_as_correct_type = {param_name: type_to_cast(request.GET.get(param_name, None)) for param_name,type_to_cast 
                                        in explicit_import_param_names_to_type.items() if request.GET.get(param_name, None) is not None}
+        if guaranteed == "True":
+            values_for_explicit_imports_as_correct_type["guaranteed"] = True
+        elif guaranteed == "False":
+            values_for_explicit_imports_as_correct_type["guaranteed"] = False
+        else:
+            pass
         context.update(values_for_explicit_imports_as_correct_type)
         return context
     

@@ -6,9 +6,9 @@
 
 ### immediate testing
 
+- guaranteed is super broken in analytical
 - how to deal with character pity vs weapon pity , etc
 - when importing data to statistics make sure that it actually distinguishes pity types and guaranteed types
-- guaranteed always imports as true
 
 - look for TODO in analytical and other files
 - wishing simulator
