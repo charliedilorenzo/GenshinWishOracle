@@ -17,30 +17,39 @@
         <tr>
             <td>
                 {% if user.is_authenticated %}
-                <form method="post" novalidate>
-                    {% csrf_token %}
+                <form novalidate>
                     <div>
-                        <button class="import-button" name="import_user_data" value="import_data">
-                            Import data</button>
+                        <a
+                            href="{% url 'statistics' references.current_banner.value references.current_statistics.value %}?import=True">
+                            <button type="button" class="import-button">
+                                Import Data
+                            </button>
+                        </a>
                     </div>
                 </form>
                 {% endif %}
             </td>
             <td>
-                <form method="post" novalidate>
-                    {% csrf_token %}
+                <form novalidate>
                     <div>
-                        <button class="reset-button" name="reset_values" value="reset_values"> Reset </button>
+                        <a
+                            href="{% url 'statistics' references.current_banner.value references.current_statistics.value %}">
+                            <button type="button" class="reset-button">
+                                Reset Imports
+                            </button>
+                        </a>
                     </div>
                 </form>
             </td>
             <td>
-                <a href="{% url 'statistics' references.opposite_banner.value references.current_statistics.value %}"><button
+                <a
+                    href="{% url 'statistics' references.opposite_banner.value references.current_statistics.value %}?{{ request.GET.urlencode }}"><button
                         class="switch-button" name="switch">Switch to
                         {{references.opposite_banner.present}}</button></a>
             </td>
             <td>
-                <a href="{% url 'statistics' references.current_banner.value references.opposite_statistics.value %}"><button
+                <a
+                    href="{% url 'statistics' references.current_banner.value references.opposite_statistics.value %}?{{ request.GET.urlencode }}"><button
                         class="switch-button" name="switch">Switch to
                         {{references.opposite_statistics.present}}</button></a>
             </td>
@@ -53,7 +62,7 @@
     <form method="post" novalidate>
         {% csrf_token %}
 
-        {% for field in first_form %}
+        {% for field in user_form %}
         {% if field.errors %}
         {% for error in field.errors %}
         <div class="form-alert-class">
@@ -63,7 +72,7 @@
         {% endif %}
         {% endfor %}
 
-        {% for field in first_form %}
+        {% for field in user_form %}
         {{ field.label_tag }}
         {{ field }}
         {% endfor %}
@@ -73,7 +82,7 @@
 
 <div>
     <h2 class="display-6"> Outputs </h2>
-    {% for label in second_form_names %}
+    {% for label in output_fields %}
     <div> {{label}}</div>
     {% endfor %}
 </div>

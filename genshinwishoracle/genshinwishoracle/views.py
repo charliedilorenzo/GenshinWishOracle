@@ -2,6 +2,7 @@ from django.views import generic
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
+from django.http import QueryDict
 import math
 import datetime
 
@@ -306,13 +307,38 @@ class StatisticsAnalyzeOmniView(generic.View):
                       {"character": forms.AnalyzeStatisticsCharacterToNumWishesForm,"weapon":forms.AnalyzeStatisticsWeaponToNumWishesForm }
                       }
 
-    def get_context_data(self, banner_type,statistics_type, **kwargs):
+    def importing(self, request,banner_type, statistics_type, *args, **kwargs):
+        curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
+        # we use this to figure out what data we need to include in optional params
+        form = self.forms_dictionary[statistics_type][banner_type]
+        init = helpers.import_user_data(curr_user_prof, form)
+        # https://stackoverflow.com/questions/33861545/how-can-modify-request-data-in-django-rest-framework
+        if isinstance(request.GET, QueryDict):
+            request.GET._mutable = True
+        request.GET.update(init)
+        request.GET.pop("import")
+        encoding = request.GET.urlencode()
+        # just process the values and redirect to the url to right place through params
+        url = reverse('statistics', args=[banner_type,statistics_type])+"?"+encoding
+        return redirect(to=url)
+
+
+    def get_context_data(self, request, banner_type,statistics_type, **kwargs):
         context = {"banner_type":banner_type,"statistics_type": statistics_type }
-        first_form = self.get_first_form(banner_type=banner_type,statistics_type=statistics_type)
-        self.request.session['import_data'] = False
-        context["first_form"] = first_form
-        second_form_names =  self.get_second_form_names(banner_type=banner_type,statistics_type=statistics_type,first_form=first_form)
-        context["second_form_names"] = second_form_names
+        # This is for the form that has user input and any parts we need to fill out
+        explicit_import_param_names_to_type = {"numwishes":int,"pity":int,"guaranteed":bool,"fate_points":int}
+        values_for_explicit_imports_as_correct_type = {param_name: type_to_cast(request.GET.get(param_name, None)) for param_name,type_to_cast 
+                                       in explicit_import_param_names_to_type.items() if request.GET.get(param_name, None) is not None}
+        user_form = self.forms_dictionary[statistics_type][banner_type](initial=values_for_explicit_imports_as_correct_type)
+        context["user_form"] = user_form
+        
+        # This is for figuring out what the outputs are and displaying them
+        opposite_statistics_type = self.opposite(statistics_type)
+        opposite_form = self.forms_dictionary[opposite_statistics_type][banner_type]()
+        # returns the fields that the opposing form would have that aren't in current (i.e. not guaranteed,pity,fate_points)
+        output_fields = [opposite_form[field].label for field in opposite_form.fields if field not in user_form.Meta.fields]
+        context["output_fields"] = output_fields
+
         # references to allow us to make omni cleaner
         present = {"character": "Character Banner", "weapon": "Weapon Banner", "calcprobability": "Calculate Probability", "calcnumwishes": "Calculate Number of Wishes"}
         context["references"] = {"current_banner": {"value": banner_type, "present": present[banner_type]},
@@ -323,56 +349,17 @@ class StatisticsAnalyzeOmniView(generic.View):
         return context
 
     def get(self, request,banner_type, statistics_type, *args, **kwargs):
+        # need to do these here so HTTP Response is easier to process
         if banner_type not in self.valid_banner_types or statistics_type not in self.valid_statistics_types:
             return redirect(to=self.default_url)
-        context = self.get_context_data(banner_type,statistics_type)
+        elif request.GET.get('import', False) and request.user.is_authenticated:
+            return self.importing(request,banner_type,statistics_type)
+        context = self.get_context_data(request,banner_type,statistics_type)
         return render(request, self.template_name, context=context)
-
-    def get_first_form(self, banner_type, statistics_type):
-        request = self.request
-        init = {}
-        form = self.forms_dictionary[statistics_type][banner_type]
-        if request.POST:
-            request.session['wishes'] = None
-            form = form(request.POST)
-            return form
-        elif 'import_data' in request.session and request.session['import_data'] == True:
-            if request.user.is_authenticated:
-                curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
-                init = helpers.import_user_data(curr_user_prof, form)
-        # not very elegant but alternatives also seems to suck
-        elif request.session.setdefault('wishes', None) is not None:
-            init.update({'numwishes': request.session['wishes']})
-        form = form(initial=init)
-        return form
-
-    def get_second_form_names(self, banner_type, statistics_type,first_form):
-        statistics_type = self.opposite(statistics_type)
-        form = self.forms_dictionary[statistics_type][banner_type]()
-        # technically could just remove pity/guaranteed/fate_points
-        names = []
-        for field in form.fields:
-            if field not in first_form.Meta.fields:
-                names.append(form[field].label)
-        return names
 
     def post(self, request, banner_type, statistics_type,*args, **kwargs):
         context = {}
-        # i dont want to include extra stuff in the url personally
-        # still need to redirect though to allow update form
-        # redirect for self and add a session flag to alter initial form data
-        if request.POST.get("import_user_data"):
-            if request.user.is_authenticated:
-                request.session["import_data"] = True
-                return redirect(to=reverse('statistics', kwargs={"banner_type":banner_type, "statistics_type":statistics_type}))
-        elif request.POST.get("reset_values"):
-            request.session.pop('wishes')
-            request.session['import_data'] = False
-            context = self.get_context_data(banner_type,statistics_type)
-            return render(request, self.template_name, context=context)
-        request.session['import_data'] = False
-        # add request post to the correct type given by function
-        form = self.get_first_form(banner_type,statistics_type)
+        form = self.forms_dictionary[statistics_type][banner_type](request.POST)
         if form.is_valid():
             cleaned = form.cleaned_data
             context = cleaned
@@ -385,8 +372,6 @@ class StatisticsAnalyzeOmniView(generic.View):
             present = {"numwishes": "Number of Wishes ", "guaranteed": "Guaranteed", "pity": "Pity", "character": "Character Banner", "weapon": "Weapon Banner","calcprobability": "Number of Wishes to Probabilites", "calcnumwishes": "Minimum Probability to Number of Wishes","numcopies": "Number of Copies Required", "minimum_probability": "Minimum Probability", "fate_points": "Fate Points"}
             for key, value in cleaned.items():
                 input_args.append({"arg_name": present[key], "arg_value":value})
-            output = self.opposite(statistics_type)
-            # input_args.append({"arg_name": "statistics_type", "arg_value": statistics_type})
             input_args.append({"arg_name": "Statistics Type", "arg_value": present[statistics_type]})
             input_args.append({"arg_name": "Banner Type", "arg_value": present[banner_type]})
 
@@ -398,20 +383,19 @@ class StatisticsAnalyzeOmniView(generic.View):
                     'statistics_type': statistics_type,
                     "statistics": statistics
                 })
-                context['chart'] = analytical.bar_graph_for_statistics(statistics.get_formated_dictionary() , **context)
+                context['chart'] = analytical.bar_graph_for_statistics(statistics , **context)
             elif statistics_type == "calcnumwishes":
-                numwishes = analyze_obj.probability_on_copies_to_num_wishes(cleaned['minimum_probability'], cleaned['numcopies'],cleaned['pity'], cleaned['guaranteed'])
+                numwishes = analyze_obj.probability_on_copies_to_num_wishes(cleaned['minimum_probability'], cleaned['numcopies'],cleaned['pity'], cleaned['guaranteed'],graph=True)
                 context.update({
                     'banner_type' : banner_type.capitalize(),
                     'statistics_type': statistics_type,
                     'numwishes': numwishes
                 })
-                chart = ""
+                context['chart'] = analytical.bar_graph_for_statistics(numwishes , **context)
             return render(request, self.result_template, context)
-        request.session.pop('wishes')
-        request.session['import_data'] = False
-        context = self.get_context_data(banner_type, statistics_type)
+        context = self.get_context_data(request,banner_type, statistics_type)
         return render(request, self.template_name, context)
+
     def opposite(self,string):
         opposite_dictionary = {self.valid_banner_types[0]: self.valid_banner_types[1], self.valid_banner_types[1]: 
                                self.valid_banner_types[0], self.valid_statistics_types[0]: self.valid_statistics_types[1],
