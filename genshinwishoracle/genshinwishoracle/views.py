@@ -431,13 +431,13 @@ class StatisticsResultView(generic.View):
             })
             context['chart'] = analytical.bar_graph_for_statistics(statistics , **context)
         elif statistics_type == "calcnumwishes":
-            numwishes = analyze_obj.probability_on_copies_to_num_wishes(context['minimum_probability'], context['numcopies'],context['pity'], context['guaranteed'],graph=True)
+            numwishes, solutions = analyze_obj.probability_on_copies_to_num_wishes(context['minimum_probability'], context['numcopies'],context['pity'], context['guaranteed'],context.setdefault('fate_points', 0),graph=True)
             context.update({
                 'banner_type' : banner_type.capitalize(),
                 'statistics_type': statistics_type,
                 'numwishes': numwishes
             })
-            context['chart'] = analytical.bar_graph_for_statistics(numwishes , **context)
+            context['chart'] = analytical.bar_graph_for_statistics(solutions , **context)
         return render(request, self.template_name, context)
 
 # PROJECT PRIMOS

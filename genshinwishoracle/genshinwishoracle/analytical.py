@@ -181,16 +181,24 @@ class AnalyzeGeneric:
         # in some ways an inverse function for specific solution by swapping num wishes with probabilities
         # all_lookups = [self.lookup_num_generator(i,pity,guaranteed,fate_points) for i in range(0, self.max_wishes_required):]
         lookups = self.get_all_lookups_vary_on_num_wishes(pity, guaranteed,fate_points)
+        target = self.max_wishes_required
+        solutions = []
+        # length should be an odd number
+        length = 61
         for i in range(0, len(lookups)):
             current_probability = 0
             current_solution = lookups[i][1:]
-            print(lookups[i][0], current_solution)
             for j in range(copies_desired, self.copies_max+1):
                 current_probability += current_solution[j]
-            if H.within_epsilon_or_greater(current_probability, probability_desired, EPSILON):
-                return i
-        # we should never get here but just in case
-        return self.max_wishes_required
+            if target == self.max_wishes_required and H.within_epsilon_or_greater(current_probability, probability_desired, EPSILON):
+                target = i
+            solutions.append((i, current_probability))
+            if len(solutions) > length:
+                solutions.pop(0)
+            # if we have 50 values to each side exit
+            if i >= target+(length-1)//2:
+                break
+        return target, solutions
 
     def database_is_full(self):
         # DO NOT ADD IN A QUERY TO DB HERE IT WILL SLOW EVERYTHING DOWN AND MAKE IT TERRIBLE
@@ -221,8 +229,6 @@ class AnalyzeGeneric:
         
         lookups_low = self.lookup_num_generator(0,pity,guaranteed,fate_points)
         lookups_high = self.lookup_num_generator(self.max_wishes_required,pity,guaranteed,fate_points)
-        print(lookups_low,lookups_high)
-        print(self.lookup_num_to_setting(lookups_low))
         # because of how lookups work we can get away with using the low and the high only and then searching in between
         with sqlite3.connect(self.db_file) as conn:
             returned = database.get_all_lookups(self.tablename,conn,lookups_low, lookups_high)
@@ -411,7 +417,8 @@ def bar_graph_for_statistics(solution, **kwargs) ->str:
         fate_points = kwargs.pop('fate_points', None)
         minimum_probability = kwargs.pop('minimum_probability', None)
         copies_requried = kwargs.pop('numcopies' , None)
-        return bar_graph_calc_numwishes(solution, minimum_probability, copies_requried, pity, guaranteed, fate_points)
+        numwishes = kwargs.pop('numwishes', None)
+        return bar_graph_calc_numwishes(solution, banner_type, minimum_probability, copies_requried, numwishes, pity, guaranteed, fate_points)
     return ""
 
 def bar_graph_for_calcprobability(solution: Statistic, banner_type, numwishes, pity, guaranteed, fate_points) -> str:
@@ -422,7 +429,6 @@ def bar_graph_for_calcprobability(solution: Statistic, banner_type, numwishes, p
     guaranteed_text = "with" if guaranteed else "without"
     x_labels = solution.labels
     if banner_type == "character":
-        x_labels = solution.labels
         fig.suptitle('Wish Probability Breakdown for: {} Wishes, {} Pity, {} Guaranteed'.format(numwishes, pity, guaranteed_text))
         fig.supylabel('Percentage Resulting in Specified Constellation')
     elif banner_type == "weapon":
@@ -449,6 +455,45 @@ def bar_graph_for_calcprobability(solution: Statistic, banner_type, numwishes, p
     buffer.close()
     return graph
 
-def bar_graph_calc_numwishes(solution, minimum_probability, copies_requried, pity, guaranteed, fate_points):
-    # TODO ADD THIS
-    return ""
+def bar_graph_calc_numwishes(solutions, banner_type, minimum_probability, copies_requried, numwishes, pity, guaranteed, fate_points):
+    # TODO first_solution = 
+    # values = solution.get_formated_dictionary()
+    # values = [float(values[key]) for key in values.keys()]
+
+    # print(solutions)
+    pyplot.switch_backend('AGG')
+    fig, ax = pyplot.subplots(figsize=(10, 6))
+    guaranteed_text = "with" if guaranteed else "without"
+    x_labels = [solution[0] for solution in solutions]
+    target_index = x_labels.index(numwishes)
+    values = [solution[1] for solution in solutions]
+    labels = [ "%.{}f".format(4) % solutions[i][1] if i == target_index else "" for i in range(0,len(solutions)) ]
+    fig.supxlabel(f'Number of Wishes expended')
+    if banner_type == "character":
+        fig.suptitle('Wishes Surrounding Probability {} for {} copies at {} Wishes with {} Pity, {} Guaranteed'.format(minimum_probability, copies_requried, numwishes, pity, guaranteed_text))
+        # TODO change to con / refinement when you get the single soltion working also
+        fig.supylabel(f'Percentage Resulting in {copies_requried} copies or greater')
+    elif banner_type == "weapon":
+        fig.suptitle('Wishes Surrounding Probability {} for {} copies at {} Wishes with {} Pity, {} Guaranteed, {} Fate Points'.format(minimum_probability, copies_requried, numwishes, pity, guaranteed_text, fate_points))
+        fig.supylabel(f'Percentage Resulting in {copies_requried} copies or greater')
+
+    # yticks = mtick.PercentFormatter(1.0)
+    # ax.yaxis.set_major_formatter(numwishes)
+    bars= pyplot.bar(x_labels , values)
+    bars[target_index].set_color('r')
+    # bars[target_index].bar_label(values[target_index])
+    # target_combo = solutions[x_labels.index(numwishes)]
+    ax.bar_label(bars,labels)
+    min_ylim = -0.1
+    max_ylim = 1.1
+    pyplot.ylim(min_ylim,max_ylim)
+    pyplot.tight_layout()
+
+    buffer = BytesIO()
+    pyplot.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    graph = base64.b64encode(image_png)
+    graph = graph.decode('utf-8')
+    buffer.close()
+    return graph
