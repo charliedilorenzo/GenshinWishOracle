@@ -41,7 +41,6 @@ views 22-23, 30-31, 99, 157, 206, 214-227, 251-254, 258, 269-282, 310-323, 326-3
 - look for other things that users can generate other than users that have storage
 - make redirect from loginrequiredmixin work
 - add desired five star for weapon banner wish simulator
-- add graph to probability to numwishes with the wish values for the constellation as the y axis and alternative amounts of wishes as the x axis
 - add over the max for wish statistics for over the max (1000 right now?)
 - fix date-decidable in project primos for jan 1
   - make a bool field for choosing via banner or manually?
