@@ -362,7 +362,7 @@ class StatisticsAnalyzeOmniView(generic.View):
         form = self.forms_dictionary[statistics_type][banner_type](request.POST)
         if form.is_valid():
             cleaned = form.cleaned_data
-            context = cleaned
+            # format it in URI then process in results
             encoding = QueryDict(mutable=True)
             encoding.update(cleaned)
             encoding = encoding.urlencode()
@@ -384,7 +384,7 @@ class StatisticsResultView(generic.View):
 
     def get_context_data(self, request: HttpRequest, banner_type, statistics_type,**kwargs):
         context = {}
-        explicit_import_param_names_to_type = {"numwishes":int,"pity":int,"guaranteed":bool,"fate_points":int}
+        explicit_import_param_names_to_type = {"numwishes":int,"pity":int,"guaranteed":bool,"fate_points":int,"minimum_probability":float,"numcopies":int}
         values_for_explicit_imports_as_correct_type = {param_name: type_to_cast(request.GET.get(param_name, None)) for param_name,type_to_cast 
                                        in explicit_import_param_names_to_type.items() if request.GET.get(param_name, None) is not None}
         context.update(values_for_explicit_imports_as_correct_type)
