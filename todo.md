@@ -6,7 +6,7 @@
 
 ### immediate testing
 
-- guaranteed is super broken in analytical
+- add test where 1 numwishes has double probability for guaranteed vs not=
 - how to deal with character pity vs weapon pity , etc
 - when importing data to statistics make sure that it actually distinguishes pity types and guaranteed types
 
