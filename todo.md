@@ -6,6 +6,10 @@
 
 ### immediate testing
 
+- how to deal with character pity vs weapon pity , etc
+- when importing data to statistics make sure that it actually distinguishes pity types and guaranteed types
+- guaranteed always imports as true
+
 - look for TODO in analytical and other files
 - wishing simulator
   - direct the user to make banners if they dont have any
@@ -15,9 +19,16 @@
 - add tests to primogemrecord / primogemsnapshot
 - actually properly test the new analytical classes
 - test for import user data
+- instantiate analyticals when the server goes up so that you dont have to load or whatever from the database
 
-analytical 45, 79, 139-142, 145, 166-175, 191-193, 196-197, 206-207, 218, 223-226, 233, 280-281, 294, 299-302, 309, 327, 371-381, 384-419
+230719
+
+- figure out which analytical needs to be called and which can just use self.analytical
+- lookup genratoer / lookup reverser?
+analytical 36, 38, 87, 111, 117, 161, 193, 210, 225-226, 296-297, 344, 402
+databes 43
 forms 36-42, 114-115, 151-152, 155-162, 223, 233, 242, 254, 277-278, 297-318, 326-327, 330-331
+views 22-23, 30-31, 99, 157, 206, 214-227, 251-254, 258, 269-282, 310-323, 326-329, 332-347, 350-357, 360-414, 416-419, 425-426, 437-450, 453-496, 505-507, 510-513, 515-525, 532-549, 552, 555-556, 559-568, 572-577, 580
 
 ### immediate features
 
@@ -83,6 +94,13 @@ forms 36-42, 114-115, 151-152, 155-162, 223, 233, 242, 254, 277-278, 297-318, 32
 - fix organization for css stuff
 - find proper icon for genshin wish oracle
 
+Advise for Hosting
+flowersauna - "You could use a computer, it would just need to stay on lol. Raspberry Pi should be easy, and theres lots of tutorials too. And it draws so little energy since its so small. Just gotta network your router to allow 80 and 443 ports to hit it, which is easy assuming your ISP allows it. Then itll depend on how your app works. Could be as simple as installing nginx and python (peeking at your github) and setting it up that way. And theres easy ways to restart services if they crash.
+
+At least that way you dont have to worry about surprise bills, or paying for hosting for a few users, and stuff like that. And itll scale well enough as the latest models are pretty good for basic apps
+
+Edit: can just use letsencrypt for ssl certs for free to let you run your app in https. Not worth buying a cert"
+
 ## optimizations for later
 
 - user setting for autoimport every time?
@@ -99,7 +117,7 @@ forms 36-42, 114-115, 151-152, 155-162, 223, 233, 242, 254, 277-278, 297-318, 32
 - add social apps login
 - add reset password
 - ?
-- fix the user support account for the to genshinwishoracle@gmail.com in the google auth zone
+- fix the user support account for the to <genshinwishoracle@gmail.com> in the google auth zone
 - change OAUTH here <https://github.com/settings/applications/new>
 
 - in settings SESSION_COOKIE_AGE = 60 *60* 24 * 30
