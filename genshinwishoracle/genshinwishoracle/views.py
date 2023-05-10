@@ -2,7 +2,7 @@ from django.views import generic
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
-from django.http import QueryDict
+from django.http import QueryDict, HttpRequest
 import math
 import datetime
 
@@ -307,7 +307,7 @@ class StatisticsAnalyzeOmniView(generic.View):
                       {"character": forms.AnalyzeStatisticsCharacterToNumWishesForm,"weapon":forms.AnalyzeStatisticsWeaponToNumWishesForm }
                       }
 
-    def importing(self, request,banner_type, statistics_type, *args, **kwargs):
+    def importing(self, request: HttpRequest, banner_type, statistics_type, *args, **kwargs):
         curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
         # we use this to figure out what data we need to include in optional params
         form = self.forms_dictionary[statistics_type][banner_type]
@@ -323,7 +323,7 @@ class StatisticsAnalyzeOmniView(generic.View):
         return redirect(to=url)
 
 
-    def get_context_data(self, request, banner_type,statistics_type, **kwargs):
+    def get_context_data(self, request: HttpRequest, banner_type,statistics_type, **kwargs):
         context = {"banner_type":banner_type,"statistics_type": statistics_type }
         # This is for the form that has user input and any parts we need to fill out
         explicit_import_param_names_to_type = {"numwishes":int,"pity":int,"guaranteed":bool,"fate_points":int}
@@ -348,7 +348,7 @@ class StatisticsAnalyzeOmniView(generic.View):
         }
         return context
 
-    def get(self, request,banner_type, statistics_type, *args, **kwargs):
+    def get(self, request: HttpRequest,banner_type, statistics_type, *args, **kwargs):
         # need to do these here so HTTP Response is easier to process
         if banner_type not in self.valid_banner_types or statistics_type not in self.valid_statistics_types:
             return redirect(to=self.default_url)
@@ -357,42 +357,19 @@ class StatisticsAnalyzeOmniView(generic.View):
         context = self.get_context_data(request,banner_type,statistics_type)
         return render(request, self.template_name, context=context)
 
-    def post(self, request, banner_type, statistics_type,*args, **kwargs):
+    def post(self, request: HttpRequest, banner_type, statistics_type,*args, **kwargs):
         context = {}
         form = self.forms_dictionary[statistics_type][banner_type](request.POST)
         if form.is_valid():
             cleaned = form.cleaned_data
             context = cleaned
-            if banner_type == "character":
-                analyze_obj = analytical.AnalyzeCharacter()
-            elif banner_type == "weapon":
-                analyze_obj = analytical.AnalyzeWeapon()
-
-            input_args = []
-            present = {"numwishes": "Number of Wishes ", "guaranteed": "Guaranteed", "pity": "Pity", "character": "Character Banner", "weapon": "Weapon Banner","calcprobability": "Number of Wishes to Probabilites", "calcnumwishes": "Minimum Probability to Number of Wishes","numcopies": "Number of Copies Required", "minimum_probability": "Minimum Probability", "fate_points": "Fate Points"}
-            for key, value in cleaned.items():
-                input_args.append({"arg_name": present[key], "arg_value":value})
-            input_args.append({"arg_name": "Statistics Type", "arg_value": present[statistics_type]})
-            input_args.append({"arg_name": "Banner Type", "arg_value": present[banner_type]})
-
-            context["input_args"] = input_args
-            if statistics_type == "calcprobability":
-                statistics = analyze_obj.get_statistic(cleaned['numwishes'],cleaned['pity'],cleaned['guaranteed'],cleaned.setdefault('fate_points', 0),0,True)
-                context.update({
-                    'banner_type' : banner_type.capitalize(),
-                    'statistics_type': statistics_type,
-                    "statistics": statistics
-                })
-                context['chart'] = analytical.bar_graph_for_statistics(statistics , **context)
-            elif statistics_type == "calcnumwishes":
-                numwishes = analyze_obj.probability_on_copies_to_num_wishes(cleaned['minimum_probability'], cleaned['numcopies'],cleaned['pity'], cleaned['guaranteed'],graph=True)
-                context.update({
-                    'banner_type' : banner_type.capitalize(),
-                    'statistics_type': statistics_type,
-                    'numwishes': numwishes
-                })
-                context['chart'] = analytical.bar_graph_for_statistics(numwishes , **context)
-            return render(request, self.result_template, context)
+            encoding = QueryDict(mutable=True)
+            encoding.update(cleaned)
+            encoding = encoding.urlencode()
+            url = reverse('analyze_results', args=[banner_type,statistics_type])+"?"+encoding
+            return redirect(to=url)
+        # just process the values and redirect to the url to right place through params
+        url = reverse('statistics', args=[banner_type,statistics_type])+"?"+encoding
         context = self.get_context_data(request,banner_type, statistics_type)
         return render(request, self.template_name, context)
 
@@ -405,9 +382,49 @@ class StatisticsResultView(generic.View):
     template_name = 'analyze/analyze_results.html'
     success_url = reverse_lazy('main-home')
 
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        return data
+    def get_context_data(self, request: HttpRequest, banner_type, statistics_type,**kwargs):
+        context = {}
+        explicit_import_param_names_to_type = {"numwishes":int,"pity":int,"guaranteed":bool,"fate_points":int}
+        values_for_explicit_imports_as_correct_type = {param_name: type_to_cast(request.GET.get(param_name, None)) for param_name,type_to_cast 
+                                       in explicit_import_param_names_to_type.items() if request.GET.get(param_name, None) is not None}
+        context.update(values_for_explicit_imports_as_correct_type)
+        return context
+    
+    def get(self, request: HttpRequest, banner_type, statistics_type, *args,**kwargs):
+        context = self.get_context_data(request, banner_type, statistics_type)
+        if banner_type == "character":
+            analyze_obj = analytical.AnalyzeCharacter()
+        elif banner_type == "weapon":
+            analyze_obj = analytical.AnalyzeWeapon()
+
+        input_args = []
+        present = {"numwishes": "Number of Wishes ", "guaranteed": "Guaranteed", "pity": "Pity", "character": "Character Banner", 
+                   "weapon": "Weapon Banner","calcprobability": "Number of Wishes to Probabilites", 
+                   "calcnumwishes": "Minimum Probability to Number of Wishes","numcopies": "Number of Copies Required", 
+                   "minimum_probability": "Minimum Probability", "fate_points": "Fate Points"}
+        for key, value in context.items():
+            input_args.append({"arg_name": present[key], "arg_value":value})
+        input_args.append({"arg_name": "Statistics Type", "arg_value": present[statistics_type]})
+        input_args.append({"arg_name": "Banner Type", "arg_value": present[banner_type]})
+
+        context["input_args"] = input_args
+        if statistics_type == "calcprobability":
+            statistics = analyze_obj.get_statistic(context['numwishes'],context['pity'],context['guaranteed'],context.setdefault('fate_points', 0),0,True)
+            context.update({
+                'banner_type' : banner_type.capitalize(),
+                'statistics_type': statistics_type,
+                "statistics": statistics
+            })
+            context['chart'] = analytical.bar_graph_for_statistics(statistics , **context)
+        elif statistics_type == "calcnumwishes":
+            numwishes = analyze_obj.probability_on_copies_to_num_wishes(context['minimum_probability'], context['numcopies'],context['pity'], context['guaranteed'],graph=True)
+            context.update({
+                'banner_type' : banner_type.capitalize(),
+                'statistics_type': statistics_type,
+                'numwishes': numwishes
+            })
+            context['chart'] = analytical.bar_graph_for_statistics(numwishes , **context)
+        return render(request, self.template_name, context)
 
 # PROJECT PRIMOS
 
