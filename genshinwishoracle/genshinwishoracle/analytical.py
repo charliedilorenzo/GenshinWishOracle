@@ -249,6 +249,7 @@ class AnalyzeCharacter(AnalyzeGeneric):
         super().__init__(BANNER_TYPE_TO_PITY[banner_type],BANNER_TYPE_TO_BASE_RATE[banner_type],-1,7,banner_type)
         self.max_wishes_required = (self.copies_max)*(self.hard_pity+1)*2
         self.max_lookup = (self.max_wishes_required+1)*(self.hard_pity+1)*2
+        print(self.max_wishes_required)
 
         self.refresh_database_size()
         if exists(db_file) and self.database_is_full():
@@ -323,7 +324,7 @@ class AnalyzeWeapon(AnalyzeGeneric):
         # max lookup will be larger than max wishes required because of this
         self.max_wishes_required = (self.copies_max)*(self.hard_pity+1)*(self.fate_points_required+1)
         self.max_lookup = (self.max_wishes_required+1)*(self.hard_pity+1)*(self.fate_points_required+1)*2
-
+        print(self.max_wishes_required)
 
         # max_wishes_required = (copies_max)*(hard_pity+1)*(fate_points_required+1)
         # max_lookup = max_wishes_required*(hard_pity+1)*(fate_points_required+1)*2
@@ -402,6 +403,16 @@ import base64
 from .models import *
 from io import BytesIO
 from matplotlib import pyplot
+
+def encode_graph(buffer:BytesIO):
+    pyplot.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    graph = base64.b64encode(image_png)
+    graph = graph.decode('utf-8')
+    buffer.close()
+    return graph
+
 def bar_graph_for_statistics(solution, **kwargs) ->str:
     statistics_type = kwargs.pop('statistics_type', None)
     banner_type = kwargs.pop('banner_type', "character").lower()
@@ -410,7 +421,7 @@ def bar_graph_for_statistics(solution, **kwargs) ->str:
         pity = kwargs.pop('pity', None)
         guaranteed = kwargs.pop('guaranteed', None)
         fate_points = kwargs.pop('fate_points', None)
-        return bar_graph_for_calcprobability(solution,banner_type, numwishes, pity, guaranteed, fate_points)
+        buffer = bar_graph_for_calcprobability(solution,banner_type, numwishes, pity, guaranteed, fate_points)
     elif statistics_type == "calcnumwishes":
         pity = kwargs.pop('pity', None)
         guaranteed = kwargs.pop('guaranteed', None)
@@ -418,8 +429,9 @@ def bar_graph_for_statistics(solution, **kwargs) ->str:
         minimum_probability = kwargs.pop('minimum_probability', None)
         copies_requried = kwargs.pop('numcopies' , None)
         numwishes = kwargs.pop('numwishes', None)
-        return bar_graph_calc_numwishes(solution, banner_type, minimum_probability, copies_requried, numwishes, pity, guaranteed, fate_points)
-    return ""
+        buffer = bar_graph_calc_numwishes(solution, banner_type, minimum_probability, copies_requried, numwishes, pity, guaranteed, fate_points)
+    graph = encode_graph(buffer)
+    return graph
 
 def bar_graph_for_calcprobability(solution: Statistic, banner_type, numwishes, pity, guaranteed, fate_points) -> str:
     values = solution.get_formated_dictionary()
@@ -447,13 +459,7 @@ def bar_graph_for_calcprobability(solution: Statistic, banner_type, numwishes, p
     pyplot.tight_layout()
 
     buffer = BytesIO()
-    pyplot.savefig(buffer, format='png')
-    buffer.seek(0)
-    image_png = buffer.getvalue()
-    graph = base64.b64encode(image_png)
-    graph = graph.decode('utf-8')
-    buffer.close()
-    return graph
+    return buffer
 
 def bar_graph_calc_numwishes(solutions, banner_type, minimum_probability, copies_requried, numwishes, pity, guaranteed, fate_points):
     # TODO first_solution = 
@@ -490,10 +496,4 @@ def bar_graph_calc_numwishes(solutions, banner_type, minimum_probability, copies
     pyplot.tight_layout()
 
     buffer = BytesIO()
-    pyplot.savefig(buffer, format='png')
-    buffer.seek(0)
-    image_png = buffer.getvalue()
-    graph = base64.b64encode(image_png)
-    graph = graph.decode('utf-8')
-    buffer.close()
-    return graph
+    return buffer
