@@ -6,9 +6,11 @@
 
 ### immediate testing
 
-- add test where 1 numwishes has double probability for guaranteed vs not=
-- how to deal with character pity vs weapon pity , etc
-- when importing data to statistics make sure that it actually distinguishes pity types and guaranteed types
+- errors are no longer served up for the analytical omni
+- for graph on prob to num wishes, include at top rather than on top of the bar the amount of wishes for the important bar as well was the probability and whatever
+- in character probability num wihses to prob, got encoding not defined error
+- make imports for project primos and redirects from it the same kind
+- add test where 1 numwishes has double probability for guaranteed vs not
 
 - look for TODO in analytical and other files
 - wishing simulator

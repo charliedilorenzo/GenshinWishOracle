@@ -447,8 +447,6 @@ def bar_graph_for_calcprobability(solution: Statistic, banner_type, numwishes, p
         fig.suptitle('Wish Probability Breakdown for: {} Wishes, {} Pity, {} Guaranteed, {} Fate Points'.format(numwishes, pity, guaranteed_text, fate_points))
         fig.supylabel('Portion Resuling in Specified Refinement')
 
-    # fmt = '%.0f%%'
-    # values = [value*10000 for value in values]
     yticks = mtick.PercentFormatter(1.0)
     ax.yaxis.set_major_formatter(yticks)
     bars= pyplot.bar(x_labels , values)
@@ -483,8 +481,6 @@ def bar_graph_calc_numwishes(solutions, banner_type, minimum_probability, copies
         fig.suptitle('Wishes Surrounding Probability {} for {} copies at {} Wishes with {} Pity, {} Guaranteed, {} Fate Points'.format(minimum_probability, copies_requried, numwishes, pity, guaranteed_text, fate_points))
         fig.supylabel(f'Percentage Resulting in {copies_requried} copies or greater')
 
-    # yticks = mtick.PercentFormatter(1.0)
-    # ax.yaxis.set_major_formatter(numwishes)
     bars= pyplot.bar(x_labels , values)
     bars[target_index].set_color('r')
     # bars[target_index].bar_label(values[target_index])

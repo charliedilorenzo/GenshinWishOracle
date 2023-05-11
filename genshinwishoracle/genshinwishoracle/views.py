@@ -300,7 +300,8 @@ def process_request(request, banner_type, statistics_type):
     # This is for the form that has user input and any parts we need to fill out
     explicit_import_param_names_to_type = {"numwishes":int,"character_pity":int,"weapon_pity":int,
                                            "character_guaranteed":identity_helper,"weapon_guaranteed":identity_helper,"weapon_fate_points":int,
-                                             "pity": int, "guaranteed": identity_helper,"fate_points":int}
+                                            "pity": int, "guaranteed": identity_helper,"fate_points":int,
+                                            "numcopies": int, "minimum_probability":float}
     values_for_explicit_imports_as_correct_type = {param_name: type_to_cast(request.GET.get(param_name, None)) for param_name,type_to_cast 
                                     in explicit_import_param_names_to_type.items() if request.GET.get(param_name, None) is not None}
     # fix guranteed since casting this way doesnt work for bools, still case before just so that we don't error
@@ -419,6 +420,7 @@ class StatisticsResultView(generic.View):
             analyze_obj = analytical.AnalyzeCharacter()
         elif banner_type == "weapon":
             analyze_obj = analytical.AnalyzeWeapon()
+        print(context)
 
         input_args = []
         present = {"numwishes": "Number of Wishes ", "guaranteed": "Guaranteed", "pity": "Pity", "character": "Character Banner", 
