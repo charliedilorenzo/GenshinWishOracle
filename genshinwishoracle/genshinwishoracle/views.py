@@ -294,6 +294,20 @@ class WeaponBannerCreateView(BannerCreateView):
     success_url = reverse_lazy(banner_type.lower()+'_banners')
 
 # ANALYZE
+def process_request(request, banner_type, statistics_type):
+    def identity_helper(item):
+        return item
+    # This is for the form that has user input and any parts we need to fill out
+    explicit_import_param_names_to_type = {"numwishes":int,"character_pity":int,"weapon_pity":int,
+                                           "character_guaranteed":identity_helper,"weapon_guaranteed":identity_helper,"weapon_fate_points":int,
+                                             "pity": int, "guaranteed": identity_helper,"fate_points":int}
+    values_for_explicit_imports_as_correct_type = {param_name: type_to_cast(request.GET.get(param_name, None)) for param_name,type_to_cast 
+                                    in explicit_import_param_names_to_type.items() if request.GET.get(param_name, None) is not None}
+    # fix guranteed since casting this way doesnt work for bools, still case before just so that we don't error
+    guaranteed_dict = {"True": True, "False":False}
+    values_for_explicit_imports_as_correct_type.update({param_name: guaranteed_dict[param_value] for param_name,param_value 
+                                    in values_for_explicit_imports_as_correct_type.items() if request.GET.get(param_name, None) is not None and param_name.endswith("guaranteed") })
+    return values_for_explicit_imports_as_correct_type
 
 class StatisticsAnalyzeOmniView(generic.View):
     template_name = 'analyze/analyze_omni.html'
@@ -311,31 +325,33 @@ class StatisticsAnalyzeOmniView(generic.View):
         curr_user_prof = Profile.objects.filter(user_id = request.user.id)[0]
         # we use this to figure out what data we need to include in optional params
         form = self.forms_dictionary[statistics_type][banner_type]
-        init = helpers.import_user_data(curr_user_prof, form)
+        # form would only return current
+        init = helpers.import_user_data(curr_user_prof)
         # https://stackoverflow.com/questions/33861545/how-can-modify-request-data-in-django-rest-framework
         if isinstance(request.GET, QueryDict):
             request.GET._mutable = True
         request.GET.update(init)
         request.GET.pop("import")
-        encoding = request.GET.urlencode()
+        encoding = "?"+ request.GET.urlencode()
         # just process the values and redirect to the url to right place through params
-        url = reverse('statistics', args=[banner_type,statistics_type])+"?"+encoding
+        url = reverse('statistics', args=[banner_type,statistics_type])+encoding
         return redirect(to=url)
 
 
     def get_context_data(self, request: HttpRequest, banner_type,statistics_type, **kwargs):
-        context = {"banner_type":banner_type,"statistics_type": statistics_type }
+        context = {"banner_type":banner_type,"statistics_type": statistics_type, "encoding_char": "?"}
+        method = request.method
+        if method == "GET" and len(request.GET.urlencode()) == 0:
+            context["encoding_char"] = ""
+        elif method == "POST" and len(request.POST.urlencode()) == 0:
+            context["encoding_char"] = ""
         # This is for the form that has user input and any parts we need to fill out
-        explicit_import_param_names_to_type = {"numwishes":int,"pity":int,"guaranteed":bool,"fate_points":int}
-        guaranteed = request.GET.get("guaranteed",None)
-        values_for_explicit_imports_as_correct_type = {param_name: type_to_cast(request.GET.get(param_name, None)) for param_name,type_to_cast 
-                                       in explicit_import_param_names_to_type.items() if request.GET.get(param_name, None) is not None}
-        if guaranteed == "True":
-            values_for_explicit_imports_as_correct_type["guaranteed"] = True
-        elif guaranteed == "False":
-            values_for_explicit_imports_as_correct_type["guaranteed"] = False
-        else:
-            pass
+        values_for_explicit_imports_as_correct_type = process_request(request,banner_type,statistics_type)
+        values_for_explicit_imports_as_correct_type["pity"] = values_for_explicit_imports_as_correct_type.get(banner_type+"_pity", None)
+        values_for_explicit_imports_as_correct_type["guaranteed"] = values_for_explicit_imports_as_correct_type.get(banner_type+"_guaranteed", None)
+        if values_for_explicit_imports_as_correct_type.get(banner_type+"_fate_points", None) is not None: 
+            values_for_explicit_imports_as_correct_type["fate_points"] = values_for_explicit_imports_as_correct_type.get(banner_type+"_fate_points", None)
+        context.update(values_for_explicit_imports_as_correct_type)
         user_form = self.forms_dictionary[statistics_type][banner_type](initial=values_for_explicit_imports_as_correct_type)
         context["user_form"] = user_form
         
@@ -367,16 +383,17 @@ class StatisticsAnalyzeOmniView(generic.View):
     def post(self, request: HttpRequest, banner_type, statistics_type,*args, **kwargs):
         context = {}
         form = self.forms_dictionary[statistics_type][banner_type](request.POST)
+        encoding = "?"+request.POST.urlencode()
         if form.is_valid():
             cleaned = form.cleaned_data
             # format it in URI then process in results
             encoding = QueryDict(mutable=True)
             encoding.update(cleaned)
-            encoding = encoding.urlencode()
-            url = reverse('analyze_results', args=[banner_type,statistics_type])+"?"+encoding
+            encoding = "?"+encoding.urlencode()
+            url = reverse('analyze_results', args=[banner_type,statistics_type])+encoding
             return redirect(to=url)
         # just process the values and redirect to the url to right place through params
-        url = reverse('statistics', args=[banner_type,statistics_type])+"?"+encoding
+        url = reverse('statistics', args=[banner_type,statistics_type])+encoding
         context = self.get_context_data(request,banner_type, statistics_type)
         return render(request, self.template_name, context)
 
@@ -388,19 +405,11 @@ class StatisticsAnalyzeOmniView(generic.View):
 class StatisticsResultView(generic.View):
     template_name = 'analyze/analyze_results.html'
     success_url = reverse_lazy('main-home')
+    # def generate_params_from_request(self, request: HttpRequest, banner_type, statistics_type,**kwargs):
 
     def get_context_data(self, request: HttpRequest, banner_type, statistics_type,**kwargs):
         context = {}
-        guaranteed = request.GET.get("guaranteed",None)
-        explicit_import_param_names_to_type = {"numwishes":int,"pity":int,"guaranteed":bool,"fate_points":int,"minimum_probability":float,"numcopies":int}
-        values_for_explicit_imports_as_correct_type = {param_name: type_to_cast(request.GET.get(param_name, None)) for param_name,type_to_cast 
-                                       in explicit_import_param_names_to_type.items() if request.GET.get(param_name, None) is not None}
-        if guaranteed == "True":
-            values_for_explicit_imports_as_correct_type["guaranteed"] = True
-        elif guaranteed == "False":
-            values_for_explicit_imports_as_correct_type["guaranteed"] = False
-        else:
-            pass
+        values_for_explicit_imports_as_correct_type = process_request(request,banner_type,statistics_type)
         context.update(values_for_explicit_imports_as_correct_type)
         return context
     

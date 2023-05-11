@@ -37,24 +37,19 @@ def upgrade_list(lst: list[float]) -> list[float]:
     new_list.append(temp1+lst[i+1])
     return new_list
 
-def import_user_data(profile: Profile, form_type):
+def import_user_data(profile: Profile, form_type = None):
+    # fields in general:
+    # ["numwishes","numcopies","minimum_probability","character_pity", "character_guaranteed", "weapon_pity","weapon_guaranteed", "weapon_fate_points"]
     dictionary =  profile.__dict__
-    required_fields = list(form_type.Meta.fields)
-    result = {}
-    if issubclass(form_type,forms.AnalyzeStatisticsCharacter):
-        dictionary["pity"] = dictionary.pop("character_pity")
-        dictionary["guaranteed"] = dictionary.pop("character_guaranteed")
-    if issubclass(form_type,forms.AnalyzeStatisticsWeapon):
-        dictionary["pity"] = dictionary.pop("weapon_pity")
-        dictionary["guaranteed"] = dictionary.pop("weapon_guaranteed")
-        dictionary["fate_points"] = dictionary.pop("weapon_fate_points")
-    if issubclass(form_type,forms.AnalyzeStatisticsToProbability):
-        dictionary["numwishes"] = math.floor(profile.calculate_pure_primos()/160)
-    if issubclass(form_type,forms.AnalyzeStatisticsToNumWishes):
-        required_fields.remove("numcopies")
-        required_fields.remove("minimum_probability")
-    for key in required_fields:
-        result[key] = dictionary[key]
+    required_fields = set(["numwishes","character_pity", "character_guaranteed", "weapon_pity","weapon_guaranteed", "weapon_fate_points"])
+    result = {param_name: param_value for param_name, param_value in dictionary.items() if param_name in required_fields}
+    result["numwishes"] = math.floor(profile.calculate_pure_primos()/160)
+    if form_type and issubclass(form_type,forms.AnalyzeStatisticsToProbability):
+        result.pop("numwishes")
+    if form_type and issubclass(form_type,forms.AnalyzeStatisticsCharacter):
+        result = {key:val for key,val in result.items() if not key.startswith("weapon")}
+    if form_type and issubclass(form_type,forms.AnalyzeStatisticsWeapon):
+        result = {key:val for key,val in result.items() if not key.startswith("character")}
     return result
 
 def within_epsilon_or_greater(value_to_test, target, epsilon=0.0000001):

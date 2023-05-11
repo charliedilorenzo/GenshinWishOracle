@@ -43,13 +43,13 @@
             </td>
             <td>
                 <a
-                    href="{% url 'statistics' references.opposite_banner.value references.current_statistics.value %}?{{ request.GET.urlencode }}"><button
+                    href="{% url 'statistics' references.opposite_banner.value references.current_statistics.value %}{{encoding_char}}{{ request.GET.urlencode }}"><button
                         class="switch-button" name="switch">Switch to
                         {{references.opposite_banner.present}}</button></a>
             </td>
             <td>
                 <a
-                    href="{% url 'statistics' references.current_banner.value references.opposite_statistics.value %}?{{ request.GET.urlencode }}"><button
+                    href="{% url 'statistics' references.current_banner.value references.opposite_statistics.value %}{{encoding_char}}{{ request.GET.urlencode }}"><button
                         class="switch-button" name="switch">Switch to
                         {{references.opposite_statistics.present}}</button></a>
             </td>
