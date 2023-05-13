@@ -396,7 +396,8 @@ class StatisticsAnalyzeOmniView(generic.View):
         # just process the values and redirect to the url to right place through params
         url = reverse('statistics', args=[banner_type,statistics_type])+encoding
         context = self.get_context_data(request,banner_type, statistics_type)
-        return render(request, self.template_name, context)
+        context["user_form"] = form
+        return render(request, self.template_name, context=context)
 
     def opposite(self,string):
         opposite_dictionary = {self.valid_banner_types[0]: self.valid_banner_types[1], self.valid_banner_types[1]: 
