@@ -79,14 +79,15 @@ class ViewsTestClass(TestCase):
     def test_IndexView_context_contains_only_urls_with_views(self):
         client = self.client
         response = client.get(reverse('main-home'))
+        self.assertEqual(200, response.status_code)
         context = response.context
+        # TODO add check that the dict has the correct keys
         context_object_name = views.IndexView.context_object_name
-        urls = context[context_object_name]
-        urls_in_urlpatterns = []
-        for address in urls:
-            self.assertEqual(views.Address, type(address))
-            # this will fail with error if there are urls with no views
-            resolve(address.url)
+        links = list(context[context_object_name])
+        expected_keys = ["presentationname", "imagename", "url"]
+        for link in links:
+            link = dict(link)
+            self.assertEqual(list(link.keys()), expected_keys)
 
     # -------------------------- CHARACTER BANNER --------------------------
 
@@ -111,6 +112,7 @@ class ViewsTestClass(TestCase):
         user = User.objects.filter(username=self.test_username).first()
         client.force_login(user)
         response = client.get(reverse('character_banners'))
+        self.assertEqual(200, response.status_code)
         context = response.context
         check_keys = ['labels', 'back_url', 'create_url', 'url_front', 'banner_type']
         for item in check_keys:
@@ -123,6 +125,7 @@ class ViewsTestClass(TestCase):
         user = User.objects.filter(username=self.test_username).first()
         client.force_login(user)
         response = client.get(reverse('character_banners'))
+        self.assertEqual(200, response.status_code)
         context = response.context
         banners = context['banners']
         testuser_banners = Profile.objects.filter(user_id=user.pk).first().banners.filter(banner_type="Character")

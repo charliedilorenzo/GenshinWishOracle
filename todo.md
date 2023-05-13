@@ -6,7 +6,9 @@
 
 ### immediate testing
 
-- errors are no longer served up for the analytical omni
+solve these:
+
+- get rid of user emails
 - for graph on prob to num wishes, include at top rather than on top of the bar the amount of wishes for the important bar as well was the probability and whatever
 - in character probability num wihses to prob, got encoding not defined error
 - make imports for project primos and redirects from it the same kind
@@ -23,14 +25,7 @@
 - test for import user data
 - instantiate analyticals when the server goes up so that you dont have to load or whatever from the database
 
-230719
-
 - figure out which analytical needs to be called and which can just use self.analytical
-- lookup genratoer / lookup reverser?
-analytical 36, 38, 87, 111, 117, 161, 193, 210, 225-226, 296-297, 344, 402
-databes 43
-forms 36-42, 114-115, 151-152, 155-162, 223, 233, 242, 254, 277-278, 297-318, 326-327, 330-331
-views 22-23, 30-31, 99, 157, 206, 214-227, 251-254, 258, 269-282, 310-323, 326-329, 332-347, 350-357, 360-414, 416-419, 425-426, 437-450, 453-496, 505-507, 510-513, 515-525, 532-549, 552, 555-556, 559-568, 572-577, 580
 
 ### immediate features
 
@@ -49,7 +44,6 @@ views 22-23, 30-31, 99, 157, 206, 214-227, 251-254, 258, 269-282, 310-323, 326-3
 - fix register view
 - rework database?
 - add limits to user banners
-- possibly add back emails to users
 
 - add "advanced statistics" where you can drag and drop up to 2 banners for character and weapons each in order to see odds of that stuff
   - start smaller with just 1 banner of each and you can choose order for probability
@@ -74,6 +68,7 @@ views 22-23, 30-31, 99, 157, 206, 214-227, 251-254, 258, 269-282, 310-323, 326-3
 
 ### make pretty
 
+- improve the looks of the error banner
 - add the user to the URI for the character banners
 - add number of wishes to the sidebar per profile?
 - make many to many selector a drag menu
