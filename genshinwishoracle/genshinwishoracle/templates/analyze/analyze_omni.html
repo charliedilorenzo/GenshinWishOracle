@@ -8,12 +8,21 @@
             Back</button></a>
 </div>
 <div>
+    {% for field in user_form %}
+    {% if field.errors %}
+    {% for error in field.errors %}
+    <div class="form-alert-class">
+        <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+</div>
+<div>
+    <h2 class="display-6"> Settings </h2>
+</div>
+<div>
     <table>
-        <tr>
-            <td>
-                <h2 class="display-6"> Settings </h2>
-            </td>
-        </tr>
         <tr>
             <td>
                 {% if user.is_authenticated %}
@@ -57,21 +66,11 @@
     </table>
 
 </div>
+
 <div>
     <h2 class="display-6"> Inputs </h2>
     <form method="post" novalidate>
         {% csrf_token %}
-
-        {% for field in user_form %}
-        {% if field.errors %}
-        {% for error in field.errors %}
-        <div class="form-alert-class">
-            <strong>{{ error|escape }}</strong>
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endfor %}
-
         {% for field in user_form %}
         {{ field.label_tag }}
         {{ field }}

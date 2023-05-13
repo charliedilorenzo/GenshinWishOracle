@@ -26,6 +26,7 @@ BANNER_TYPE_TO_BASE_RATE = {"character": BASE_CHARACTER_FIVE_STAR_RATE, "weapon"
 BASE_MAXIMUM_FATE_POINTS = 2
 
 EPSILON = 0.00000001
+LENGTH_AROUND_PROBABILITY_TO_NUMWISHES = 61
 class DataPoint():
     def __init__(self, label, value) -> None:
         self.label = label
@@ -180,11 +181,11 @@ class AnalyzeGeneric:
         # returns the number or wishes required to achieve that probability for the number of copies (or more copies) with pity and guaranteed
         # in some ways an inverse function for specific solution by swapping num wishes with probabilities
         # all_lookups = [self.lookup_num_generator(i,pity,guaranteed,fate_points) for i in range(0, self.max_wishes_required):]
-        lookups = self.get_all_lookups_vary_on_num_wishes(pity, guaranteed,fate_points)
+        lookups = self.get_lookups_low_to_high_vary_on_num_wishes(pity, guaranteed,fate_points)
         target = self.max_wishes_required
         solutions = []
         # length should be an odd number
-        length = 61
+        length = LENGTH_AROUND_PROBABILITY_TO_NUMWISHES
         for i in range(0, len(lookups)):
             current_probability = 0
             current_solution = lookups[i][1:]
@@ -223,7 +224,7 @@ class AnalyzeGeneric:
         solution = self.specific_solution(num_wishes, pity, guaranteed, fate_points, current_copies)
         return Statistic(solution,self.banner_type, formatted)
     
-    def get_all_lookups_vary_on_num_wishes(self, pity: int, guaranteed: bool, fate_points: int) -> list:
+    def get_lookups_low_to_high_vary_on_num_wishes(self, pity: int, guaranteed: bool, fate_points: int) -> list:
         # given any combo of pity/guaranteed/fate_points, it will return all the lookups of wish nums 0 through max wish number
         # returns a hash table
         
@@ -231,7 +232,7 @@ class AnalyzeGeneric:
         lookups_high = self.lookup_num_generator(self.max_wishes_required,pity,guaranteed,fate_points)
         # because of how lookups work we can get away with using the low and the high only and then searching in between
         with sqlite3.connect(self.db_file) as conn:
-            returned = database.get_all_lookups(self.tablename,conn,lookups_low, lookups_high)
+            returned = database.get_lookups_low_to_high(self.tablename,conn,lookups_low, lookups_high)
         return returned
     
 
@@ -249,7 +250,6 @@ class AnalyzeCharacter(AnalyzeGeneric):
         super().__init__(BANNER_TYPE_TO_PITY[banner_type],BANNER_TYPE_TO_BASE_RATE[banner_type],-1,7,banner_type)
         self.max_wishes_required = (self.copies_max)*(self.hard_pity+1)*2
         self.max_lookup = (self.max_wishes_required+1)*(self.hard_pity+1)*2
-        print(self.max_wishes_required)
 
         self.refresh_database_size()
         if exists(db_file) and self.database_is_full():
@@ -324,7 +324,6 @@ class AnalyzeWeapon(AnalyzeGeneric):
         # max lookup will be larger than max wishes required because of this
         self.max_wishes_required = (self.copies_max)*(self.hard_pity+1)*(self.fate_points_required+1)
         self.max_lookup = (self.max_wishes_required+1)*(self.hard_pity+1)*(self.fate_points_required+1)*2
-        print(self.max_wishes_required)
 
         # max_wishes_required = (copies_max)*(hard_pity+1)*(fate_points_required+1)
         # max_lookup = max_wishes_required*(hard_pity+1)*(fate_points_required+1)*2

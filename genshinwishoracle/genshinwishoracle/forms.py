@@ -210,19 +210,12 @@ class ProjectPrimosForm(forms.Form):
             user = User.objects.none()
 
         if len(user) != 1:
-            # self.fields['end_date_banner_select '] = forms.ModelChoiceField(label="End Date Select Through Banner",
-            #     queryset= models.Banner.objects.none(),
-            #     widget=forms.Select(attrs={'size': 30, 'hidden': True},),
-            #     initial=None,
-            #     required=False
-            # )
             return
         else:
             profile = Profile.objects.filter(user_id=self.user_id).first()
             if profile is None:
                 return 
             elif profile.user_has_any_future_banner():
-                now = datetime.date.today()
                 banners = profile.get_future_banners()
                 self.fields['end_date_banner_select'] = forms.ModelChoiceField(label="End Date Select Through Banner",
                     queryset= banners,
