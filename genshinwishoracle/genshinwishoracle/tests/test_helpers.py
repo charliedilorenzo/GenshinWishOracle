@@ -120,12 +120,22 @@ class HelperTestCase(TestCase):
         value = .998
         self.assertTrue(not within_epsilon_or_greater(value,target,epsilon=epsilon))
 
+    def test_import_data_formless(self):
+        user = User.objects.filter(username=self.test_username).first()
+        profile = Profile.objects.filter(user_id=user.pk).first()
+        form_type = forms.AnalyzeStatisticsCharacterToProbabilityForm
+        data = list(import_user_data(profile).keys())
+        expected_fields = ["character_pity","character_guaranteed","weapon_pity","weapon_guaranteed","weapon_fate_points","numwishes"]
+        data.sort()
+        expected_fields.sort()
+        self.assertTupleEqual(tuple(expected_fields),tuple(data))
+
     def test_import_data_character_prob(self):
         user = User.objects.filter(username=self.test_username).first()
         profile = Profile.objects.filter(user_id=user.pk).first()
         form_type = forms.AnalyzeStatisticsCharacterToProbabilityForm
         data = list(import_user_data(profile, form_type).keys())
-        expected_fields = ["pity","guaranteed","numwishes"]
+        expected_fields = ["character_pity","character_guaranteed"]
         data.sort()
         expected_fields.sort()
         self.assertTupleEqual(tuple(expected_fields),tuple(data))
@@ -135,7 +145,7 @@ class HelperTestCase(TestCase):
         profile = Profile.objects.filter(user_id=user.pk).first()
         form_type = forms.AnalyzeStatisticsWeaponToProbabilityForm
         data = list(import_user_data(profile, form_type).keys())
-        expected_fields = ["pity","guaranteed","fate_points","numwishes"]
+        expected_fields = ["weapon_pity","weapon_guaranteed","weapon_fate_points"]
         data.sort()
         expected_fields.sort()
         self.assertTupleEqual(tuple(expected_fields),tuple(data))
@@ -145,17 +155,17 @@ class HelperTestCase(TestCase):
         profile = Profile.objects.filter(user_id=user.pk).first()
         form_type = forms.AnalyzeStatisticsCharacterToNumWishesForm
         data = list(import_user_data(profile, form_type).keys())
-        expected_fields = ["pity","guaranteed"]
+        expected_fields = ["character_pity","character_guaranteed","numwishes"]
         data.sort()
         expected_fields.sort()
         self.assertTupleEqual(tuple(expected_fields),tuple(data))
     
-    def test_import_data_character_wishes(self):
+    def test_import_data_weapon_wishes(self):
         user = User.objects.filter(username=self.test_username).first()
         profile = Profile.objects.filter(user_id=user.pk).first()
         form_type = forms.AnalyzeStatisticsWeaponToNumWishesForm
         data = list(import_user_data(profile, form_type).keys())
-        expected_fields = ["pity","guaranteed","fate_points"]
+        expected_fields = ["weapon_pity","weapon_guaranteed","weapon_fate_points","numwishes"]
         data.sort()
         expected_fields.sort()
         self.assertTupleEqual(tuple(expected_fields),tuple(data))
