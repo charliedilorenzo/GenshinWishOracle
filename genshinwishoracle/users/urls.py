@@ -10,5 +10,6 @@ urlpatterns = [
     path('', views.home, name='users-home'),
     path('register/', views.RegisterView.as_view(), name='users-register'), 
     path('profile/', views.profile, name='profile'),
-    path('primogem-chart/', views.PrimogemChartView.as_view(), name="primogem-chart")
+    path('primogem-chart/', views.PrimogemChartView.as_view(), name="primogem-chart"),
+    path('primogem-chart/csv/', views.PrimogemChartView.as_view(), name="primogem-chart-download")
 ]

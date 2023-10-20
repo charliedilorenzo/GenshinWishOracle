@@ -178,7 +178,6 @@ class Profile(models.Model):
         future_banners = self.get_future_banners(banner_type="Banner")
         return future_banners.count() > 0
 
-    # 142979
     def update_primogem_record(self,primogem_value: int) -> Union[None, PrimogemSnapshot]:
         record = self.primogem_record
         superuser = self.user.is_superuser

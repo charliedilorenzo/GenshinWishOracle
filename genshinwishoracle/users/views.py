@@ -21,6 +21,8 @@ from django.contrib import messages
 from . import models
 from  genshinwishoracle.helpers import PersonalizedLoginRequiredMixin
 import datetime
+import csv
+from django.http import HttpResponse
 
 #         success_message = "We've emailed you instructions for setting your password, \nif an account exists with the email you entered. You should receive them shortly.\n If you don't receive an email, \nplease make sure you've entered the address you registered with, and check your spam folder."
 
@@ -164,3 +166,31 @@ class PrimogemChartView(PersonalizedLoginRequiredMixin, generic.View):
     def get(self, request,*args, **kwargs):
         context = self.get_context_data()
         return render(request, self.template_name, context=context)
+    
+    def post(self,request, *args, **kwargs):
+        current_date=datetime.date.now()
+        filename = f"{request.user.username}_{current_date}_primogem_record.csv"
+        response = HttpResponse(
+            content_type="text/csv",
+            headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+        )
+
+        writer = csv.writer(response)
+        writer.writerow(["First row", "Foo", "Bar", "Baz"])
+        writer.writerow(["Second row", "A", "B", "C", '"Testing"', "Here's a quote"])
+
+        return response
+        
+    
+    # def some_view(request):
+    #     # Create the HttpResponse object with the appropriate CSV header.
+    #     response = HttpResponse(
+    #         content_type="text/csv",
+    #         headers={"Content-Disposition": 'attachment; filename="somefilename.csv"'},
+    #     )
+
+    #     writer = csv.writer(response)
+    #     writer.writerow(["First row", "Foo", "Bar", "Baz"])
+    #     writer.writerow(["Second row", "A", "B", "C", '"Testing"', "Here's a quote"])
+
+    #     return response

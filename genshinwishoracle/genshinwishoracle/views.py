@@ -239,7 +239,6 @@ class WeaponBannerUpdateView(BannerUpdateView):
     form_class = forms.CreateWeaponBannerForm
 
 # CREATE VIEW
-
 class BannerCreateView(PersonalizedLoginRequiredMixin,generic.CreateView):
     model = models.CharacterBanner
     banner_type = ""
