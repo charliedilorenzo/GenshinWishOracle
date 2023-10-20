@@ -13,6 +13,7 @@ solve these:
 - in character probability num wihses to prob, got encoding not defined error
 - make imports for project primos and redirects from it the same kind
 - add test where 1 numwishes has double probability for guaranteed vs not
+- 'NoneType' object has no attribute 'user_id' in admin
 
 - look for TODO in analytical and other files
 - wishing simulator
