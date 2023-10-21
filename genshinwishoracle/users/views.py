@@ -152,7 +152,8 @@ class PrimogemChartView(PersonalizedLoginRequiredMixin, generic.View):
         context = {}
         user = self.request.user
         profile = models.Profile.objects.filter(user_id = user.id).first()
-        graph = profile.primogem_record.get_graph_of_records()
+        graph = profile.primogem_record.get_graph_of_primogem_records()
+        # TODO Graph vs Chart?
         context['graph'] = graph
         context['current_primos'] = profile.primogem_record.get_current_value()
         context['numprimos'] = profile.numprimos
@@ -160,7 +161,7 @@ class PrimogemChartView(PersonalizedLoginRequiredMixin, generic.View):
         context['numfates'] = profile.numfates
         context['numstarglitter'] = profile.numstarglitter
         context['current_primogems'] = profile.calculate_pure_primos()
-        context['chart'] = profile.primogem_record.get_graph_of_records()
+        context['chart'] = graph
         return context
 
     def get(self, request,*args, **kwargs):
