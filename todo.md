@@ -4,10 +4,23 @@
 
 - think of some stuff that chatgpt might be able to solve for me
 
+
+# First
+- solve fixtures
+- need two things
+  - profile and record is automatically create
+  - the user can lead all of user, profile, and record with some ease
+
+
+
+
+
+
 ### immediate testing
 
 solve these:
-
+- Make sure that fixtures are working
+- Test fixtures for real
 - get rid of user emails
 - for graph on prob to num wishes, include at top rather than on top of the bar the amount of wishes for the important bar as well was the probability and whatever
 - in character probability num wihses to prob, got encoding not defined error

@@ -20,6 +20,7 @@ cd genshinwishoracle
 python3 manage.py runserver
 
 cd GenshinWishOracle/genshinwishoracle
+/Users/Charlie/Documents/Coding/GenshinWishOracle/GenshinWishOracle/genshinwishoracle
 python3 manage.py createsuperuser
 
 IF STATIC CSS ISNT IMPLEMENTED FIRST TRY SHIFT-RELOADING PAGE
@@ -35,6 +36,21 @@ python manage.py migrate
 python manage.py migrate --run-syncdb
 
 # load fixtures
+
+## Current User loading:
+// load
+python manage.py loaddata test_users.json
+// dump
+python manage.py dumpdata auth.User users --indent=4 > test_users.json
+
+python manage.py loaddata initial_data_content_types.json; python manage.py loaddata initial_data_characters_and_weapons.json; python manage.py loaddata banners.json;
+python manage.py loaddata users.json;
+python manage.py loaddata primorecords.json
+
+python manage.py dumpdata auth.User users --indent=4 --natural-foreign > test_users.json
+
+python manage.py loaddata primorecords.json; python manage.py loaddata users.json;
+
 
 python manage.py loaddata initial_data_content_types.json
 python manage.py loaddata initial_data_characters_and_weapons.json
