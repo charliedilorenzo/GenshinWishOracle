@@ -65,6 +65,7 @@ class Statistic:
         return self.datapoints
 
 class AnalyzeGeneric:
+    # Abstract for weapon and character
     def update_analytical_db(self) -> int:
         # converting to sets now
         analytical_sets = []
@@ -449,6 +450,8 @@ def bar_graph_for_calcprobability(solution: Statistic, banner_type, numwishes, p
     yticks = mtick.PercentFormatter(1.0)
     ax.yaxis.set_major_formatter(yticks)
     bars= pyplot.bar(x_labels , values)
+    max_value_index = values.index(max(values))
+    bars[max_value_index].set_color('r')
     ax.bar_label(bars)
     min_ylim = -0.1
     max_ylim = 1.1
