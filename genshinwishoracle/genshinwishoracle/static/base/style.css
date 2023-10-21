@@ -404,13 +404,13 @@ p {
 .curved-table td {
     padding: 10px;
     text-align: center;
-    border-right: 2px solid #ddd;
+    border-right: solid #212121;
     border-bottom: 2px solid #ddd;
 }
 
 .curved-table th:first-child,
 .curved-table td:first-child {
-    border-left: 2px solid #ddd;
+    border-left: solid #212121;
 }
 
 .curved-table th {
